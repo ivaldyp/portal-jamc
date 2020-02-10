@@ -48,12 +48,16 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request)
     {
         $user = \App\User::where([
-            $this->username() => $request->name,
-            'passmd5' => md5($request->password)
+            'nrk_emp' => $request->name,
+            'passmd5' => strtoupper(md5($request->password))
         ])->first();
         
+
         if ($user) {
-            $this->guard()->login($user);
+            // echo "<pre>";
+            // var_dump($user);
+            // die();
+            $this->guard('web')->login($user);
 
             return true;
         }

@@ -11,7 +11,9 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $connection = 'sqlsrv2';
-    protected $table = 'users';
+    protected $table = 'emp_data';
+    protected $primaryKey = 'id_emp';
+    public $incrementing = false;
 
     public function getAuthPassword()
     {
