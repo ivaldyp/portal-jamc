@@ -233,7 +233,20 @@
                             <li role="separator" class="divider"></li>
                             <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li class="user-footer">
+                  <div class="pull-right">
+                    <!-- <a href="{{ route('logout') }}" class="btn btn-danger btn-flat">Sign out</a> -->
+                    <a class="dropdown-item btn btn-danger btn-flat" href="{{ route('logout') }}"
+                      onclick="event.preventDefault();
+                      document.getElementById('logout-form').submit();">
+                      {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      @csrf
+                    </form>
+                  </div>
+                </li>
                         </ul>
                         <!-- /.dropdown-user -->
                     </li>
