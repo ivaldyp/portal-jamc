@@ -48,7 +48,7 @@ class LoginController extends Controller
         ])->first();
         
         if ($user) {
-            $this->guard()->login($user, $request->has('remember'));
+            $this->guard()->login($user);
 
             return true;
         }
