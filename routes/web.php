@@ -20,11 +20,15 @@
 // });
 
 Route::get('/', 'LandingController@index');
-Route::get('/home', 'HomeController@index');
+// Route::get('/home', 'HomeController@index');
 Route::POST('/mail', 'HomeController@feedback');
 
 Route::get('/profil', function () {
     return view('pages.profil');
+});
+
+Route::get('/home', function () {
+    return view('layouts.masterhome');
 });
 
 Route::group(['prefix' => 'content'], function () {
@@ -37,4 +41,4 @@ Route::group(['prefix' => 'content'], function () {
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
