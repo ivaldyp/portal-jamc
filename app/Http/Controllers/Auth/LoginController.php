@@ -47,16 +47,43 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        $user = \App\User::where([
-            'nrk_emp' => $request->name,
-            'passmd5' => strtoupper(md5($request->password))
-        ])->first();
-        
+        if (is_numeric($request->name) && strlen($request->name) == 6) {
+            $user = \App\User::where([
+                'nrk_emp' => $request->name,
+                'passmd5' => md5($request->password)
+            ])->first();
+        } elseif (is_numeric($request->name) && strlen($request->name) == 18) {
+            $user = \App\User::where([
+                'nip_emp' => $request->name,
+                'passmd5' => md5($request->password)
+            ])->first();
+
+            if ($user) {
+                $this->guard('login')->login($user);
+
+                return true;
+            }
+            return false;
+        } elseif (substr($request->name, 1, 1) == '.') {
+            $user = \App\User::where([
+                'id_emp' => $request->name,
+                'passmd5' => md5($request->password)
+            ])->first();
+        } else {
+            $user = \App\User::where([
+                'usname' => $request->name,
+                'passmd5' => md5($request->password)
+            ])->first();
+
+            if ($user) {
+                $this->guard('login')->login($user);
+
+                return true;
+            }
+            return false;
+        }
 
         if ($user) {
-            // echo "<pre>";
-            // var_dump($user);
-            // die();
             $this->guard('web')->login($user);
 
             return true;
