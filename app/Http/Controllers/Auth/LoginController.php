@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -39,8 +40,24 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    // public function username()
-    // {
-    //     return 'nrk_emp';
-    // }
+    protected function attemptLogin(Request $request)
+    {
+        $user = \App\User::where([
+            'name' => $request->name,
+            'password' => md5($request->password)
+        ])->first();
+        
+        if ($user) {
+            $this->guard()->login($user, $request->has('remember'));
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function username()
+    {
+        return 'name';
+    }
 }
