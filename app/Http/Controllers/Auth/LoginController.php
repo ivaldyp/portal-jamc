@@ -40,6 +40,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function username()
+    {
+        return 'name';
+    }
+
     protected function attemptLogin(Request $request)
     {
         $user = \App\User::where([
@@ -54,11 +59,6 @@ class LoginController extends Controller
         }
 
         return false;
-    }
-
-    public function username()
-    {
-        return 'name';
     }
 
     protected function credentials(Request $request)
