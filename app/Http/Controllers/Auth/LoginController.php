@@ -43,8 +43,8 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request)
     {
         $user = \App\User::where([
-            'name' => $request->name,
-            'password' => md5($request->password)
+            $this->username() => $request->name,
+            'passmd5' => md5($request->password)
         ])->first();
         
         if ($user) {
@@ -59,5 +59,10 @@ class LoginController extends Controller
     public function username()
     {
         return 'name';
+    }
+
+    protected function credentials(Request $request)
+    {
+        return $request->only($this->username(), 'passmd5');
     }
 }
