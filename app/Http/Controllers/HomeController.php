@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Sec_menu;
+
 class HomeController extends Controller
 {
     /**
@@ -23,6 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $sec_menu = Sec_menu::
+                    where('sao', '')
+                    ->where('tipe', 'l')
+                    ->whereRaw('LEN(urut) = 1')
+                    ->orderBy('urut')
+                    ->get();
+
+        return view('home')->with('sec_menu', $sec_menu);
     }
 }
