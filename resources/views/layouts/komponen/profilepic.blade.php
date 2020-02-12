@@ -4,7 +4,7 @@
         <li>
             <div class="dw-user-box">
                 <div class="u-img"><img src="../plugins/images/users/varun.jpg" alt="user" /></div>
-                <div class="u-text"><h4>Steave Jobs</h4><p class="text-muted">varun@gmail.com</p></div>
+                <div class="u-text"><h4>{{ Auth::user()->nm_emp }}</h4><p class="text-muted">varun@gmail.com</p></div>
             </div>
         </li>
         <li role="separator" class="divider"></li>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -57,13 +58,6 @@ class LoginController extends Controller
                 'nip_emp' => $request->name,
                 'passmd5' => md5($request->password)
             ])->first();
-
-            if ($user) {
-                $this->guard('login')->login($user);
-
-                return true;
-            }
-            return false;
         } elseif (substr($request->name, 1, 1) == '.') {
             $user = \App\User::where([
                 'id_emp' => $request->name,
@@ -74,21 +68,13 @@ class LoginController extends Controller
                 'usname' => $request->name,
                 'passmd5' => md5($request->password)
             ])->first();
-
-            if ($user) {
-                $this->guard('login')->login($user);
-
-                return true;
-            }
-            return false;
-        }
+        } 
 
         if ($user) {
-            $this->guard('web')->login($user);
+            $this->guard()->login($user);
 
-            return true;
+           return true;
         }
-
         return false;
     }
 
@@ -96,4 +82,9 @@ class LoginController extends Controller
     {
         return $request->only($this->username(), 'passmd5');
     }
+
+    // public function guard($guard = "admin")
+    // {
+    //     return Auth::guard($guard);
+    // }
 }

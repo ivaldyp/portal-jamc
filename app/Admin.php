@@ -3,17 +3,19 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Login extends Authenticatable
+class Admin extends Authenticatable
 {
     use Notifiable;
+    //protected $guard = 'logins';
 
     protected $connection = 'sqlsrv2';
     protected $table = 'sec_logins';
-    protected $primaryKey = 'ids';
-    // public $incrementing = false;
+    protected $primaryKey = 'usname';
+    public $incrementing = false;
+    // protected $keyType = 'string';
 
     public function getAuthPassword()
     {
