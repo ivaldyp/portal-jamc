@@ -1,4 +1,4 @@
-@extends('layouts.masterhome', ['sec_menu' => $sec_menu, 'varr' => "AAAAB"])
+@extends('layouts.masterhome', [$sec_menu, $sec_menu_child])
 
 @section('content')
     <div id="page-wrapper">
