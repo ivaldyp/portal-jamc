@@ -1,10 +1,16 @@
 <li class="dropdown">
-    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="../plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b><span class="caret"></span> </a>
+    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> 
+      <?php 
+        if (isset($_SESSION['user_data']['foto'])) {
+          echo "<img src='http://bpad.jakarta.go.id/images/emp/".$_SESSION['user_data']['foto']."' alt='user-img' width='36' class='img-circle'>";
+        }
+      ?>
+
+      <b class="hidden-xs">Welcome</b><span class="caret"></span> </a>
     <ul class="dropdown-menu dropdown-user animated flipInY">
         <li>
-            <div class="dw-user-box">
-                <div class="u-img"><img src="../plugins/images/users/varun.jpg" alt="user" /></div>
-                <div class="u-text"><h4>{{ Auth::user()->nm_emp }}</h4><p class="text-muted">varun@gmail.com</p></div>
+            <div class="dw-user-box">                
+                <div class="u-text"><h4><?php echo isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : $_SESSION['user_data']['nama_user']; ?></h4><p class="text-muted"><?php echo isset($_SESSION['user_data']['email_emp']) ? $_SESSION['user_data']['email_emp'] : $_SESSION['user_data']['email_user']; ?></p></div>
             </div>
         </li>
         <li role="separator" class="divider"></li>

@@ -39,6 +39,10 @@ Route::group(['prefix' => 'content'], function () {
 	Route::get('/video', 'ContentController@video_all');
 	Route::get('/video/{id}', 'ContentController@video_open');
 });
+
+Route::group(['prefix' => 'security'], function () {
+	Route::get('/groupuser', 'SecurityController@grupall');
+});
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');

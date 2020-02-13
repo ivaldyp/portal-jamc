@@ -24,7 +24,7 @@
                                     <li class="active"> {{ ucwords($link[5]) }} </li>
                                 <?php
                             } 
-                        ?>   
+                        ?>
                     </ol>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="white-box">
-                        <h3 class="box-title">Blank Starter page</h3> </div>
+                        <h3 class="box-title"></h3> </div>
                 </div>
             </div>
             <!-- ============================================================== -->

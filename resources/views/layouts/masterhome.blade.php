@@ -25,13 +25,11 @@
             <div class="navbar-header">
                 <div class="top-left-part">
                     <!-- Logo -->
-                    <a class="logo" href="index.html">
-                        <!-- Logo icon image, you can use font-icon also --><b>
-                        <!--This is dark logo icon--><img src="../plugins/images/admin-logo.png" alt="home" class="dark-logo" /><!--This is light logo icon--><img src="../plugins/images/admin-logo-dark.png" alt="home" class="light-logo" />
-                     </b>
-                        <!-- Logo text image you can use text also --><span class="hidden-xs">
-                        <!--This is dark logo text--><img src="../plugins/images/admin-text.png" alt="home" class="dark-logo" /><!--This is light logo text--><img src="../plugins/images/admin-text-dark.png" alt="home" class="light-logo" />
-                     </span> </a>
+                    <a class="logo" href="home">
+                        <span class="hidden-sm hidden-md hidden-lg"><img width="50%" src="{{ ('/bpadwebs/public/img/photo/bpad-logo-05.png') }}"></span>
+                        <span class="hidden-xs"><img width="20%" src="{{ ('/bpadwebs/public/img/photo/bpad-logo-000.png') }}"><strong>BPAD</strong>
+                        </span>
+                    </a>
                 </div>
                 <!-- /Logo -->
                 <!-- Search input and Toggle icon -->
@@ -105,10 +103,10 @@
             $.each( menus, function( i, menu ) {
                 // $('.ulmenu').append( "<li> <a href='#' class='waves-effect'><i class=''></i> <span class='hide-menu'>menu</span></a> </li>");
                 if (menu['child'] == 0) {
-                    $('.ulmenu').append( '<li class="'+ menu['ids'] +'"> <a href="javascript:void(0)" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'</span></a> </li>');
+                    $('.ulmenu').append( '<li class="'+ menu['ids'] +'"> <a href="{{ '+ menu['urlnew'] +' }}" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'</span></a> </li>');
                 } else  {
                     $('.ulmenu').append( 
-                        '<li class="'+ menu['ids'] +'"> <a href="javascript:void(0)" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'<span class="fa arrow"></span></span></a>'+
+                        '<li class="'+ menu['ids'] +'"> <a href="'+ menu['urlnew'] +'" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'<span class="fa arrow"></span></span></a>'+
                         '<ul class="nav nav-second-level second'+ menu['ids'] +'">'
                         );
                 }
@@ -117,10 +115,10 @@
             $.each (menus_child, function(i, child) {
                 if ($(".ulmenu li .nav-second-level").hasClass('second' + child['sao'])) {
                     if (child['child'] == 0) {
-                        $('.second' + child['sao']).append( '<li class="'+ child['ids'] +'"> <a href="javascript:void(0)" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a></li>');
+                        $('.second' + child['sao']).append( '<li class="'+ child['ids'] +'"> <a href="'+ child['urlnew'] +'" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a></li>');
                     } else  {
                         $('.second' + child['sao']).append( 
-                            '<li class="'+ child['ids'] +'"> <a href="javascript:void(0)" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'<span class="fa arrow"></span></span></a>' +
+                            '<li class="'+ child['ids'] +'"> <a href="'+ child['urlnew'] +'" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'<span class="fa arrow"></span></span></a>' +
                             '<ul class="nav nav-third-level third'+child['ids']+'">');
                     }
                 } else {
@@ -131,7 +129,7 @@
 
             $.each (menus_child, function(i, child) {
                 if ($.inArray(child['ids'], third_child) >= 0) {
-                    $('.third' + child['sao']).append( '<li class="'+ child['ids'] +'"> <a href="javascript:void(0)" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a>');
+                    $('.third' + child['sao']).append( '<li class="'+ child['ids'] +'"> <a href="'+ child['urlnew'] +'" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a>');
                 }    
             });
 
