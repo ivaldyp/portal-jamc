@@ -37,6 +37,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+
         if (is_null(Auth::user()->usname)) {
             $iduser = Auth::user()->id_emp;
 

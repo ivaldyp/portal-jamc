@@ -103,7 +103,7 @@
             $.each( menus, function( i, menu ) {
                 // $('.ulmenu').append( "<li> <a href='#' class='waves-effect'><i class=''></i> <span class='hide-menu'>menu</span></a> </li>");
                 if (menu['child'] == 0) {
-                    $('.ulmenu').append( '<li class="'+ menu['ids'] +'"> <a href="{{ '+ menu['urlnew'] +' }}" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'</span></a> </li>');
+                    $('.ulmenu').append( '<li class="'+ menu['ids'] +'"> <a href="#" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'</span></a> </li>');
                 } else  {
                     $('.ulmenu').append( 
                         '<li class="'+ menu['ids'] +'"> <a href="'+ menu['urlnew'] +'" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'<span class="fa arrow"></span></span></a>'+

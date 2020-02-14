@@ -78,6 +78,9 @@ class LandingController extends Controller
      */
     public function index()
     {
+        // if (PHP_SESSION_ACTIVE) {
+        //     session_destroy();
+        // }
         $lelang = Setup_tb::
                     where('ids', 17)
                     ->first();
@@ -110,9 +113,6 @@ class LandingController extends Controller
         $produk_content = Produk_aset::
                         orderBy('ids', 'asc')
                         ->get();
-
-        // var_dump($produk_content[1]['source']);
-        // die();
 
         return view('index')
                 ->with('hot_content', $hot_content)

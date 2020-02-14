@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Session;
 use App\Content_tb;
 use App\Subkategori;
 
+session_start();
+
 class ContentController extends Controller
 {
     public function berita_all()
