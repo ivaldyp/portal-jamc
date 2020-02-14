@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Traits\SessionCheckTraits;
+
 use App\Sec_access;
 use App\Sec_menu;
 
@@ -14,8 +16,11 @@ session_start();
 
 class SecurityController extends Controller
 {
+	use SessionCheckTraits;
+
     public function grupall()
     {
+    	$this->checkAccess($_SESSION['user_data']['idgroup'], 4);
     	$sec_menu = Sec_menu::
 	                join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
 	                ->where('sec_menu.sao', '')

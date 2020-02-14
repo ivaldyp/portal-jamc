@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-// use Symfony\Component\HttpFoundation\Cookie;
+use App\Traits\SessionCheckTraits;
 
 use App\Emp_data;
 use App\Sec_access;
@@ -20,24 +20,17 @@ session_start();
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    use SessionCheckTraits;
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request)
     {
-
+        $this->checkSessionTime();
+        
         if (is_null(Auth::user()->usname)) {
             $iduser = Auth::user()->id_emp;
 

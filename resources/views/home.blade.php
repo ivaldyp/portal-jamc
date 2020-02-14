@@ -86,29 +86,36 @@
         $(document).ready(function() {
             var menus = <?php echo json_encode($sec_menu) ?>;
             var menus_child = <?php echo json_encode($sec_menu_child) ?>;
-
             var third_child = [];
+
+            var fullpath = (window.location.href).split("/");
+            var pathlen = fullpath.length;
+            var geturl = "";
             
-            $.each( menus, function( i, menu ) {
+            $.each( menus, function( i, menu ) {    
                 // $('.ulmenu').append( "<li> <a href='#' class='waves-effect'><i class=''></i> <span class='hide-menu'>menu</span></a> </li>");
                 if (menu['child'] == 0) {
-                    $('.ulmenu').append( '<li class="'+ menu['ids'] +'"> <a href="#" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'</span></a> </li>');
+                    $('.ulmenu').append( '<li id="'+ menu['ids'] +'" class="urlnew" url="'+ menu['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'</span></a></li>');
+                    $('#' + menu['ids'] + ' a').attr('href', menu.urlnew);
                 } else  {
                     $('.ulmenu').append( 
-                        '<li class="'+ menu['ids'] +'"> <a href="'+ menu['urlnew'] +'" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'<span class="fa arrow"></span></span></a>'+
+                        '<li id="'+ menu['ids'] +'" class="urlnew" url="'+ menu['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'<span class="fa arrow"></span></span></a>'+
                         '<ul class="nav nav-second-level second'+ menu['ids'] +'">'
                         );
+                    $('#' + menu['ids'] + ' a').attr('href', menu.urlnew);
                 }
             });
 
             $.each (menus_child, function(i, child) {
                 if ($(".ulmenu li .nav-second-level").hasClass('second' + child['sao'])) {
                     if (child['child'] == 0) {
-                        $('.second' + child['sao']).append( '<li class="'+ child['ids'] +'"> <a href="'+ child['urlnew'] +'" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a></li>');
+                        $('.second' + child['sao']).append( '<li id="'+ child['ids'] +'" class="urlnew" url="'+ child['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a></li>');
+                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
                     } else  {
                         $('.second' + child['sao']).append( 
-                            '<li class="'+ child['ids'] +'"> <a href="'+ child['urlnew'] +'" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'<span class="fa arrow"></span></span></a>' +
+                            '<li id="'+ child['ids'] +'" class="urlnew" url="'+ child['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'<span class="fa arrow"></span></span></a>' +
                             '<ul class="nav nav-third-level third'+child['ids']+'">');
+                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
                     }
                 } else {
                     third_child.push(child['ids']);
@@ -116,15 +123,21 @@
                 
             });
 
-            $.each (menus_child, function(i, child) {
-                if ($.inArray(child['ids'], third_child) >= 0) {
-                    $('.third' + child['sao']).append( '<li class="'+ child['ids'] +'"> <a href="'+ child['urlnew'] +'" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a>');
-                }    
-            });
+            if (third_child.length > 0) {
+                $.each (menus_child, function(i, child) {
+                    if ($.inArray(child['ids'], third_child) >= 0) {
+                        $('.third' + child['sao']).append( '<li id="'+ child['ids'] +'" class="urlnew" url="'+ child['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a>');
+                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
+                    }    
+                });
+            }
 
-            // if ($(".ulmenu li .nav-second-level li .nav-third-level").hasClass("third334")) {
-            //     console.log("WAW");
-            // }
+            // $(".urlnew").click(function(e) 
+            // { 
+            //     alert($(this).attr('id'));
+            //     var url = $(this).attr('url');
+            //     var fullpath = window.location.href;
+            // });
         });
     </script>
 @endsection

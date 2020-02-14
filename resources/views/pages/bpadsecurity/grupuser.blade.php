@@ -82,7 +82,9 @@
             </div>
         </div>
         <!-- /.container-fluid -->
-        <footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by themedesigner.in </footer>
+        <footer class="footer text-center"> 
+            <span>&copy; Copyright <?php echo date('Y'); ?> BPAD DKI Jakarta.</span></span></a>
+        </footer>
     </div>
 @endsection
 
