@@ -39,7 +39,7 @@ class SecurityController extends Controller
 	                ->get();
 
     	$groups = Sec_access::
-    				distinct()
+    				distinct('idgroup')
     				->get('idgroup');
 
     	return view('pages.bpadsecurity.grupuser')

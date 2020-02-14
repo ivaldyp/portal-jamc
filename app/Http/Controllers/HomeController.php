@@ -83,8 +83,7 @@ class HomeController extends Controller
                     ->orderByRaw('CONVERT(INT, sec_menu.sao)')
                     ->orderBy('sec_menu.urut')
                     ->get();
-
-        
+ 
         $_SESSION['user_data'] = $user_data;
         $_SESSION['access'] = $user_access;
 
