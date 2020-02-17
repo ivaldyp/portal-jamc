@@ -24,7 +24,7 @@ trait SessionCheckTraits
 					->first();
 
 		if ($access['zviw'] == 'y') {
-			return true;
+			return $access;
 		} else {
 			abort(403, 'Unauthorized action.');
 		}

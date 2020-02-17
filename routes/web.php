@@ -42,6 +42,7 @@ Route::group(['prefix' => 'content'], function () {
 
 Route::group(['prefix' => 'security'], function () {
 	Route::get('/groupuser', 'SecurityController@grupall');
+	Route::get('/groupuser/ubah', 'SecurityController@grupubah');
 });
 Auth::routes();
 
