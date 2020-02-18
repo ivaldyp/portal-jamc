@@ -1,4 +1,4 @@
-@extends('layouts.masterhome')
+@extends('layouts.masterhome', [$menus])
 
 @section('css')
     <!-- Bootstrap Core CSS -->
@@ -82,7 +82,7 @@
     <!--Style Switcher -->
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             var menus = <?php echo json_encode($sec_menu) ?>;
             var menus_child = <?php echo json_encode($sec_menu_child) ?>;
@@ -155,5 +155,5 @@
             //     var fullpath = window.location.href;
             // });
         });
-    </script>
+    </script> -->
 @endsection

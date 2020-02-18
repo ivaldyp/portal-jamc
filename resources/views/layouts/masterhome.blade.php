@@ -63,12 +63,7 @@
                 <div class="sidebar-head">
                     <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Menu</span></h3> 
                 </div>
-                <ul class="nav ulmenu" id="side-menu">
-                    <!-- @include('layouts.komponen.menu', [$sec_menu, $sec_menu_child]) -->
-
-                    <li class="devider"></li>
-
-                </ul>
+                 {!! $menus !!}
             </div>
         </div>
         <!-- ============================================================== -->

@@ -1,4 +1,4 @@
-@extends('layouts.masterhome')
+@extends('layouts.masterhome' )
 
 @section('css')
     <!-- Bootstrap Core CSS -->

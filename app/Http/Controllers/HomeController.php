@@ -27,6 +27,59 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    public function display_menus($query, $parent, $level)
+    {
+        $query = Sec_menu::
+                join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
+                ->where('sec_menu.tipe', 'l')
+                ->whereRaw('LEN(sec_menu.urut) = 1')
+                ->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
+                ->where('sec_access.zviw', 'y')
+                ->where('sec_menu.sao', $parent)
+                ->orderByRaw('CONVERT(INT, sec_menu.sao)')
+                ->orderBy('sec_menu.urut')
+                ->get();
+
+        $result = '';
+        $link = '';
+        $arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">'];
+
+        if (count($query) > 0) {
+
+            $result .= '<ul>';
+        
+            foreach ($query as $menu) {
+                if (is_null($menu['urlnew'])) {
+                    $link = 'javascript:void(0)';
+                } else {
+                    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') 
+                        $link = "https"; 
+                    else
+                        $link = "http"; 
+                      
+                    $link .= "://";       
+                    $link .= $_SERVER['HTTP_HOST']; 
+                    $link .= $menu['urlnew'];
+                }
+
+                if ($menu['child'] == 0) {
+                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa'. (($level!=0)? 'fa-check' :'').'fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'</span></a></li>';
+                } elseif ($menu['child'] == 1) {
+                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa'. (($level!=0)? 'fa-check' :'').'fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'<span class="fa arrow"></span></span></a>';
+                    
+                    $result .= $this->display_menus($query, $menu['ids'], $level++);
+
+                    $result .= '</li>';
+                }
+            }
+
+            $result .= '</ul>';
+        }
+        
+        $level--;
+        return $result;
+    }
+
     public function index(Request $request)
     {
         $this->checkSessionTime();
@@ -44,6 +97,13 @@ class HomeController extends Controller
                             where('usname', $iduser)
                             ->first();
         }
+
+        $all_menu = [];
+
+        // $menus = '';
+        $menus = $this->display_menus($all_menu, 0, 0);
+        // echo $menus;
+        // die();
 
         $sec_menu = Sec_menu::
                     join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
@@ -81,6 +141,7 @@ class HomeController extends Controller
         $_SESSION['access'] = $user_access;
 
         return view('home')
+                ->with('menus', $menus)
                 ->with('iduser', $iduser)
                 ->with('sec_menu', $sec_menu)
                 ->with('sec_menu_child', $sec_menu_child);

@@ -14,4 +14,14 @@ class Sec_menu extends Model
     {
         return $this->hasOne('App\Sec_access', 'idtop', 'ids');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo('App\Sec_menu', 'sao', 'ids');
+    }
+
+    public function children()
+    {
+        return $this->hasMany('App\Sec_menu', 'sao', 'ids');
+    }
 }

@@ -18,6 +18,16 @@ class SecurityController extends Controller
 {
 	use SessionCheckTraits;
 
+	public function tes()
+	{
+		// $data = Sec_menu::get();
+		// echo "<pre>";
+		// var_dump($data);
+		// die();
+
+		return view('pages.bpadsecurity.menu');
+	}
+
 	public function grupall()
 	{
 		$this->checkSessionTime();
@@ -45,22 +55,21 @@ class SecurityController extends Controller
 					->orderBy('sec_menu.urut')
 					->get();
 
-		$all_menu = Sec_menu::
-					join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
-					// ->where('sec_menu.sao', 'not like', '')
-					->where('sec_menu.tipe', 'l')
-					->whereRaw('LEN(sec_menu.urut) = 1')
-					->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
-					->where('sec_access.zviw', 'y')
-					->where('sao', '<', 10)
-					->orderByRaw('CONVERT(INT, sec_menu.sao)')
-					->orderBy('sec_menu.urut')
-					->get('desk', 'ids', 'sao');
+		// $all_menu = Sec_menu::
+		// 			join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
+		// 			->where('sec_menu.tipe', 'l')
+		// 			->whereRaw('LEN(sec_menu.urut) = 1')
+		// 			->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
+		// 			->where('sec_access.zviw', 'y')
+		// 			->orderByRaw('CONVERT(INT, sec_menu.sao)')
+		// 			->orderBy('sec_menu.urut')
+		// 			->get();
+
+		$all_menu = [];
 
 		// $menus = '';
-		$menus = buildTreea($sec_menu);
-		echo "<pre>";
-		var_dump($menus);
+		$menus = display_menus($all_menu);
+		echo $menus;
 		die();
 
 		$groups = Sec_access::
@@ -69,6 +78,7 @@ class SecurityController extends Controller
 
 		return view('pages.bpadsecurity.grupuser')
 				->with('access', $access)
+				// ->with('menus', $menus)
 				->with('groups', $groups)
 				->with('sec_menu', $sec_menu)
 				->with('sec_menu_child', $sec_menu_child);
