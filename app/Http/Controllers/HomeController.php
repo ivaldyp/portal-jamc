@@ -63,9 +63,10 @@ class HomeController extends Controller
                 }
 
                 if ($menu['child'] == 0) {
-                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa '. ((!(is_null($menu['iconnew'])))? $menu['iconnew'] :'').' fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'</span></a></li>';
+                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa '. (($menu['iconnew'])? $menu['iconnew'] :'').' fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'</span></a></li>';
+                    
                 } elseif ($menu['child'] == 1) {
-                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa '. ((!(is_null($menu['iconnew'])))? $menu['iconnew'] :'').' fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'<span class="fa arrow"></span></span></a>';
+                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa '. (($menu['iconnew'])? $menu['iconnew'] :'').' fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'<span class="fa arrow"></span></span></a>';
                     
                     $result .= $this->display_menus($query, $menu['ids'], $level+1);
 
@@ -75,8 +76,6 @@ class HomeController extends Controller
 
             $result .= '</ul>';
         }
-        
-        $level--;
         return $result;
     }
 
@@ -98,28 +97,6 @@ class HomeController extends Controller
                             ->first();
         }
 
-        $sec_menu = Sec_menu::
-                    join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
-                    ->where('sec_menu.sao', '')
-                    ->where('sec_menu.tipe', 'l')
-                    ->whereRaw('LEN(sec_menu.urut) = 1')
-                    ->where('sec_access.idgroup', $user_data['idgroup'])
-                    ->where('sec_access.zviw', 'y')
-                    ->orderByRaw('CONVERT(INT, sec_menu.sao)')
-                    ->orderBy('sec_menu.urut')
-                    ->get();
-
-        $sec_menu_child = Sec_menu::
-                    join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
-                    ->where('sec_menu.sao', 'not like', '')
-                    ->where('sec_menu.tipe', 'l')
-                    ->whereRaw('LEN(sec_menu.urut) = 1')
-                    ->where('sec_access.idgroup', $user_data['idgroup'])
-                    ->where('sec_access.zviw', 'y')
-                    ->orderByRaw('CONVERT(INT, sec_menu.sao)')
-                    ->orderBy('sec_menu.urut')
-                    ->get();
-
         $user_access = Sec_menu::
                     join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
                     ->where('sec_menu.tipe', 'l')
@@ -135,15 +112,11 @@ class HomeController extends Controller
 
         $all_menu = [];
 
-        // $menus = '';
         $menus = $this->display_menus($all_menu, 0, 0);
-        // echo $menus;
-        // die();
+
+        $_SESSION['menus'] = $menus;
  
         return view('home')
-                ->with('menus', $menus)
-                ->with('iduser', $iduser)
-                ->with('sec_menu', $sec_menu)
-                ->with('sec_menu_child', $sec_menu_child);
+                ->with('iduser', $iduser);
     }
 }

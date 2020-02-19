@@ -42,7 +42,7 @@
                                 ?> 
                                     <li class="active"> {{ ucwords($link[4]) }} </li>
                                 <?php
-                            } elseif (count($link) == 6) {
+                            } elseif (count($link) > 5) {
                                 ?> 
                                     <li class="active"> {{ ucwords($link[4]) }} </li>
                                     <li class="active"> {{ ucwords($link[5]) }} </li>
@@ -54,42 +54,93 @@
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row ">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="white-box">
+                        <h3 class="box-title">Hak Akses: {{ $pagename }}</h3> 
                         <div class="table-responsive">
                             <table id="myTable" class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-1">No</th>
-                                        <th>Grup User</th>
+                                        <th>Level</th>
+                                        <th>Nama</th>
+                                        <th>zviw</th>
+                                        <th>zadd</th>
+                                        <th>zupd</th>
+                                        <th>zdel</th>
+                                        <th>zapr</th>
+                                        <th>zket</th>
                                         @if($access['zupd'] == 'y' && $access['zdel'] == 'y')
                                         <th>Aksi</th>
                                         @endif
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($groups as $key => $group)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $group['idgroup'] }}</td>
-                                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                        <td>
-                                            @if($access['zupd'] == 'y')
-                                            <a href="/bpadwebs/security/groupuser/ubah?id={{ $group['idgroup'] }}">
-                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></button>
-                                            </a>
-                                            @endif
-                                            @if($access['zdel'] == 'y')
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-room"><i class="fa fa-trash"></i></button>
-                                            @endif
-                                        </td>
-                                        @endif
-                                    </tr>
-                                @endforeach
+                                {!! $menus !!}
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal-update" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="POST" action="" class="form-horizontal">
+                        @csrf
+                            <div class="modal-header">
+                                <h4 class="modal-title"><b>Ubah Data</b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <input type="text" name="idtop" id="modal_update_idtop">
+                                <input type="text" name="idgroup" id="modal_update_idgroup">
+                                <!-- <div class="form-group">
+                                    <label for="modal_update_usertype_name" class="col-lg-3 control-label"> Jenis Pengguna </label>
+                                    <div class="col-lg-8">
+                                        <input type="text" name="userType_name" id="modal_update_usertype_name" class="form-control" autocomplete="off">
+                                    </div>
+                                </div> -->
+
+                                <div class="form-group">
+                                    <label for="modal_update_zviw" class="col-sm-3 control-label"> View </label>
+                                    <div class="col-sm-1">
+                                        <label><input type="checkbox" name="zviw" id="modal_update_zviw" style="width: 30px; height: 30px; top: 0px"></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="modal_update_zadd" class="col-sm-3 control-label"> Add </label>
+                                    <div class="col-sm-1">
+                                        <label><input type="checkbox" name="zadd" id="modal_update_zadd" style="width: 30px; height: 30px; top: 0px"></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="modal_update_zupd" class="col-sm-3 control-label"> Update </label>
+                                    <div class="col-sm-1">
+                                        <label><input type="checkbox" name="zupd" id="modal_update_zupd" style="width: 30px; height: 30px; top: 0px"></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="modal_update_zdel" class="col-sm-3 control-label"> Delete </label>
+                                    <div class="col-sm-1">
+                                        <label><input type="checkbox" name="zdel" id="modal_update_zdel" style="width: 30px; height: 30px; top: 0px"></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="modal_update_zapr" class="col-sm-3 control-label"> Special </label>
+                                    <div class="col-sm-1">
+                                        <label><input type="checkbox" name="zapr" id="modal_update_zapr" style="width: 30px; height: 30px; top: 0px"></label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -118,70 +169,39 @@
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            var menus = <?php echo json_encode($sec_menu) ?>;
-            var menus_child = <?php echo json_encode($sec_menu_child) ?>;
+        function updateFunction(idtop, idgroup, zviw, zadd, zupd, zdel, zapr) {
+            // document.getElementById("modal_update_idtop").value = idtop;
+            // document.getElementById("modal_update_idgroup").value = idgroup;
 
-            var third_child = [];
-            
-            $.each( menus, function( i, menu ) {    
-                // $('.ulmenu').append( "<li> <a href='#' class='waves-effect'><i class=''></i> <span class='hide-menu'>menu</span></a> </li>");
-                if (menu['child'] == 0) {
-                    $('.ulmenu').append( "<li id='"+ menu['ids'] +"' class='urlnew' url='"+ menu.urlnew +"'> <a href='' class='waves-effect'><i class='fa fa-check fa-fw'></i> <span class='hide-menu'>"+ menu['desk'] +"</span></a></li>");
-                } else  {
-                    $('.ulmenu').append( 
-                        '<li id="'+ menu['ids'] +'" class="urlnew" url="'+ menu.urlnew +'"> <a href="" class="waves-effect"><i class="fa fa-check fa-fw"></i> <span class="hide-menu">'+ menu['desk'] +'<span class="fa arrow"></span></span></a>'+
-                        '<ul class="nav nav-second-level second'+ menu['ids'] +'">'
-                        );
-                }
-
-                if (menu.urlnew == null) {
-                    $('#' + menu['ids'] + ' a').attr('href', 'javascript:void(0)');
-                } else {
-                    $('#' + menu['ids'] + ' a').attr('href', menu.urlnew);
-                }
-            });
-            $.each (menus_child, function(i, child) {
-                if ($(".ulmenu li .nav-second-level").hasClass('second' + child['sao'])) {
-                    if (child['child'] == 0) {
-                        $('.second' + child['sao']).append( '<li id="'+ child['ids'] +'" class="urlnew" url="'+ child['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a></li>');
-                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
-                    } else  {
-                        $('.second' + child['sao']).append( 
-                            '<li id="'+ child['ids'] +'" class="urlnew" url="'+ child['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'<span class="fa arrow"></span></span></a>' +
-                            '<ul class="nav nav-third-level third'+child['ids']+'">');
-                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
-                    }
-
-                    if (child.urlnew == null) {
-                        $('#' + child['ids'] + ' a').attr('href', 'javascript:void(0)');
-                    } else {
-                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
-                    }
-
-                } else {
-                    third_child.push(child['ids']);
-                }
-                
-            });
-            if (third_child.length > 0) {
-                $.each (menus_child, function(i, child) {
-                    if ($.inArray(child['ids'], third_child) >= 0) {
-                        $('.third' + child['sao']).append( '<li id="'+ child['ids'] +'" class="urlnew" url="'+ child['urlnew'] +'"> <a href="" class="waves-effect"><i class="fa-fw"></i> <span class="hide-menu">'+ child['desk'] +'</span></a>');
-                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
-                    }
-
-                    if (child.urlnew == null) {
-                        $('#' + child['ids'] + ' a').attr('href', 'javascript:void(0)');
-                    } else {
-                        $('#' + child['ids'] + ' a').attr('href', child.urlnew);
-                    }
-                });
+            if (zviw == "y") {
+                document.getElementById("modal_update_zviw").checked = true;
             }
 
-            // if ($(".ulmenu li .nav-second-level li .nav-third-level").hasClass("third334")) {
-            //     console.log("WAW");
-            // }
+            if (zadd == "y") {
+                document.getElementById("modal_update_zadd").checked = true;
+            }
+
+            if (zupd == "y") {
+                document.getElementById("modal_update_zupd").checked = true;
+            }
+
+            if (zdel == "y") {
+                document.getElementById("modal_update_zdel").checked = true;
+            }
+
+            if (zapr == "y") {
+                document.getElementById("modal_update_zapr").checked = true;
+            } 
+        }
+        $(function () {
+            $('.btn-update').on('click', function () {
+                var $el = $(this);
+                
+                $("#modal_update_idtop").val($el.data('zadd'));
+                $("#modal_update_idgroup").val($el.data('zviw'));
+
+                // alert($el.data('idgroup'));
+            });
         });
     </script>
 @endsection

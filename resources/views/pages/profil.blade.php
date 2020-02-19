@@ -80,7 +80,7 @@
 			            <!-- <img id="img-overlay" src="{{ ('/bpadwebs/public/img/profil/organisasi.png') }}" style="width: 100%"> -->
 			            <!-- <div id="overlay"></div> -->
 			            <span class='zoom' id='ex2'>
-							<img src="{{ ('/bpadwebs/public/img/profil/organisasi.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/>
+							<img src="{{ ('/bpadwebs/public/img/profil/organisasi2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/>
 						</span>
 			            <br><br>
 
