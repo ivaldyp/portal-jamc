@@ -6105,7 +6105,8 @@ ul.select-row-icon li a.selected i.whn-hov {
   content: "\f107";
 }
 .sidebar .nav-second-level li,
-.sidebar .nav-third-level li {
+.sidebar .nav-third-level li,
+.sidebar .nav-fourth-level li {
   border-bottom: none !important;
 }
 .sidebar .nav-second-level li a {
@@ -6119,6 +6120,12 @@ ul.select-row-icon li a.selected i.whn-hov {
 }
 .sidebar:hover .nav-third-level li a {
   padding-left: 40px;
+}
+.sidebar .nav-fourth-level li a {
+  padding-left: 30px;
+}
+.sidebar:hover .nav-fourth-level li a {
+  padding-left: 50px;
 }
 .content-wrapper .nicescroll-rails {
   display: none!important;
@@ -16645,6 +16652,10 @@ ul.pro-amenities li span i {
   .sidebar .nav-third-level li a,
   .sidebar:hover .nav-third-level li a {
     padding-left: 60px;
+  }
+  .sidebar .nav-fourth-level li a,
+  .sidebar:hover .nav-fourth-level li a {
+    padding-left: 80px;
   }
 }
 @media (max-width: 480px) {

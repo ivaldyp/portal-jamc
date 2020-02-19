@@ -27,7 +27,7 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    public function display_menus($query, $parent, $level)
+    public function display_menus($query, $parent, $level = 0)
     {
         $query = Sec_menu::
                 join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
@@ -42,11 +42,11 @@ class HomeController extends Controller
 
         $result = '';
         $link = '';
-        $arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">'];
+        $arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">'];
 
         if (count($query) > 0) {
 
-            $result .= '<ul>';
+            $result .= $arrLevel[$level];
         
             foreach ($query as $menu) {
                 if (is_null($menu['urlnew'])) {
@@ -63,11 +63,11 @@ class HomeController extends Controller
                 }
 
                 if ($menu['child'] == 0) {
-                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa'. (($level!=0)? 'fa-check' :'').'fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'</span></a></li>';
+                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa '. ((!(is_null($menu['iconnew'])))? $menu['iconnew'] :'').' fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'</span></a></li>';
                 } elseif ($menu['child'] == 1) {
-                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa'. (($level!=0)? 'fa-check' :'').'fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'<span class="fa arrow"></span></span></a>';
+                    $result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa '. ((!(is_null($menu['iconnew'])))? $menu['iconnew'] :'').' fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'<span class="fa arrow"></span></span></a>';
                     
-                    $result .= $this->display_menus($query, $menu['ids'], $level++);
+                    $result .= $this->display_menus($query, $menu['ids'], $level+1);
 
                     $result .= '</li>';
                 }
@@ -97,13 +97,6 @@ class HomeController extends Controller
                             where('usname', $iduser)
                             ->first();
         }
-
-        $all_menu = [];
-
-        // $menus = '';
-        $menus = $this->display_menus($all_menu, 0, 0);
-        // echo $menus;
-        // die();
 
         $sec_menu = Sec_menu::
                     join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
@@ -140,6 +133,13 @@ class HomeController extends Controller
         $_SESSION['user_data'] = $user_data;
         $_SESSION['access'] = $user_access;
 
+        $all_menu = [];
+
+        // $menus = '';
+        $menus = $this->display_menus($all_menu, 0, 0);
+        // echo $menus;
+        // die();
+ 
         return view('home')
                 ->with('menus', $menus)
                 ->with('iduser', $iduser)
