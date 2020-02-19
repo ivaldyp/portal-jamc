@@ -108,25 +108,18 @@ class SecurityController extends Controller
 		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
 
 		if (!(isset($request->zviw))) {
-			$request->zviw = 0;
+			$zviw = 0;
+		} else {
+			$zviw = 1;
 		}
 
-		if (!(isset($request->zadd))) {
-			$request->zadd = 0;
-		}
+		!(isset($request->zviw)) ? $zviw = 0 : $zviw = 1;
+		!(isset($request->zadd)) ? $zadd = 0 : $zadd = 1;
+		!(isset($request->zupd)) ? $zupd = 0 : $zupd = 1;
+		!(isset($request->zdel)) ? $zdel = 0 : $zdel = 1;
+		!(isset($request->zapr)) ? $zapr = 0 : $zapr = 1;
 
-		if (!(isset($request->zupd))) {
-			$request->zupd = 0;
-		}
-
-		if (!(isset($request->zdel))) {
-			$request->zdel = 0;
-		}
-
-		if (!(isset($request->zapr))) {
-			$request->zapr = 0;
-		}
-		var_dump($request->all());
+		var_dump($zviw, $zadd);
 		die(); 
 
 		return view('pages.bpadsecurity.ubahgrup')
