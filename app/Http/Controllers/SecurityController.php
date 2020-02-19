@@ -20,11 +20,6 @@ class SecurityController extends Controller
 
 	public function display_roles($query, $idgroup, $access, $parent, $level = 0)
     {
-    	if ($level == 0) {
-    		# code...
-    	} else {
-
-    	}
         $query = Sec_menu::
                 join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
                 ->where('sec_menu.tipe', 'l')
@@ -99,6 +94,40 @@ class SecurityController extends Controller
 
 
        	$pagename = $request->name;
+
+		return view('pages.bpadsecurity.ubahgrup')
+				->with('access', $access)
+				->with('pagename', $pagename)
+				->with('menus', $menus)
+				->with('groups', $groups);
+	}
+
+	public function formupdategrup(Request $request)
+	{
+		$this->checkSessionTime();
+		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
+
+		if (!(isset($request->zviw))) {
+			$request->zviw = 0;
+		}
+
+		if (!(isset($request->zadd))) {
+			$request->zadd = 0;
+		}
+
+		if (!(isset($request->zupd))) {
+			$request->zupd = 0;
+		}
+
+		if (!(isset($request->zdel))) {
+			$request->zdel = 0;
+		}
+
+		if (!(isset($request->zapr))) {
+			$request->zapr = 0;
+		}
+		var_dump($request->all());
+		die(); 
 
 		return view('pages.bpadsecurity.ubahgrup')
 				->with('access', $access)

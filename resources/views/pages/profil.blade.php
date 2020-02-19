@@ -80,6 +80,9 @@
 			            <!-- <img id="img-overlay" src="{{ ('/bpadwebs/public/img/profil/organisasi.png') }}" style="width: 100%"> -->
 			            <!-- <div id="overlay"></div> -->
 			            <span class='zoom' id='ex2'>
+							<!-- <svgs>       
+								<image href="https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png" height="200" width="200"/>
+							</svg> -->
 							<img src="{{ ('/bpadwebs/public/img/profil/organisasi2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/>
 						</span>
 			            <br><br>

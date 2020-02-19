@@ -85,14 +85,14 @@
             <div id="modal-update" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form method="POST" action="" class="form-horizontal">
+                        <form method="POST" action="/bpadwebs/security/form/ubahgrup" class="form-horizontal">
                         @csrf
                             <div class="modal-header">
                                 <h4 class="modal-title"><b>Ubah Data</b></h4>
                             </div>
                             <div class="modal-body">
-                                <input type="text" name="idtop" id="modal_update_idtop">
-                                <input type="text" name="idgroup" id="modal_update_idgroup">
+                                <input type="hidden" name="idtop" id="modal_update_idtop">
+                                <input type="hidden" name="idgroup" id="modal_update_idgroup">
                                 <!-- <div class="form-group">
                                     <label for="modal_update_usertype_name" class="col-lg-3 control-label"> Jenis Pengguna </label>
                                     <div class="col-lg-8">
@@ -103,35 +103,40 @@
                                 <div class="form-group">
                                     <label for="modal_update_zviw" class="col-sm-3 control-label"> View </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zviw" id="modal_update_zviw" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zviw" value="1" id="modal_update_zviw" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="hidden" name="zviw_hidden" value="0" id="modal_update_zviw_hidden" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zadd" class="col-sm-3 control-label"> Add </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zadd" id="modal_update_zadd" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zadd" value="1" id="modal_update_zadd" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="hidden" name="zadd_hidden" value="0" id="modal_update_zadd_hidden" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zupd" class="col-sm-3 control-label"> Update </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zupd" id="modal_update_zupd" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zupd" value="1" id="modal_update_zupd" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="hidden" name="zupd_hidden" value="0" id="modal_update_zupd_hidden" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zdel" class="col-sm-3 control-label"> Delete </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zdel" id="modal_update_zdel" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zdel" value="1" id="modal_update_zdel" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="hidden" name="zdel_hidden" value="0" id="modal_update_zdel_hidden" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zapr" class="col-sm-3 control-label"> Special </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zapr" id="modal_update_zapr" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zapr" value="1" id="modal_update_zapr" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="hidden" name="zapr_hidden" value="0" id="modal_update_zapr_hidden" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
@@ -169,36 +174,33 @@
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 
     <script>
-        function updateFunction(idtop, idgroup, zviw, zadd, zupd, zdel, zapr) {
-            // document.getElementById("modal_update_idtop").value = idtop;
-            // document.getElementById("modal_update_idgroup").value = idgroup;
-
-            if (zviw == "y") {
-                document.getElementById("modal_update_zviw").checked = true;
-            }
-
-            if (zadd == "y") {
-                document.getElementById("modal_update_zadd").checked = true;
-            }
-
-            if (zupd == "y") {
-                document.getElementById("modal_update_zupd").checked = true;
-            }
-
-            if (zdel == "y") {
-                document.getElementById("modal_update_zdel").checked = true;
-            }
-
-            if (zapr == "y") {
-                document.getElementById("modal_update_zapr").checked = true;
-            } 
-        }
         $(function () {
             $('.btn-update').on('click', function () {
                 var $el = $(this);
                 
-                $("#modal_update_idtop").val($el.data('zadd'));
-                $("#modal_update_idgroup").val($el.data('zviw'));
+                $("#modal_update_idtop").val($el.data('ids'));
+                $("#modal_update_idgroup").val($el.data('idgroup'));
+
+                if ($el.data('zviw') == 'y') {
+                    $("#modal_update_zviw").prop("checked", true);
+                }
+
+                if ($el.data('zadd') == 'y') {
+                    $("#modal_update_zadd").prop("checked", true);
+                }
+
+                if ($el.data('zupd') == 'y') {
+                    $("#modal_update_zupd").prop("checked", true);
+                }
+
+                if ($el.data('zdel') == 'y') {
+                    $("#modal_update_zdel").prop("checked", true);
+                }
+
+                if ($el.data('zapr') == 'y') {
+                    $("#modal_update_zapr").prop("checked", true);
+                }
+
 
                 // alert($el.data('idgroup'));
             });
