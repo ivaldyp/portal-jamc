@@ -37,7 +37,6 @@
                     <ol class="breadcrumb">
                         <li>{{config('app.name')}}</li>
                         <?php 
-                            $link = explode("/", url()->full());
                             if (count($link) == 5) {
                                 ?> 
                                     <li class="active"> {{ ucwords($link[4]) }} </li>
@@ -56,6 +55,13 @@
             <div class="row ">
                 <div class="col-md-12">
                     <div class="white-box">
+                        <?php
+                            $url = ''; 
+                            for($i=0; $i < count($link); $i++) {
+                                $url .= $link[$i]
+                            } 
+                        ?>
+                        <a href="{{ url('/content/berita') }}"><strong><i class="fa fa-arrow-left"></i> Kembali ke halaman sebelumnya</strong></a>
                         <h3 class="box-title">Hak Akses: {{ $pagename }}</h3> 
                         <div class="table-responsive">
                             <table id="myTable" class="table table-hover">

@@ -91,7 +91,7 @@
 			            <!-- <img id="img-overlay" src="{{ ('/bpadwebs/public/img/profil/organisasi.png') }}" style="width: 100%"> -->
 			            <!-- <div id="overlay"></div> -->
 			            <span class='zoom' id='ex1'>
-							<img src="{{ ('/bpadwebs/public/img/profil/organisasi_suban.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/>
+							<img src="{{ ('/bpadwebs/public/img/profil/organisasi_suban2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/>
 						</span>
 			            <br><br>
 
