@@ -41,11 +41,14 @@ Route::group(['prefix' => 'content'], function () {
 });
 
 Route::group(['prefix' => 'security'], function () {
-	Route::get('/groupuser', 'SecurityController@grupall');
-	Route::get('/groupuser/ubah', 'SecurityController@grupubah');
+	Route::get('/group user', 'SecurityController@grupall');
+	Route::get('/group user/ubah', 'SecurityController@grupubah');
 	Route::post('/form/tambahgrup', 'SecurityController@forminsertgrup');
 	Route::post('/form/ubahgrup', 'SecurityController@formupdategrup');
 	Route::post('/form/hapusgrup', 'SecurityController@formdeletegrup');
+
+	Route::get('/tambah user', 'SecurityController@tambahuser');
+	Route::post('/form/tambahuser', 'SecurityController@forminsertuser');
 });
 Auth::routes();
 

@@ -9,14 +9,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Traits\SessionCheckTraits;
 
+use App\Emp_data;
 use App\Sec_access;
 use App\Sec_menu;
+use App\Sec_logins;
 
 session_start();
 
 class SecurityController extends Controller
 {
 	use SessionCheckTraits;
+
+	// // // GRUP USER // // // 
 
 	public function display_roles($query, $idgroup, $access, $parent, $level = 0)
     {
@@ -38,7 +42,7 @@ class SecurityController extends Controller
             	$padding = ($level * 20) + 8;
                 $result .= '<tr>
                 				<td class="col-md-1">'.$level.'</td>
-		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">'.$menu['desk'].'</td>
+		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">('.$menu['ids'].') '.$menu['desk'].'</td>
 		        				<td>'.(($menu['zviw'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
 		        				<td>'.(($menu['zadd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
 		        				<td>'.(($menu['zupd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
@@ -113,7 +117,7 @@ class SecurityController extends Controller
 						->get();
 
 		if (count($namecheck) > 0) {
-			return redirect('/security/groupuser')
+			return redirect('/security/group user')
 					->with('message', 'Grup user '.$request->idgroup.' sudah ada di database. Harap ganti nama.')
 					->with('msg_num', 2);
 		}
@@ -132,11 +136,11 @@ class SecurityController extends Controller
 		}
 
 		if (Sec_access::insert($result)) {
-			return redirect('/security/groupuser')
+			return redirect('/security/group user')
 					->with('message', 'Grup user '.$request->idgroup.' berhasil ditambah')
 					->with('msg_num', 1);
 		} else {
-			return redirect('/security/groupuser')
+			return redirect('/security/group user')
 					->with('message', 'Grup user '.$request->idgroup.' gagal ditambah')
 					->with('msg_num', 2);
 		}	
@@ -153,30 +157,6 @@ class SecurityController extends Controller
 		!(isset($request->zdel)) ? $zdel = '' : $zdel = 'y';
 		!(isset($request->zapr)) ? $zapr = '' : $zapr = 'y';
 
-		// if ($zviw == '') {
-		// 	Sec_access::
-		// 			where('idtop', $request->idtop)
-		// 			->where('idgroup', $request->idgroup)
-		// 			->update([
-		// 				'zviw' => '',
-		// 				'zadd' => '',
-		// 				'zupd' => '',
-		// 				'zdel' => '',
-		// 				'zapr' => '',
-		// 			]);
-		// } else {
-		// 	$query = Sec_access::
-		// 			where('idtop', $request->idtop)
-		// 			->where('idgroup', $request->idgroup)
-		// 			->update([
-		// 				'zviw' => $zviw,
-		// 				'zadd' => $zadd,
-		// 				'zupd' => $zupd,
-		// 				'zdel' => $zdel,
-		// 				'zapr' => $zapr,
-		// 			]);
-		// }
-
 		$query = Sec_access::
 					where('idtop', $request->idtop)
 					->where('idgroup', $request->idgroup)
@@ -188,7 +168,7 @@ class SecurityController extends Controller
 						'zapr' => $zapr,
 					]);
 
-		return redirect('/security/groupuser/ubah?name='.$request->idgroup)
+		return redirect('/security/group user/ubah?name='.$request->idgroup)
 				->with('message', 'Grup user '.$request->idgroup.' berhasil diubah')
 				->with('msg_num', 1);
 	}
@@ -198,12 +178,70 @@ class SecurityController extends Controller
 		$this->checkSessionTime();
 		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
 
+		$cari1 = Sec_logins::
+					where('idgroup', $request->idgroup)
+					->count();
+
+		$cari2 = Emp_data::
+					where('idgroup', $request->idgroup)
+					->count();
+
+		if ($cari1 > 0 || $cari2 > 0) {
+			return redirect('/security/group user')
+				->with('message', 'Grup user '.$request->idgroup.' tidak dapat dihapus karena terdapat user yang merupakan grup user tersebut')
+				->with('msg_num', 2);
+		}
+
 		$query = Sec_access::
 					where('idgroup', $request->idgroup)
 					->delete();
 
-		return redirect('/security/groupuser')
+		return redirect('/security/group user')
 				->with('message', 'Grup user '.$request->idgroup.' berhasil dihapus')
 				->with('msg_num', 1);
 	}
+
+	// ----------------GRUP USER----------------- //
+
+	// ------------------------------------------ //
+
+	// ---------------TAMBAH USER---------------- // 
+
+	public function tambahuser()
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
+
+		$idgroup = Sec_access::
+					where('idgroup', 'SUPERUSER')
+					->orderBy('idtop')
+					->get();
+
+		return view('pages.bpadsecurity.tambahuser')
+				->with('access', $access)
+				->with('idgroup', $idgroup);
+	}
+
+	public function forminsertuser(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
+
+		return view('pages.bpadsecurity.tambahuser')
+				->with('access', $access);
+	}
+
+	// ---------------TAMBAH USER---------------- // 
+
+	// ------------------------------------------ //
+
+	// ---------------MANAGE USER---------------- // 
+
+	// ---------------MANAGE USER---------------- // 
+
+	// ------------------------------------------ //
+
+	// ---------------MANAGE SKPD---------------- // 
+
+	// ---------------MANAGE SKPD---------------- // 
 }

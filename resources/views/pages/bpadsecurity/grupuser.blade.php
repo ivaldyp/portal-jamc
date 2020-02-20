@@ -45,7 +45,7 @@
                             } elseif (count($link) == 6) {
                                 ?> 
                                     <li class="active"> {{ ucwords($link[4]) }} </li>
-                                    <li class="active"> {{ ucwords($link[5]) }} </li>
+                                    <li class="active"> {{ str_replace('%20', ' ', ucwords($link[5])) }} </li>
                                 <?php
                             } 
                         ?>
@@ -84,7 +84,7 @@
                                         @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
                                         <td>
                                             @if($access['zupd'] == 'y')
-                                            <a href="/bpadwebs/security/groupuser/ubah?name={{ $group['idgroup'] }}">
+                                            <a href="/bpadwebs/security/group user/ubah?name={{ $group['idgroup'] }}">
                                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></button>
                                             </a>
                                             @endif
@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="modal fade" id="modal-create">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <form method="POST" action="/bpadwebs/security/form/tambahgrup" class="form-horizontal">
                         @csrf
@@ -111,7 +111,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="modal_insert_idgroup" class="col-lg-3 control-label"> Nama </label>
+                                    <label for="modal_insert_idgroup" class="col-lg-2 control-label"> Nama </label>
                                     <div class="col-lg-8">
                                         <input type="text" name="idgroup" id="modal_insert_idgroup" class="form-control" autocomplete="off">
                                     </div>

@@ -58,17 +58,19 @@
                         <?php
                             $url = ''; 
                             for($i=0; $i < count($link); $i++) {
-                                $url .= $link[$i]
+                                if ($i == count($link) - 3 || $i == count($link) - 2) {
+                                    $url .= '/'.$link[$i];    
+                                }
                             } 
                         ?>
-                        <a href="{{ url('/content/berita') }}"><strong><i class="fa fa-arrow-left"></i> Kembali ke halaman sebelumnya</strong></a>
+                        <a href="{{ url($url) }}"><strong><i class="fa fa-arrow-left"></i> Kembali ke halaman sebelumnya</strong></a>
                         <h3 class="box-title">Hak Akses: {{ $pagename }}</h3> 
                         <div class="table-responsive">
                             <table id="myTable" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Level</th>
-                                        <th>Nama</th>
+                                        <th>(ID) Nama</th>
                                         <th>zviw</th>
                                         <th>zadd</th>
                                         <th>zupd</th>
@@ -107,36 +109,36 @@
                                 </div> -->
 
                                 <div class="form-group">
-                                    <label for="modal_update_zviw" class="col-sm-3 control-label"> View </label>
-                                    <div class="col-sm-1">
+                                    <label for="modal_update_zviw" class="col-md-2 control-label"> View </label>
+                                    <div class="col-md-1">
                                         <label><input type="checkbox" name="zviw" id="modal_update_zviw" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="modal_update_zadd" class="col-sm-3 control-label"> Add </label>
-                                    <div class="col-sm-1">
+                                    <label for="modal_update_zadd" class="col-md-2 control-label"> Add </label>
+                                    <div class="col-md-1">
                                         <label><input type="checkbox" name="zadd" id="modal_update_zadd" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="modal_update_zupd" class="col-sm-3 control-label"> Update </label>
-                                    <div class="col-sm-1">
+                                    <label for="modal_update_zupd" class="col-md-2 control-label"> Update </label>
+                                    <div class="col-md-1">
                                         <label><input type="checkbox" name="zupd" id="modal_update_zupd" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="modal_update_zdel" class="col-sm-3 control-label"> Delete </label>
-                                    <div class="col-sm-1">
+                                    <label for="modal_update_zdel" class="col-md-2 control-label"> Delete </label>
+                                    <div class="col-md-1">
                                         <label><input type="checkbox" name="zdel" id="modal_update_zdel" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="modal_update_zapr" class="col-sm-3 control-label"> Special </label>
-                                    <div class="col-sm-1">
+                                    <label for="modal_update_zapr" class="col-md-2 control-label"> Approval </label>
+                                    <div class="col-md-1">
                                         <label><input type="checkbox" name="zapr" id="modal_update_zapr" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
