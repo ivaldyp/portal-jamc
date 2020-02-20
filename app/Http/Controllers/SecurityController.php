@@ -108,6 +108,16 @@ class SecurityController extends Controller
 		$this->checkSessionTime();
 		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
 
+		$namecheck = Sec_access::
+						where('idgroup', $request->idgroup)
+						->get();
+
+		if (count($namecheck) > 0) {
+			return redirect('/security/groupuser')
+					->with('message', 'Grup user '.$request->idgroup.' sudah ada di database. Harap ganti nama.')
+					->with('msg_num', 2);
+		}
+
 		$query = Sec_access::
 					where('idgroup', 'SUPERUSER')
 					->orderBy('idtop')
@@ -121,7 +131,6 @@ class SecurityController extends Controller
 			]);
 		}
 
-		Sec_access::insert($result);
 		if (Sec_access::insert($result)) {
 			return redirect('/security/groupuser')
 					->with('message', 'Grup user '.$request->idgroup.' berhasil ditambah')
@@ -130,9 +139,7 @@ class SecurityController extends Controller
 			return redirect('/security/groupuser')
 					->with('message', 'Grup user '.$request->idgroup.' gagal ditambah')
 					->with('msg_num', 2);
-		}
-
-		
+		}	
 	}
 
 	public function formupdategrup(Request $request)

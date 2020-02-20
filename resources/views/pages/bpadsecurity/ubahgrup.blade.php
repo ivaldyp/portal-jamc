@@ -195,9 +195,6 @@
                 if ($el.data('zapr') == 'y') {
                     $("#modal_update_zapr").prop("checked", true);
                 }
-
-
-                // alert($el.data('idgroup'));
             });
         });
     </script>

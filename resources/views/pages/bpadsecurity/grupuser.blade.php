@@ -56,7 +56,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     @if(Session::has('message'))
-                        <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
+                        <div class="alert <?php if(Session::get('msg_num') == 1) { ?>alert-success<?php } else { ?>alert-danger<?php } ?> alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
                     @endif
                 </div>
             </div>
@@ -136,6 +136,7 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
+    <!-- jQuery -->
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -148,4 +149,12 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable( {
+                "pagingType": "full_numbers",
+            });
+        });
+    </script>
 @endsection
