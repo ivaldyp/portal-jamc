@@ -53,10 +53,18 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    @if(Session::has('message'))
+                        <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
+                    @endif
+                </div>
+            </div>
             <div class="row ">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="white-box">
+                        <button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
                         <div class="table-responsive">
                             <table id="myTable" class="table table-hover">
                                 <thead>
@@ -90,6 +98,30 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modal-create">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form method="POST" action="/bpadwebs/security/form/tambahgrup" class="form-horizontal">
+                        @csrf
+                            <div class="modal-header">
+                                <h4 class="modal-title"><b>Tambah Grup</b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="modal_insert_idgroup" class="col-lg-3 control-label"> Nama </label>
+                                    <div class="col-lg-8">
+                                        <input type="text" name="idgroup" id="modal_insert_idgroup" class="form-control" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

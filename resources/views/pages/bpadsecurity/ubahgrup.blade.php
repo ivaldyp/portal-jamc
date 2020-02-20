@@ -103,40 +103,35 @@
                                 <div class="form-group">
                                     <label for="modal_update_zviw" class="col-sm-3 control-label"> View </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zviw" value="1" id="modal_update_zviw" style="width: 30px; height: 30px; top: 0px"></label>
-                                        <label><input type="hidden" name="zviw_hidden" value="0" id="modal_update_zviw_hidden" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zviw" id="modal_update_zviw" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zadd" class="col-sm-3 control-label"> Add </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zadd" value="1" id="modal_update_zadd" style="width: 30px; height: 30px; top: 0px"></label>
-                                        <label><input type="hidden" name="zadd_hidden" value="0" id="modal_update_zadd_hidden" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zadd" id="modal_update_zadd" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zupd" class="col-sm-3 control-label"> Update </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zupd" value="1" id="modal_update_zupd" style="width: 30px; height: 30px; top: 0px"></label>
-                                        <label><input type="hidden" name="zupd_hidden" value="0" id="modal_update_zupd_hidden" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zupd" id="modal_update_zupd" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zdel" class="col-sm-3 control-label"> Delete </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zdel" value="1" id="modal_update_zdel" style="width: 30px; height: 30px; top: 0px"></label>
-                                        <label><input type="hidden" name="zdel_hidden" value="0" id="modal_update_zdel_hidden" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zdel" id="modal_update_zdel" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="modal_update_zapr" class="col-sm-3 control-label"> Special </label>
                                     <div class="col-sm-1">
-                                        <label><input type="checkbox" name="zapr" value="1" id="modal_update_zapr" style="width: 30px; height: 30px; top: 0px"></label>
-                                        <label><input type="hidden" name="zapr_hidden" value="0" id="modal_update_zapr_hidden" style="width: 30px; height: 30px; top: 0px"></label>
+                                        <label><input type="checkbox" name="zapr" id="modal_update_zapr" style="width: 30px; height: 30px; top: 0px"></label>
                                     </div>
                                 </div>
 

@@ -72,6 +72,7 @@ class SecurityController extends Controller
 
 		$groups = Sec_access::
 					distinct('idgroup')
+					->orderBy('idgroup')
 					->get('idgroup');
 
 		return view('pages.bpadsecurity.grupuser')
@@ -102,30 +103,60 @@ class SecurityController extends Controller
 				->with('groups', $groups);
 	}
 
+	public function forminsertgrup(Request $request)
+	{
+		$this->checkSessionTime();
+		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
+
+		$query = Sec_access::
+					where('idgroup', 'SUPERUSER')
+					->orderBy('idtop')
+					->get();
+
+		$result = array();
+		foreach ($query as $key => $data) {
+			array_push($result, [
+				'idgroup' => strtoupper($request->idgroup),
+				'idtop' => $data['idtop'],
+			]);
+		}
+
+		Sec_access::insert($result);
+		if (Sec_access::insert($result)) {
+			return redirect('/security/groupuser')
+					->with('message', 'Grup user '.$request->idgroup.' berhasil ditambah')
+					->with('msg_num', 1);
+		} else {
+			return redirect('/security/groupuser')
+					->with('message', 'Grup user '.$request->idgroup.' gagal ditambah')
+					->with('msg_num', 2);
+		}
+
+		
+	}
+
 	public function formupdategrup(Request $request)
 	{
 		$this->checkSessionTime();
 		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
 
-		if (!(isset($request->zviw))) {
-			$zviw = 0;
-		} else {
-			$zviw = 1;
-		}
+		!(isset($request->zviw)) ? $zviw = '' : $zviw = 'y';
+		!(isset($request->zadd)) ? $zadd = '' : $zadd = 'y';
+		!(isset($request->zupd)) ? $zupd = '' : $zupd = 'y';
+		!(isset($request->zdel)) ? $zdel = '' : $zdel = 'y';
+		!(isset($request->zapr)) ? $zapr = '' : $zapr = 'y';
 
-		!(isset($request->zviw)) ? $zviw = 0 : $zviw = 1;
-		!(isset($request->zadd)) ? $zadd = 0 : $zadd = 1;
-		!(isset($request->zupd)) ? $zupd = 0 : $zupd = 1;
-		!(isset($request->zdel)) ? $zdel = 0 : $zdel = 1;
-		!(isset($request->zapr)) ? $zapr = 0 : $zapr = 1;
+		$query = Sec_access::
+					where('idtop', $request->idtop)
+					->where('idgroup', $request->idgroup)
+					->update([
+						'zviw' => $zviw,
+						'zadd' => $zadd,
+						'zupd' => $zupd,
+						'zdel' => $zdel,
+						'zapr' => $zapr,
+					]);
 
-		var_dump($zviw, $zadd);
-		die(); 
-
-		return view('pages.bpadsecurity.ubahgrup')
-				->with('access', $access)
-				->with('pagename', $pagename)
-				->with('menus', $menus)
-				->with('groups', $groups);
+		return redirect('/security/groupuser')->with('message', 'Grup user '.$request->idgroup.' berhasil diubah');
 	}
 }
