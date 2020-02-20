@@ -79,10 +79,10 @@
 
   $(document).ready(function(){
     $('#ex1').zoom({
-      magnify: 0.4,
+      magnify: 0.5,
     });
     $('#ex2').zoom({
-      magnify: 0.4,
+      magnify: 0.5,
     });
     // $('#ex2').zoom({ on:'grab' });
     // $('#ex3').zoom({ on:'click' });      

@@ -13,6 +13,8 @@
     <link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
     <!-- color CSS -->
     <link href="{{ ('/bpadwebs/public/ample/css/colors/blue-dark.css') }}" id="theme" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -146,6 +148,9 @@
     <script src="{{ ('/bpadwebs/public/ample/js/jquery.slimscroll.js') }}"></script>
     <!--Wave Effects -->
     <script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
+    <!-- Sweet-Alert  -->
+    <script src="{{ ('/bpadwebs/public/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ ('/bpadwebs/public/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
