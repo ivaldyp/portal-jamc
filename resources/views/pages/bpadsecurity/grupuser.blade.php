@@ -13,8 +13,6 @@
     <link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
     <!-- color CSS -->
     <link href="{{ ('/bpadwebs/public/ample/css/colors/blue-dark.css') }}" id="theme" rel="stylesheet">
-    <!--alerts CSS -->
-    <link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -91,7 +89,7 @@
                                             </a>
                                             @endif
                                             @if($access['zdel'] == 'y')
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-room"><i class="fa fa-trash"></i></button>
+                                            <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-idgroup="{{ $group['idgroup'] }}"><i class="fa fa-trash"></i></button>
                                             @endif
                                         </td>
                                         @endif
@@ -127,6 +125,26 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modal-delete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="POST" action="/bpadwebs/security/form/hapusgrup" class="form-horizontal">
+                        @csrf
+                            <div class="modal-header">
+                                <h4 class="modal-title"><b>Hapus Grup User</b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4 id="label_delete"></h4>
+                                <input type="hidden" name="idgroup" id="modal_delete_idgroup" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger pull-right">Hapus</button>
+                                <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.container-fluid -->
         <footer class="footer text-center"> 
@@ -148,18 +166,24 @@
     <script src="{{ ('/bpadwebs/public/ample/js/jquery.slimscroll.js') }}"></script>
     <!--Wave Effects -->
     <script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
-    <!-- Sweet-Alert  -->
-    <script src="{{ ('/bpadwebs/public/plugins/bower_components/sweetalert/sweetalert.min.js') }}"></script>
-    <script src="{{ ('/bpadwebs/public/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable( {
-                "pagingType": "full_numbers",
+            $('.btn-delete').on('click', function () {
+                var $el = $(this);      
+                console.log($el.data('idgroup'));
+                $("#label_delete").append('Apakah anda yakin ingin menghapus grup user ' + $el.data('idgroup') + '?');
+                $("#modal_delete_idgroup").val($el.data('idgroup'));
             });
+
+            $("#modal-delete").on("hidden.bs.modal", function () {
+                $("#label_delete").empty();
+            });
+
+            $('#myTable').DataTable();
         });
     </script>
 @endsection

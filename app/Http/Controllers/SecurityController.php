@@ -153,6 +153,30 @@ class SecurityController extends Controller
 		!(isset($request->zdel)) ? $zdel = '' : $zdel = 'y';
 		!(isset($request->zapr)) ? $zapr = '' : $zapr = 'y';
 
+		// if ($zviw == '') {
+		// 	Sec_access::
+		// 			where('idtop', $request->idtop)
+		// 			->where('idgroup', $request->idgroup)
+		// 			->update([
+		// 				'zviw' => '',
+		// 				'zadd' => '',
+		// 				'zupd' => '',
+		// 				'zdel' => '',
+		// 				'zapr' => '',
+		// 			]);
+		// } else {
+		// 	$query = Sec_access::
+		// 			where('idtop', $request->idtop)
+		// 			->where('idgroup', $request->idgroup)
+		// 			->update([
+		// 				'zviw' => $zviw,
+		// 				'zadd' => $zadd,
+		// 				'zupd' => $zupd,
+		// 				'zdel' => $zdel,
+		// 				'zapr' => $zapr,
+		// 			]);
+		// }
+
 		$query = Sec_access::
 					where('idtop', $request->idtop)
 					->where('idgroup', $request->idgroup)
@@ -164,6 +188,22 @@ class SecurityController extends Controller
 						'zapr' => $zapr,
 					]);
 
-		return redirect('/security/groupuser')->with('message', 'Grup user '.$request->idgroup.' berhasil diubah');
+		return redirect('/security/groupuser/ubah?name='.$request->idgroup)
+				->with('message', 'Grup user '.$request->idgroup.' berhasil diubah')
+				->with('msg_num', 1);
+	}
+
+	public function formdeletegrup(Request $request)
+	{
+		$this->checkSessionTime();
+		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
+
+		$query = Sec_access::
+					where('idgroup', $request->idgroup)
+					->delete();
+
+		return redirect('/security/groupuser')
+				->with('message', 'Grup user '.$request->idgroup.' berhasil dihapus')
+				->with('msg_num', 1);
 	}
 }

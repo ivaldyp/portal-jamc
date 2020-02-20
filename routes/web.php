@@ -45,6 +45,7 @@ Route::group(['prefix' => 'security'], function () {
 	Route::get('/groupuser/ubah', 'SecurityController@grupubah');
 	Route::post('/form/tambahgrup', 'SecurityController@forminsertgrup');
 	Route::post('/form/ubahgrup', 'SecurityController@formupdategrup');
+	Route::post('/form/hapusgrup', 'SecurityController@formdeletegrup');
 });
 Auth::routes();
 
