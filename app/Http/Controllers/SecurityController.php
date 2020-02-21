@@ -213,9 +213,9 @@ class SecurityController extends Controller
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
 
 		$idgroup = Sec_access::
-					where('idgroup', 'SUPERUSER')
-					->orderBy('idtop')
-					->get();
+					distinct('idgroup')
+					->orderBy('idgroup', 'asc')
+					->get('idgroup');
 
 		return view('pages.bpadsecurity.tambahuser')
 				->with('access', $access)
@@ -227,8 +227,24 @@ class SecurityController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
 
-		return view('pages.bpadsecurity.tambahuser')
-				->with('access', $access);
+		$data = [
+				'usname' 		=> $request->username,
+				'passid' 		=> md5($request->password),
+				'idgroup' 		=> $request->idgroup,
+				'nama_user'		 => $request->name,
+				'deskripsi_user' => $request->deksripsi_user,
+				'email_user'	=> $request->email_user,
+			];
+
+		if (Sec_logins::insert($data)) {
+			return redirect('/security/manage user')
+					->with('message', 'Grup user '.$request->idgroup.' berhasil ditambah')
+					->with('msg_num', 1);
+		} else {
+			return redirect('/security/manage user')
+					->with('message', 'Grup user '.$request->idgroup.' gagal ditambah')
+					->with('msg_num', 2);
+		}	
 	}
 
 	// ---------------TAMBAH USER---------------- // 
@@ -236,6 +252,14 @@ class SecurityController extends Controller
 	// ------------------------------------------ //
 
 	// ---------------MANAGE USER---------------- // 
+
+	public function manageuser()
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 6);
+
+		return view('pages.bpadsecurity.manageuser');
+	}
 
 	// ---------------MANAGE USER---------------- // 
 

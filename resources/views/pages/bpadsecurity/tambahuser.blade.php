@@ -63,25 +63,79 @@
                 </div>
             </div>
             <div class="row ">
-                <div class="col-md-12">
-                    <div class="white-box">
-                        <form class="form-horizontal" method="POST" action="/bpadwebs/security/form/tambahuser">
-                        @csrf
-                            <div class="form-group">
-                                <label for="idgroup" class="col-lg-2 control-label"><span style="color: red">*</span> Subbidang Peminjam </label>
-                                <div class="col-lg-8">
-                                    <select class="form-control select2" name="idgroup" id="idgroup" required>
-                                        <option value="AK">Alaska</option>
-                                        <option value="HI">Hawaii</option>
-                                        <option value="SC">South Carolina</option>
-                                        <option value="VT">Vermont</option>
-                                        <option value="VA">Virginia</option>
-                                        <option value="WV">West Virginia</option>
-                                    </select>
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <!-- <div class="white-box"> -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Tambah User</div>
+                            <form class="form-horizontal" method="POST" action="/bpadwebs/security/form/tambahuser" data-toggle="validator">
+                            @csrf   
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label for="name" class="col-md-2 control-label"><span style="color: red">*</span> Nama </label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="name" name="name" autocomplete="off" data-error="Masukkan nama pengguna" required>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="deksripsi_user" class="col-md-2 control-label"> Deskripsi </label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="deksripsi_user" name="deksripsi_user" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email_user" class="col-md-2 control-label"> Email </label>
+                                            <div class="col-md-8">
+                                                <input type="email" class="form-control" id="email_user" name="email_user" autocomplete="off" data-error="Masukkan format email yang benar">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="idgroup" class="col-md-2 control-label"><span style="color: red">*</span> Grup User </label>
+                                            <div class="col-md-8">
+                                                <select class="form-control select2" name="idgroup" id="idgroup" required>
+                                                    <option value="<?php echo NULL; ?>" selected disabled>-- Pilih Grup --</option>
+                                                    @foreach($idgroup as $group)
+                                                        <option> {{ $group['idgroup'] }} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="username" class="col-md-2 control-label"><span style="color: red">*</span> Username </label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="username" name="username" autocomplete="off" data-error="Masukkan username" required>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" class="col-md-2 control-label"><span style="color: red">*</span> Password </label>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control" id="password" name="password" autocomplete="off" data-error="Masukkan password" required>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="conf_password" class="col-md-2 control-label"><span style="color: red">*</span> Konfirmasi Password </label>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control" id="conf_password" name="conf_password" autocomplete="off" data-match="#password" data-match-error="Whoops, these don't match" required>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                        <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
+                                        <div class="clearfix"></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </select>
-                    </div>
+                            </form>
+                        </div>
+
+                        
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
@@ -102,6 +156,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
+    <script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
 
     <script>
         $(document).ready(function() {
