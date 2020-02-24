@@ -225,24 +225,25 @@ class SecurityController extends Controller
 	public function forminsertuser(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
+		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
 
 		$data = [
 				'usname' 		=> $request->username,
-				'passid' 		=> md5($request->password),
+				'passmd5' 		=> md5($request->password),
 				'idgroup' 		=> $request->idgroup,
 				'nama_user'		 => $request->name,
-				'deskripsi_user' => $request->deksripsi_user,
+				'deskripsi_user' => $request->deskripsi_user,
 				'email_user'	=> $request->email_user,
+				'createdate'	=> date("Y-m-d H:i:s")
 			];
 
 		if (Sec_logins::insert($data)) {
 			return redirect('/security/manage user')
-					->with('message', 'Grup user '.$request->idgroup.' berhasil ditambah')
+					->with('message', 'User '.$request->username.' berhasil ditambah')
 					->with('msg_num', 1);
 		} else {
 			return redirect('/security/manage user')
-					->with('message', 'Grup user '.$request->idgroup.' gagal ditambah')
+					->with('message', 'User '.$request->username.' gagal ditambah')
 					->with('msg_num', 2);
 		}	
 	}
@@ -258,7 +259,54 @@ class SecurityController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 6);
 
-		return view('pages.bpadsecurity.manageuser');
+		$users = Sec_logins::
+					orderBy('idgroup')
+					->orderBy('usname')
+					->get();	
+
+		$idgroup = Sec_access::
+					distinct('idgroup')
+					->orderBy('idgroup', 'asc')
+					->get('idgroup');
+
+		return view('pages.bpadsecurity.manageuser')
+				->with('access', $access)
+				->with('idgroup', $idgroup)
+				->with('users', $users);
+	}
+
+	public function formupdateuser(Request $request)
+	{
+		$this->checkSessionTime();
+		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 6);
+
+		$query = Sec_logins::
+					where('ids', $request->ids)
+					->update([
+						'usname' => $request->usname,
+						'nama_user' => $request->nama_user,
+						'deskripsi_user' => $request->deskripsi_user,
+						'email_user' => $request->email_user,
+						'idgroup' => $request->idgroup,
+					]);
+
+		return redirect('/security/manage user')
+					->with('message', 'User '.$request->usname.' berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function formdeleteuser(Request $request)
+	{
+		$this->checkSessionTime();
+		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 6);
+
+		$query = Sec_logins::
+					where('usname', $request->usname)
+					->delete();
+
+		return redirect('/security/manage user')
+					->with('message', 'User '.$request->usname.' berhasil dihapus')
+					->with('msg_num', 1);
 	}
 
 	// ---------------MANAGE USER---------------- // 

@@ -77,7 +77,7 @@
                                         <th>zdel</th>
                                         <th>zapr</th>
                                         <th>zket</th>
-                                        @if($access['zupd'] == 'y' && $access['zdel'] == 'y')
+                                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
                                         <th>Aksi</th>
                                         @endif
                                     </tr>

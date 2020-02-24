@@ -52,6 +52,8 @@ Route::group(['prefix' => 'security'], function () {
 
 	Route::get('/manage user', 'SecurityController@manageuser');
 	Route::post('/form/tambahuser', 'SecurityController@forminsertuser');
+	Route::post('/form/ubahuser', 'SecurityController@formupdateuser');
+	Route::post('/form/hapususer', 'SecurityController@formdeleteuser');
 });
 Auth::routes();
 

@@ -80,9 +80,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="deksripsi_user" class="col-md-2 control-label"> Deskripsi </label>
+                                            <label for="deskripsi_user" class="col-md-2 control-label"> Deskripsi </label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" id="deksripsi_user" name="deksripsi_user" autocomplete="off">
+                                                <input type="text" class="form-control" id="deskripsi_user" name="deskripsi_user" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -113,7 +113,7 @@
                                         <div class="form-group">
                                             <label for="password" class="col-md-2 control-label"><span style="color: red">*</span> Password </label>
                                             <div class="col-md-8">
-                                                <input type="password" class="form-control" id="password" name="password" autocomplete="off" data-error="Masukkan password" required>
+                                                <input type="password" class="form-control" id="password" name="password" autocomplete="off" data-minlength="6" data-error="Minimal 6 Karakter" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>

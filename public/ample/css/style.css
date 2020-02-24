@@ -2142,7 +2142,7 @@ table.dataTable thead .sorting:after {
   outline: thin dotted;
 }
 .checkbox input[type="checkbox"]:checked + label::after {
-  content: "\f00c";
+  content: "\f00d";
   font-family: 'FontAwesome';
 }
 .checkbox input[type="checkbox"]:disabled + label::before {

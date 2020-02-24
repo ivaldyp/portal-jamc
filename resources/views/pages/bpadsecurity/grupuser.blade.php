@@ -71,7 +71,7 @@
                                     <tr>
                                         <th class="col-md-1">No</th>
                                         <th>Grup User</th>
-                                        @if($access['zupd'] == 'y' && $access['zdel'] == 'y')
+                                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
                                         <th>Aksi</th>
                                         @endif
                                     </tr>
@@ -175,7 +175,7 @@
             $('.btn-delete').on('click', function () {
                 var $el = $(this);      
                 console.log($el.data('idgroup'));
-                $("#label_delete").append('Apakah anda yakin ingin menghapus grup user ' + $el.data('idgroup') + '?');
+                $("#label_delete").append('Apakah anda yakin ingin menghapus grup user <b>' + $el.data('idgroup') + '</b>?');
                 $("#modal_delete_idgroup").val($el.data('idgroup'));
             });
 
