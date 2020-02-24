@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Cookie;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;

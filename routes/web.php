@@ -23,13 +23,11 @@ Route::get('/', 'LandingController@index');
 Route::get('/home', 'HomeController@index');
 Route::POST('/mail', 'HomeController@feedback');
 
+// ------------- BPAD CMS -------------
+
 Route::get('/profil', function () {
     return view('pages.profil');
 });
-
-// Route::get('/home', function () {
-//     return view('layouts.masterhome');
-// });
 
 Route::group(['prefix' => 'content'], function () {
 	Route::get('/berita', 'ContentController@berita_all');
@@ -38,6 +36,12 @@ Route::group(['prefix' => 'content'], function () {
 	Route::get('/foto/{id}', 'ContentController@foto_open');
 	Route::get('/video', 'ContentController@video_all');
 	Route::get('/video/{id}', 'ContentController@video_open');
+});
+
+// ------------- BPAD DT --------------
+
+Route::group(['prefix' => 'cms'], function () {
+	Route::get('/menu', 'CmsController@menuall');
 });
 
 Route::group(['prefix' => 'security'], function () {
