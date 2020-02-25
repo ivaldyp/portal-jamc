@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Content_tb;
-use App\Subkategori;
+use App\Glo_subkategori;
 
 session_start();
 
@@ -85,7 +85,7 @@ class ContentController extends Controller
                     ->paginate(10);
         }
         
-        $foto_kategori = Subkategori::
+        $foto_kategori = Glo_subkategori::
                         where('idkat', 5)
                         ->orderBy('urut_subkat', 'asc')
                         ->get();

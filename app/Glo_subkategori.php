@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subkategori extends Model
+class Glo_subkategori extends Model
 {
 	protected $connection = 'sqlsrv';
     protected $table = "glo_subkategori";

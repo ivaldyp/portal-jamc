@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Traits\SessionCheckTraits;
 
+use App\Glo_kategori;
 use App\Sec_access;
 use App\Sec_menu;
 
@@ -22,6 +23,8 @@ class CmsController extends Controller
     {
         $this->middleware('auth');
     }
+
+    // ------------------ MENU ------------------ //
 
     public function display_roles($query, $idgroup, $access, $parent, $level = 0)
     {
@@ -167,6 +170,152 @@ class CmsController extends Controller
     }
 
     public function formdeletemenu(Request $request)
+    {
+        $this->checkSessionTime();
+
+        // hapus semua child menu dari tabel access
+        $childids = Sec_menu::
+                    where('sao', $request->ids)
+                    ->get('ids');
+
+        foreach ($childids as $id) {
+            Sec_access::
+            where('idtop', $id['ids'])
+            ->delete();
+        }
+
+        // hapus semua child menu dari tabel menu
+        $deletechild = Sec_menu::
+                    where('sao', $request->ids)
+                    ->delete();
+
+        // hapus menu dari tabel access
+        $deletechildaccess = Sec_access::
+                                where('idtop', $request->ids)
+                                ->delete();
+
+        // hapus menu dari tabel menu
+        $delete = Sec_menu::
+                    where('ids', $request->ids)
+                    ->delete();
+
+        $cekchild = Sec_menu::
+                    where('sao', $request->sao)
+                    ->count();
+
+        if ($cekchild == 0) {
+            $updatechild = Sec_menu::
+                            where('ids', $request->sao)
+                            ->update([
+                                'child' => 0,
+                            ]);
+        }
+
+        return redirect('/cms/menu')
+                    ->with('message', 'Menu '.$request->desk.' berhasil dihapus')
+                    ->with('msg_num', 1);
+    }
+
+    // ------------------ MENU ------------------ //
+
+    // ------------------------------------------ //
+
+    // ---------------- KATEGORI ---------------- //
+
+    public function kategoriall(Request $request)
+    {
+        $this->checkSessionTime();
+        $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 28);
+
+        $kategoris = Glo_kategori::
+                        orderBy('ids')
+                        ->get();
+        
+        return view('pages.bpadcms.kategori')
+                ->with('access', $access)
+                ->with('kategoris', $kategoris);
+    }
+
+    public function forminsertkategori(Request $request)
+    {
+        $this->checkSessionTime();
+
+        $maxids = Sec_menu::max('ids');
+        $urut = intval(Sec_menu::where('sao', $request->sao)
+                ->max('urut'));
+
+        if ($request->urut) {
+            $urut = $request->urut;
+        } else {
+            if (is_null($urut)) {
+                $urut = 1;
+            } else {
+                $urut = $urut + 1;
+            }
+        }
+
+        $request->sao == 0 ? $sao = '' : $sao = $request->sao;
+
+        $insert = [
+                'desk'      => $request->desk,
+                'zket'      => $request->zket,
+                'sao'       => $sao,
+                'urut'      => $urut,
+                'child'     => 0,
+                'iconnew'   => $request->iconnew,
+                'urlnew'    => $request->urlnew,
+                'tampilnew' => $request->tampilnew
+            ];
+
+        if (Sec_menu::insert($insert) && $sao > 0) {
+            $query = Sec_menu::
+                        where('ids', $sao)
+                        ->update([
+                            'child' => 1,
+                        ]);
+        }
+
+        $idgroups = Sec_access::
+                    distinct('idgroup')
+                    ->orderBy('idgroup', 'asc')
+                    ->get('idgroup');
+
+        $result = array();
+        $thisid = Sec_menu::max('ids');
+        foreach ($idgroups as $key => $group) {
+            array_push($result, [
+                'idgroup' => $group['idgroup'],
+                'idtop' => $thisid,
+            ]);
+        }
+        Sec_access::insert($result);
+
+        return redirect('/cms/menu')
+                    ->with('message', 'Menu '.$request->desk.' berhasil ditambah')
+                    ->with('msg_num', 1);
+    }
+
+    public function formupdatekategori(Request $request)
+    {
+        $this->checkSessionTime();
+
+        Sec_menu::
+            where('ids', $request->ids)
+            ->update([
+                'desk'      => $request->desk,
+                'zket'      => $request->zket,
+                'urut'      => $request->urut,
+                'iconnew'   => $request->iconnew,
+                'urlnew'    => $request->urlnew,
+                'tampilnew' => $request->tampilnew
+            ]);
+
+        return redirect('/cms/menu')
+                    ->with('message', 'Menu '.$request->desk.' berhasil diubah')
+                    ->with('msg_num', 1);
+    }
+
+    public function formdeletekategori(Request $request)
     {
         $this->checkSessionTime();
 

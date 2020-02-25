@@ -45,6 +45,11 @@ Route::group(['prefix' => 'cms'], function () {
 	Route::post('/form/tambahmenu', 'CmsController@forminsertmenu');
 	Route::post('/form/ubahmenu', 'CmsController@formupdatemenu');
 	Route::post('/form/hapusmenu', 'CmsController@formdeletemenu');
+
+	Route::get('/kategori', 'CmsController@kategoriall');
+	Route::post('/form/tambahkategori', 'CmsController@forminsertkategori');
+	Route::post('/form/ubahkategori', 'CmsController@formupdatekategori');
+	Route::post('/form/hapuskategori', 'CmsController@formdeletekategori');
 });
 
 Route::group(['prefix' => 'security'], function () {
