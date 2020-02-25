@@ -55,21 +55,18 @@
             <div class="row ">
                 <div class="col-md-12">
                     <div class="white-box">
-                        <?php
-                            $url = ''; 
-                            for($i=0; $i < count($link); $i++) {
-                                if ($i == count($link) - 3 || $i == count($link) - 2) {
-                                    $url .= '/'.$link[$i];    
-                                }
-                            } 
-                        ?>
+                        <a href="/bpadwebs/cms/form/tambahmenu"><button class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a>
                         <div class="table-responsive">
                             <table id="myTable" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Level</th>
                                         <th>ID</th>
-                                        <th>(ID) Nama</th>
+                                        <th>Nama</th>
+                                        <th>Icon</th>
+                                        <th>Url</th>
+                                        <th class="text-center">Urut</th>
+                                        <th class="text-center">Child?</th>
                                         @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
                                         <th>Aksi</th>
                                         @endif

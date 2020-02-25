@@ -25,8 +25,9 @@ class CmsController extends Controller
     public function display_roles($query, $idgroup, $access, $parent, $level = 0)
     {
         $query = Sec_menu::
-                where('sec_menu.sao', $parent)
-                ->orderBy('sec_menu.urut')
+                where('sao', $parent)
+                ->orderBy('urut')
+                ->orderBy('ids')
                 ->get();
 
         $result = '';
@@ -34,10 +35,14 @@ class CmsController extends Controller
         if (count($query) > 0) {
             foreach ($query as $menu) {
             	$padding = ($level * 20) + 8;
-                $result .= '<tr>
+                $result .= '<tr style="background-color:">
                 				<td class="col-md-1">'.$level.'</td>
                 				<td class="col-md-1">'.$menu['ids'].'</td>
-		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">'.$menu['desk'].'</td>
+		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">'.$menu['desk'].' '.(($menu['child'] == 1)? '<i class="fa fa-arrow-down"></i>' : '').'</td>
+		        				<td>'.($menu['iconnew'] ? $menu['iconnew'] : '-').'</td>
+		        				<td>'.($menu['urlnew'] ? $menu['urlnew'] : '-').'</td>
+		        				<td class="text-center">'.intval($menu['urut']).'</td>
+		        				<td class="col-md-1 text-center">'.(($menu['child'] == 1)? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
 		        				
 		        				'.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
 

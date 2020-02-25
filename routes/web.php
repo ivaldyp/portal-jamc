@@ -42,6 +42,7 @@ Route::group(['prefix' => 'content'], function () {
 
 Route::group(['prefix' => 'cms'], function () {
 	Route::get('/menu', 'CmsController@menuall');
+	Route::post('/form/tambahmenu', 'CmsController@forminsertmenu');
 });
 
 Route::group(['prefix' => 'security'], function () {
