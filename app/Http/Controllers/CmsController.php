@@ -53,7 +53,7 @@ class CmsController extends Controller
 		        				'.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
 			        				'<td>
 			        					'.(($access['zupd'] == 'y') ? 
-				        					'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" ><i class="fa fa-edit"></i></button>'
+				        					'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" data-tampilnew="'.$menu['tampilnew'].'"><i class="fa fa-edit"></i></button>'
 			        					: '').'
 			        					'.(($access['zdel'] == 'y') ? 
 				        					'<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="'.$menu['ids'].'" data-sao="'.$menu['sao'].'" data-desk="'.$menu['desk'].'"><i class="fa fa-trash"></i></button>'
@@ -125,6 +125,25 @@ class CmsController extends Controller
 
         return redirect('/cms/menu')
                     ->with('message', 'Menu '.$request->desk.' berhasil ditambah')
+                    ->with('msg_num', 1);
+    }
+
+    public function formupdatemenu(Request $request)
+    {
+        $this->checkSessionTime();
+
+        Sec_menu::
+            where('ids', $request->ids)
+            ->update([
+                'desk'      => $request->desk,
+                'urut'      => $request->urut,
+                'iconnew'   => $request->iconnew,
+                'urlnew'    => $request->urlnew,
+                'tampilnew' => $request->tampilnew
+            ]);
+
+        return redirect('/cms/menu')
+                    ->with('message', 'Menu '.$request->desk.' berhasil diubah')
                     ->with('msg_num', 1);
     }
 
