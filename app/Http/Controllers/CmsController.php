@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Traits\SessionCheckTraits;
 
+use App\Sec_access;
 use App\Sec_menu;
 
 session_start();
@@ -39,7 +40,8 @@ class CmsController extends Controller
                 				<td class="col-md-1">'.$level.'</td>
                 				<td class="col-md-1">'.$menu['ids'].'</td>
 		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">'.$menu['desk'].' '.(($menu['child'] == 1)? '<i class="fa fa-arrow-down"></i>' : '').'</td>
-		        				<td>'.($menu['iconnew'] ? $menu['iconnew'] : '-').'</td>
+		        				<td>'.($menu['zket'] ? $menu['zket'] : '-').'</td>
+                                <td>'.($menu['iconnew'] ? $menu['iconnew'] : '-').'</td>
 		        				<td>'.($menu['urlnew'] ? $menu['urlnew'] : '-').'</td>
 		        				<td class="text-center">'.intval($menu['urut']).'</td>
 		        				<td class="text-center">'.(($menu['child'] == 1)? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
@@ -53,7 +55,7 @@ class CmsController extends Controller
 		        				'.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
 			        				'<td>
 			        					'.(($access['zupd'] == 'y') ? 
-				        					'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" data-tampilnew="'.$menu['tampilnew'].'"><i class="fa fa-edit"></i></button>'
+				        					'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" data-tampilnew="'.$menu['tampilnew'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>'
 			        					: '').'
 			        					'.(($access['zdel'] == 'y') ? 
 				        					'<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="'.$menu['ids'].'" data-sao="'.$menu['sao'].'" data-desk="'.$menu['desk'].'"><i class="fa fa-trash"></i></button>'
@@ -107,6 +109,7 @@ class CmsController extends Controller
 
         $insert = [
                 'desk'      => $request->desk,
+                'zket'      => $request->zket,
                 'sao'       => $sao,
                 'urut'      => $urut,
                 'child'     => 0,
@@ -123,6 +126,21 @@ class CmsController extends Controller
                         ]);
         }
 
+        $idgroups = Sec_access::
+                    distinct('idgroup')
+                    ->orderBy('idgroup', 'asc')
+                    ->get('idgroup');
+
+        $result = array();
+        $thisid = Sec_menu::max('ids');
+        foreach ($idgroups as $key => $group) {
+            array_push($result, [
+                'idgroup' => $group['idgroup'],
+                'idtop' => $thisid,
+            ]);
+        }
+        Sec_access::insert($result);
+
         return redirect('/cms/menu')
                     ->with('message', 'Menu '.$request->desk.' berhasil ditambah')
                     ->with('msg_num', 1);
@@ -136,6 +154,7 @@ class CmsController extends Controller
             where('ids', $request->ids)
             ->update([
                 'desk'      => $request->desk,
+                'zket'      => $request->zket,
                 'urut'      => $request->urut,
                 'iconnew'   => $request->iconnew,
                 'urlnew'    => $request->urlnew,
@@ -151,6 +170,28 @@ class CmsController extends Controller
     {
         $this->checkSessionTime();
 
+        // hapus semua child menu dari tabel access
+        $childids = Sec_menu::
+                    where('sao', $request->ids)
+                    ->get('ids');
+
+        foreach ($childids as $id) {
+            Sec_access::
+            where('idtop', $id['ids'])
+            ->delete();
+        }
+
+        // hapus semua child menu dari tabel menu
+        $deletechild = Sec_menu::
+                    where('sao', $request->ids)
+                    ->delete();
+
+        // hapus menu dari tabel access
+        $deletechildaccess = Sec_access::
+                                where('idtop', $request->ids)
+                                ->delete();
+
+        // hapus menu dari tabel menu
         $delete = Sec_menu::
                     where('ids', $request->ids)
                     ->delete();

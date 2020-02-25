@@ -70,6 +70,7 @@
 										<th>Level</th>
 										<th>ID</th>
 										<th>Nama</th>
+										<th>Ket</th>
 										<th>Icon</th>
 										<th>Url</th>
 										<th class="text-center">Urut</th>
@@ -105,6 +106,12 @@
 									<div class="col-md-8">
 										<input type="text" name="desk" id="modal_insert_desk" class="form-control" data-error="Masukkan nama" autocomplete="off" required>
 										<div class="help-block with-errors"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="desk" class="col-md-2 control-label"> Keterangan </label>
+									<div class="col-md-8">
+										<textarea name="zket" id="modal_insert_zket" class="form-control" autocomplete="off"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
@@ -176,6 +183,12 @@
 									<div class="col-md-8">
 										<input type="text" name="desk" id="modal_update_desk" class="form-control" data-error="Masukkan nama" autocomplete="off" required>
 										<div class="help-block with-errors"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="desk" class="col-md-2 control-label"> Keterangan </label>
+									<div class="col-md-8">
+										<textarea name="zket" id="modal_update_zket" class="form-control" autocomplete="off"></textarea>
 									</div>
 								</div>
 								<!-- <div class="form-group">
@@ -294,6 +307,7 @@
 
 				$("#modal_update_ids").val($el.data('ids'));
 				$("#modal_update_desk").val($el.data('desk'));
+				$("#modal_update_zket").val($el.data('zket'));
 				$("#modal_update_urut").val($el.data('urut'));
 				$("#modal_update_iconnew").val($el.data('iconnew'));
 				$("#modal_update_urlnew").val($el.data('urlnew'));

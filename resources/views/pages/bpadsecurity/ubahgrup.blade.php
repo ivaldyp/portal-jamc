@@ -70,7 +70,8 @@
                                 <thead>
                                     <tr>
                                         <th>Level</th>
-                                        <th>(ID) Nama</th>
+                                        <th>ID</th>
+                                        <th>Nama</th>
                                         <th>zviw</th>
                                         <th>zadd</th>
                                         <th>zupd</th>

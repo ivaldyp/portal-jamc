@@ -25,14 +25,8 @@ class SecurityController extends Controller
 	public function display_roles($query, $idgroup, $access, $parent, $level = 0)
     {
         $query = Sec_menu::
-                join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
-                ->where('sec_menu.tipe', 'l')
-                ->whereRaw('LEN(sec_menu.urut) = 1')
-                ->where('sec_access.idgroup', $idgroup)
-                // ->where('sec_access.zviw', 'y')
-                ->where('sec_menu.sao', $parent)
-                ->orderByRaw('CONVERT(INT, sec_menu.sao)')
-                ->orderBy('sec_menu.urut')
+                where('sao', $parent)
+                ->orderBy('urut')
                 ->get();
 
         $result = '';
@@ -42,7 +36,8 @@ class SecurityController extends Controller
             	$padding = ($level * 20) + 8;
                 $result .= '<tr>
                 				<td class="col-md-1">'.$level.'</td>
-		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">('.$menu['ids'].') '.$menu['desk'].'</td>
+                				<td>'.$menu['ids'].'</td>
+		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">'.$menu['desk'].' '.(($menu['child'] == 1)? '<i class="fa fa-arrow-down"></i>' : '').'</td>
 		        				<td>'.(($menu['zviw'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
 		        				<td>'.(($menu['zadd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
 		        				<td>'.(($menu['zupd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
