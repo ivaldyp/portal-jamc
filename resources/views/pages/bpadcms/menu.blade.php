@@ -52,10 +52,17 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    @if(Session::has('message'))
+                        <div class="alert <?php if(Session::get('msg_num') == 1) { ?>alert-success<?php } else { ?>alert-danger<?php } ?> alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
+                    @endif
+                </div>
+            </div>
             <div class="row ">
                 <div class="col-md-12">
                     <div class="white-box">
-                        <a href="/bpadwebs/cms/form/tambahmenu"><button class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a>
+                        <button class="btn btn-info btn-insert" style="margin-bottom: 10px" data-toggle="modal" data-target="#modal-insert" data-ids="0" data-desk="Tidak Ada">Tambah Level 0</button>
                         <div class="table-responsive">
                             <table id="myTable" class="table table-hover">
                                 <thead>
@@ -66,7 +73,11 @@
                                         <th>Icon</th>
                                         <th>Url</th>
                                         <th class="text-center">Urut</th>
-                                        <th class="text-center">Child?</th>
+                                        <th class="text-center">Child</th>
+                                        <th class="text-center">Tampil</th>
+                                        @if($access['zadd'] == 'y')
+                                        <th class="text-center">Tambah Anak</th>
+                                        @endif
                                         @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
                                         <th>Aksi</th>
                                         @endif
@@ -80,62 +91,92 @@
                     </div>
                 </div>
             </div>
-            <div id="modal-update" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+            <div id="modal-insert" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <form method="POST" action="/bpadwebs/security/form/ubahgrup" class="form-horizontal">
+                        <form method="POST" action="/bpadwebs/cms/form/tambahmenu" class="form-horizontal" data-toggle="validator">
                         @csrf
                             <div class="modal-header">
-                                <h4 class="modal-title"><b>Ubah Data</b></h4>
+                                <h4 class="modal-title"><b>Tambah Menu</b></h4>
                             </div>
                             <div class="modal-body">
-                                <input type="hidden" name="idtop" id="modal_update_idtop">
-                                <input type="hidden" name="idgroup" id="modal_update_idgroup">
-                                <!-- <div class="form-group">
-                                    <label for="modal_update_usertype_name" class="col-lg-3 control-label"> Jenis Pengguna </label>
-                                    <div class="col-lg-8">
-                                        <input type="text" name="userType_name" id="modal_update_usertype_name" class="form-control" autocomplete="off">
-                                    </div>
-                                </div> -->
-
                                 <div class="form-group">
-                                    <label for="modal_update_zviw" class="col-md-2 control-label"> View </label>
-                                    <div class="col-md-1">
-                                        <label><input type="checkbox" name="zviw" id="modal_update_zviw" style="width: 30px; height: 30px; top: 0px"></label>
+                                    <label for="desk" class="col-md-2 control-label"><span style="color: red">*</span> Nama Menu </label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="desk" id="modal_insert_desk" class="form-control" data-error="Masukkan nama" autocomplete="off" required>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="modal_update_zadd" class="col-md-2 control-label"> Add </label>
-                                    <div class="col-md-1">
-                                        <label><input type="checkbox" name="zadd" id="modal_update_zadd" style="width: 30px; height: 30px; top: 0px"></label>
+                                    <label for="sao" class="col-md-2 control-label"> Parent </label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="sao" id="modal_insert_sao" class="form-control" disabled>
+                                        <input type="hidden" name="sao" id="modal_insert_sao_real" class="form-control">
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="modal_update_zupd" class="col-md-2 control-label"> Update </label>
-                                    <div class="col-md-1">
-                                        <label><input type="checkbox" name="zupd" id="modal_update_zupd" style="width: 30px; height: 30px; top: 0px"></label>
+                                    <label for="urut" class="col-md-2 control-label"> Urut </label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="urut" id="modal_insert_urut" class="form-control" placeholder="Boleh dikosongkan" autocomplete="off">
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="modal_update_zdel" class="col-md-2 control-label"> Delete </label>
-                                    <div class="col-md-1">
-                                        <label><input type="checkbox" name="zdel" id="modal_update_zdel" style="width: 30px; height: 30px; top: 0px"></label>
+                                    <label for="iconnew" class="col-md-2 control-label"> Icon </label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="iconnew" id="modal_insert_iconnew" class="form-control" placeholder="Boleh dikosongkan" autocomplete="off">
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="modal_update_zapr" class="col-md-2 control-label"> Approval </label>
-                                    <div class="col-md-1">
-                                        <label><input type="checkbox" name="zapr" id="modal_update_zapr" style="width: 30px; height: 30px; top: 0px"></label>
+                                    <label for="urlnew" class="col-md-2 control-label"> URL </label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="urlnew" id="modal_insert_urlnew" class="form-control" placeholder="Boleh dikosongkan" autocomplete="off">
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label"><span style="color: red">*</span> Tampilkan? </label>
+                                    <div class="radio-list col-md-8">
+                                        <label class="radio-inline">
+                                            <div class="radio radio-info">
+                                                <input type="radio" name="tampilnew" id="tampil1" value="1" data-error="Pilih salah satu" required>
+                                                <label for="tampil1">Ya</label> 
+                                            </div>
+                                        </label>
+                                        <label class="radio-inline">
+                                            <div class="radio radio-info">
+                                                <input type="radio" name="tampilnew" id="tampil2" value="0   ">
+                                                <label for="tampil2">Tidak </label>
+                                            </div>
+                                        </label>
+                                        <div class="help-block with-errors"></div>  
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="modal-delete" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form method="POST" action="/bpadwebs/cms/form/hapusmenu" class="form-horizontal">
+                        @csrf
+                            <div class="modal-header">
+                                <h4 class="modal-title"><b>Hapus Menu</b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4 id="label_delete"></h4>
+                                <input type="hidden" name="ids" id="modal_delete_ids" value="">
+                                <input type="hidden" name="sao" id="modal_delete_sao" value="">
+                                <input type="hidden" name="desk" id="modal_delete_desk" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger pull-right">Hapus</button>
                                 <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
                             </div>
                         </form>
@@ -165,9 +206,31 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
+
 
     <script>
         $(function () {
+            $('.btn-insert').on('click', function () {
+                var $el = $(this);
+
+                $("#modal_insert_sao").val("("+$el.data('ids')+") - "+$el.data('desk'));
+                $("#modal_insert_sao_real").val($el.data('ids'));
+            });
+
+            $('.btn-delete').on('click', function () {
+                var $el = $(this);
+
+                $("#label_delete").append('Apakah anda yakin ingin menghapus menu <b>' + $el.data('desk') + '</b>?');
+                $("#modal_delete_ids").val($el.data('ids'));
+                $("#modal_delete_sao").val($el.data('sao'));
+                $("#modal_delete_desk").val($el.data('desk'));
+            });
+
+            $("#modal-delete").on("hidden.bs.modal", function () {
+                $("#label_delete").empty();
+            });
+
             $('.btn-update').on('click', function () {
                 var $el = $(this);
                 

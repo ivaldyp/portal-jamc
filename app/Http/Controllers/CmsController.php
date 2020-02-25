@@ -42,16 +42,23 @@ class CmsController extends Controller
 		        				<td>'.($menu['iconnew'] ? $menu['iconnew'] : '-').'</td>
 		        				<td>'.($menu['urlnew'] ? $menu['urlnew'] : '-').'</td>
 		        				<td class="text-center">'.intval($menu['urut']).'</td>
-		        				<td class="col-md-1 text-center">'.(($menu['child'] == 1)? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
+		        				<td class="text-center">'.(($menu['child'] == 1)? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
+		        				<td class="text-center">'.(($menu['tampilnew'] == 1)? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
 		        				
+		        				'.(($access['zadd'] == 'y') ? 
+			        				'<td class="text-center"><button type="button" class="btn btn-success btn-insert" data-toggle="modal" data-target="#modal-insert" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'"><i class="fa fa-plus"></i></button></td>'
+		        				: '' ).'
+
+
 		        				'.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
-
-		        				'<td>
-		        					'.(($access['zupd'] == 'y') ? 
-			        					'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-idgroup="'.$menu['idgroup'].'" data-zviw="'.$menu['zviw'].'" data-zadd="'.$menu['zadd'].'" data-zupd="'.$menu['zupd'].'" data-zdel="'.$menu['zdel'].'" data-zapr="'.$menu['zapr'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>'
-		        					: '').'
-		        				</td>'
-
+			        				'<td>
+			        					'.(($access['zupd'] == 'y') ? 
+				        					'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" ><i class="fa fa-edit"></i></button>'
+			        					: '').'
+			        					'.(($access['zdel'] == 'y') ? 
+				        					'<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="'.$menu['ids'].'" data-sao="'.$menu['sao'].'" data-desk="'.$menu['desk'].'"><i class="fa fa-trash"></i></button>'
+			        					: '').'
+			        				</td>'
 		        				: '' ).'
 		        				
 		        			</tr>';
@@ -76,5 +83,73 @@ class CmsController extends Controller
         return view('pages.bpadcms.menu')
         		->with('access', $access)
         		->with('menus', $menus);
+    }
+
+    public function forminsertmenu(Request $request)
+    {
+        $this->checkSessionTime();
+
+        $maxids = Sec_menu::max('ids');
+        $urut = intval(Sec_menu::where('sao', $request->sao)
+                ->max('urut'));
+
+        if ($request->urut) {
+            $urut = $request->urut;
+        } else {
+            if (is_null($urut)) {
+                $urut = 1;
+            } else {
+                $urut = $urut + 1;
+            }
+        }
+
+        $request->sao == 0 ? $sao = '' : $sao = $request->sao;
+
+        $insert = [
+                'desk'      => $request->desk,
+                'sao'       => $sao,
+                'urut'      => $urut,
+                'child'     => 0,
+                'iconnew'   => $request->iconnew,
+                'urlnew'    => $request->urlnew,
+                'tampilnew' => $request->tampilnew
+            ];
+
+        if (Sec_menu::insert($insert) && $sao > 0) {
+            $query = Sec_menu::
+                        where('ids', $sao)
+                        ->update([
+                            'child' => 1,
+                        ]);
+        }
+
+        return redirect('/cms/menu')
+                    ->with('message', 'Menu '.$request->desk.' berhasil ditambah')
+                    ->with('msg_num', 1);
+    }
+
+    public function formdeletemenu(Request $request)
+    {
+        $this->checkSessionTime();
+
+        $delete = Sec_menu::
+                    where('ids', $request->ids)
+                    ->delete();
+
+        $cekchild = Sec_menu::
+                    where('sao', $request->sao)
+                    ->count();
+
+        if ($cekchild == 0) {
+            $updatechild = Sec_menu::
+                            where('ids', $request->sao)
+                            ->update([
+                                'child' => 0,
+                            ]);
+        }
+
+        return redirect('/cms/menu')
+                    ->with('message', 'Menu '.$request->desk.' berhasil dihapus')
+                    ->with('msg_num', 1);
     }
 }
