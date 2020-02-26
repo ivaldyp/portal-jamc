@@ -61,35 +61,44 @@
 			</div>
 			<div class="row ">
 				<div class="col-md-12">
-					<div class="white-box">
-						<button class="btn btn-info btn-insert" style="margin-bottom: 10px" data-toggle="modal" data-target="#modal-insert" data-ids="0" data-desk="Tidak Ada">Tambah Level 0</button>
-						<div class="table-responsive">
-							<table id="myTable" class="table table-hover">
-								<thead>
-									<tr>
-										<th>Level</th>
-										<th>ID</th>
-										<th>Nama</th>
-										<th>Ket</th>
-										<th>Icon</th>
-										<th>Url</th>
-										<th class="text-center">Urut</th>
-										<th class="text-center">Child</th>
-										<th class="text-center">Tampil</th>
-										@if($access['zadd'] == 'y')
-										<th class="text-center">Tambah Anak</th>
-										@endif
-										@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-										<th>Aksi</th>
-										@endif
-									</tr>
-								</thead>
-								<tbody>
-								{!! $menus !!}
-								</tbody>
-							</table>
+					<!-- <div class="white-box"> -->
+					<div class="panel panel-default">
+                        <div class="panel-heading">Menu</div>
+                    	<div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+								@if($access['zadd'] == 'y')
+								<button class="btn btn-info btn-insert" style="margin-bottom: 10px" data-toggle="modal" data-target="#modal-insert" data-ids="0" data-desk="Tidak Ada">Tambah Level 0</button>
+								@endif
+								<div class="table-responsive">
+									<table id="myTable" class="table table-hover">
+										<thead>
+											<tr>
+												<th>Level</th>
+												<th>ID</th>
+												<th>Nama</th>
+												<th>Ket</th>
+												<th>Icon</th>
+												<th>Url</th>
+												<th class="text-center">Urut</th>
+												<th class="text-center">Child</th>
+												<th class="text-center">Tampil</th>
+												@if($access['zadd'] == 'y')
+												<th class="text-center">Tambah Anak</th>
+												@endif
+												@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+												<th class="col-md-1">Aksi</th>
+												@endif
+											</tr>
+										</thead>
+										<tbody>
+										{!! $menus !!}
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
+					<!-- </div> -->
 				</div>
 			</div>
 			<div id="modal-insert" class="modal fade" role="dialog">
@@ -152,7 +161,7 @@
 										</label>
 										<label class="radio-inline">
 											<div class="radio radio-info">
-												<input type="radio" name="tampilnew" id="tampil2" value="0   ">
+												<input type="radio" name="tampilnew" id="tampil2" value="0">
 												<label for="tampil2">Tidak </label>
 											</div>
 										</label>

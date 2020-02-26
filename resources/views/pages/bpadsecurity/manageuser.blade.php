@@ -62,50 +62,59 @@
             </div>
             <div class="row ">
                 <div class="col-md-12">
-                    <div class="white-box">
-                        <a href="/bpadwebs/security/tambah user"><button class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a>
-                        <div class="table-responsive">
-                            <table id="myTable" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="col-md-1">No</th>
-                                        <th>Username</th>
-                                        <th>Nama</th>
-                                        <th>Deskripsi</th>
-                                        <th>Email</th>
-                                        <th>Idgroup</th>
-                                        <th>Created At</th>
-                                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                        <th>Aksi</th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($users as $key => $user)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $user['usname'] }}</td>
-                                        <td>{{ (!($user['nama_user']) ? '-' : $user['nama_user']) }}</td>
-                                        <td>{{ (!($user['deskripsi_user']) ? '-' : $user['deskripsi_user']) }}</td>
-                                        <td>{{ (!($user['email_user']) ? '-' : $user['email_user']) }}</td>
-                                        <td>{{ $user['idgroup'] }}</td>
-                                        <td>{{ (!($user['createdate']) ? '-' : $user['createdate']) }}</td>
-                                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                        <td>
-                                            @if($access['zupd'] == 'y')
-                                            <button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $user['ids'] }}" data-usname="{{ $user['usname'] }}" data-idgroup="{{ $user['idgroup'] }}" data-nama_user="{{ $user['nama_user'] }}" data-deskripsi_user="{{ $user['deskripsi_user'] }}" data-email_user="{{ $user['email_user'] }}"><i class="fa fa-edit"></i></button>
-                                            @endif
-                                            @if($access['zdel'] == 'y')
-                                            <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-usname="{{ $user['usname'] }}"><i class="fa fa-trash"></i></button>
-                                            @endif
-                                        </td>
-                                        @endif
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                    <!-- <div class="white-box"> -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Users</div>
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                @if($access['zadd'] == 'y')
+                                <a href="/bpadwebs/security/tambah user"><button class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a>
+                                @endif
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-md-1">No</th>
+                                                <th>Username</th>
+                                                <th>Nama</th>
+                                                <th>Deskripsi</th>
+                                                <th>Email</th>
+                                                <th>Idgroup</th>
+                                                <th>Created At</th>
+                                                @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                                                <th>Aksi</th>
+                                                @endif
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($users as $key => $user)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $user['usname'] }}</td>
+                                                <td>{{ (!($user['nama_user']) ? '-' : $user['nama_user']) }}</td>
+                                                <td>{{ (!($user['deskripsi_user']) ? '-' : $user['deskripsi_user']) }}</td>
+                                                <td>{{ (!($user['email_user']) ? '-' : $user['email_user']) }}</td>
+                                                <td>{{ $user['idgroup'] }}</td>
+                                                <td>{{ (!($user['createdate']) ? '-' : $user['createdate']) }}</td>
+                                                @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                                                <td>
+                                                    @if($access['zupd'] == 'y')
+                                                    <button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $user['ids'] }}" data-usname="{{ $user['usname'] }}" data-idgroup="{{ $user['idgroup'] }}" data-nama_user="{{ $user['nama_user'] }}" data-deskripsi_user="{{ $user['deskripsi_user'] }}" data-email_user="{{ $user['email_user'] }}"><i class="fa fa-edit"></i></button>
+                                                    @endif
+                                                    @if($access['zdel'] == 'y')
+                                                    <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-usname="{{ $user['usname'] }}"><i class="fa fa-trash"></i></button>
+                                                    @endif
+                                                </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <!-- </div> -->
                 </div>
             </div>
             <div class="modal fade" id="modal-update">

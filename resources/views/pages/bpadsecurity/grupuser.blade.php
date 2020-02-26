@@ -63,42 +63,51 @@
             <div class="row ">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="white-box">
-                        <button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
-                        <div class="table-responsive">
-                            <table id="myTable" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="col-md-1">No</th>
-                                        <th>Grup User</th>
-                                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                        <th>Aksi</th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($groups as $key => $group)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $group['idgroup'] }}</td>
-                                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                        <td>
-                                            @if($access['zupd'] == 'y')
-                                            <a href="/bpadwebs/security/group user/ubah?name={{ $group['idgroup'] }}">
-                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></button>
-                                            </a>
-                                            @endif
-                                            @if($access['zdel'] == 'y')
-                                            <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-idgroup="{{ $group['idgroup'] }}"><i class="fa fa-trash"></i></button>
-                                            @endif
-                                        </td>
-                                        @endif
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                    <!-- <div class="white-box"> -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Grup User</div>
+                        <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                @if($access['zadd'] == 'y')
+                                <button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
+                                @endif
+                                <div class="table-responsive">
+                                    <table id="myTable" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-md-1">No</th>
+                                                <th>Grup User</th>
+                                                @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                                                <th>Aksi</th>
+                                                @endif
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($groups as $key => $group)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $group['idgroup'] }}</td>
+                                                @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                                                <td>
+                                                    @if($access['zupd'] == 'y')
+                                                    <a href="/bpadwebs/security/group user/ubah?name={{ $group['idgroup'] }}">
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></button>
+                                                    </a>
+                                                    @endif
+                                                    @if($access['zdel'] == 'y')
+                                                    <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-idgroup="{{ $group['idgroup'] }}"><i class="fa fa-trash"></i></button>
+                                                    @endif
+                                                </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <!-- </div> -->
                 </div>
             </div>
             <div class="modal fade" id="modal-create">

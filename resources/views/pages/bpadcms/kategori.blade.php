@@ -60,34 +60,160 @@
 				</div>
 			</div>
 			<div class="row ">
-				<div class="col-md-12">
-					<div class="white-box">
-						<button class="btn btn-info btn-insert" style="margin-bottom: 10px" data-toggle="modal" data-target="#modal-insert" data-ids="0" data-desk="Tidak Ada">Tambah Level 0</button>
-						<div class="table-responsive">
-							<table id="myTable" class="table table-hover">
-								<thead>
-									<tr>
-										<th>No</th>
-										<th>Nama</th>
-										<th>Ket</th>
-										<th>Icon</th>
-										<th>Url</th>
-										<th class="text-center">Urut</th>
-										<th class="text-center">Child</th>
-										<th class="text-center">Tampil</th>
-										@if($access['zadd'] == 'y')
-										<th class="text-center">Tambah Anak</th>
-										@endif
-										@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-										<th>Aksi</th>
-										@endif
-									</tr>
-								</thead>
-								<tbody>
-								{!! $menus !!}
-								</tbody>
-							</table>
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<!-- <div class="white-box"> -->
+					<div class="panel panel-default">
+                        <div class="panel-heading">Kategori</div>
+                    	<div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+								@if ($access['zadd'] == 'y')
+								<button class="btn btn-info btn-insert" style="margin-bottom: 10px" data-toggle="modal" data-target="#modal-insert">Tambah</button>
+								@endif
+								<div class="table-responsive">
+									<table id="myTable" class="table table-hover">
+										<thead>
+											<tr>
+												<th>No</th>
+												<th>Nama</th>
+												<th>Suspend?</th>
+												@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+												<th>Aksi</th>
+												@endif
+											</tr>
+										</thead>
+										<tbody>
+										@foreach($kategoris as $key => $kategori)
+											<tr>
+												<td>{{ $key+1 }}</td>
+												<td>{{ ucwords(strtolower($kategori['nmkat'])) }}</td>
+												<td>{!! ($kategori['sts']) == 0 ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
+												@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
+												<td>
+													@if($access['zupd'] == 'y')
+														<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $kategori['ids'] }}" data-nmkat="{{ $kategori['nmkat'] }}" data-sts="{{ $kategori['sts'] }}"><i class="fa fa-edit"></i></button>
+													@endif
+													@if($access['zdel'] == 'y')
+														<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $kategori['ids'] }}" data-nmkat="{{ $kategori['nmkat'] }}"><i class="fa fa-trash"></i></button>
+													@endif
+												</td>
+												@endif
+											</tr>
+										@endforeach
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
+					</div>
+					<!-- </div> -->
+				</div>
+			</div>
+			<div id="modal-insert" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="POST" action="/bpadwebs/cms/form/tambahkategori" class="form-horizontal" data-toggle="validator">
+						@csrf
+							<div class="modal-header">
+								<h4 class="modal-title"><b>Tambah Kategori</b></h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="nmkat" class="col-md-2 control-label"><span style="color: red">*</span> Kategori </label>
+									<div class="col-md-8">
+										<input type="text" name="nmkat" id="modal_insert_nmkat" class="form-control" data-error="Masukkan nama kategori" autocomplete="off" required>
+										<div class="help-block with-errors"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label"> Suspend? </label>
+									<div class="radio-list col-md-8">
+										<label class="radio-inline">
+											<div class="radio radio-info">
+												<input type="radio" name="sts" id="sts1" value="0" data-error="Pilih salah satu">
+												<label for="sts1">Ya</label> 
+											</div>
+										</label>
+										<label class="radio-inline">
+											<div class="radio radio-info">
+												<input type="radio" name="sts" id="sts2" value="1" checked>
+												<label for="sts2">Tidak</label>
+											</div>
+										</label>
+										<div class="help-block with-errors"></div>  
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-success pull-right">Simpan</button>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="modal-update" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="POST" action="/bpadwebs/cms/form/ubahkategori" class="form-horizontal" data-toggle="validator">
+						@csrf
+							<div class="modal-header">
+								<h4 class="modal-title"><b>Ubah Kategori</b></h4>
+							</div>
+							<div class="modal-body">
+								<input type="hidden" name="ids" id="modal_update_ids">
+								<div class="form-group">
+									<label for="nmkat" class="col-md-2 control-label"><span style="color: red">*</span> Kategori </label>
+									<div class="col-md-8">
+										<input type="text" name="nmkat" id="modal_update_nmkat" class="form-control" data-error="Masukkan nama kategori" autocomplete="off" required>
+										<div class="help-block with-errors"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label"> Suspend? </label>
+									<div class="radio-list col-md-8">
+										<label class="radio-inline">
+											<div class="radio radio-info">
+												<input type="radio" name="sts" id="update_sts1" value="0" data-error="Pilih salah satu">
+												<label for="update_sts1">Ya</label> 
+											</div>
+										</label>
+										<label class="radio-inline">
+											<div class="radio radio-info">
+												<input type="radio" name="sts" id="update_sts2" value="1">
+												<label for="update_sts2">Tidak</label>
+											</div>
+										</label>
+										<div class="help-block with-errors"></div>  
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-success pull-right">Simpan</button>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="modal-delete" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="POST" action="/bpadwebs/cms/form/hapuskategori" class="form-horizontal">
+						@csrf
+							<div class="modal-header">
+								<h4 class="modal-title"><b>Hapus Kategori</b></h4>
+							</div>
+							<div class="modal-body">
+								<h4 id="label_delete"></h4>
+								<input type="hidden" name="ids" id="modal_delete_ids" value="">
+								<input type="hidden" name="nmkat" id="modal_delete_nmkat" value="">
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -115,42 +241,33 @@
 
 	<script>
 		$(function () {
-			$('.btn-insert').on('click', function () {
-				var $el = $(this);
-
-				$("#modal_insert_sao").val("("+$el.data('ids')+") - "+$el.data('desk'));
-				$("#modal_insert_sao_real").val($el.data('ids'));
-			});
 
 			$('.btn-update').on('click', function () {
 				var $el = $(this);
 
 				$("#modal_update_ids").val($el.data('ids'));
-				$("#modal_update_desk").val($el.data('desk'));
-				$("#modal_update_zket").val($el.data('zket'));
-				$("#modal_update_urut").val($el.data('urut'));
-				$("#modal_update_iconnew").val($el.data('iconnew'));
-				$("#modal_update_urlnew").val($el.data('urlnew'));
+				$("#modal_update_nmkat").val($el.data('nmkat'));
 
-				if ($el.data('tampilnew') == 1) {
-					$("#update_tampil1").attr('checked', true);
+				if ($el.data('sts') == 0) {
+					$("#update_sts1").attr('checked', true);
 				} else {
-					$("#update_tampil2").attr('checked', true);
+					$("#update_sts2").attr('checked', true);
 				}
 			});
 
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus menu <b>' + $el.data('desk') + '</b>?');
+				$("#label_delete").append('Apakah anda yakin ingin menghapus kategori <b>' + $el.data('nmkat') + '</b>?');
 				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_sao").val($el.data('sao'));
-				$("#modal_delete_desk").val($el.data('desk'));
+				$("#modal_delete_nmkat").val($el.data('nmkat'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {
 				$("#label_delete").empty();
 			});
+
+			$('#myTable').DataTable();
 		});
 	</script>
 @endsection

@@ -23,46 +23,48 @@ class SecurityController extends Controller
 	// // // GRUP USER // // // 
 
 	public function display_roles($query, $idgroup, $access, $parent, $level = 0)
-    {
-        $query = Sec_menu::
-                where('sao', $parent)
-                ->orderBy('urut')
-                ->get();
+	{
+		$query = Sec_menu::
+				join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
+                ->where('sec_access.idgroup', $idgroup)
+                ->where('sec_menu.sao', $parent)
+                ->orderBy('sec_menu.urut')
+				->get();
 
-        $result = '';
+		$result = '';
 
-        if (count($query) > 0) {
-            foreach ($query as $menu) {
-            	$padding = ($level * 20) + 8;
-                $result .= '<tr>
-                				<td class="col-md-1">'.$level.'</td>
-                				<td>'.$menu['ids'].'</td>
-		        				<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">'.$menu['desk'].' '.(($menu['child'] == 1)? '<i class="fa fa-arrow-down"></i>' : '').'</td>
-		        				<td>'.(($menu['zviw'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
-		        				<td>'.(($menu['zadd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
-		        				<td>'.(($menu['zupd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
-		        				<td>'.(($menu['zdel'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
-		        				<td>'.(($menu['zapr'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
-		        				<td>'.$menu['zket'].'</td>
-		        				'.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
+		if (count($query) > 0) {
+			foreach ($query as $menu) {
+				$padding = ($level * 20) + 8;
+				$result .= '<tr>
+								<td class="col-md-1">'.$level.'</td>
+								<td>'.$menu['ids'].'</td>
+								<td style="padding-left:'.$padding.'px; '.(($level == 0) ? 'font-weight: bold;"' : '').'">'.$menu['desk'].' '.(($menu['child'] == 1)? '<i class="fa fa-arrow-down"></i>' : '').'</td>
+								<td>'.(($menu['zviw'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
+								<td>'.(($menu['zadd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
+								<td>'.(($menu['zupd'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
+								<td>'.(($menu['zdel'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
+								<td>'.(($menu['zapr'] == 'y')? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>').'</td>
+								<td>'.$menu['zket'].'</td>
+								'.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
 
-		        				'<td>
-		        					'.(($access['zupd'] == 'y') ? 
-			        					'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-idgroup="'.$menu['idgroup'].'" data-zviw="'.$menu['zviw'].'" data-zadd="'.$menu['zadd'].'" data-zupd="'.$menu['zupd'].'" data-zdel="'.$menu['zdel'].'" data-zapr="'.$menu['zapr'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>'
-		        					: '').'
-		        				</td>'
+								'<td>
+									'.(($access['zupd'] == 'y') ? 
+										'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-idgroup="'.$menu['idgroup'].'" data-zviw="'.$menu['zviw'].'" data-zadd="'.$menu['zadd'].'" data-zupd="'.$menu['zupd'].'" data-zdel="'.$menu['zdel'].'" data-zapr="'.$menu['zapr'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>'
+									: '').'
+								</td>'
 
-		        				: '' ).'
-		        				
-		        			</tr>';
+								: '' ).'
+								
+							</tr>';
 
-                if ($menu['child'] == 1) {
-                    $result .= $this->display_roles($query, $idgroup, $access, $menu['ids'], $level+1);
-                }
-            }
-        }
-        return $result;
-    }
+				if ($menu['child'] == 1) {
+					$result .= $this->display_roles($query, $idgroup, $access, $menu['ids'], $level+1);
+				}
+			}
+		}
+		return $result;
+	}
 
 	public function grupall()
 	{
@@ -90,10 +92,10 @@ class SecurityController extends Controller
 
 		$all_menu = [];
 
-        $menus = $this->display_roles($all_menu, $request->name, $access, 0);
+		$menus = $this->display_roles($all_menu, $request->name, $access, 0);
 
 
-       	$pagename = $request->name;
+		$pagename = $request->name;
 
 		return view('pages.bpadsecurity.ubahgrup')
 				->with('access', $access)

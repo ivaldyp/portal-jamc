@@ -50,6 +50,17 @@ Route::group(['prefix' => 'cms'], function () {
 	Route::post('/form/tambahkategori', 'CmsController@forminsertkategori');
 	Route::post('/form/ubahkategori', 'CmsController@formupdatekategori');
 	Route::post('/form/hapuskategori', 'CmsController@formdeletekategori');
+
+	Route::get('/subkategori', 'CmsController@subkategoriall');
+	Route::post('/form/tambahsubkategori', 'CmsController@forminsertsubkategori');
+	Route::post('/form/ubahsubkategori', 'CmsController@formupdatesubkategori');
+	Route::post('/form/hapussubkategori', 'CmsController@formdeletesubkategori');
+
+	Route::get('/content', 'CmsController@contentall');
+	Route::get('/tambah content', 'CmsController@contenttambah');
+	Route::post('/form/tambahcontent', 'CmsController@forminsertcontent');
+	Route::post('/form/ubahcontent', 'CmsController@formupdatecontent');
+	Route::post('/form/hapuscontent', 'CmsController@formdeletecontent');
 });
 
 Route::group(['prefix' => 'security'], function () {
