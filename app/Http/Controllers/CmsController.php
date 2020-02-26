@@ -389,6 +389,9 @@ class CmsController extends Controller
 
         $kategoris = Glo_kategori::get();
 
+        $subkats = Glo_subkategori::
+                    get();
+
         $contents = Content_tb::
                     where('idkat', $katnow)
                     ->where('sts', $stsnow)
@@ -399,6 +402,7 @@ class CmsController extends Controller
         return view('pages.bpadcms.content')
                 ->with('access', $access)
                 ->with('kategoris', $kategoris)
+                ->with('subkats', $subkats)
                 ->with('contents', $contents)
                 ->with('katnow', $katnow)
                 ->with('stsnow', $stsnow)
@@ -466,16 +470,48 @@ class CmsController extends Controller
     public function formupdatecontent(Request $request)
     {
         $this->checkSessionTime();
+        var_dump($request->all());
+        // die();
 
-        Glo_kategori::
+        Content_tb::
             where('ids', $request->ids)
             ->update([
-                'nmkat' => $request->nmkat,
-                'sts'   => $request->sts,
+                'sts'       => $request->sts,
+                'idkat'     => $request->idkat,
+                'subkat'     => $request->subkat,
+                'tanggal'   => $request->tanggal,
+                'tglinput'   => $request->tanggal,
+                'judul'   => $request->judul,
+                'isi1'   => htmlentities($request->isi1),
+                'isi2'   => htmlentities($request->isi2),
+                'editor'   => $request->editor, 
             ]);
 
-        return redirect('/cms/subkategori')
-                    ->with('message', 'Kategori '.$request->nmkat.' berhasil diubah')
+        return redirect('/cms/content')
+                    ->with('message', 'Konten '.$request->nmkat.' berhasil diubah')
+                    ->with('msg_num', 1);
+    }
+
+    public function formapprcontent(Request $request)
+    {
+        $this->checkSessionTime();
+        var_dump($request->all());
+        // die();
+
+        if ($request->appr == 'Y') {
+            $appr = 'N';
+        } elseif ($request->appr == 'N') {
+            $appr = 'Y';
+        }
+
+        Content_tb::
+            where('ids', $request->ids)
+            ->update([
+                'appr' => $appr,
+            ]);
+
+        return redirect('/cms/content')
+                    ->with('message', 'Konten '.$request->nmkat.' berhasil diubah')
                     ->with('msg_num', 1);
     }
 
@@ -484,12 +520,12 @@ class CmsController extends Controller
         $this->checkSessionTime();
 
         // hapus menu dari tabel kategori
-        $delete = Glo_kategori::
+        $delete = Content_tb::
                     where('ids', $request->ids)
                     ->delete();
 
-        return redirect('/cms/subkategori')
-                    ->with('message', 'Kategori '.$request->nmkat.' berhasil dihapus')
+        return redirect('/cms/content')
+                    ->with('message', 'Konten '.$request->judul.' berhasil dihapus')
                     ->with('msg_num', 1);
     }
 }

@@ -7,6 +7,7 @@
 	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.css') }}" />
 	<!-- animation CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
@@ -122,11 +123,12 @@
 													<th>No</th>
 													<th>Suspend</th>
 													<th>Tanggal</th>
+													<th>Kategori</th>
 													<th>Judul</th>
 													<th>Editor</th>
 													<th>Approved</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th>Aksi</th>
+													<th class="col-md-1">Aksi</th>
 													@endif
 												</tr>
 											</thead>
@@ -136,11 +138,19 @@
 													<td>{{ $key + 1 }}</td>
 													<td>{!! ($content['sts']) == 0 ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
 													<td>{{ $content['tanggal'] }}</td>
+													<td>{{ $content['subkat'] }}</td>
 													<td>{{ $content['judul'] }}</td>
 													<td>{{ $content['editor'] }}</td>
 													<td>{!! ($content['appr']) == 'Y' ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<td></td>
+														<td>
+															@if($access['zupd'] == 'y')
+																<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $content['ids'] }}" data-sts = "{{ $content['sts'] }}" data-idkat = "{{ $content['idkat'] }}" data-subkat = "{{ $content['subkat'] }}" data-tanggal = "{{ $content['tanggal'] }}" data-tglinput = "{{ $content['tglinput'] }}" data-judul = "{{ $content['judul'] }}" data-isi1 = "{{ $content['isi1'] }}" data-isi2 = "{{ $content['isi2'] }}" data-editor = "{{ $content['editor'] }}" data-thits = "{{ $content['thits'] }}" data-tfile = "{{ $content['tfile'] }}" data-kd_cms = "{{ $content['kd_cms'] }}" data-appr = "{{ $content['appr'] }}" data-usrinput = "{{ $content['usrinput'] }}" data-contentnew = "{{ $content['contentnew'] }}"><i class="fa fa-edit"></i></button>
+															@endif
+															@if($access['zdel'] == 'y')
+																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $content['ids'] }}" data-judul="{{ $content['judul'] }}"><i class="fa fa-trash"></i></button>
+															@endif
+														</td>
 													@endif
 												</tr>
 												@endforeach
@@ -182,6 +192,121 @@
 					</div>
 				</div>
 			</div>
+			<div id="modal-update" class="modal fade" role="dialog">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<form class="form-horizontal" method="POST" action="/bpadwebs/cms/form/ubahcontent" data-toggle="validator">
+                        @csrf   
+                            <div class="modal-header">
+								<h4 class="modal-title"><b>Ubah Konten</b></h4>
+							</div>
+							<div class="modal-body">
+                            	<input type="hidden" id="modal_update_ids" name="ids" >
+                                <input type="hidden" id="modal_update_idkat" name="idkat" >
+
+                                <div class="form-group">
+                                    <label for="modal_update_subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" name="subkat" id="modal_update_subkat" required>
+                                            @foreach($subkats as $subkat)
+                                                <option value="{{ $subkat['subkat'] }}"> {{ $subkat['subkat'] }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_update_tanggal" class="col-md-2 control-label"> Waktu </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="modal_update_tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ now('Asia/Jakarta') }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_update_judul" class="col-md-2 control-label"><span style="color: red">*</span> Judul </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="modal_update_judul" name="judul" autocomplete="off" data-error="Masukkan judul" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label for="modal_update_tfile" class="col-lg-2 control-label"><span style="color: red">*</span> Upload Foto <br> <span style="font-size: 10px">Hanya berupa PDF, JPG, JPEG, dan PNG</span> </label>
+                                    <div class="col-lg-8">
+                                        <input type="file" class="form-control" id="modal_update_tfile" name="tfile" required>
+                                    </div>
+                                </div> -->
+                                <div id="cekidkat">
+                                	<div class="form-group">
+                                        <label for="modal_update_isi1" class="col-md-2 control-label"> Ringkasan </label>
+                                        <div class="col-md-8">
+                                            <textarea class="textarea_editor form-control" id="modal_update_isi1" rows="15" placeholder="Enter text ..." name="isi1"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_update_isi2" class="col-md-2 control-label"> Isi </label>
+                                        <div class="col-md-8">
+                                            <textarea class="textarea_editor2 form-control" id="modal_update_isi2" rows="15" placeholder="Enter text ..." name="isi2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="editor" class="col-md-2 control-label"> Original Editor </label>
+                                    <div class="col-md-8">
+                                        <input disabled type="text" class="form-control" id="editor" name="editor" autocomplete="off" value="{{ isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : (isset($_SESSION['user_data']['nama_user']) ? $_SESSION['user_data']['nama_user'] : $_SESSION['user_data']['usname']) }}">
+                                        <input type="hidden" class="form-control" id="editor" name="editor" autocomplete="off" value="{{ isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : (isset($_SESSION['user_data']['nama_user']) ? $_SESSION['user_data']['nama_user'] : $_SESSION['user_data']['usname']) }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label"> Suspend? </label>
+                                    <div class="radio-list col-md-8">
+                                        <label class="radio-inline">
+                                            <div class="radio radio-info">
+                                                <input type="radio" name="sts" id="modal_update_sts1" value="0" data-error="Pilih salah satu">
+                                                <label for="modal_update_sts1">Ya</label> 
+                                            </div>
+                                        </label>
+                                        <label class="radio-inline">
+                                            <div class="radio radio-info">
+                                                <input type="radio" name="sts" id="modal_update_sts2" value="1">
+                                                <label for="modal_update_sts2">Tidak</label>
+                                            </div>
+                                        </label>
+                                        <div class="help-block with-errors"></div>  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+								<button type="submit" class="btn btn-info pull-right">Simpan</button>
+								<a id="modal_update_href"><button id="btn_update_href" type="button" class="btn btn-success btn-appr pull-right" style="margin-right: 10px">Setuju</button></a>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+                        </form>
+                        <form>
+                        	
+                        </form>
+					</div>
+				</div>
+			</div>
+			<div id="modal-delete" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="POST" action="/bpadwebs/cms/form/hapuscontent" class="form-horizontal">
+						@csrf
+							<div class="modal-header">
+								<h4 class="modal-title"><b>Hapus Kategori</b></h4>
+							</div>
+							<div class="modal-body">
+								<h4 id="label_delete"></h4>
+								<input type="hidden" name="ids" id="modal_delete_ids" value="">
+								<input type="hidden" name="nmkat" id="modal_delete_judul" value="">
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
         </div>
     </div>
 @endsection
@@ -199,17 +324,18 @@
 	<!--Wave Effects -->
 	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/cbpFWTabs.js') }}"></script>
-    <script type="text/javascript">
-        (function () {
-                [].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
-                new CBPFWTabs(el);
-            });
-        })();
-    </script>
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
+	<!-- wysuhtml5 Plugin JavaScript -->
+    <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/wysihtml5-0.3.0.js') }}"></script>
+    <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.textarea_editor').wysihtml5();
+            $('.textarea_editor2').wysihtml5();
+        });
+    </script>
 
 
 	<script>
@@ -218,22 +344,45 @@
 			$('.btn-update').on('click', function () {
 				var $el = $(this);
 
-				$("#modal_update_ids").val($el.data('ids'));
-				$("#modal_update_nmkat").val($el.data('nmkat'));
+				if ($el.data('idkat') != 1) {
+					$("#cekidkat").hide();
+				} else {
+					$("#cekidkat").show();
+				}
 
 				if ($el.data('sts') == 0) {
-					$("#update_sts1").attr('checked', true);
+					$("#modal_update_sts1").attr('checked', true);
 				} else {
-					$("#update_sts2").attr('checked', true);
+					$("#modal_update_sts2").attr('checked', true);
 				}
+
+				$("#modal_update_ids").val($el.data('ids'));
+				$("#modal_update_idkat").val($el.data('idkat'));
+				$("#modal_update_subkat").val($el.data('subkat'));
+				$("#modal_update_waktu").val($el.data('waktu'));
+				$("#modal_update_judul").val($el.data('judul'));
+				$("#modal_update_isi1").data("wysihtml5").editor.setValue($el.data('isi1'));
+				$("#modal_update_isi2").data("wysihtml5").editor.setValue($el.data('isi2'));
+
+				var ids = $el.data('ids');
+				var idkat = $el.data('idkat');
+				var appr = $el.data('appr');
+				
+				if (appr == 'Y') {
+					$("#btn_update_href").html('Batal Setuju');
+				} else if (appr == 'N') {
+					$("#btn_update_href").html('Setuju');
+				}
+				$("#modal_update_href").attr("href", "/bpadwebs/cms/form/apprcontent?ids=" + ids + "&idkat=" + idkat + "&appr=" + appr);
+
 			});
 
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus kategori <b>' + $el.data('nmkat') + '</b>?');
+				$("#label_delete").append('Apakah anda yakin ingin menghapus kategori <b>' + $el.data('judul') + '</b>?');
 				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_nmkat").val($el.data('nmkat'));
+				$("#modal_delete_judul").val($el.data('judul'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {

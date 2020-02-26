@@ -154,9 +154,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-
-                                        <input type="hidden" name="contentnew" value="1">
                                     </div>
                                     <div class="panel-footer">
                                         <button type="submit" class="btn btn-success pull-right">Simpan</button>
