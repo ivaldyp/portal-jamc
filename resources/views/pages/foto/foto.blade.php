@@ -30,7 +30,7 @@
 
 						<?php 
 							if ($foto['contentnew'] == 1) {
-								$fullpath = '/bpadwebs/public/imgpublic/' . $foto['tfile']; 
+								$fullpath = '/bpadwebs/public/publicimg/' . $foto['tfile']; 
 							} else {
 								$fullpath = "http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/" . $foto['tfile']; 
 							}
@@ -98,7 +98,7 @@
 
 						<?php 
 							if ($aside['contentnew'] == 1) {
-								$asidePath = '/bpadwebs/public/imgpublic/' . $aside['tfile']; 
+								$asidePath = '/bpadwebs/public/publicimg/' . $aside['tfile']; 
 							} else {
 								$asidePath = "http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/" . $aside['tfile']; 
 							}

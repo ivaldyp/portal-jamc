@@ -148,7 +148,7 @@
 																<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $content['ids'] }}" data-sts = "{{ $content['sts'] }}" data-idkat = "{{ $content['idkat'] }}" data-subkat = "{{ $content['subkat'] }}" data-tanggal = "{{ $content['tanggal'] }}" data-tglinput = "{{ $content['tglinput'] }}" data-judul = "{{ $content['judul'] }}" data-isi1 = "{{ $content['isi1'] }}" data-isi2 = "{{ $content['isi2'] }}" data-editor = "{{ $content['editor'] }}" data-thits = "{{ $content['thits'] }}" data-tfile = "{{ $content['tfile'] }}" data-kd_cms = "{{ $content['kd_cms'] }}" data-appr = "{{ $content['appr'] }}" data-usrinput = "{{ $content['usrinput'] }}" data-contentnew = "{{ $content['contentnew'] }}"><i class="fa fa-edit"></i></button>
 															@endif
 															@if($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $content['ids'] }}" data-judul="{{ $content['judul'] }}"><i class="fa fa-trash"></i></button>
+																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $content['ids'] }}" data-judul="{{ $content['judul'] }}" data-idkat="{{ $content['idkat'] }}"><i class="fa fa-trash"></i></button>
 															@endif
 														</td>
 													@endif
@@ -177,9 +177,9 @@
                                     <label for="kat" class="col-md-2 control-label"><span style="color: red">*</span> Tipe </label>
                                     <div class="col-md-8">
                                         <select class="form-control select2" name="kat" id="kat" required>
-                                            <option value="1"> Berita </option>
-                                            <option value="5"> Foto </option>
-                                            <option value="12"> Video </option>
+                                            @foreach($kategoris as $kategori)
+                                            	<option value="{{ $kategori['ids'] }}">{{ $kategori['nmkat'] }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -297,7 +297,8 @@
 							<div class="modal-body">
 								<h4 id="label_delete"></h4>
 								<input type="hidden" name="ids" id="modal_delete_ids" value="">
-								<input type="hidden" name="nmkat" id="modal_delete_judul" value="">
+								<input type="hidden" name="idkat" id="modal_delete_idkat" value="">
+								<input type="hidden" name="judul" id="modal_delete_judul" value="">
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
@@ -367,13 +368,14 @@
 				var ids = $el.data('ids');
 				var idkat = $el.data('idkat');
 				var appr = $el.data('appr');
+				var judul = $el.data('judul');
 				
 				if (appr == 'Y') {
 					$("#btn_update_href").html('Batal Setuju');
 				} else if (appr == 'N') {
 					$("#btn_update_href").html('Setuju');
 				}
-				$("#modal_update_href").attr("href", "/bpadwebs/cms/form/apprcontent?ids=" + ids + "&idkat=" + idkat + "&appr=" + appr);
+				$("#modal_update_href").attr("href", "/bpadwebs/cms/form/apprcontent?ids=" + ids + "&idkat=" + idkat + "&appr=" + appr + "&judul=" + judul );
 
 			});
 
@@ -383,6 +385,7 @@
 				$("#label_delete").append('Apakah anda yakin ingin menghapus kategori <b>' + $el.data('judul') + '</b>?');
 				$("#modal_delete_ids").val($el.data('ids'));
 				$("#modal_delete_judul").val($el.data('judul'));
+				$("#modal_delete_idkat").val($el.data('idkat'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {

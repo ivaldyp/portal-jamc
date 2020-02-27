@@ -387,7 +387,11 @@ class CmsController extends Controller
             $apprnow = 'N';
         } 
 
-        $kategoris = Glo_kategori::get();
+        $kategoris = Glo_kategori::
+                        where('sts', 1)
+                        ->where('privacy', 'like', 'C%')
+                        ->orderBy('nmkat')
+                        ->get();
 
         $subkats = Glo_subkategori::
                     get();
@@ -428,24 +432,59 @@ class CmsController extends Controller
     {
         $this->checkSessionTime();
 
-        $file = $request->tfile;
+        if (isset($request->tfile)) {
+            $file = $request->tfile;
 
-        if ($file->getSize() > 2222222) {
-            return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
-        } 
-        if ($file->getClientOriginalExtension() != "png" && $file->getClientOriginalExtension() != "jpg" && $file->getClientOriginalExtension() != "jpeg") {
-            return redirect('/cms/content')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
-        } 
+            if ($file->getSize() > 2222222) {
+                return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+            } 
+            if ($file->getClientOriginalExtension() != "png" && $file->getClientOriginalExtension() != "jpg" && $file->getClientOriginalExtension() != "jpeg") {
+                return redirect('/cms/content')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
+            } 
 
-        $file_name = uniqid(md5(time()))."~".date('dmY')."~".$file->getClientOriginalName();
+            $file_name = uniqid(md5(time()))."~".date('dmY')."~".$file->getClientOriginalName();
 
-        $tujuan_upload = config('app.savefileurl');
-        $file->move($tujuan_upload, $file_name);
+            $tujuan_upload = config('app.savefileurl');
+            $file->move($tujuan_upload, $file_name);
+        }
+
+        if (isset($request->tfiledownload)) {
+            $file = $request->tfiledownload;
+
+            if ($file->getSize() > 5555000) {
+                return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
+            } 
+
+            $file_name = uniqid(md5(time()))."~".date('dmY')."~".$file->getClientOriginalName();
+
+            $tujuan_upload = config('app.savefiledocs');
+            $file->move($tujuan_upload, $file_name);
+        }
+            
+        if (!(isset($file_name))) {
+            $file_name = null;
+        }
+
+        if (!(isset($request->subkat))) {
+            $subkat = null;
+        }
+
+        if (!(isset($request->url))) {
+            $url = null;
+        }
+
+        if (!(isset($request->isi1))) {
+            $isi1 = null;
+        }
+
+        if (!(isset($request->isi2))) {
+            $isi2 = null;
+        }
 
         $insert = [
                 'sts'       => $request->sts,
                 'idkat'     => $request->idkat,
-                'subkat'     => $request->subkat,
+                'subkat'     => $subkat,
                 'tanggal'   => $request->tanggal,
                 'tglinput'   => $request->tanggal,
                 'judul'   => $request->judul,
@@ -455,6 +494,7 @@ class CmsController extends Controller
                 'thits'   => $request->thits,
                 'tfile'   => $file_name,
                 'likes'   => $request->likes,
+                'url'       => $url,
                 'kd_cms'   => $request->kd_cms,
                 'appr'   => "N",
                 'usrinput'   => $request->usrinput,
@@ -470,8 +510,6 @@ class CmsController extends Controller
     public function formupdatecontent(Request $request)
     {
         $this->checkSessionTime();
-        var_dump($request->all());
-        // die();
 
         Content_tb::
             where('ids', $request->ids)
@@ -487,8 +525,8 @@ class CmsController extends Controller
                 'editor'   => $request->editor, 
             ]);
 
-        return redirect('/cms/content')
-                    ->with('message', 'Konten '.$request->nmkat.' berhasil diubah')
+        return redirect('/cms/content?katnow='.$request->idkat)
+                    ->with('message', 'Konten '.$request->judul.' berhasil diubah')
                     ->with('msg_num', 1);
     }
 
@@ -510,8 +548,8 @@ class CmsController extends Controller
                 'appr' => $appr,
             ]);
 
-        return redirect('/cms/content')
-                    ->with('message', 'Konten '.$request->nmkat.' berhasil diubah')
+        return redirect('/cms/content?katnow='.$request->idkat)
+                    ->with('message', 'Konten '.$request->judul.' berhasil diubah')
                     ->with('msg_num', 1);
     }
 
@@ -524,7 +562,7 @@ class CmsController extends Controller
                     where('ids', $request->ids)
                     ->delete();
 
-        return redirect('/cms/content')
+        return redirect('/cms/content?katnow='.$request->idkat)
                     ->with('message', 'Konten '.$request->judul.' berhasil dihapus')
                     ->with('msg_num', 1);
     }

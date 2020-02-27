@@ -3,6 +3,7 @@
 return [
 
     'savefileurl' => env('APP_SAVEFILE', false),
+    'savefiledocs' => env('APP_SAVEFILEDOCS', false),
 
     /*
     |--------------------------------------------------------------------------
