@@ -64,6 +64,14 @@ Route::group(['prefix' => 'cms'], function () {
 	Route::post('/form/hapuscontent', 'CmsController@formdeletecontent');
 });
 
+Route::group(['prefix' => 'kepegawaian'], function () {
+	Route::get('/data pegawai', 'KepegawaianController@pegawaiall');
+	Route::get('/tambah pegawai', 'KepegawaianController@pegawaitambah');
+	Route::post('/form/tambahpegawai', 'KepegawaianController@forminsertpegawai');
+	Route::post('/form/ubahpegawai', 'KepegawaianController@formupdatepegawai');
+	Route::post('/form/hapuspegawai', 'KepegawaianController@formdeletepegawai');
+});
+
 Route::group(['prefix' => 'security'], function () {
 	Route::get('/group user', 'SecurityController@grupall');
 	Route::get('/group user/ubah', 'SecurityController@grupubah');

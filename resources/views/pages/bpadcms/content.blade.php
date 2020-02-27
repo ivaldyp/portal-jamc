@@ -365,6 +365,9 @@
 				$("#modal_update_isi1").data("wysihtml5").editor.setValue($el.data('isi1'));
 				$("#modal_update_isi2").data("wysihtml5").editor.setValue($el.data('isi2'));
 
+				$('.textarea_editor').contents().find('.wysihtml5-editor').html($el.data('isi1'));
+				$('.textarea_editor2').contents().find('.wysihtml5-editor').html($el.data('isi2'));
+
 				var ids = $el.data('ids');
 				var idkat = $el.data('idkat');
 				var appr = $el.data('appr');

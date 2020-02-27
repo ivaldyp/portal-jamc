@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Emp_data extends Model
+class Glo_org_statusemp extends Model
 {
     protected $connection = 'sqlsrv2';
     // protected $primaryKey = "id_emp"; 
-    protected $table = "emp_data";
+    protected $table = "glo_org_statusemp";
     
     public $incrementing = 'false';
-    public $timestamps = false;
+    public $timestamps = false;//
 }

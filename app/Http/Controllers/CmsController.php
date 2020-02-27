@@ -467,18 +467,26 @@ class CmsController extends Controller
 
         if (!(isset($request->subkat))) {
             $subkat = null;
+        } else {
+            $subkat = $request->subkat;
         }
 
         if (!(isset($request->url))) {
             $url = null;
+        } else {
+            $url = $request->url;
         }
 
         if (!(isset($request->isi1))) {
             $isi1 = null;
+        } else {
+            $isi1 = $request->isi1;
         }
 
         if (!(isset($request->isi2))) {
             $isi2 = null;
+        } else {
+            $isi2 = $request->isi2;
         }
 
         $insert = [
