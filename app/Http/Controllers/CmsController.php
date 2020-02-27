@@ -439,7 +439,7 @@ class CmsController extends Controller
 
         $file_name = uniqid(md5(time()))."~".date('dmY')."~".$file->getClientOriginalName();
 
-        $tujuan_upload = 'C:\xampp\htdocs\bpadwebs\public\imgpublic';
+        $tujuan_upload = config('app.savefileurl');
         $file->move($tujuan_upload, $file_name);
 
         $insert = [
