@@ -81,10 +81,12 @@ class KepegawaianController extends Controller
 					->get();
 
 
-		return view('pages.bpadkepegawaian.pegawai')
-				->with('access', $access)
-				->with('employees', $employees)
-				->with('kedudukans', $kedudukans);
+		return view('pages.bpadkepegawaian.pegawaitambah')
+				->with('id_emp', $id_emp)
+				->with('statuses', $statuses)
+				->with('idgroups', $idgroups)
+				->with('pendidikans', $pendidikans)
+				->with('jabatans', $jabatans);
 		
 	}
 
