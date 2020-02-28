@@ -14,8 +14,6 @@
     <link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
     <!-- color CSS -->
     <link href="{{ ('/bpadwebs/public/ample/css/colors/blue-dark.css') }}" id="theme" rel="stylesheet">
-    <!-- page CSS -->
-    <link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -114,7 +112,7 @@
 
                                     @if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
                                     <div class="form-group">
-                                        <label for="tfile" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa PDF, JPG, JPEG, dan PNG</span> </label>
+                                        <label for="tfile" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
                                         <div class="col-lg-8">
                                             <input type="file" class="form-control" id="tfile" name="tfile">
                                         </div>
@@ -211,7 +209,6 @@
     <script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
-    <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
     <script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
     <!-- wysuhtml5 Plugin JavaScript -->
     <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/wysihtml5-0.3.0.js') }}"></script>
@@ -226,7 +223,6 @@
 
     <script>
         $(document).ready(function() {
-            $(".select2").select2();
 
             $( "#idgroup" ).click(function() {
                 var idkat = $( this ).val();

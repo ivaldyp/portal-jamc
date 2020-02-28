@@ -70,24 +70,40 @@ class KepegawaianController extends Controller
 		$idgroups = Sec_access::
 					distinct('idgroup')
 					->where('zfor', '2,')
+					->orderBy('idgroup')
 					->get('idgroup');
 
 		$pendidikans = Glo_dik::
 						orderBy('urut')
 						->get();
 
+		$golongans = Glo_org_golongan::
+					orderBy('gol')
+					->get();
+
 		$jabatans = Glo_org_jabatan::
 					orderBy('jabatan')
 					->get();
 
+		$lokasis = Glo_org_lokasi::
+					orderBy('kd_lok')
+					->get();
+
+		$units = Glo_org_unitkerja::get();
 
 		return view('pages.bpadkepegawaian.pegawaitambah')
 				->with('id_emp', $id_emp)
 				->with('statuses', $statuses)
 				->with('idgroups', $idgroups)
 				->with('pendidikans', $pendidikans)
-				->with('jabatans', $jabatans);
-		
+				->with('golongans', $golongans)
+				->with('jabatans', $jabatans)
+				->with('lokasis', $lokasis)
+				->with('units', $units);
 	}
 
+	public function forminsertpegawai(Request $request)
+	{
+		
+	}
 }
