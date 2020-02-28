@@ -86,7 +86,6 @@
                                         <label for="subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
                                         <div class="col-md-8">
                                             <select class="form-control" name="subkat" id="subkat" required>
-                                                <option value="<?php echo NULL; ?>" selected disabled>-- Subkategori --</option>
                                                 @foreach($subkats as $subkat)
                                                     <option value="{{ $subkat['subkat'] }}"> {{ $subkat['subkat'] }} </option>
                                                 @endforeach
@@ -168,14 +167,14 @@
                                         <div class="radio-list col-md-8">
                                             <label class="radio-inline">
                                                 <div class="radio radio-info">
-                                                    <input type="radio" name="sts" id="sts1" value="0" data-error="Pilih salah satu">
-                                                    <label for="sts1">Ya</label> 
+                                                    <input type="radio" name="suspend" id="suspend1" value="Y" data-error="Pilih salah satu">
+                                                    <label for="suspend1">Ya</label> 
                                                 </div>
                                             </label>
                                             <label class="radio-inline">
                                                 <div class="radio radio-info">
-                                                    <input type="radio" name="sts" id="sts2" value="1" checked>
-                                                    <label for="sts2">Tidak</label>
+                                                    <input type="radio" name="suspend" id="suspend2" value="" checked>
+                                                    <label for="suspend2">Tidak</label>
                                                 </div>
                                             </label>
                                             <div class="help-block with-errors"></div>  

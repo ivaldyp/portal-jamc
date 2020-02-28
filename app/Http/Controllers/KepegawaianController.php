@@ -104,6 +104,21 @@ class KepegawaianController extends Controller
 
 	public function forminsertpegawai(Request $request)
 	{
-		
+		if (isset($request->filefoto)) {
+            $file = $request->filefoto;
+
+            if ($file->getSize() > 2222222) {
+                return redirect('/kepegawaian/tambah pegawai')->with('message', 'Ukuran file foto terlalu besar (Maksimal 2MB)');     
+            } 
+
+            $file_name = uniqid(md5(time()))."~".date('dmY')."~".$file->getClientOriginalName();
+
+            $tujuan_upload = config('app.savefiledocs');
+            $file->move($tujuan_upload, $file_name);
+        }
+            
+        if (!(isset($file_name))) {
+            $file_name = null;
+        }
 	}
 }

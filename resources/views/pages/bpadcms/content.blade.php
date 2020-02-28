@@ -70,7 +70,7 @@
                             	<div class="row " style="margin-bottom: 10px">
                             		<div class="col-md-1">
                             			@if ($access['zadd'] == 'y')
-                            			<label for="stsnow" class="control-label">  </label>
+                            			<label for="suspnow" class="control-label">  </label>
 				                      	<button class="btn btn-info btn-href-tambah" type="button" data-toggle="modal" data-target="#modal-insert">Tambah</button>
 									  	@endif
                             		</div>
@@ -91,12 +91,11 @@
 					                        	</select>
 				                      		</div>
 				                      		<div class=" col-md-3">
-				                      			<label for="stsnow" class="control-label"> Suspend </label>
-					                        	<select class="form-control" name="stsnow" id="stsnow">
+				                      			<label for="suspnow" class="control-label"> Suspend </label>
+					                        	<select class="form-control" name="suspnow" id="suspnow">
 					                          	
-					                            	<option value="1" <?php if ($stsnow == 1) { echo "selected"; } ?> >Tidak</option>
-					                            	<option value="0" <?php if ($stsnow == 0) { echo "selected"; } ?> >Ya</option>
-					                            	<option value="2" <?php if ($stsnow == 2) { echo "selected"; } ?> >All</option>
+					                            	<option value="N" <?php if ($suspnow == 'N') { echo "selected"; } ?> >Tidak</option>
+					                            	<option value="Y" <?php if ($suspnow == 'Y') { echo "selected"; } ?> >Ya</option>
 					                          	
 					                        	</select>
 				                      		</div>

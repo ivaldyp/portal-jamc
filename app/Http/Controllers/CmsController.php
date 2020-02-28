@@ -373,12 +373,10 @@ class CmsController extends Controller
             $katnow = 1;
         }
 
-        if (is_null($request->stsnow) || $request->stsnow == 1) {
-            $stsnow = 1;
-        } elseif ($request->stsnow == 0) {
-            $stsnow = 0;
-        } elseif ($request->stsnow == 2) {
-            $stsnow = ">=, 0";
+        if (is_null($request->suspnow) || $request->suspnow == 'N') {
+            $suspnow = '';
+        } elseif ($request->suspnow == 'Y') {
+            $suspnow = 'Y';
         }
 
         if (is_null($request->apprnow) || $request->apprnow == 1) {
@@ -398,10 +396,14 @@ class CmsController extends Controller
 
         $contents = Content_tb::
                     where('idkat', $katnow)
-                    ->where('sts', $stsnow)
+                    ->where('suspend', $suspnow)
+                    ->where('sts', 1)
                     ->where('appr', $apprnow)
                     ->orderBy('tanggal', 'desc')
                     ->get();
+
+
+
 
         return view('pages.bpadcms.content')
                 ->with('access', $access)
@@ -409,7 +411,7 @@ class CmsController extends Controller
                 ->with('subkats', $subkats)
                 ->with('contents', $contents)
                 ->with('katnow', $katnow)
-                ->with('stsnow', $stsnow)
+                ->with('suspnow', $suspnow)
                 ->with('apprnow', $apprnow);
     }
 
@@ -442,7 +444,8 @@ class CmsController extends Controller
                 return redirect('/cms/content')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
             } 
 
-            $file_name = uniqid(md5(time()))."~".date('dmY')."~".$file->getClientOriginalName();
+            $file_name = "cms" . preg_replace("/[^0-9]/", "", $request->tanggal);
+            $file_name .= ".". $file->getClientOriginalExtension();
 
             $tujuan_upload = config('app.savefileurl');
             $file->move($tujuan_upload, $file_name);
@@ -455,7 +458,7 @@ class CmsController extends Controller
                 return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
             } 
 
-            $file_name = uniqid(md5(time()))."~".date('dmY')."~".$file->getClientOriginalName();
+            $file_name = $file->getClientOriginalName();
 
             $tujuan_upload = config('app.savefiledocs');
             $file->move($tujuan_upload, $file_name);
@@ -489,8 +492,14 @@ class CmsController extends Controller
             $isi2 = $request->isi2;
         }
 
+        if ($request->suspend == 'Y') {
+            $suspend = 'Y';
+        } else {
+            $suspend = '';
+        }
+
         $insert = [
-                'sts'       => $request->sts,
+                'sts'       => 1,
                 'idkat'     => $request->idkat,
                 'subkat'     => $subkat,
                 'tanggal'   => $request->tanggal,
@@ -507,6 +516,7 @@ class CmsController extends Controller
                 'appr'   => "N",
                 'usrinput'   => $request->usrinput,
                 'contentnew'   => $request->contentnew,
+                'suspend' => $suspend,
             ];
 
         Content_tb::insert($insert);
@@ -566,9 +576,11 @@ class CmsController extends Controller
         $this->checkSessionTime();
 
         // hapus menu dari tabel kategori
-        $delete = Content_tb::
+        Content_tb::
                     where('ids', $request->ids)
-                    ->delete();
+                    ->update([
+                        'sts' => 0,
+                    ]);
 
         return redirect('/cms/content?katnow='.$request->idkat)
                     ->with('message', 'Konten '.$request->judul.' berhasil dihapus')
