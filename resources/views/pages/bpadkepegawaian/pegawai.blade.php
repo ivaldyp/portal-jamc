@@ -138,7 +138,7 @@
 																<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i class="fa fa-edit"></i></button>
 															@endif
 															@if($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete"><i class="fa fa-trash"></i></button>
+																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-id_emp="{{ $employee['id_emp'] }}" data-nm_emp="{{ $employee['nm_emp'] }}"><i class="fa fa-trash"></i></button>
 															@endif
 														</td>
 													@endif
@@ -154,7 +154,27 @@
                     </div>
                 </div>
             </div>
-			
+			<div id="modal-delete" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="POST" action="/bpadwebs/kepegawaian/form/hapuspegawai" class="form-horizontal">
+						@csrf
+							<div class="modal-header">
+								<h4 class="modal-title"><b>Hapus Pegawai</b></h4>
+							</div>
+							<div class="modal-body">
+								<h4 id="label_delete"></h4>
+								<input type="hidden" name="id_emp" id="modal_delete_id_emp" value="">
+								<input type="hidden" name="nm_emp" id="modal_delete_nm_emp" value="">
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
         </div>
     </div>
 @endsection
@@ -232,10 +252,9 @@
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus kategori <b>' + $el.data('judul') + '</b>?');
-				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_judul").val($el.data('judul'));
-				$("#modal_delete_idkat").val($el.data('idkat'));
+				$("#label_delete").append('Apakah anda yakin ingin menghapus pegawai <b>' + $el.data('nm_emp') + '</b>?');
+				$("#modal_delete_id_emp").val($el.data('id_emp'));
+				$("#modal_delete_nm_emp").val($el.data('nm_emp'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {

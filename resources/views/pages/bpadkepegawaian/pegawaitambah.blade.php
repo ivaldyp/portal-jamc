@@ -72,7 +72,7 @@
 								<div class="panel-body">
 
 									<div class="form-group">
-										<label for="id_emp" class="col-md-2 control-label"> TMT </label>
+										<label for="tgl_join" class="col-md-2 control-label"> TMT </label>
 										<div class="col-md-4">
 											<input type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
 										</div>
@@ -106,7 +106,8 @@
 									<div class="form-group">
 										<label for="nm_emp" class="col-md-2 control-label"> Nama </label>
 										<div class="col-md-4">
-											<input type="text" name="nm_emp" class="form-control" id="nm_emp">
+											<input type="text" name="nm_emp" class="form-control" id="nm_emp" required data-error="Mauskkan nama">
+											<div class="help-block with-errors"></div>
 										</div>
 									</div>
 
