@@ -68,13 +68,13 @@
                     	<div class="panel-wrapper collapse in">
                             <div class="panel-body">
                             	<div class="row " style="margin-bottom: 10px">
+                            		@if ($access['zadd'] == 'y')
                             		<div class="col-md-1">
-                            			@if ($access['zadd'] == 'y')
 				                      	<a href="/bpadwebs/kepegawaian/tambah pegawai"><button class="btn btn-info" type="button">Tambah</button></a>
-									  	@endif
                             		</div>
+                            		@endif
                             		<div class="col-md-6">
-                            			<form method="GET" action="/bpadwebs/kepegawaian/pegawai">
+                            			<form method="GET" action="/bpadwebs/kepegawaian/data pegawai">
 					                      	<div class=" col-md-3">
 					                        	<select class="form-control" name="kednow" id="kednow" required>
 					                          	<?php foreach ($kedudukans as $key => $kedudukan) { ?>
@@ -134,12 +134,16 @@
 													<td>{{ $employee['status_emp'] }}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td>
+															<form method="POST" action="/bpadwebs/kepegawaian/ubah pegawai">
+															@csrf
 															@if($access['zupd'] == 'y')
-																<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i class="fa fa-edit"></i></button>
+																<input type="hidden" name="id_emp" value="{{ $employee['id_emp'] }}">
+																<button type="submit" class="btn btn-info btn-update"><i class="fa fa-edit"></i></button>
 															@endif
 															@if($access['zdel'] == 'y')
 																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-id_emp="{{ $employee['id_emp'] }}" data-nm_emp="{{ $employee['nm_emp'] }}"><i class="fa fa-trash"></i></button>
 															@endif
+															</form>
 														</td>
 													@endif
 												</tr>

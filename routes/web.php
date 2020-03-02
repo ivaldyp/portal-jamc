@@ -40,6 +40,10 @@ Route::group(['prefix' => 'content'], function () {
 
 // ------------- BPAD DT --------------
 
+Route::group(['prefix' => 'profil'], function () {
+	Route::get('/pegawai', 'ProfilController@pegawai');
+});
+
 Route::group(['prefix' => 'cms'], function () {
 	Route::get('/menu', 'CmsController@menuall');
 	Route::post('/form/tambahmenu', 'CmsController@forminsertmenu');
@@ -67,6 +71,7 @@ Route::group(['prefix' => 'cms'], function () {
 Route::group(['prefix' => 'kepegawaian'], function () {
 	Route::get('/data pegawai', 'KepegawaianController@pegawaiall');
 	Route::get('/tambah pegawai', 'KepegawaianController@pegawaitambah');
+	Route::post('/ubah pegawai', 'KepegawaianController@pegawaiubah');
 	Route::post('/form/tambahpegawai', 'KepegawaianController@forminsertpegawai');
 	Route::post('/form/ubahpegawai', 'KepegawaianController@formupdatepegawai');
 	Route::post('/form/hapuspegawai', 'KepegawaianController@formdeletepegawai');

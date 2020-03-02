@@ -27,20 +27,33 @@ class HomeController extends Controller
 
     public function display_menus($query, $parent, $level = 0)
     {
-        $query = Sec_menu::
-                join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
-                ->where('sec_menu.tipe', 'l')
-                ->whereRaw('LEN(sec_menu.urut) = 1')
-                ->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
-                ->where('sec_access.zviw', 'y')
-                ->where('sec_menu.sao', $parent)
-                ->orderByRaw('CONVERT(INT, sec_menu.sao)')
-                ->orderBy('sec_menu.urut')
-                ->get();
+        if ($level == 0) {
+            $query = Sec_menu::
+                    join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
+                    // ->where('sec_menu.tipe', 'l')
+                    // ->whereRaw('LEN(sec_menu.urut) = 1')
+                    ->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
+                    ->where('sec_access.zviw', 'y')
+                    ->where('sec_menu.sao', $parent)
+                    ->where('tampilnew', 1)
+                    ->orderBy('sec_menu.urut')
+                    ->get();
+        } else {
+            $query = Sec_menu::
+                    join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
+                    // ->where('sec_menu.tipe', 'l')
+                    // ->whereRaw('LEN(sec_menu.urut) = 1')
+                    ->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
+                    ->where('sec_access.zviw', 'y')
+                    ->where('sec_menu.sao', $parent)
+                    ->orderBy('sec_menu.urut')
+                    ->get();
+        }
+            
 
         $result = '';
         $link = '';
-        $arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">'];
+        $arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">'];
 
         if (count($query) > 0) {
 
