@@ -35,7 +35,7 @@ class ProfilController extends Controller
 
 	public function test(Request $request)
 	{
-		return "WOW";
+		return $request->another;
 	}
 
 	public function pegawai(Request $request)

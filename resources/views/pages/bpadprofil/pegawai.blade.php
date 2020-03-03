@@ -1,6 +1,7 @@
 @extends('layouts.masterhome')
 
 @section('css')
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<!-- Bootstrap Core CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- Menu CSS -->
@@ -468,10 +469,11 @@
             , url: '/post'
             , success: function(response, newValue) {
 		        $.ajax({
-		        	method: "POST",
+		        	type: "POST",
 					url: "/bpadwebs/post",
-					success: function(html){
-						alert(html);
+					data: { somefield: "Some field value", another: "another", _token: '{{csrf_token()}}' },
+					success: function(data){
+						alert(data);
 					}
 				});
 		    }
