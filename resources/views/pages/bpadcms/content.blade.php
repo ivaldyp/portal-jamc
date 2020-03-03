@@ -248,10 +248,10 @@
                                 </div>
                                     
                                 <div class="form-group">
-                                    <label for="editor" class="col-md-2 control-label"> Original Editor </label>
+                                    <label for="editor" class="col-md-2 control-label"> Original Creator </label>
                                     <div class="col-md-8">
-                                        <input disabled type="text" class="form-control" id="editor" name="editor" autocomplete="off" value="{{ isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : (isset($_SESSION['user_data']['nama_user']) ? $_SESSION['user_data']['nama_user'] : $_SESSION['user_data']['usname']) }}">
-                                        <input type="hidden" class="form-control" id="editor" name="editor" autocomplete="off" value="{{ isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : (isset($_SESSION['user_data']['nama_user']) ? $_SESSION['user_data']['nama_user'] : $_SESSION['user_data']['usname']) }}">
+                                        <input disabled type="text" class="form-control" id="modal_update_editor" name="editor" autocomplete="off">
+                                        <input type="hidden" class="form-control" id="modal_update_editor_hid" name="editor" autocomplete="off" >
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -360,6 +360,8 @@
 				$("#modal_update_idkat").val($el.data('idkat'));
 				$("#modal_update_subkat").val($el.data('subkat'));
 				$("#modal_update_waktu").val($el.data('waktu'));
+				$("#modal_update_editor").val($el.data('editor'));
+				$("#modal_update_editor_hid").val($el.data('editor'));
 				$("#modal_update_judul").val($el.data('judul'));
 				$("#modal_update_isi1").data("wysihtml5").editor.setValue($el.data('isi1'));
 				$("#modal_update_isi2").data("wysihtml5").editor.setValue($el.data('isi2'));
