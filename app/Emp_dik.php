@@ -12,4 +12,9 @@ class Emp_dik extends Model
     
     public $incrementing = 'false';
     public $timestamps = false;
+
+    public function dik()
+    {
+        return $this->hasOne('App\Glo_dik', 'dik', 'iddik')->orderBy('urut');
+    }
 }

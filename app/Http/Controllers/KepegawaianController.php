@@ -357,6 +357,7 @@ class KepegawaianController extends Controller
 				'foto' => $filefoto,
 				'ttd' => $filettd,
 				'passmd5' => md5($request->passmd5),
+				'tampilnew' => 1,
 			];
 
 		$insert_emp_dik = [
@@ -373,6 +374,7 @@ class KepegawaianController extends Controller
 				'gelar_blk_sek' => $request->gelar_blk_sek,
 				'ijz_cpns' => $request->ijz_cpns,
 				'gambar' => $fileijazah,
+				'tampilnew' => 1,
 			];
 
 		$insert_emp_gol = [
@@ -388,6 +390,7 @@ class KepegawaianController extends Controller
 				'mk_thn' => $request->mk_thn,
 				'mk_bln' => $request->mk_bln,
 				'gambar' => $fileskgol,
+				'tampilnew' => 1,
 			];
 
 		$insert_emp_jab = [
@@ -405,6 +408,7 @@ class KepegawaianController extends Controller
 				'no_sk_jab' => $request->no_sk_jab,
 				'tmt_sk_jab' => $tmt_sk_jab,
 				'gambar' => $fileskjab,
+				'tampilnew' => 1,
 			];
 
 		Emp_data::insert($insert_emp_data);

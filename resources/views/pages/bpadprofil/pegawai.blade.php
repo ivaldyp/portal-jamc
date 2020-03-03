@@ -67,67 +67,150 @@
 				<div class="col-md-8">
 					<div class="white-box">
 						<ul class="nav customtab nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tabs1" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs">Id</span><span class="hidden-xs"> Identitas </span></a></li>
-                            <li role="presentation" class=""><a href="#tabs2" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs">Dik</span> <span class="hidden-xs"> Pendidikan </span></a></li>
-                            <li role="presentation" class=""><a href="#tabs3" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs">Gol</i></span> <span class="hidden-xs">Golongan</span></a></li>
-                            <li role="presentation" class=""><a href="#tabs4" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs">Jab</span> <span class="hidden-xs">Jabatan</span></a></li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade active in" id="tabs1">
-                                <div class="col-md-6">
-                                    <h3>Best Clean Tab ever</h3>
-                                    <h4>you can use it with the small code</h4> </div>
-                                <div class="col-md-5 pull-right">
-                                    <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade" id="tabs2">
-                            	<button class="btn btn-info" type="button" data-toggle="modal" data-target="#modal-insert">Tambah</button>
-                            	<div class="table-responsive">
-                            		<table>
-                            			<tbody>
-                            				@foreach($emp_dik as $key => $dik)
-                            				<tr><td>
-                            					<div class="col-md-1"><h2>{{ $emp_dik[0]['iddik'] }}</h2></div>
-                            				</td></tr>
-                            				<tr><td>
-                            					<div class="col-md-1"><h2>{{ $emp_dik[0]['iddik'] }}</h2></div>
-                            				</td></tr>
-                            				<tr><td>
-                            					<div class="col-md-1"><h2>{{ $emp_dik[0]['iddik'] }}</h2></div>
-                            				</td></tr>
-                            				@endforeach
-                            			</tbody>
-                            		</table>
-                            	</div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade" id="tabs3">
-                                <div class="col-md-6">
-                                    <h3>Come on you have a lot message</h3>
-                                    <h4>you can use it with the small code</h4> </div>
-                                <div class="col-md-5 pull-right">
-                                    <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade" id="tabs4">
-                                <div class="col-md-6">
-                                    <h3>Just do Settings</h3>
-                                    <h4>you can use it with the small code</h4> </div>
-                                <div class="col-md-5 pull-right">
-                                    <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
+							<li role="presentation" class="active"><a href="#tabs1" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs">Id</span><span class="hidden-xs"> Identitas </span></a></li>
+							<li role="presentation" class=""><a href="#tabs2" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs">Dik</span> <span class="hidden-xs"> Pendidikan </span></a></li>
+							<li role="presentation" class=""><a href="#tabs3" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs">Gol</i></span> <span class="hidden-xs">Golongan</span></a></li>
+							<li role="presentation" class=""><a href="#tabs4" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs">Jab</span> <span class="hidden-xs">Jabatan</span></a></li>
+						</ul>
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane fade active in" id="tabs1">
+								
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="tabs2">
+								<button class="btn btn-info m-b-20" type="button" data-toggle="modal" data-target="#modal-insert-dik">Tambah</button>
+								<div class="table-responsive">
+									<table class="table table-hover manage-u-table">
+										<tbody>
+											@foreach($emp_dik as $key => $dik)
+												@if ($dik['iddik'] != 'NA')
+												<tr>
+													<td>
+														<h1>{{ $dik['iddik'] }}</h1>
+															
+													</td>
+													<td style="vertical-align: middle;">
+														<strong>{{ $dik['prog_sek'] }}</strong>
+														<br>{{ $dik['nm_sek'] }} <b>{{ $dik['th_sek'] }}</b>
+													</td>
+
+													<td style="vertical-align: middle;">
+														<?php if ($dik['no_sek']) : ?>
+															<strong>No. {{ $dik['no_sek'] }}</strong>
+														<?php endif ?>
+														
+														<?php if ($dik['gambar'] && $dik['gambar'] != '') : ?> 
+															<?php if ($dik['tampilnew'] == 1) : ?>
+																<br><a href="/bpadwebs/public/publicimg/{{ $dik['gambar'] }}"></a>
+															<?php else : ?>
+																<br><a href="http://bpad.jakarta.go.id/images/emp/{{ Auth::user()->id_emp }}/{{ $dik['gambar'] }}">Link Ijazah</a>
+															<?php endif ?>
+														<?php endif ?>
+													</td>
+												</tr>
+												@endif
+											@endforeach
+										</tbody>
+									</table>
+								</div>
+								<div class="clearfix"></div>	
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="tabs3">
+								<button class="btn btn-info m-b-20" type="button" data-toggle="modal" data-target="#modal-insert-gol">Tambah</button>
+								<div class="table-responsive">
+									<table class="table table-hover manage-u-table">
+										<tbody>
+											@foreach($emp_gol as $key => $gol)
+												<tr>
+													<td>
+														<h1>{{ $key + 1 }}</h1>
+													</td>
+													<td style="vertical-align: middle;">
+														<strong>{{ $gol['idgol'] }}</strong>
+														<br>{{ $gol['gol']['nm_pangkat'] }}
+													</td>
+
+													<?php if ($gol['tmt_gol']) : ?>
+														<td style="vertical-align: middle;">
+															<strong>TMT</strong>
+															<br>{{ date('d-M-Y',strtotime($gol['tmt_gol'])) }}
+														</td>
+													<?php endif ?>
+
+													<?php if ($gol['gambar'] && $gol['gambar'] != '') : ?> 
+														<?php if ($gol['gambar'] == 1) : ?>
+															<td style="vertical-align: middle;">
+																<strong>File</strong>
+																<br><a href="/bpadwebs/public/publicimg/{{ $gol['gambar'] }}"></a>
+															</td>
+														<?php else : ?>
+															<td style="vertical-align: middle;">
+																<strong>File</strong>
+																<br><a href="http://bpad.jakarta.go.id/images/emp/{{ Auth::user()->id_emp }}/{{ $gol['gambar'] }}">Link SK Golongan</a>
+															</td>
+														<?php endif ?>
+													<?php endif ?>
+												</tr>
+											@endforeach
+										</tbody>
+									</table>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div role="tabpanel" class="tab-pane fade" id="tabs4">
+								<button class="btn btn-info m-b-20" type="button" data-toggle="modal" data-target="#modal-insert-jab">Tambah</button>
+								<div class="table-responsive">
+									<table class="table table-hover manage-u-table">
+										<tbody>
+											@foreach($emp_jab as $key => $jab)
+												<tr>
+													<td>
+														<h1>{{ $key + 1 }}</h1>
+													</td>
+													<td style="vertical-align: middle;">
+														<strong>{{ ucwords(strtolower($jab['unit']['nm_unit'])) }}</strong>
+														<br>{!! wordwrap($jab['idjab'], 50, "<br>\n", TRUE) !!}
+													</td>
+
+													<td style="vertical-align: middle;">
+														<strong>Lokasi</strong>
+														<br>{{ $jab['lokasi']['nm_lok'] }}
+													</td>
+
+													<?php if ($jab['tmt_jab']) : ?>
+														<td style="vertical-align: middle;">
+															<strong>TMT</strong>
+															<br>{{ date('d-M-Y',strtotime($gol['tmt_jab'])) }}
+														</td>
+													<?php endif ?>
+
+													<?php if ($jab['gambar'] && $jab['gambar'] != '') : ?> 
+														<?php if ($jab['gambar'] == 1) : ?>
+															<td style="vertical-align: middle;">
+																<strong>File</strong>
+																<br><a href="/bpadwebs/public/publicimg/{{ $jab['gambar'] }}"></a>
+															</td>
+														<?php else : ?>
+															<td style="vertical-align: middle;">
+																<strong>File</strong>
+																<br><a href="http://bpad.jakarta.go.id/images/emp/{{ Auth::user()->id_emp }}/{{ $jab['gambar'] }}">Link SK Jabatan</a>
+															</td>
+														<?php endif ?>
+													<?php endif ?>
+												</tr>
+											@endforeach
+										</tbody>
+									</table>
+								</div>
+								<div class="clearfix"></div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
 					</div>
 				</div>
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 @endsection
 
 <!-- /////////////////////////////////////////////////////////////// -->
@@ -144,13 +227,13 @@
 	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
 	<script src="{{ ('/bpadwebs/public/ample/js/cbpFWTabs.js') }}"></script>
-    <script type="text/javascript">
-        (function () {
-                [].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
-                new CBPFWTabs(el);
-            });
-        })();
-    </script>
+	<script type="text/javascript">
+		(function () {
+				[].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
+				new CBPFWTabs(el);
+			});
+		})();
+	</script>
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
