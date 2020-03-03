@@ -1499,6 +1499,7 @@ table.dataTable thead .sorting:after {
   background: #ffffff;
   padding: 25px;
   margin-bottom: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .white-box .box-title {
   margin: 0px 0px 12px;
@@ -1511,6 +1512,7 @@ table.dataTable thead .sorting:after {
   margin-bottom: 30px;
   border: 0px;
   box-shadow: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .panel .panel-heading {
   border-radius: 0px;
@@ -2875,7 +2877,7 @@ ul.common li a:hover {
   position: relative;
 }
 .user-bg .overlay-box {
-  background: #707cd2;
+  background: #cccccc;
   opacity: 0.9;
   position: absolute;
   top: 0px;

@@ -21,7 +21,8 @@
 
 Route::get('/', 'LandingController@index');
 Route::get('/home', 'HomeController@index');
-Route::POST('/mail', 'HomeController@feedback');
+Route::post('/mail', 'HomeController@feedback');
+Route::post('/post', 'ProfilController@test');
 
 // ------------- BPAD CMS -------------
 
