@@ -85,6 +85,13 @@
 												<input type="hidden" name="id_emp" value="{{ $id_emp }}">
 
 												<div class="form-group">
+													<label class="col-md-2 control-label"> ID </label>
+													<div class="col-md-8">
+														<input autocomplete="off" type="text" class="form-control" value="{{ $emp_data['id_emp'] }}" disabled>
+													</div>
+												</div>
+
+												<div class="form-group">
 													<label for="tgl_join" class="col-md-2 control-label"> TMT </label>
 													<div class="col-md-8">
 														<input type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($emp_data['tgl_join'])) }}">
@@ -302,7 +309,7 @@
 														<input autocomplete="off" type="text" name="no_jamsos" class="form-control" id="no_jamsos" value="{{ $emp_data['no_jamsos'] }}">
 													</div>
 												</div>
-
+												
 												<div class="form-group">
 													<label for="idgroup" class="col-md-2 control-label"> Grup User </label>
 													<div class="col-md-8">
@@ -317,19 +324,25 @@
 												<div class="form-group">
 													<label for="filefoto" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 													<div class="col-lg-8">
-														<input type="file" class="form-control" id="filefoto" name="filefoto" value="{{ $emp_data['filefoto'] }}">
+														<input type="file" class="form-control" id="filefoto" name="filefoto">
 													</div>
 												</div>
 
 												<div class="form-group">
 													<label for="filettd" class="col-lg-2 control-label"> Upload Tandatangan <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 													<div class="col-lg-8">
-														<input type="file" class="form-control" id="filettd" name="filettd" value="{{ $emp_data['filettd'] }}">
+														<input type="file" class="form-control" id="filettd" name="filettd">
 													</div>
 												</div>
 											</div>
 											<div class="col-md-4">
-												<img src="/bpadwebs/public/publicimg/{{ $emp_data['foto'] }}" style="width: 100%; height: 100%"> 
+												<?php if ($emp_data	['foto'] && $emp_data['foto'] != '') : ?>
+													<?php if ($emp_data['tampilnew'] == 1) : ?>
+														<img src="/bpadwebs/public/publicimg/{{ $emp_data['foto'] }}" style="width: 100%; height: 100%;">
+													<?php else : ?>
+														<img src="http://bpad.jakarta.go.id/images/emp/{{ $emp_data['foto'] }}" style="width: 100%; height: 100%;">
+													<?php endif ?>
+												<?php endif ?>
 											</div>
 												
 										</section>
@@ -602,7 +615,7 @@
 
 		jQuery('#datepicker-autoclose').datepicker({
 			autoclose: true
-			, todayHighlight: true
+			, todayHighlight: false
 			, format: 'dd/mm/yyyy'
 		});
 

@@ -43,6 +43,10 @@ Route::group(['prefix' => 'content'], function () {
 
 Route::group(['prefix' => 'profil'], function () {
 	Route::get('/pegawai', 'ProfilController@pegawai');
+	Route::post('/form/ubahidpegawai', 'ProfilController@formupdateidpegawai');
+	Route::post('/form/tambahdikpegawai', 'ProfilController@forminsertdikpegawai');
+	Route::post('/form/ubahdikpegawai', 'ProfilController@formupdatedikpegawai');
+	Route::post('/form/hapusdikpegawai', 'ProfilController@formdeletedikpegawai');
 });
 
 Route::group(['prefix' => 'cms'], function () {

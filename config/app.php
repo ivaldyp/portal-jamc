@@ -2,8 +2,14 @@
 
 return [
 
-    'savefileurl' => env('APP_SAVEFILE', false),
-    'savefiledocs' => env('APP_SAVEFILEDOCS', false),
+    'savefileimgcontent' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\content',
+    'savefiledocs' => 'C:\xampp\htdocs\bpadwebs\public\publicfile',
+
+    'savefileimgemp' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\emp',
+    'savefileimgttd' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\ttd',
+    'savefileimgdik' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\dik',
+    'savefileimggol' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\gol',
+    'savefileimgjab' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\jab',
 
     /*
     |--------------------------------------------------------------------------

@@ -46,12 +46,21 @@ class KepegawaianController extends Controller
 			$kednow = $request->kednow;
 		}
 
-		$employees = Emp_data::
+		if ($access['zfor'] == '2,') {
+			$employees = Emp_data::
+						where('sts', 1)
+						->where('ked_emp', $kednow)
+						->where('idgroup', $_SESSION['user_data']['idgroup'])
+						->orderBy('nm_emp', 'asc')
+						->get();
+		} else {
+			$employees = Emp_data::
 						where('sts', 1)
 						->where('ked_emp', $kednow)
 						->orderBy('nm_emp', 'asc')
 						->get();
-
+		}
+		
 		$kedudukans = Glo_org_kedemp::get();
 
 		return view('pages.bpadkepegawaian.pegawai')
@@ -200,7 +209,7 @@ class KepegawaianController extends Controller
 
 			$filefoto .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgemp');
 			$file->move($tujuan_upload, $filefoto);
 		}
 			
@@ -218,7 +227,7 @@ class KepegawaianController extends Controller
 
 			$filettd .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgttd');
 			$file->move($tujuan_upload, $filettd);
 		}
 			
@@ -236,7 +245,7 @@ class KepegawaianController extends Controller
 
 			$fileijazah .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgdik');
 			$file->move($tujuan_upload, $fileijazah);
 		}
 			
@@ -254,7 +263,7 @@ class KepegawaianController extends Controller
 
 			$fileskgol .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimggol');
 			$file->move($tujuan_upload, $fileskgol);
 		}
 			
@@ -272,63 +281,22 @@ class KepegawaianController extends Controller
 
 			$fileskjab .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgjab');
 			$file->move($tujuan_upload, $fileskjab);
 		}
 			
 		if (!(isset($fileskjab))) {
 			$fileskjab = null;
 		}
-
-
-		// ubah semua variabel tanggal jadi format 'Ymd'
-		if (isset($request->tgl_join)) {
-			$tgl_join = date('Y-m-d',strtotime($request->tgl_join));
-		} else {
-			$tgl_join = null;
-		}
-
-		if (isset($request->tgl_lahir)) {
-			$tgl_lahir = date('Y-m-d',strtotime($request->tgl_lahir));
-		} else {
-			$tgl_lahir = null;
-		}
-
-		if (isset($request->tmt_gol)) {
-			$tmt_gol = date('Y-m-d',strtotime($request->tmt_gol));
-		} else {
-			$tmt_gol = null;
-		}
-
-		if (isset($request->tmt_sk_gol)) {
-			$tmt_sk_gol = date('Y-m-d',strtotime($request->tmt_sk_gol));
-		} else {
-			$tmt_sk_gol = null;
-		}
-
-		if (isset($request->tmt_jab)) {
-			$tmt_jab = date('Y-m-d',strtotime($request->tmt_jab));
-		} else {
-			$tmt_jab = null;
-		}
-
-		if (isset($request->tmt_sk_jab)) {
-			$tmt_sk_jab = date('Y-m-d',strtotime($request->tmt_sk_jab));
-		} else {
-			$tmt_sk_jab = null;
-		}
 	
 		// mulai insert
-		$jabatan = explode("||", $request->jabatan);
-		$jns_jab = $jabatan[0];
-		$idjab = $jabatan[1];
 
 		$insert_emp_data = [
 				// IDENTITAS
 				'sts' => 1,
 				'createdate' => date('Y-m-d H:i:s'),
 				'id_emp' => $new_id_emp,
-				'tgl_join' => $tgl_join,
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-d-m',strtotime($request->tgl_join)) : null),
 				'status_emp' => $request->status_emp,
 				'ked_emp' => $request->ked_emp,
 				'nip_emp' => $request->nip_emp,
@@ -338,7 +306,7 @@ class KepegawaianController extends Controller
 				'gelar_blk' => $request->gelar_blk,
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => $request->tempat_lahir,
-				'tgl_lahir' => $tgl_lahir,
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-d-m',strtotime($request->tgl_lahir)) : null),
 				'idagama' => $request->idagama,
 				'alamat_emp' => $request->alamat_emp,
 				'tlp_emp' => $request->tlp_emp,
@@ -382,9 +350,9 @@ class KepegawaianController extends Controller
 				'sts' => 1,
 				'tgl' => date('Y-m-d H:i:s'),
 				'noid' => $new_id_emp,
-				'tmt_gol' => $tmt_gol,
+				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-d-m',strtotime($request->tmt_gol)) : null),
 				'no_sk_gol' => $request->no_sk_gol,
-				'tmt_sk_gol' => $tmt_sk_gol,
+				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-d-m',strtotime($request->tmt_sk_gol)) : null),
 				'idgol' => $request->idgol,
 				'jns_kp' => $request->jns_kp,
 				'mk_thn' => $request->mk_thn,
@@ -393,6 +361,9 @@ class KepegawaianController extends Controller
 				'tampilnew' => 1,
 			];
 
+		$jabatan = explode("||", $request->jabatan);
+		$jns_jab = $jabatan[0];
+		$idjab = $jabatan[1];
 		$insert_emp_jab = [
 				// JABATAN
 				'sts' => 1,
@@ -404,9 +375,9 @@ class KepegawaianController extends Controller
 				'idunit' => $request->idunit,
 				'idlok' => $request->idlok,
 				'eselon' => $request->eselon,
-				'tmt_jab' => $tmt_jab,
+				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-d-m',strtotime($request->tmt_jab)) : null),
 				'no_sk_jab' => $request->no_sk_jab,
-				'tmt_sk_jab' => $tmt_sk_jab,
+				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-d-m',strtotime($request->tmt_sk_jab)) : null),
 				'gambar' => $fileskjab,
 				'tampilnew' => 1,
 			];
@@ -444,7 +415,7 @@ class KepegawaianController extends Controller
 
 			$filefoto .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgemp');
 			$file->move($tujuan_upload, $filefoto);
 		}
 			
@@ -462,7 +433,7 @@ class KepegawaianController extends Controller
 
 			$filettd .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgttd');
 			$file->move($tujuan_upload, $filettd);
 		}
 			
@@ -480,7 +451,7 @@ class KepegawaianController extends Controller
 
 			$fileijazah .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgdik');
 			$file->move($tujuan_upload, $fileijazah);
 		}
 			
@@ -498,7 +469,7 @@ class KepegawaianController extends Controller
 
 			$fileskgol .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimggol');
 			$file->move($tujuan_upload, $fileskgol);
 		}
 			
@@ -516,7 +487,7 @@ class KepegawaianController extends Controller
 
 			$fileskjab .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileurl');
+			$tujuan_upload = config('app.savefileimgjab');
 			$file->move($tujuan_upload, $fileskjab);
 		}
 			
@@ -571,7 +542,7 @@ class KepegawaianController extends Controller
 			->update([
 				'sts' => 1,
 				'createdate' => date('Y-m-d H:i:s'),
-				'tgl_join' => $tgl_join,
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-d-m',strtotime($request->tgl_join)) : null),
 				'status_emp' => $request->status_emp,
 				'ked_emp' => $request->ked_emp,
 				'nip_emp' => $request->nip_emp,
@@ -581,7 +552,7 @@ class KepegawaianController extends Controller
 				'gelar_blk' => $request->gelar_blk,
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => $request->tempat_lahir,
-				'tgl_lahir' => $tgl_lahir,
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-d-m',strtotime($request->tgl_lahir)) : null),
 				'idagama' => $request->idagama,
 				'alamat_emp' => $request->alamat_emp,
 				'tlp_emp' => $request->tlp_emp,
@@ -597,7 +568,6 @@ class KepegawaianController extends Controller
 				'npwp' => $request->npwp,
 				'no_jamsos' => $request->no_jamsos,
 				'idgroup' => $request->idgroup,
-				'passmd5' => md5($request->passmd5),
 			]);
 
 		Emp_dik::where('noid', $id_emp)
@@ -619,9 +589,9 @@ class KepegawaianController extends Controller
 			->update([
 				'sts' => 1,
 				'tgl' => date('Y-m-d H:i:s'),
-				'tmt_gol' => $tmt_gol,
+				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-d-m',strtotime($request->tmt_gol)) : null),
 				'no_sk_gol' => $request->no_sk_gol,
-				'tmt_sk_gol' => $tmt_sk_gol,
+				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-d-m',strtotime($request->tmt_sk_gol)) : null),
 				'idgol' => $request->idgol,
 				'jns_kp' => $request->jns_kp,
 				'mk_thn' => $request->mk_thn,
@@ -640,9 +610,9 @@ class KepegawaianController extends Controller
 				'idunit' => $request->idunit,
 				'idlok' => $request->idlok,
 				'eselon' => $request->eselon,
-				'tmt_jab' => $tmt_jab,
+				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-d-m',strtotime($request->tmt_jab)) : null),
 				'no_sk_jab' => $request->no_sk_jab,
-				'tmt_sk_jab' => $tmt_sk_jab,
+				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-d-m',strtotime($request->tmt_sk_jab)) : null),
 				'gambar' => $fileskjab,
 			]);
 

@@ -447,7 +447,7 @@ class CmsController extends Controller
             $file_name = "cms" . preg_replace("/[^0-9]/", "", $request->tanggal);
             $file_name .= ".". $file->getClientOriginalExtension();
 
-            $tujuan_upload = config('app.savefileurl');
+            $tujuan_upload = config('app.savefileimgcontent');
             $file->move($tujuan_upload, $file_name);
         }
 

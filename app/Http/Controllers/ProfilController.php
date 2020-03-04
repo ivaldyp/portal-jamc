@@ -70,6 +70,11 @@ class ProfilController extends Controller
 						->where('sts', 1)
 						->get();
 
+		$statuses = Glo_org_statusemp::get();
+		$pendidikans = Glo_dik::
+						orderBy('urut')
+						->get();
+
 		return view('pages.bpadprofil.pegawai')
 				->with('id_emp', Auth::user()->id_emp)
 				->with('emp_data', $emp_data)
@@ -80,6 +85,196 @@ class ProfilController extends Controller
 				->with('accessid', $accessid)
 				->with('accessdik', $accessdik)
 				->with('accessgol', $accessgol)
-				->with('accessjab', $accessjab);	
+				->with('accessjab', $accessjab)
+				->with('statuses', $statuses)
+				->with('pendidikans', $pendidikans);	
+	}
+
+	public function formupdateidpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 37);
+
+		$id_emp = $_SESSION['user_data']['id_emp'];
+		$filefoto = '';
+
+		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
+		if (isset($request->filefoto)) {
+			$file = $request->filefoto;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/profil/pegawai')->with('message', 'Ukuran file foto pegawai terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$filefoto .= $id_emp . ".". $file->getClientOriginalExtension();
+
+			$tujuan_upload = config('app.savefileimgemp');
+			$file->move($tujuan_upload, $filefoto);
+		}
+			
+		if (!(isset($filefoto))) {
+			$filefoto = null;
+		}
+
+		Emp_data::where('id_emp', $id_emp)
+			->update([
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-d-m',strtotime($request->tgl_join)) : null),
+				'status_emp' => $request->status_emp,
+				'nrk_emp' => $request->nrk_emp,
+				'nm_emp' => $request->nm_emp,
+				'gelar_dpn' => $request->gelar_dpn,
+				'gelar_blk' => $request->gelar_blk,
+				'jnkel_emp' => $request->jnkel_emp,
+				'tempat_lahir' => $request->tempat_lahir,
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-d-m',strtotime($request->tgl_lahir)) : null),
+				'idagama' => $request->idagama,
+				'alamat_emp' => $request->alamat_emp,
+				'tlp_emp' => $request->tlp_emp,
+				'email_emp' => $request->email_emp,
+				'status_nikah' => $request->status_nikah,
+				'gol_darah' => $request->gol_darah,
+				'nm_bank' => $request->nm_bank,
+				'cb_bank' => $request->cb_bank,
+				'an_bank' => $request->an_bank,
+				'nr_bank' => $request->nr_bank,
+				'no_taspen' => $request->no_taspen,
+				'no_askes' => $request->no_askes,
+				'npwp' => $request->npwp,
+				'no_jamsos' => $request->no_jamsos,
+			]);
+
+		if ($filefoto != '') {
+			Emp_data::where('id_emp', $id_emp)
+			->update([
+				'tampilnew' => 1,
+				'foto' => $filefoto,
+			]);
+		}
+
+		return redirect('/profil/pegawai')
+					->with('message', 'Pegawai '.$request->nm_emp.' berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function forminsertdikpegawai (Request $request)
+	{
+		$this->checkSessionTime();
+		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
+
+		$id_emp = $_SESSION['user_data']['id_emp'];
+		$fileijazah = '';
+
+		// (PENDIDIKAN) cek dan set variabel untuk file foto ijazah
+		if (isset($request->fileijazah)) {
+			$file = $request->fileijazah;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/profil/pegawai')->with('message', 'Ukuran file foto ijazah terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$fileijazah .= $id_emp . ".". $file->getClientOriginalExtension();
+
+			$tujuan_upload = config('app.savefileimgdik');
+			$file->move($tujuan_upload, $fileijazah);
+		}
+			
+		if (!(isset($fileijazah))) {
+			$fileijazah = null;
+		}
+
+		$insert_emp_dik = [
+				// PENDIDIKAN
+				'sts' => 1,
+				'tgl' => date('Y-m-d H:i:s'),
+				'noid' => $id_emp,
+				'iddik' => $request->iddik,
+				'prog_sek' => $request->prog_sek,
+				'nm_sek' => $request->nm_sek,
+				'no_sek' => $request->no_sek,
+				'th_sek' => $request->th_sek,
+				'gelar_dpn_sek' => $request->gelar_dpn_sek,
+				'gelar_blk_sek' => $request->gelar_blk_sek,
+				'ijz_cpns' => $request->ijz_cpns,
+				'gambar' => $fileijazah,
+				'tampilnew' => 1,
+			];
+
+		Emp_dik::insert($insert_emp_dik);
+
+		return redirect('/profil/pegawai')
+					->with('message', 'Data pendidikan pegawai berhasil ditambah')
+					->with('msg_num', 1);
+	}
+
+	public function formupdatedikpegawai (Request $request)
+	{
+		$this->checkSessionTime();
+		$accessdik = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
+
+		$id_emp = $_SESSION['user_data']['id_emp'];
+		$fileijazah = '';
+
+		// (PENDIDIKAN) cek dan set variabel untuk file foto ijazah
+		if (isset($request->fileijazah)) {
+			$file = $request->fileijazah;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/profil/pegawai')->with('message', 'Ukuran file foto ijazah terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$fileijazah .= $id_emp . ".". $file->getClientOriginalExtension();
+
+			$tujuan_upload = config('app.savefileimgdik');
+			$file->move($tujuan_upload, $fileijazah);
+		}
+			
+		if (!(isset($fileijazah))) {
+			$fileijazah = null;
+		}
+
+		Emp_dik::where('noid', $id_emp)
+			->update([
+				'sts' => 1,
+				'tgl' => date('Y-m-d H:i:s'),
+				'iddik' => $request->iddik,
+				'prog_sek' => $request->prog_sek,
+				'nm_sek' => $request->nm_sek,
+				'no_sek' => $request->no_sek,
+				'th_sek' => $request->th_sek,
+				'gelar_dpn_sek' => $request->gelar_dpn_sek,
+				'gelar_blk_sek' => $request->gelar_blk_sek,
+				'ijz_cpns' => $request->ijz_cpns,
+				'gambar' => $fileijazah,
+			]);
+
+		if ($fileijazah != '') {
+			Emp_dik::where('noid', $id_emp)
+			->update([
+				'tampilnew' => 1,
+				'gambar' => $fileijazah,
+			]);
+		}
+
+		return redirect('/profil/pegawai')
+					->with('message', 'Data pendidikan pegawai berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function formdeletedikpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$accessdik = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
+
+		$id_emp = $_SESSION['user_data']['id_emp'];
+
+		Emp_dik::where('noid', $id_emp)
+					->where('ids', $request->ids)
+					->update([
+						'sts' => 0,
+					]);
+
+		return redirect('/profil/pegawai')
+					->with('message', 'Data pendidikan pegawai berhasil dihapus')
+					->with('msg_num', 1);
 	}
 }
