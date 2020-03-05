@@ -42,6 +42,8 @@ Route::group(['prefix' => 'content'], function () {
 // ------------- BPAD DT --------------
 
 Route::group(['prefix' => 'profil'], function () {
+	Route::get('/disposisi', 'ProfilController@disposisi');
+
 	Route::get('/pegawai', 'ProfilController@pegawai');
 	Route::post('/form/ubahidpegawai', 'ProfilController@formupdateidpegawai');
 	Route::post('/form/tambahdikpegawai', 'ProfilController@forminsertdikpegawai');

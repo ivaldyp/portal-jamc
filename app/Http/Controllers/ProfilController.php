@@ -38,6 +38,14 @@ class ProfilController extends Controller
 		return $request->another;
 	}
 
+	public function disposisi(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+
+
+	}
+
 	public function pegawai(Request $request)
 	{
 		$this->checkSessionTime();
@@ -49,7 +57,7 @@ class ProfilController extends Controller
 		$accessjab = $this->checkAccess($_SESSION['user_data']['idgroup'], 72);
 
 		$emp_data = Emp_data::
-						where('id_emp', Auth::user()->id_emp)
+						where('id_emp', '1.20.512.18002')
 						->where('sts', 1)
 						->first();
 
@@ -108,7 +116,7 @@ class ProfilController extends Controller
 
 			$filefoto .= $id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileimgemp');
+			$tujuan_upload = config('app.savefileimg');
 			$file->move($tujuan_upload, $filefoto);
 		}
 			
@@ -172,9 +180,11 @@ class ProfilController extends Controller
 				return redirect('/profil/pegawai')->with('message', 'Ukuran file foto ijazah terlalu besar (Maksimal 2MB)');     
 			} 
 
-			$fileijazah .= $id_emp . ".". $file->getClientOriginalExtension();
+			$fileijazah .= "dik_" . $request->iddik . "_" . $id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileimgdik');
+			$tujuan_upload = config('app.savefileimg');
+			$tujuan_upload .= "/" . $id_emp;
+
 			$file->move($tujuan_upload, $fileijazah);
 		}
 			
@@ -222,9 +232,11 @@ class ProfilController extends Controller
 				return redirect('/profil/pegawai')->with('message', 'Ukuran file foto ijazah terlalu besar (Maksimal 2MB)');     
 			} 
 
-			$fileijazah .= $id_emp . ".". $file->getClientOriginalExtension();
+			$fileijazah .= "dik_" . $request->iddik . "_" . $id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileimgdik');
+			$tujuan_upload = config('app.savefileimg');
+			$tujuan_upload .= "/" . $id_emp;
+
 			$file->move($tujuan_upload, $fileijazah);
 		}
 			
@@ -233,6 +245,7 @@ class ProfilController extends Controller
 		}
 
 		Emp_dik::where('noid', $id_emp)
+			->where('ids', $request->ids)
 			->update([
 				'sts' => 1,
 				'tgl' => date('Y-m-d H:i:s'),
@@ -249,6 +262,7 @@ class ProfilController extends Controller
 
 		if ($fileijazah != '') {
 			Emp_dik::where('noid', $id_emp)
+			->where('ids', $request->ids)
 			->update([
 				'tampilnew' => 1,
 				'gambar' => $fileijazah,
@@ -268,10 +282,10 @@ class ProfilController extends Controller
 		$id_emp = $_SESSION['user_data']['id_emp'];
 
 		Emp_dik::where('noid', $id_emp)
-					->where('ids', $request->ids)
-					->update([
-						'sts' => 0,
-					]);
+		->where('ids', $request->ids)
+		->update([
+			'sts' => 0,
+		]);
 
 		return redirect('/profil/pegawai')
 					->with('message', 'Data pendidikan pegawai berhasil dihapus')

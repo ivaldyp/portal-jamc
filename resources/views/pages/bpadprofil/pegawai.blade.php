@@ -68,24 +68,24 @@
 						<div class="user-bg bg-default"> 
 							<div class="overlay-box">
 								<div class="user-content">
-									<!-- <?php if ($emp_data	['foto'] && $emp_data['foto'] != '') : ?>
+									<!-- <?php if ($emp_data['foto'] && $emp_data['foto'] != '') : ?>
 										<?php if ($emp_data['tampilnew'] == 1) : ?>
 											<img src="/bpadwebs/public/publicimg/{{ $emp_data['foto'] }}" style="height: 150%" class="thumb-lg img-circle" alt="img">
 										<?php else : ?>
 											<img src="http://bpad.jakarta.go.id/images/emp/{{ $emp_data['foto'] }}" style="height: 150%" class="thumb-lg img-circle" alt="img">
 										<?php endif ?>
 									<?php endif ?> -->
-									<?php if ($emp_data	['foto'] && $emp_data['foto'] != '' && $emp_data['tampilnew'] == 1) : ?>
-										<img src="/bpadwebs/public/publicimg/{{ $emp_data['foto'] }}" style="height: 150%" class="thumb-lg img-circle" alt="img">
+									<?php if ($emp_data	['foto'] && $emp_data['foto'] != '') : ?>
+										<img src="{{ config('app.openfileimg') }}/{{ $emp_data['foto'] }}" style="height: 100%; width: 30%" class="thumb-lg img-circle" alt="img">
 									<?php else : ?>
-										<img src="/bpadwebs/public/publicimg/account.png" style="height: 150%" class="thumb-lg img-circle" alt="img">
+										<img src="{{ config('app.openfileimgdefault') }}" style="height: 100%; width: 30%" class="thumb-lg img-circle" alt="img">
 									<?php endif ?>
 								</div>
 							</div>
 						</div>
 						<div class="user-btm-box" style="text-align: center;">
 							<h1>
-								{{ ucwords(strtolower($_SESSION['user_data']['nm_emp'])) }}
+								{{ ucwords(strtolower($emp_data['nm_emp'])) }}
 							</h1>
 							<h3><strong>
 								{{ ucwords(strtolower($emp_jab[0]['unit']['nm_unit'])) }}
@@ -96,12 +96,12 @@
 						<div class="user-btm-box" style="text-align: center;">
 							<div class="col-md-6 text-center row-in-br">
 								<p class="text-blue"><i style="font-size: 30px;" class="mdi mdi-phone"></i></p>
-								<h4 class="data-show">{{ $emp_data['tlp_emp'] }}</h4> 
+								<h5 class="data-show">{{ $emp_data['tlp_emp'] }}</h5> 
 								<input class="form-control data-input" type="text" name="tlp_emp" value="{{ $emp_data['tlp_emp'] }}" placeholder="email" autocomplete="off">
 							</div>
 							<div class="col-md-6 text-center">
 								<p class="text-blue"><i style="font-size: 30px;" class="mdi mdi-email-outline"></i></p>
-								<h4 class="data-show">{{ $emp_data['email_emp'] }}</h4> 
+								<h5 class="data-show">{{ $emp_data['email_emp'] }}</h5> 
 								<input class="form-control data-input" type="text" name="email_emp" value="{{ $emp_data['email_emp'] }}" placeholder="email" autocomplete="off">
 							</div>
 						</div>
@@ -413,8 +413,8 @@
 															<strong>No. {{ $dik['no_sek'] }}</strong>
 														<?php endif ?>
 														
-														<?php if ($dik['gambar'] && $dik['gambar'] != '' && $dik['tampilnew'] == 1) : ?> 
-															<br><a target="_blank" href="/bpadwebs/public/publicimg/{{ $dik['gambar'] }}"></a>
+														<?php if ($dik['gambar'] && $dik['gambar'] != '') : ?> 
+															<br><a target="_blank" href="{{ config('app.openfileimg') }}/{{ Auth::user()->id_emp }}/{{ $dik['gambar'] }}">[File Ijazah]</a>
 														<?php else : ?>
 															<br>[Tidak ada ijazah]
 														<?php endif ?>
@@ -603,7 +603,7 @@
 			<div id="modal-insert-dik" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/bpadwebs/profil/form/tambahdikpegawai" class="form-horizontal">
+						<form method="POST" action="/bpadwebs/profil/form/tambahdikpegawai" class="form-horizontal" enctype="multipart/form-data">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b>Ubah Pendidikan</b></h4>
@@ -683,7 +683,7 @@
 			<div id="modal-update-dik" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/bpadwebs/profil/form/ubahdikpegawai" class="form-horizontal">
+						<form method="POST" action="/bpadwebs/profil/form/ubahdikpegawai" class="form-horizontal" enctype="multipart/form-data">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b>Ubah Pendidikan</b></h4>
@@ -691,7 +691,7 @@
 							<div class="modal-body">
 								
 								<input type="hidden" name="ids" id="modal_update_dik_ids">
-								<input type="hidden" name="ids" id="modal_update_dik_noid">
+								<input type="hidden" name="noid" id="modal_update_dik_noid">
 
 								<div class="form-group">
 									<label for="iddik" class="col-md-3 control-label"> Pendidikan Terakhir </label>
