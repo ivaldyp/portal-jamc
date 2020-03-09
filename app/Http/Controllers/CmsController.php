@@ -445,9 +445,10 @@ class CmsController extends Controller
             } 
 
             $file_name = "cms" . preg_replace("/[^0-9]/", "", $request->tanggal);
+            $file_name .= $_SESSION['user_data']['nrk_emp'];
             $file_name .= ".". $file->getClientOriginalExtension();
 
-            $tujuan_upload = config('app.savefileimgcontent');
+            $tujuan_upload = config('app.savefileimgberita');
             $file->move($tujuan_upload, $file_name);
         }
 

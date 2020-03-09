@@ -2,7 +2,8 @@
 
 return [
 
-	'savefileimgcontent' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\content',
+	'savefileimgberita' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\images\cms\1.20.512\1\file',
+	'savefileimggambar' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\images\cms\1.20.512\5\file',
 	'savefiledocs' => 'C:\xampp\htdocs\bpadwebs\public\publicfile',
 
 	'savefileimg' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\emp',

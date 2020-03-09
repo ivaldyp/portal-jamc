@@ -13,6 +13,7 @@ use App\Emp_data;
 use App\Emp_dik;
 use App\Emp_gol;
 use App\Emp_jab;
+use App\Fr_disposisi;
 use App\Glo_dik;
 use App\Glo_org_golongan;
 use App\Glo_org_jabatan;
@@ -38,14 +39,6 @@ class ProfilController extends Controller
 		return $request->another;
 	}
 
-	public function disposisi(Request $request)
-	{
-		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
-
-
-	}
-
 	public function pegawai(Request $request)
 	{
 		$this->checkSessionTime();
@@ -57,7 +50,7 @@ class ProfilController extends Controller
 		$accessjab = $this->checkAccess($_SESSION['user_data']['idgroup'], 72);
 
 		$emp_data = Emp_data::
-						where('id_emp', '1.20.512.18002')
+						where('id_emp', Auth::user()->id_emp)
 						->where('sts', 1)
 						->first();
 
@@ -290,5 +283,33 @@ class ProfilController extends Controller
 		return redirect('/profil/pegawai')
 					->with('message', 'Data pendidikan pegawai berhasil dihapus')
 					->with('msg_num', 1);
+	}
+
+	public function disposisi(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+
+		$disposisis = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_nm, emp2.nm_emp as to_nm
+										  from fr_disposisi disp
+										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
+										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
+										  where no_form in (SELECT distinct(no_form)
+										  FROM [bpaddt].[dbo].[fr_disposisi]
+										  where to_pm = '1.20.512.18058')
+										  order by disp.tgl_masuk DESC, disp.no_form DESC, disp.ids ASC") );
+
+		return view('pages.bpadprofil.disposisi')
+				->with('access', $access)
+				->with('disposisis', $disposisis);
+	}
+
+	public function disposisitambah (Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+
+		return view('pages.bpadprofil.tambahdisposisi')
+				->with('access', $access);
 	}
 }

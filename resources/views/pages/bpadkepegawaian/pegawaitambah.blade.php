@@ -461,7 +461,7 @@
 													<div class="col-md-4">
 														<select class="form-control select2" name="idunit" id="idunit">
 															@foreach($units as $unit)
-																<option value="{{ $unit['kd_unit'] }}"> {{ $unit['kd_unit'] }} - {{ $unit['nm_unit'] }}</option>
+																<option value="{{ $unit['kd_unit'] }}"> {{ $unit['kd_unit'] }} - {{ $unit['notes'] }}</option>
 															@endforeach
 														</select>
 													</div>
