@@ -15,6 +15,8 @@ use App\Emp_gol;
 use App\Emp_jab;
 use App\Fr_disposisi;
 use App\Glo_dik;
+use App\Glo_disposisi_kode;
+use App\Glo_disposisi_penanganan;
 use App\Glo_org_golongan;
 use App\Glo_org_jabatan;
 use App\Glo_org_kedemp;
@@ -27,7 +29,7 @@ session_start();
 
 class ProfilController extends Controller
 {
-    use SessionCheckTraits;
+	use SessionCheckTraits;
 
 	public function __construct()
 	{
@@ -119,7 +121,7 @@ class ProfilController extends Controller
 
 		Emp_data::where('id_emp', $id_emp)
 			->update([
-				'tgl_join' => (isset($request->tgl_join) ? date('Y-d-m',strtotime($request->tgl_join)) : null),
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : null),
 				'status_emp' => $request->status_emp,
 				'nrk_emp' => $request->nrk_emp,
 				'nm_emp' => $request->nm_emp,
@@ -127,7 +129,7 @@ class ProfilController extends Controller
 				'gelar_blk' => $request->gelar_blk,
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => $request->tempat_lahir,
-				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-d-m',strtotime($request->tgl_lahir)) : null),
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime($request->tgl_lahir)) : null),
 				'idagama' => $request->idagama,
 				'alamat_emp' => $request->alamat_emp,
 				'tlp_emp' => $request->tlp_emp,
@@ -290,14 +292,18 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
-		$disposisis = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_nm, emp2.nm_emp as to_nm
+		$disposisis = DB::select( DB::raw("select TOP 1000 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm
 										  from fr_disposisi disp
 										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
 										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddt].[dbo].[fr_disposisi]
-										  where to_pm = '1.20.512.18058')
-										  order by disp.tgl_masuk DESC, disp.no_form DESC, disp.ids ASC") );
+										  where to_pm like '%%')
+										  order by disp.no_form DESC, disp.ids ASC") );
+		$disposisis = json_decode(json_encode($disposisis), true);
+
+		var_dump($disposisis);
+		die();
 
 		return view('pages.bpadprofil.disposisi')
 				->with('access', $access)
@@ -309,7 +315,149 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
+		$maxnoform = Fr_disposisi::max('no_form');
+		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
+
+		if ($_SESSION['user_data']['child'] == 1 || $_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+
+			if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+				$idunits = '%';
+			} else {
+				$idunits = $_SESSION['user_data']['idunit'];
+			}
+
+			$stafs = DB::select( DB::raw("
+						SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM emp_data as a
+							CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  emp_gol,glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+							CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  emp_dik,glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+							CROSS APPLY (SELECT TOP 1 * FROM glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+							,glo_skpd as b,glo_org_unitkerja as c,glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+							and idunit like '".$idunits."%' and ked_emp = 'aktif' order by nm_emp") );
+			$stafs = json_decode(json_encode($stafs), true);
+		} else {
+			$stafs = 0;
+		}
+
+		if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+			$jabatans = Glo_org_jabatan::
+					where('jabatan',  'like', '%Kepala Badan%')
+					->get();
+		} else {
+			$jabatans = Glo_org_jabatan::
+					whereRaw("LEFT(jabatan, 6) = 'kepala'")
+					->orWhereRaw("LEFT(jabatan, 5) = 'sekre'")
+					->orderBy('jabatan')
+					->get();
+		}
+
+		
+
+		$penanganans = Glo_disposisi_penanganan::
+						orderBy('urut')
+						->get();
+
 		return view('pages.bpadprofil.tambahdisposisi')
-				->with('access', $access);
+				->with('access', $access)
+				->with('maxnoform', $maxnoform)
+				->with('kddispos', $kddispos)
+				->with('stafs', $stafs)
+				->with('jabatans', $jabatans)
+				->with('penanganans', $penanganans);
+	}
+
+	public function forminsertdisposisi(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+
+		$filedispo = '';
+
+		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
+		if (isset($request->nm_file)) {
+			$file = $request->nm_file;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$filedispo .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefiledisposisi');
+			$file->move($tujuan_upload, $filedispo);
+		}
+			
+		if (!(isset($filedispo))) {
+			$filedispo = null;
+		}
+
+		$maxnoform = Fr_disposisi::max('no_form');
+		$splitnoform = explode(".", $maxnoform); 
+		$newnoform = $splitnoform[0] . "." . $splitnoform[1] . "." . $splitnoform[2] . "." . ($splitnoform[3]+1);
+
+		$insertsuratmaster = [
+			'sts' => 1,
+			'tgl' => date('Y-m-d H:i:s'),
+			'kd_skpd' => '1.20.512',
+			'kd_unit' => '01',
+			'no_form' => $newnoform,
+			'kd_surat' => '',
+			'status_surat' => '',
+			'idtop' => 0,
+			'tgl_masuk' => date('Y-m-d',strtotime($request->tgl_masuk)),
+			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+			'tgl_input' => date('Y-m-d H:i:s'),
+			'no_index' => $request->no_index,
+			'kode_disposisi' => $request->kode_disposisi,
+			'perihal' => $request->perihal,
+			'tgl_surat' => $request->tgl_surat,
+			'no_surat' => $request->no_surat,
+			'asal_surat' => $request->asal_surat,
+			'kepada_surat' => $request->kepada_surat,
+			'sifat1_surat' => $request->sifat1_surat,
+			'sifat2_surat' => $request->sifat2_surat,
+			'ket_lain' => $request->ket_lain,
+			'nm_file' => $filedispo,
+			'child' => 0,
+		];
+
+		if (Fr_disposisi::insert($insertsuratmaster)) {
+
+			$findidemp = DB::select( DB::raw("
+						SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM emp_data as a
+							CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  emp_gol,glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+							CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  emp_dik,glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+							CROSS APPLY (SELECT TOP 1 * FROM glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+							,glo_skpd as b,glo_org_unitkerja as c,glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+							and tbjab.idjab like '".$request->jabatans[0]."' and ked_emp = 'aktif' order by nm_emp") )[0];
+			$findidemp = json_decode(json_encode($findidemp), true);
+
+			$idnew = DB::getPdo()->lastInsertId();
+			$insertsurat = [
+				'sts' => 1,
+				'tgl' => date('Y-m-d H:i:s'),
+				'kd_skpd' => '1.20.512',
+				'kd_unit' => '01',
+				'no_form' => $newnoform,
+				'idtop' => $idnew,
+				'tgl_masuk' => date('Y-m-d',strtotime($request->tgl_masuk)),
+				'kepada' => $request->jabatans[0],
+				'penanganan' => $request->penanganan,
+				'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+				'to_pm' => $findidemp['id_emp'],
+				'child' => 0,
+			];
+
+			if (Fr_disposisi::insert($insertsurat)) {
+				return redirect('/profil/disposisi')
+					->with('message', 'Disposisi berhasil dibuat')
+					->with('msg_num', 1);
+			}
+		}
+		
+
+		
+		
 	}
 }

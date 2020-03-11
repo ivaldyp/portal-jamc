@@ -4,9 +4,9 @@ return [
 
 	'savefileimgberita' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\images\cms\1.20.512\1\file',
 	'savefileimggambar' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\images\cms\1.20.512\5\file',
-	'savefiledocs' => 'C:\xampp\htdocs\bpadwebs\public\publicfile',
-
 	'savefileimg' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\emp',
+	'savefiledocs' => 'C:\xampp\htdocs\bpadwebs\public\publicfile',
+	'savefiledisposisi' => 'C:\xampp\htdocs\bpadwebs\public\publicfile\disp',
 
 	'openfileimg' => '/bpadwebs/public/publicimg/emp',
 	'openfileimgdefault' => '/bpadwebs/public/publicimg/account.png',

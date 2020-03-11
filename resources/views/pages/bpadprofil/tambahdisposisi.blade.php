@@ -65,41 +65,169 @@
 			</div>
 			<div class="row ">
 				<div class="col-md-12">
-					<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/form/ubahpegawai" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/bpadwebs/profil/form/tambahdisposisi" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Disposisi </div>
 							<div class="panel-wrapper collapse in" aria-expanded="true">
 								<div class="panel-body">
 									<div class="col-md-6">
+
 										<div class="form-group">
-										<label for="tgl_join" class="col-md-2 control-label"> TMT </label>
-										<div class="col-md-4">
-											<input type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy">
+											<label class="col-md-2 control-label"> No Form </label>
+											<div class="col-md-8">
+												<p class="form-control-static"><?php 
+																					$newnoform = explode(".", $maxnoform); 
+																					echo $newnoform[0] . "." . $newnoform[1] . "." . $newnoform[2] . "." . ($newnoform[3]+1); 
+																				?>
+												</p>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk </label>
+											<div class="col-md-8">
+												<input type="text" name="tgl_masuk" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="no_index" class="col-md-2 control-label"> No Index </label>
+											<div class="col-md-8">
+												<input autocomplete="off" type="text" name="no_index" class="form-control" id="no_index">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="kode_disposisi" class="col-md-2 control-label"> Kode Disposisi </label>
+											<div class="col-md-8">
+												<select class="form-control select2" name="kode_disposisi" id="kode_disposisi">
+													@foreach($kddispos as $kddispo)
+														<option value="{{ $kddispo['kd_jnssurat'] }}"> [{{ $kddispo['kd_jnssurat'] }}] - [{{ $kddispo['nm_jnssurat'] }}] </option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="gelar" class="col-md-2 control-label"> Nomor & Tgl Surat </label>
+											<div class="col-md-4">
+												<input autocomplete="off" type="text" name="no_surat" class="form-control" id="no_surat" placeholder="Nomor">
+											</div>
+											<div class="col-md-4">
+												<input type="text" name="tgl_surat" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="mm/dd/yyyy">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="perihal" class="col-md-2 control-label"> Perihal </label>
+											<div class="col-md-8">
+												<textarea name="perihal" class="form-control" rows="3"></textarea>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="asal_surat" class="col-md-2 control-label"> Dari </label>
+											<div class="col-md-8">
+												<input autocomplete="off" type="text" name="asal_surat" class="form-control" id="asal_surat">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="kepada_surat" class="col-md-2 control-label"> Kepada </label>
+											<div class="col-md-8">
+												<input autocomplete="off" type="text" name="kepada_surat" class="form-control" id="kepada_surat">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-md-2 control-label"> Sifat Surat </label>
+											<div class="col-md-4">
+												<select class="form-control" name="sifat1_surat" id="sifat1_surat">
+													<option value="<?php echo NULL; ?>" selected> </option>
+													<option value="Rahasia"> Rahasia </option>
+													<option value="Penting"> Penting </option>
+													<option value="Biasa"> Biasa </option>
+												</select>
+											</div>
+											<div class="col-md-4">
+												<select class="form-control" name="sifat2_surat" id="sifat2_surat">
+													<option value="<?php echo NULL; ?>" selected> </option>
+													<option value="Kilat"> Kilat </option>
+													<option value="Hari Ini"> Hari Ini </option>
+													<option value="Sangat Segera"> Sangat Segera </option>
+													<option value="Segera"> Segera </option>
+													<option value="Biasa"> Biasa </option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="ket_lain" class="col-md-2 control-label"> Keterangan </label>
+											<div class="col-md-8">
+												<textarea name="ket_lain" class="form-control" rows="3"></textarea>
+											</div>
 										</div>
 									</div>
 
-									<div class="form-group">
-										<label for="nip_emp" class="col-md-2 control-label"> NIP </label>
-										<div class="col-md-4">
-											<input autocomplete="off" type="text" name="nip_emp" class="form-control" id="nip_emp">
-										</div>
-									</div>
-									</div>
 									<div class="col-md-6">
+										<?php if ($_SESSION['user_data']['child'] == 1 || $_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL'): ?>
 										<div class="form-group">
-										<label for="tgl_join" class="col-md-2 control-label"> TMT </label>
-										<div class="col-md-4">
-											<input type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy">
+											<label class="col-md-2 control-label"> Disposisi Ke </label>
+											<div class="col-md-8">
+												<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
+													@foreach($jabatans as $jabatan)
+														<option value="{{ $jabatan['jabatan'] }}"> {{ $jabatan['jabatan'] }} </option>
+													@endforeach
+												</select>
+											</div>
 										</div>
-									</div>
 
-									<div class="form-group">
-										<label for="nip_emp" class="col-md-2 control-label"> NIP </label>
-										<div class="col-md-4">
-											<input autocomplete="off" type="text" name="nip_emp" class="form-control" id="nip_emp">
+										<?php if ($_SESSION['user_data']['child'] == 1): ?>
+										<div class="form-group">
+											<label for="nip_emp" class="col-md-2 control-label"> Staf </label>
+											<div class="col-md-8">
+												<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="stafs[]" id="stafs" required>
+													@foreach($stafs as $staf)
+														<option value="{{ $staf['id_emp'] }}"> 
+															{{ ucwords(strtolower($staf['nm_emp'])) }}
+															<?php if ($staf['nrk_emp']): ?>
+																- [{{ $staf['nrk_emp'] }}]
+															<?php endif ?>
+														</option>
+													@endforeach
+												</select>
+											</div>
 										</div>
-									</div>
+										<?php endif ?>
+										
+										<?php endif ?>
+
+										<div class="form-group">
+											<label for="tgl_join" class="col-md-2 control-label"> Penanganan </label>
+											<div class="col-md-8">
+												<select class="select2 form-control" name="penanganan" id="penanganan">
+													<option value="<?php echo NULL; ?>">---</option>
+													@foreach($penanganans as $penanganan)
+														<option value="{{ $penanganan['nm_penanganan'] }}"> {{ $penanganan['nm_penanganan'] }} </option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="catatan" class="col-md-2 control-label"> Catatan </label>
+											<div class="col-md-8">
+												<textarea name="catatan" class="form-control" rows="3"></textarea>
+											</div>
+										</div>
+
+										<div class="form-group">
+	                                        <label for="nm_file" class="col-lg-2 control-label"> File <br> </label>
+	                                        <div class="col-lg-8">
+	                                            <input type="file" class="form-control" id="nm_file" name="nm_file">
+	                                        </div>
+	                                    </div>
 									</div>
 									<!-- <div class="sttabs tabs-style-underline">
 										<nav>
@@ -118,6 +246,11 @@
 									
 								</div>
 							</div>
+							<div class="panel-footer">
+                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
+                                <div class="clearfix"></div>
+                            </div>
 						</div>	
 						<div class="panel panel-info">
 							<div class="panel-heading">  
@@ -156,14 +289,23 @@
 	</script>
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 	<!-- Date Picker Plugin JavaScript -->
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
 	<script>
 		$(function () {
+			$(".select2").select2();
+
 			jQuery('#datepicker-autoclose').datepicker({
 				autoclose: true
-				, todayHighlight: false
+				, todayHighlight: true
+				, format: 'dd/mm/yyyy'
+			});
+
+			jQuery('#datepicker-autoclose2').datepicker({
+				autoclose: true
+				, todayHighlight: true
 				, format: 'dd/mm/yyyy'
 			});
 

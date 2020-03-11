@@ -76,7 +76,7 @@
 										<?php endif ?>
 									<?php endif ?> -->
 									<?php if ($emp_data	['foto'] && $emp_data['foto'] != '') : ?>
-										<img src="{{ config('app.openfileimg') }}/{{ $emp_data['foto'] }}" style="height: 100%; width: 30%" class="thumb-lg img-circle" alt="img">
+										<img src="{{ config('app.openfileimg') }}/{{ $emp_data['foto'] }}" style="height: 100%; width: 20%" class="thumb-lg img-circle" alt="img">
 									<?php else : ?>
 										<img src="{{ config('app.openfileimgdefault') }}" style="height: 100%; width: 30%" class="thumb-lg img-circle" alt="img">
 									<?php endif ?>

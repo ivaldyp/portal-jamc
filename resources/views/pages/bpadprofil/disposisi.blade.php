@@ -96,18 +96,18 @@
 
 											<?php 
 
-												if ($disp->kd_surat) {
-													$thisnoform = $disp->no_form;
-													$thistanggal = $disp->tgl_masuk;
-													$thiskode = $disp->kode_disposisi;
-													$thisnosurat = $disp->no_surat;
-													$thisperihal = $disp->perihal;
-													$thisasal = $disp->asal_surat;
-													$thissifat1 = $disp->sifat1_surat;
-													$thissifat2 = $disp->sifat2_surat;
+												if ($disp['kd_surat']) {
+													$thisnoform = $disp['no_form'];
+													$thistanggal = $disp['tgl_masuk'];
+													$thiskode = $disp['kode_disposisi'];
+													$thisnosurat = $disp['no_surat'];
+													$thisperihal = $disp['perihal'];
+													$thisasal = $disp['asal_surat'];
+													$thissifat1 = $disp['sifat1_surat'];
+													$thissifat2 = $disp['sifat2_surat'];
 												}
 
-												if ($disp->to_pm == Auth::user()->id_emp) :
+												if ($disp['to_pm'] == Auth::user()->id_emp) :
 											?>
 											
 											<tr>
@@ -120,9 +120,9 @@
 												<td>{{ $thissifat1 }}</td>
 												<td>{{ $thissifat2 }}</td>
 
-												<td>{{ $disp->from_nm }}</td>
-												<td>{{ $disp->to_nm }}</td>
-												<td>{{ $disp->penanganan }}</td>
+												<td>{{ $disp['from_nm'] }}</td>
+												<td>{{ $disp['to_nm'] }}</td>
+												<td>{{ $disp['penanganan'] }}</td>
 
 												@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 												<td style="vertical-align: middle;">
