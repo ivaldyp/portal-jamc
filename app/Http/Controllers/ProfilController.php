@@ -516,6 +516,4 @@ class ProfilController extends Controller
 					->with('message', 'Disposisi berhasil dihapus')
 					->with('msg_num', 1);
 	}
-
-
 }

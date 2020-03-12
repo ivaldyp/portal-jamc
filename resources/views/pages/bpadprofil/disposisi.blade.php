@@ -112,16 +112,16 @@
 
 															if ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['rd'] == 'N') { ?>
 																<tr>
-																	<td>{{ $thisnoform ?? '' }}</td>
-																	<td>{{ date('d-M-Y',strtotime($thistanggal ?? '')) }}</td>
-																	<td>{{ $thiskode ?? '' }}</td>
-																	<td>{{ $thisnosurat ?? '' }}</td>
-																	<td>{{ $thisperihal ?? '' }}</td>
-																	<td>{{ $thisasal ?? '' }}</td>
+																	<td>{{ $thisnoform ?? '-' }}</td>
+																	<td>{{ date('d-M-Y',strtotime($thistanggal ?? '-')) }}</td>
+																	<td>{{ $thiskode ?? '-' }}</td>
+																	<td>{{ $thisnosurat ?? '-' }}</td>
+																	<td>{{ $thisperihal ?? '-' }}</td>
+																	<td>{{ $thisasal ?? '-' }}</td>
 																	<td>
-																		<span class="label label-info">{{ $thissifat1 ?? '' }}</span>
+																		<span class="label label-info">{{ $thissifat1 ?? '-' }}</span>
 																		<br>
-																		<span class="label label-info">{{ $thissifat2 ?? '' }}</span>
+																		<span class="label label-info">{{ $thissifat2 ?? '-' }}</span>
 																	</td>
 
 																	<td>
@@ -274,6 +274,78 @@
 										</div>
 									</div>
 								@endif
+								@if($isEmployee == 0)
+									<div class="table-responsive">
+										<table id="myTable3" class="table table-hover table-striped">
+											<thead>
+												<tr>
+													<th>No. Form</th>
+													<th class="col-md-1">Tanggal</th>
+													<th>Kode</th>
+													<th>No. Surat</th>
+													<th>Perihal</th>
+													<th>Asal</th>
+													<th>Sifat</th>
+													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+													<th>Aksi</th>
+													@endif
+												</tr>
+											</thead>
+											<tbody>
+												<?php foreach ($disposisis as $key => $disp) { ?>
+													<tr>
+														<td>{{ $disp['no_form'] ?? '-' }}</td>
+														<td>{{ date('d-M-Y',strtotime($disp['tgl_masuk'] ?? '-')) }}</td>
+														<td>{{ $disp['kode_disposisi'] ?? '-' }}</td>
+														<td>{{ $disp['no_surat'] ?? '-' }}</td>
+														<td>{{ $disp['perihal'] ?? '-' }}</td>
+														<td>{{ $disp['asal_surat'] ?? '-' }}</td>
+														<td>
+															<span class="label label-info">{{ $disp['sifat1_surat'] ?? '-' }}</span>
+															<br>
+															<span class="label label-info">{{ $disp['sifat2_surat'] ?? '-' }}</span>
+														</td>
+
+														@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
+														<td style="vertical-align: middle;">
+															@if ($access['zupd'] == 'y')
+															<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
+															><i class="ti-pencil-alt"></i></button>
+															@endif
+															@if ($access['zdel'] == 'y')
+															<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $disp['ids'] }}"
+															><i class="ti-trash" data-ids="{{ $disp['ids'] }}" data-no_form="{{ $disp['no_form'] }}"></i></button>
+															@endif
+														</td>
+														@endif
+													</tr>
+													<div id="modal-delete-{{ $disp['ids'] }}" class="modal fade" role="dialog">
+														<div class="modal-dialog">
+															<div class="modal-content">
+																<form method="POST" action="/bpadwebs/profil/form/hapusdisposisi" class="form-horizontal">
+																@csrf
+																	<div class="modal-header">
+																		<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
+																	</div>
+																	<div class="modal-body">
+																		<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
+																		<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																		<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
+																	</div>
+																	<div class="modal-footer">
+																		<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+																		<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																	</div>
+																</form>
+															</div>
+														</div>
+													</div>
+													<div class="clearfix"></div>
+												<?php } ?>
+											</tbody>
+										</table>
+									</div>
+								@endif
 							</div>
 						</div>
 					</div>
@@ -363,6 +435,10 @@
 			});
 
 			$('#myTable2').DataTable({
+				"order": [ 0, "desc" ]
+			});
+
+			$('#myTable3').DataTable({
 				"order": [ 0, "desc" ]
 			});
 		});
