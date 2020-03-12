@@ -4,7 +4,7 @@
 	<!-- Bootstrap Core CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 		<!-- animation CSS -->
@@ -71,103 +71,133 @@
 								@if($access['zadd'] == 'y')
 								<a href="/bpadwebs/profil/tambah disposisi"><button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a> 
 								@endif
-								<div class="table-responsive">
-									<table id="" class="table table-hover">
-										<thead>
-											<tr>
-												<th>No. Form</th>
-												<th class="col-md-1">Tanggal</th>
-												<th>Kode</th>
-												<th>No. Surat</th>
-												<th>Perihal</th>
-												<th>Asal</th>
-												<th>Sifat 1</th>
-												<th>Sifat 2</th>
-												@if ($isEmployee == 1)
-												<th>Dari</th>
-												<th>Ke</th>
-												<th>Penanganan</th>
-												@endif
-												@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-												<th>Aksi</th>
-												@endif
-											</tr>
-										</thead>
-										<tbody>
-
-											<?php if ($isEmployee == 1) {
-												foreach ($disposisis as $key => $disp) {
-													if ($disp['kode_disposisi']) {
-														$thisnoform = $disp['no_form'];
-														$thistanggal = $disp['tgl_masuk'];
-														$thiskode = $disp['kode_disposisi'];
-														$thisnosurat = $disp['no_surat'];
-														$thisperihal = $disp['perihal'];
-														$thisasal = $disp['asal_surat'];
-														$thissifat1 = $disp['sifat1_surat'];
-														$thissifat2 = $disp['sifat2_surat'];
-													}
-
-													if ($disp['to_pm'] == $_SESSION['user_data']['nm_emp']) { ?>
+								@if($isEmployee == 1)
+									<ul class="nav customtab nav-tabs" role="tablist">
+										<li role="presentation" class="active"><a href="#inbox" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Inbox</span></a></li>
+										<li role="presentation" class=""><a href="#sent" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs"> Sent</span></a></li>
+									</ul>
+									<div class="tab-content">
+										<div role="tabpanel" class="tab-pane fade active in" id="inbox">
+											<div class="table-responsive">
+												<table id="myTable" class="table table-hover table-striped">
+													<thead>
 														<tr>
-															<td>{{ $thisnoform }}</td>
-															<td>{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
-															<td>{{ $thiskode }}</td>
-															<td>{{ $thisnosurat }}</td>
-															<td>{{ $thisperihal }}</td>
-															<td>{{ $thisasal }}</td>
-															<td>{{ $thissifat1 }}</td>
-															<td>{{ $thissifat2 }}</td>
-
-															<td>{{ $disp['from_pm'] }}</td>
-															<td>{{ $disp['to_pm'] }}</td>
-															<td>{{ $disp['penanganan'] }}</td>
-
-															@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
-															<td style="vertical-align: middle;">
-																@if ($access['zupd'] == 'y')
-																<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
-																><i class="ti-pencil-alt"></i></button>
-																@endif
-																@if ($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete"
-																><i class="ti-trash" data-ids="{{ $disp['ids'] }}" data-no_form="{{ $disp['no_form'] }}"></i></button>
-																@endif
-															</td>
+															<th>No. Form</th>
+															<th class="col-md-1">Tanggal</th>
+															<th>Kode</th>
+															<th>No. Surat</th>
+															<th>Perihal</th>
+															<th>Asal</th>
+															<th>Sifat</th>
+															<th>Dari</th>
+															<th>Untuk</th>
+															<th>Diteruskan</th>
+															<th>Penanganan</th>
+															@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+															<th>Aksi</th>
 															@endif
 														</tr>
-													<?php }
-												}
-											} else { 
-												foreach ($disposisis as $key => $disp) { ?>
-													<tr>
-														<td>{{ $disp['no_form'] }}</td>
-														<td>{{ date('d-M-Y',strtotime($disp['tgl_masuk'])) }}</td>
-														<td>{{ $disp['kode_disposisi'] }}</td>
-														<td>{{ $disp['no_surat'] }}</td>
-														<td>{{ $disp['perihal'] }}</td>
-														<td>{{ $disp['asal_surat'] }}</td>
-														<td>{{ $disp['sifat1_surat'] }}</td>
-														<td>{{ $disp['sifat2_surat'] }}</td>
+													</thead>
+													<tbody>
 
-														@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
-														<td style="vertical-align: middle;">
-															@if ($access['zupd'] == 'y')
-															<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
-															><i class="ti-pencil-alt"></i></button>
-															@endif
-															@if ($access['zdel'] == 'y')
-															<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $disp['ids'] }}" data-no_form="{{ $disp['no_form'] }}"
-															><i class="ti-trash"></i></button>
-															@endif
-														</td>
-														@endif
-													</tr>
-												<?php }
-											} ?>
-										</tbody>
-									</table>
-								</div>
+														<?php if ($isEmployee == 1) {
+															foreach ($disposisis as $key => $disp) {
+																if ($disp['kode_disposisi']) {
+																	$thisnoform = $disp['no_form'];
+																	$thistanggal = $disp['tgl_masuk'];
+																	$thiskode = $disp['kode_disposisi'];
+																	$thisnosurat = $disp['no_surat'];
+																	$thisperihal = $disp['perihal'];
+																	$thisasal = $disp['asal_surat'];
+																	$thissifat1 = $disp['sifat1_surat'];
+																	$thissifat2 = $disp['sifat2_surat'];
+																}
+
+																if ($disp['to_id'] == $_SESSION['user_data']['id_emp']) { ?>
+																	<tr>
+																		<td>{{ $thisnoform }}</td>
+																		<td>{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
+																		<td>{{ $thiskode }}</td>
+																		<td>{{ $thisnosurat }}</td>
+																		<td>{{ $thisperihal }}</td>
+																		<td>{{ $thisasal }}</td>
+																		<td>
+																			<span class="label label-info">{{ $thissifat1 }}</span>
+																			<br>
+																			<span class="label label-info">{{ $thissifat2 }}</span>
+																		</td>
+
+																		<td>
+																			<?php if (substr($disp['from_id'], 0, 4) == '1.20'): ?>
+																				{{ $disp['from_pm'] }}
+																			<?php else : ?>
+																				{{ $disp['from_id'] }}
+																			<?php endif ?>
+																		</td>
+																		<td>{{ $disp['to_pm'] }}</td>
+																		<td></td>
+																		<td>{{ $disp['penanganan'] }}</td>
+
+																		@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																		<td style="vertical-align: middle;">
+																			@if ($access['zupd'] == 'y')
+																			<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
+																			><i class="ti-pencil-alt"></i></button>
+																			@endif
+																			@if ($access['zdel'] == 'y')
+																			<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete"
+																			><i class="ti-trash" data-ids="{{ $disp['ids'] }}" data-no_form="{{ $disp['no_form'] }}"></i></button>
+																			@endif
+																		</td>
+																		@endif
+																	</tr>
+																<?php }
+															}
+														} else { 
+															foreach ($disposisis as $key => $disp) { ?>
+																<tr>
+																	<td>{{ $disp['no_form'] }}</td>
+																	<td>{{ date('d-M-Y',strtotime($disp['tgl_masuk'])) }}</td>
+																	<td>{{ $disp['kode_disposisi'] }}</td>
+																	<td>{{ $disp['no_surat'] }}</td>
+																	<td>{{ $disp['perihal'] }}</td>
+																	<td>{{ $disp['asal_surat'] }}</td>
+																	<td>
+																		<span class="label label-info">{{ $disp['sifat1_surat'] }}</span>
+																		<br>
+																		<span class="label label-info">{{ $disp['sifat2_surat'] }}</span>
+																	</td>
+
+																	@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																	<td style="vertical-align: middle;">
+																		@if ($access['zupd'] == 'y')
+																		<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
+																		><i class="ti-pencil-alt"></i></button>
+																		@endif
+																		@if ($access['zdel'] == 'y')
+																		<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $disp['ids'] }}" data-no_form="{{ $disp['no_form'] }}"
+																		><i class="ti-trash"></i></button>
+																		@endif
+																	</td>
+																	@endif
+																</tr>
+															<?php }
+														} ?>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div role="tabpanel" class="tab-pane fade" id="sent">
+											<div class="col-md-6">
+												<h3>Lets check profile</h3>
+												<h4>you can use it with the small code</h4> </div>
+											<div class="col-md-5 pull-right">
+												<p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</div>
+								@endif
 							</div>
 						</div>
 					</div>
@@ -197,7 +227,6 @@
 		</div>
 	</div>
 
-
 @endsection
 
 <!-- /////////////////////////////////////////////////////////////// -->
@@ -213,6 +242,14 @@
 	<!--Wave Effects -->
 	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
+	<script src="{{ ('/bpadwebs/public/ample/js/cbpFWTabs.js') }}"></script>
+	<script type="text/javascript">
+		(function () {
+				[].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
+				new CBPFWTabs(el);
+			});
+		})();
+	</script>
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
@@ -271,7 +308,9 @@
 				$("#label_delete").empty();
 			});
 
-			$('#myTable').DataTable();
+			$('#myTable').DataTable({
+				"order": [ 0, "desc" ]
+			});
 		});
 	</script>
 @endsection

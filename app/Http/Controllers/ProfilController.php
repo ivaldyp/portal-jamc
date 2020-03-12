@@ -294,16 +294,29 @@ class ProfilController extends Controller
 
 		$idgroup = $_SESSION['user_data']['idgroup'];
 		if (substr($idgroup, 0, 8) == 'EMPLOYEE' || $idgroup == 'ADMIN DIA' || $idgroup == 'TYPIST') {
-			$disposisis = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm
+			$disposisiinboxs = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
 										  from fr_disposisi disp
 										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
 										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddt].[dbo].[fr_disposisi]
 										  where to_pm = '".$_SESSION['user_data']['id_emp'] ."')
-										  and disp.sts = 1
 										  order by disp.no_form DESC, disp.ids ASC") );
+
+			$disposisisents = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
+										  from fr_disposisi disp
+										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
+										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
+										  where no_form in (SELECT distinct(no_form)
+										  FROM [bpaddt].[dbo].[fr_disposisi]
+										  where from_pm = '".$_SESSION['user_data']['id_emp'] ."')
+										  order by disp.no_form DESC, disp.ids ASC") );
+
 			$isEmployee = 1;
+
+			$disposisiinboxs = json_decode(json_encode($disposisiinboxs), true);
+			$disposisisents = json_decode(json_encode($disposisisents), true);
+			$disposisis = 0;
 		} else {
 			$disposisis = DB::select( DB::raw("select TOP 500 *
 										  from fr_disposisi
@@ -312,13 +325,16 @@ class ProfilController extends Controller
 										  and sts = 1
 										  order by no_form DESC") );
 			$isEmployee = 0;
+			$disposisis = json_decode(json_encode($disposisis), true);
+			$disposisiinboxs = 0;
+			$disposisisents = 0;
 		}
-
-		$disposisis = json_decode(json_encode($disposisis), true);
 
 		return view('pages.bpadprofil.disposisi')
 				->with('access', $access)
 				->with('disposisis', $disposisis)
+				->with('disposisiinboxs', $disposisiinboxs)
+				->with('disposisisents', $disposisisents)
 				->with('isEmployee', $isEmployee);
 	}
 
