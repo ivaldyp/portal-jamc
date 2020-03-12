@@ -292,22 +292,34 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
-		$disposisis = DB::select( DB::raw("select TOP 1000 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm
+		$idgroup = $_SESSION['user_data']['idgroup'];
+		if (substr($idgroup, 0, 8) == 'EMPLOYEE' || $idgroup == 'ADMIN DIA' || $idgroup == 'TYPIST') {
+			$disposisis = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm
 										  from fr_disposisi disp
 										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
 										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddt].[dbo].[fr_disposisi]
-										  where to_pm like '%%')
+										  where to_pm = '".$_SESSION['user_data']['id_emp'] ."')
+										  and disp.sts = 1
 										  order by disp.no_form DESC, disp.ids ASC") );
-		$disposisis = json_decode(json_encode($disposisis), true);
+			$isEmployee = 1;
+		} else {
+			$disposisis = DB::select( DB::raw("select TOP 500 *
+										  from fr_disposisi
+										  where (from_pm is null 
+										  or from_pm = '')
+										  and sts = 1
+										  order by no_form DESC") );
+			$isEmployee = 0;
+		}
 
-		var_dump($disposisis);
-		die();
+		$disposisis = json_decode(json_encode($disposisis), true);
 
 		return view('pages.bpadprofil.disposisi')
 				->with('access', $access)
-				->with('disposisis', $disposisis);
+				->with('disposisis', $disposisis)
+				->with('isEmployee', $isEmployee);
 	}
 
 	public function disposisitambah (Request $request)
@@ -350,8 +362,6 @@ class ProfilController extends Controller
 					->orderBy('jabatan')
 					->get();
 		}
-
-		
 
 		$penanganans = Glo_disposisi_penanganan::
 						orderBy('urut')
@@ -455,9 +465,21 @@ class ProfilController extends Controller
 					->with('msg_num', 1);
 			}
 		}
-		
+	}
 
-		
-		
+	public function formdeletedisposisi(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+
+		Fr_disposisi::
+					where('ids', $request->ids)
+					->update([
+						'sts' => 0,
+					]);
+
+		return redirect('/profil/disposisi')
+					->with('message', 'Disposisi berhasil dihapus')
+					->with('msg_num', 1);
 	}
 }
