@@ -301,6 +301,7 @@ class ProfilController extends Controller
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddt].[dbo].[fr_disposisi]
 										  where to_pm = '".$_SESSION['user_data']['id_emp'] ."')
+										  and disp.sts = 1
 										  order by disp.no_form DESC, disp.ids ASC") );
 
 			$disposisisents = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
@@ -310,6 +311,7 @@ class ProfilController extends Controller
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddt].[dbo].[fr_disposisi]
 										  where from_pm = '".$_SESSION['user_data']['id_emp'] ."')
+										  and disp.sts = 1
 										  order by disp.no_form DESC, disp.ids ASC") );
 
 			$isEmployee = 1;
@@ -483,19 +485,37 @@ class ProfilController extends Controller
 		}
 	}
 
+	public function deleteLoopDisposisi($ids)
+	{
+		$querys = Fr_disposisi::
+				where('idtop', $ids)
+				->get(['ids', 'child']);
+
+		foreach ($querys as $key => $query) {
+			$this->deleteLoopDisposisi($query['ids']);
+			Fr_disposisi::
+				where('ids', $query->ids)
+				->delete();
+		}
+
+		return 1;
+	}
+
 	public function formdeletedisposisi(Request $request)
 	{
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
+		$this->deleteLoopDisposisi($request->ids);
+
 		Fr_disposisi::
-					where('ids', $request->ids)
-					->update([
-						'sts' => 0,
-					]);
+				where('ids', $request->ids)
+				->delete();
 
 		return redirect('/profil/disposisi')
 					->with('message', 'Disposisi berhasil dihapus')
 					->with('msg_num', 1);
 	}
+
+
 }
