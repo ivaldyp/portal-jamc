@@ -29,11 +29,7 @@
 					@foreach($foto_list as $foto)
 
 						<?php 
-							if ($foto['contentnew'] == 1) {
-								$fullpath = '/bpadwebs/public/publicimg/' . $foto['tfile']; 
-							} else {
-								$fullpath = "http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/" . $foto['tfile']; 
-							}
+							$fullpath = '/bpadwebs/public/publicimg/images/cms/1.20.512/5/file/' . $foto['tfile'];
 							$originalDate = explode(" ", $foto['tanggal']);
 							$newTime = explode(":", $originalDate[1]);
 							$newDate = date("d F Y", strtotime($originalDate[0]));
@@ -97,11 +93,7 @@
 					@foreach($aside_recent as $aside)
 
 						<?php 
-							if ($aside['contentnew'] == 1) {
-								$asidePath = '/bpadwebs/public/publicimg/' . $aside['tfile']; 
-							} else {
-								$asidePath = "http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/" . $aside['tfile']; 
-							}
+							$asidePath = '/bpadwebs/public/publicimg/images/cms/1.20.512/5/file/' . $aside['tfile'];
 							$originalDate = explode(" ", $aside['tanggal']);
 							$asideDate = date("d F Y", strtotime($originalDate[0]));
 						?>

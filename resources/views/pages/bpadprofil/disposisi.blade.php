@@ -93,7 +93,7 @@
 															<th>Untuk</th>
 															<th>Penanganan</th>
 															@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-															<th>Aksi</th>
+															<th class="col-md-1">Aksi</th>
 															@endif
 														</tr>
 													</thead>
@@ -121,7 +121,7 @@
 																	<td>
 																		<span class="label label-info">{{ $thissifat1 ?? '-' }}</span>
 																		<br>
-																		<span class="label label-info">{{ $thissifat2 ?? '-' }}</span>
+																		<span class="label label-warning">{{ $thissifat2 ?? '-' }}</span>
 																	</td>
 
 																	<td>
@@ -137,8 +137,12 @@
 																	@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 																	<td style="vertical-align: middle;">
 																		@if ($access['zupd'] == 'y')
-																		<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
-																		><i class="ti-pencil-alt"></i></button>
+																		<form method="POST" action="/bpadwebs/profil/lihat disposisi">
+																			@csrf
+																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+																		</form>
+																		
 																		@endif
 																		@if ($access['zdel'] == 'y')
 																		<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $disp['ids'] }}"
@@ -191,7 +195,7 @@
 															<th>Untuk</th>
 															<th>Penanganan</th>
 															@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-															<th>Aksi</th>
+															<th class="col-md-1">Aksi</th>
 															@endif
 														</tr>
 													</thead>
@@ -219,7 +223,7 @@
 																	<td>
 																		<span class="label label-info">{{ $thissifat1 }}</span>
 																		<br>
-																		<span class="label label-info">{{ $thissifat2 }}</span>
+																		<span class="label label-warning">{{ $thissifat2 }}</span>
 																	</td>
 
 																	<td>
@@ -235,8 +239,11 @@
 																	@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 																	<td style="vertical-align: middle;">
 																		@if ($access['zupd'] == 'y')
-																		<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
-																		><i class="ti-pencil-alt"></i></button>
+																		<form method="POST" action="/bpadwebs/profil/lihat disposisi">
+																			@csrf
+																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+																		</form>
 																		@endif
 																		@if ($access['zdel'] == 'y')
 																		<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $disp['ids'] }}"
@@ -287,7 +294,7 @@
 													<th>Asal</th>
 													<th>Sifat</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th>Aksi</th>
+													<th class="col-md-1">Aksi</th>
 													@endif
 												</tr>
 											</thead>
@@ -303,14 +310,17 @@
 														<td>
 															<span class="label label-info">{{ $disp['sifat1_surat'] ?? '-' }}</span>
 															<br>
-															<span class="label label-info">{{ $disp['sifat2_surat'] ?? '-' }}</span>
+															<span class="label label-warning">{{ $disp['sifat2_surat'] ?? '-' }}</span>
 														</td>
 
 														@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td style="vertical-align: middle;">
 															@if ($access['zupd'] == 'y')
-															<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update" data-toggle="modal" data-target="#modal-update"
-															><i class="ti-pencil-alt"></i></button>
+															<form method="POST" action="/bpadwebs/profil/lihat disposisi">
+																@csrf
+																<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+															</form>
 															@endif
 															@if ($access['zdel'] == 'y')
 															<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $disp['ids'] }}"

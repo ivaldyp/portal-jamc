@@ -56,7 +56,6 @@
 					@foreach($aside_top_view as $aside)
 
 						<?php 
-							$asidePath = "http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/" . $aside['tfile']; 
 							$originalDate = explode(" ", $aside['tanggal']);
 							$asideDate = date("d F Y", strtotime($originalDate[0]));
 						?>

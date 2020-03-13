@@ -340,6 +340,15 @@ class ProfilController extends Controller
 				->with('isEmployee', $isEmployee);
 	}
 
+	public function disposisilihat (Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+
+		return view('pages.bpadprofil.lihatdisposisi')
+				->with('access', $access);
+	}
+
 	public function disposisitambah (Request $request)
 	{
 		$this->checkSessionTime();
@@ -474,6 +483,7 @@ class ProfilController extends Controller
 				'penanganan' => $request->penanganan,
 				'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
 				'to_pm' => $findidemp['id_emp'],
+				'rd' => 'N',
 				'child' => 0,
 			];
 

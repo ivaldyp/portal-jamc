@@ -23,7 +23,6 @@
 					@foreach($video_list as $video)
 
 						<?php 
-							$fullpath = "http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/" . $video['tfile']; 
 							$originalDate = explode(" ", $video['tanggal']);
 							$newTime = explode(":", $originalDate[1]);
 							$newDate = date("d F Y", strtotime($originalDate[0]));
