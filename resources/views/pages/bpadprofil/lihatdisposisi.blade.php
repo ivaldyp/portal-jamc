@@ -73,37 +73,41 @@
 								<div class="panel-body">
 									<div class="col-md-6">
 
+										<input type="hidden" id="isEmployeeFlag" value="{{ $isEmployee }}">
+
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>
 											<div class="col-md-8">
-												<p class="form-control-static"><?php 
-																					$newnoform = explode(".", $maxnoform); 
-																					echo $newnoform[0] . "." . $newnoform[1] . "." . $newnoform[2] . "." . ($newnoform[3]+1); 
-																				?>
-												</p>
+												<p class="form-control-static">{{ $opendisposisi[0]['no_form'] }}</p>
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk </label>
 											<div class="col-md-8">
-												<input type="text" name="tgl_masuk" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy">
+												<p class="form-control-static parDisp">{{ date('d-M-Y', strtotime($opendisposisi[0]['tgl_masuk'])) }}</p>
+												<input type="text" name="tgl_masuk" class="form-control formDisp" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($opendisposisi[0]['tgl_masuk'])) }}">
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="no_index" class="col-md-2 control-label"> No Index </label>
 											<div class="col-md-8">
-												<input autocomplete="off" type="text" name="no_index" class="form-control" id="no_index">
+												<p class="form-control-static parDisp">{{ $opendisposisi[0]['no_index'] }}</p>
+												<input autocomplete="off" type="text" name="no_index" class="form-control formDisp" id="no_index" value="{{ $opendisposisi[0]['no_index'] }}"> 
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="kode_disposisi" class="col-md-2 control-label"> Kode Disposisi </label>
 											<div class="col-md-8">
-												<select class="form-control select2" name="kode_disposisi" id="kode_disposisi">
+												<p class="form-control-static parDisp">[{{ $opendisposisi[0]['kd_jnssurat'] }}] - [{{ $opendisposisi[0]['nm_jnssurat'] }}]</p>
+												<select class="form-control select2 formDisp" name="kode_disposisi" id="kode_disposisi">
 													@foreach($kddispos as $kddispo)
-														<option value="{{ $kddispo['kd_jnssurat'] }}"> [{{ $kddispo['kd_jnssurat'] }}] - [{{ $kddispo['nm_jnssurat'] }}] </option>
+														<option value="{{ $kddispo['kd_jnssurat'] }}" 
+														<?php if ($opendisposisi[0]['kd_jnssurat'] == $kddispo['kd_jnssurat'] ): ?> selected <?php endif ?> > 
+															[{{ $kddispo['kd_jnssurat'] }}] - [{{ $kddispo['nm_jnssurat'] }}] 
+														</option>
 													@endforeach
 												</select>
 											</div>
@@ -111,53 +115,73 @@
 
 										<div class="form-group">
 											<label for="gelar" class="col-md-2 control-label"> Nomor & Tgl Surat </label>
-											<div class="col-md-4">
-												<input autocomplete="off" type="text" name="no_surat" class="form-control" id="no_surat" placeholder="Nomor">
+											<div <?php if($isEmployee == 1){
+												echo 'class="col-md-1"';
+											} else {
+												echo 'class="col-md-4"';
+											} ?> >
+												<p class="form-control-static parDisp">{{ $opendisposisi[0]['no_surat'] }}</p>
+												<input autocomplete="off" type="text" name="no_surat" class="form-control formDisp" id="no_surat" placeholder="Nomor" value="{{ $opendisposisi[0]['no_surat'] }}">
 											</div>
 											<div class="col-md-4">
-												<input type="text" name="tgl_surat" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="mm/dd/yyyy">
+												<p class="form-control-static parDisp">{{ date('d-M-Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}</p>
+												<input type="text" name="tgl_surat" class="form-control formDisp" id="datepicker-autoclose2" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d-M-Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}">
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="perihal" class="col-md-2 control-label"> Perihal </label>
 											<div class="col-md-8">
-												<textarea name="perihal" class="form-control" rows="3"></textarea>
+												<p class="form-control-static parDisp">{{ $opendisposisi[0]['perihal'] }}</p>
+												<textarea name="perihal" class="form-control formDisp" rows="3">{{ $opendisposisi[0]['perihal'] }}</textarea>
+
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="asal_surat" class="col-md-2 control-label"> Dari </label>
 											<div class="col-md-8">
-												<input autocomplete="off" type="text" name="asal_surat" class="form-control" id="asal_surat">
+												<p class="form-control-static parDisp">{{ $opendisposisi[0]['asal_surat'] }}</p>
+												<input autocomplete="off" type="text" name="asal_surat" class="form-control formDisp" id="asal_surat" value="{{ $opendisposisi[0]['asal_surat'] }}">
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="kepada_surat" class="col-md-2 control-label"> Kepada </label>
 											<div class="col-md-8">
-												<input autocomplete="off" type="text" name="kepada_surat" class="form-control" id="kepada_surat">
+												<p class="form-control-static parDisp">{{ $opendisposisi[0]['kepada_surat'] }}</p>
+												<input autocomplete="off" type="text" name="kepada_surat" class="form-control formDisp" id="kepada_surat" value="{{ $opendisposisi[0]['kepada_surat'] }}">
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label class="col-md-2 control-label"> Sifat Surat </label>
-											<div class="col-md-4">
-												<select class="form-control" name="sifat1_surat" id="sifat1_surat">
-													<option value="<?php echo NULL; ?>" selected> </option>
-													<option value="Rahasia"> Rahasia </option>
-													<option value="Penting"> Penting </option>
-													<option value="Biasa"> Biasa </option>
+											<div <?php if($isEmployee == 1){
+												echo 'class="col-md-1"';
+											} else {
+												echo 'class="col-md-4"';
+											} ?>>
+												<p class="form-control-static parDisp"><span class="label label-info">{{ $opendisposisi[0]['sifat1_surat'] }}</span></p>
+												<select class="form-control formDisp" name="sifat1_surat" id="sifat1_surat">
+													<option value="<?php echo NULL; ?>"> </option>
+													<option value="Rahasia" <?php if ($opendisposisi[0]['sifat1_surat'] == 'Rahasia' ): ?> selected <?php endif ?>> Rahasia </option>
+													<option value="Penting" <?php if ($opendisposisi[0]['sifat1_surat'] == 'Penting' ): ?> selected <?php endif ?>> Penting </option>
+													<option value="Biasa" <?php if ($opendisposisi[0]['sifat1_surat'] == 'Biasa' ): ?> selected <?php endif ?>> Biasa </option>
 												</select>
 											</div>
-											<div class="col-md-4">
-												<select class="form-control" name="sifat2_surat" id="sifat2_surat">
-													<option value="<?php echo NULL; ?>" selected> </option>
-													<option value="Kilat"> Kilat </option>
-													<option value="Hari Ini"> Hari Ini </option>
-													<option value="Sangat Segera"> Sangat Segera </option>
-													<option value="Segera"> Segera </option>
-													<option value="Biasa"> Biasa </option>
+											<div <?php if($isEmployee == 1){
+												echo 'class="col-md-2"';
+											} else {
+												echo 'class="col-md-4"';
+											} ?>>
+												<p class="form-control-static parDisp"><span class="label label-warning">{{ $opendisposisi[0]['sifat2_surat'] }}</span></p>
+												<select class="form-control formDisp" name="sifat2_surat" id="sifat2_surat">
+													<option value="<?php echo NULL; ?>"> </option>
+													<option value="Kilat" <?php if ($opendisposisi[0]['sifat2_surat'] == 'Kilat' ): ?> selected <?php endif ?>> Kilat </option>
+													<option value="Hari Ini" <?php if ($opendisposisi[0]['sifat2_surat'] == 'Hari Ini' ): ?> selected <?php endif ?>> Hari Ini </option>
+													<option value="Sangat Segera" <?php if ($opendisposisi[0]['sifat2_surat'] == 'Sangat Segera' ): ?> selected <?php endif ?>> Sangat Segera </option>
+													<option value="Segera" <?php if ($opendisposisi[0]['sifat2_surat'] == 'Segera' ): ?> selected <?php endif ?>> Segera </option>
+													<option value="Biasa" <?php if ($opendisposisi[0]['sifat2_surat'] == 'Biasa' ): ?> selected <?php endif ?>> Biasa </option>
 												</select>
 											</div>
 										</div>
@@ -165,7 +189,8 @@
 										<div class="form-group">
 											<label for="ket_lain" class="col-md-2 control-label"> Keterangan </label>
 											<div class="col-md-8">
-												<textarea name="ket_lain" class="form-control" rows="3"></textarea>
+												<p class="form-control-static parDisp">{{ $opendisposisi[0]['ket_lain'] }}</p>
+												<textarea name="ket_lain" class="form-control formDisp" rows="3">{{ $opendisposisi[0]['ket_lain'] }}</textarea>
 											</div>
 										</div>
 									</div>
@@ -295,6 +320,11 @@
 
 	<script>
 		$(function () {
+			if ($("#isEmployeeFlag").val() == 1) {
+				$(".formDisp").hide();
+			} else {
+				$(".parDisp").hide();
+			}
 			$(".select2").select2();
 
 			jQuery('#datepicker-autoclose').datepicker({
@@ -309,33 +339,6 @@
 				, format: 'dd/mm/yyyy'
 			});
 
-			$('.btn-update-dik').on('click', function () {
-				var $el = $(this);
-
-				$("#modal_update_dik_ids").val($el.data('ids'));
-				$("#modal_update_dik_noid").val($el.data('noid'));
-				$("#modal_update_dik_iddik").val($el.data('iddik'));
-				$("#modal_update_dik_prog_sek").val($el.data('prog_sek'));
-				$("#modal_update_dik_no_sek").val($el.data('no_sek'));
-				$("#modal_update_dik_th_sek").val($el.data('th_sek'));
-				$("#modal_update_dik_nm_sek").val($el.data('nm_sek'));
-				$("#modal_update_dik_gelar_blk_sek").val($el.data('gelar_blk_sek'));
-				$("#modal_update_dik_gelar_dpn_sek").val($el.data('gelar_dpn_sek'));
-				$("#modal_update_dik_ijz_cpns").val($el.data('ijz_cpns'));
-			});
-
-			$('.btn-delete-dik').on('click', function () {
-				var $el = $(this);
-
-				$("#label_delete").append('Apakah anda yakin ingin menghapus <b>' + $el.data('iddik') + '</b>?');
-				$("#modal_delete_dik_ids").val($el.data('ids'));
-				$("#modal_delete_dik_noid").val($el.data('noid'));
-				$("#modal_delete_dik_iddik").val($el.data('iddik'));
-			});
-
-			$("#modal-delete").on("hidden.bs.modal", function () {
-				$("#label_delete").empty();
-			});
 		});
 	</script>
 @endsection

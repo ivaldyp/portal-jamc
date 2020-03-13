@@ -90,8 +90,9 @@
 															<th>Asal</th>
 															<th>Sifat</th>
 															<th>Dari</th>
-															<th>Untuk</th>
+															<!-- <th>Untuk</th> -->
 															<th>Penanganan</th>
+															<th>Status</th>
 															@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 															<th class="col-md-1">Aksi</th>
 															@endif
@@ -110,7 +111,7 @@
 																$thissifat2 = $disp['sifat2_surat'];
 															}
 
-															if ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['rd'] == 'N') { ?>
+															if ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && ($disp['rd'] == 'N' || $disp['rd'] == 'Y')) { ?>
 																<tr>
 																	<td>{{ $thisnoform ?? '-' }}</td>
 																	<td>{{ date('d-M-Y',strtotime($thistanggal ?? '-')) }}</td>
@@ -131,15 +132,27 @@
 																			{{ $disp['from_id'] }}
 																		<?php endif ?>
 																	</td>
-																	<td>{{ $disp['to_pm'] }}</td>
+																	<!-- <td>{{ $disp['to_pm'] }}</td> -->
 																	<td>{{ $disp['penanganan'] }}</td>
-
+																	<td>
+																		@if($disp['rd'] == 'N')
+																		<span class="label label-danger">Belum Dibaca</span>
+																		<br>
+																		<span class="label label-danger">Belum Dibalas</span>
+																		@elseif($disp['rd'] == 'Y')
+																		<span class="label label-info">Sudah Dibaca</span>
+																		<br>
+																		<span class="label label-danger">Belum Dibalas</span>
+																		@endif
+																	</td>
 																	@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 																	<td style="vertical-align: middle;">
 																		@if ($access['zupd'] == 'y')
 																		<form method="POST" action="/bpadwebs/profil/lihat disposisi">
 																			@csrf
 																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																			<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
+																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																		</form>
 																		
@@ -200,7 +213,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														<?php foreach ($disposisisents as $key => $disp) {
+														<?php foreach ($disposisiinboxs as $key => $disp) {
 															if ($disp['kode_disposisi']) {
 																$thisnoform = $disp['no_form'];
 																$thistanggal = $disp['tgl_masuk'];
@@ -212,7 +225,7 @@
 																$thissifat2 = $disp['sifat2_surat'];
 															}
 
-															if ($disp['from_id'] == $_SESSION['user_data']['id_emp']) { ?>
+															if ($disp['from_id'] == $_SESSION['user_data']['id_emp'] || ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['selesai'] == 'Y')) { ?>
 																<tr>
 																	<td>{{ $thisnoform }}</td>
 																	<td>{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
@@ -242,6 +255,8 @@
 																		<form method="POST" action="/bpadwebs/profil/lihat disposisi">
 																			@csrf
 																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																			<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
+																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																		</form>
 																		@endif
@@ -319,6 +334,7 @@
 															<form method="POST" action="/bpadwebs/profil/lihat disposisi">
 																@csrf
 																<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
 																<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 															</form>
 															@endif
@@ -341,6 +357,7 @@
 																		<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
 																		<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
 																		<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
+																		<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																	</div>
 																	<div class="modal-footer">
 																		<button type="submit" class="btn btn-danger pull-right">Hapus</button>
