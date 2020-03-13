@@ -19,18 +19,21 @@ class ContentController extends Controller
         $berita_list = Content_tb::
                     where('idkat', 1)
                     ->where('appr', 'Y')
+                    ->where('sts', 1)
                     ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->paginate(10);
 
         $aside_top_view = Content_tb::take(3)
                             ->where('appr', 'Y')
+                            ->where('sts', 1)
                             ->where('idkat', 1)
                             ->orderBy('thits', 'desc')
                             ->get();
 
         $aside_recent = Content_tb::take(3)
                             ->where('appr', 'Y')
+                            ->where('sts', 1)
                             ->where('idkat', 1)
                             ->orderBy('tanggal', 'desc')
                             ->get();
@@ -72,12 +75,14 @@ class ContentController extends Controller
             $foto_list = Content_tb::
                     where('idkat', 5)
                     ->where('appr', 'Y')
+                    ->where('sts', 1)
                     ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->paginate(10);
         } else {
             $foto_list = Content_tb::
                     where('idkat', 5)
+                    ->where('sts', 1)
                     ->where('subkat', $subkat)
                     ->where('appr', 'Y')
                     ->orderBy('ids', 'desc')
@@ -92,6 +97,7 @@ class ContentController extends Controller
 
         $aside_recent = Content_tb::take(3)
                             ->where('appr', 'Y')
+                            ->where('sts', 1)
                             ->where('idkat', 5)
                             ->orderBy('tanggal', 'desc')
                             ->get();
@@ -125,6 +131,7 @@ class ContentController extends Controller
         $video_list = Content_tb::
                     where('idkat', 12)
                     ->where('appr', 'Y')
+                    ->where('sts', 1)
                     ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->paginate(15);

@@ -88,6 +88,7 @@ class LandingController extends Controller
         $hot_content = Content_tb::
                     where('idkat', 1)
                     ->where('appr', 'Y')
+                    ->where('sts', 1)
                     ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->take(4)
@@ -96,6 +97,7 @@ class LandingController extends Controller
         $normal_content = Content_tb::
                     where('idkat', 1)
                     ->where('appr', 'Y')
+                    ->where('sts', 1)
                     ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->skip(4)
@@ -105,6 +107,7 @@ class LandingController extends Controller
         $photo_content = Content_tb::
                     where('idkat', 5)
                     ->where('appr', 'Y')
+                    ->where('sts', 1)
                     ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->take(4)
