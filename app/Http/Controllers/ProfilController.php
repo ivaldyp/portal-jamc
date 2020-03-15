@@ -426,7 +426,9 @@ class ProfilController extends Controller
 				->with('stafs', $stafs)
 				->with('jabatans', $jabatans)
 				->with('penanganans', $penanganans)
-				->with('isEmployee', $isEmployee);
+				->with('isEmployee', $isEmployee)
+				->with('ids', $request->ids)
+				->with('no_form', $request->no_form);
 	}
 
 	public function disposisitambah (Request $request)
@@ -481,6 +483,71 @@ class ProfilController extends Controller
 				->with('stafs', $stafs)
 				->with('jabatans', $jabatans)
 				->with('penanganans', $penanganans);
+	}
+
+	public function formviewdisposisi(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+
+		$filedispo = '';
+		$filetambahan = '';
+
+		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
+		if (isset($request->nm_file)) {
+			$file = $request->nm_file;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$filedispo .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefiledisposisi');
+			$file->move($tujuan_upload, $filedispo);
+		}
+
+		if (isset($request->nm_tambahan)) {
+			$file = $request->nm_tambahan;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$filedispo .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefiledisposisi');
+			$file->move($tujuan_upload, $filedispo);
+		}
+			
+		if (!(isset($filedispo))) {
+			$filedispo = null;
+		}
+
+		if (!(isset($filedispo))) {
+			$filetambahan = null;
+		}
+
+		Fr_disposisi::where('ids', $request->ids)
+			->update([
+				'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+				'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl_input' => date('Y-m-d H:i:s'),
+				'no_index' => $request->no_index,
+				'kode_disposisi' => $request->kode_disposisi,
+				'perihal' => $request->perihal,
+				'tgl_surat' => $request->tgl_surat,
+				'no_surat' => $request->no_surat,
+				'asal_surat' => $request->asal_surat,
+				'kepada_surat' => $request->kepada_surat,
+				'sifat1_surat' => $request->sifat1_surat,
+				'sifat2_surat' => $request->sifat2_surat,
+				'ket_lain' => $request->ket_lain,
+				'nm_file' => $filedispo,
+			]);
+
+		var_dump($request->all());
+		die();
 	}
 
 	public function forminsertdisposisi(Request $request)

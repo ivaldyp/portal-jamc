@@ -115,7 +115,8 @@ class HomeController extends Controller
                             where('usname', $iduser)
                             ->first();
         }
- 
+
+
         $_SESSION['user_data'] = $user_data;
 
         $all_menu = [];

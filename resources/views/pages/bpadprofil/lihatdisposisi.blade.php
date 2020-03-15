@@ -73,6 +73,8 @@
 								<div class="panel-body">
 									<div class="col-md-6">
 
+										<input type="hidden" value="{{ $ids }}">
+										<input type="hidden" value="{{ $no_form }}">
 										<input type="hidden" id="isEmployeeFlag" value="{{ $isEmployee }}">
 
 										<div class="form-group">
@@ -86,7 +88,7 @@
 											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk </label>
 											<div class="col-md-8">
 												<p class="form-control-static parDisp">{{ date('d-M-Y', strtotime($opendisposisi[0]['tgl_masuk'])) }}</p>
-												<input type="text" name="tgl_masuk" class="form-control formDisp" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($opendisposisi[0]['tgl_masuk'])) }}">
+												<input type="text" name="tgl_masuk" class="form-control formDisp" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime($opendisposisi[0]['tgl_masuk'])) }}">
 											</div>
 										</div>
 
@@ -125,7 +127,7 @@
 											</div>
 											<div class="col-md-4">
 												<p class="form-control-static parDisp">{{ date('d-M-Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}</p>
-												<input type="text" name="tgl_surat" class="form-control formDisp" id="datepicker-autoclose2" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d-M-Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}">
+												<input type="text" name="tgl_surat" class="form-control formDisp" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}">
 											</div>
 										</div>
 
@@ -157,7 +159,7 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> Sifat Surat </label>
 											<div <?php if($isEmployee == 1){
-												echo 'class="col-md-1"';
+												echo 'class="col-md-2"';
 											} else {
 												echo 'class="col-md-4"';
 											} ?>>
@@ -191,6 +193,16 @@
 											<div class="col-md-8">
 												<p class="form-control-static parDisp">{{ $opendisposisi[0]['ket_lain'] }}</p>
 												<textarea name="ket_lain" class="form-control formDisp" rows="3">{{ $opendisposisi[0]['ket_lain'] }}</textarea>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="ket_lain" class="col-md-2 control-label"> File Disposisi </label>
+											<div class="col-md-8">
+												<p class="form-control-static parDisp">
+													<a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $opendisposisi[0]['nm_file'] }}">{{ $opendisposisi[0]['nm_file'] }}</a>
+												</p>
+												<input type="file" class="form-control formDisp" id="nm_file" name="nm_file">
 											</div>
 										</div>
 									</div>
@@ -247,12 +259,14 @@
 											</div>
 										</div>
 
+										<?php if (!($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL')): ?>
 										<div class="form-group">
-	                                        <label for="nm_file" class="col-lg-2 control-label"> File <br> </label>
+	                                        <label for="nm_tambahan" class="col-lg-2 control-label"> File Tambahan <br> </label>
 	                                        <div class="col-lg-8">
-	                                            <input type="file" class="form-control" id="nm_file" name="nm_file">
+	                                            <input type="file" class="form-control" id="nm_tambahan" name="nm_tambahan">
 	                                        </div>
 	                                    </div>
+	                                    <?php endif ?>
 									</div>
 									<!-- <div class="sttabs tabs-style-underline">
 										<nav>

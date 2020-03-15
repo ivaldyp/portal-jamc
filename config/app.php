@@ -10,6 +10,7 @@ return [
 
 	'openfileimg' => '/bpadwebs/public/publicimg/emp',
 	'openfileimgdefault' => '/bpadwebs/public/publicimg/account.png',
+	'openfiledisposisi' => '/bpadwebs/public/publicfile/disp',
 
 	/*
 	|--------------------------------------------------------------------------

@@ -357,7 +357,7 @@
 																		<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
 																		<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
 																		<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
-																		<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
+																		
 																	</div>
 																	<div class="modal-footer">
 																		<button type="submit" class="btn btn-danger pull-right">Hapus</button>
