@@ -492,7 +492,7 @@
 												<div class="form-group">
 													<label class="col-md-2 control-label"> TMT Jabatan </label>
 													<div class="col-md-4">
-														<input type="text" name="tmt_jab" class="form-control" id="datepicker-autoclose5" autocomplete="off" placeholder="mm/dd/yyyy">
+														<input type="text" name="tmt_jab" class="form-control" id="datepicker-autoclose5" autocomplete="off" placeholder="mm/dd/yyyy" required>
 													</div>
 												</div>
 

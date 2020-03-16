@@ -65,7 +65,7 @@
 			</div>
 			<div class="row ">
 				<div class="col-md-12">
-					<form class="form-horizontal" method="POST" action="/bpadwebs/profil/form/tambahdisposisi" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/bpadwebs/profil/form/lihatdisposisi" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Disposisi </div>
@@ -73,8 +73,9 @@
 								<div class="panel-body">
 									<div class="col-md-6">
 
-										<input type="hidden" value="{{ $ids }}">
-										<input type="hidden" value="{{ $no_form }}">
+										<input type="hidden" name="ids" value="{{ $ids }}">
+										<input type="hidden" name="no_form" value="{{ $no_form }}">
+										<input type="hidden" name="" value="{{ $no_form }}">
 										<input type="hidden" id="isEmployeeFlag" value="{{ $isEmployee }}">
 
 										<div class="form-group">
@@ -118,7 +119,7 @@
 										<div class="form-group">
 											<label for="gelar" class="col-md-2 control-label"> Nomor & Tgl Surat </label>
 											<div <?php if($isEmployee == 1){
-												echo 'class="col-md-1"';
+												echo 'class="col-md-2"';
 											} else {
 												echo 'class="col-md-4"';
 											} ?> >
@@ -199,10 +200,12 @@
 										<div class="form-group">
 											<label for="ket_lain" class="col-md-2 control-label"> File Disposisi </label>
 											<div class="col-md-8">
-												<p class="form-control-static parDisp">
+												<p class="form-control-static">
 													<a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $opendisposisi[0]['nm_file'] }}">{{ $opendisposisi[0]['nm_file'] }}</a>
 												</p>
+												<?php if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL'): ?>
 												<input type="file" class="form-control formDisp" id="nm_file" name="nm_file">
+												<?php endif ?>
 											</div>
 										</div>
 									</div>
@@ -214,7 +217,7 @@
 											<div class="col-md-8">
 												<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
 													@foreach($jabatans as $jabatan)
-														<option value="{{ $jabatan['jabatan'] }}"> {{ $jabatan['jabatan'] }} </option>
+														<option value="{{ $jabatan['jabatan'] }}||{{ $jabatan['noid'] }}" > {{ $jabatan['jabatan'] }} </option>
 													@endforeach
 												</select>
 											</div>
@@ -259,14 +262,29 @@
 											</div>
 										</div>
 
-										<?php if (!($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL')): ?>
+										<!-- <?php if (!($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL')): ?>
 										<div class="form-group">
-	                                        <label for="nm_tambahan" class="col-lg-2 control-label"> File Tambahan <br> </label>
-	                                        <div class="col-lg-8">
-	                                            <input type="file" class="form-control" id="nm_tambahan" name="nm_tambahan">
-	                                        </div>
-	                                    </div>
-	                                    <?php endif ?>
+											<label for="nm_tambahan" class="col-lg-2 control-label"> File Tambahan <br> </label>
+											<div class="col-lg-8">
+												<input type="file" class="form-control" id="nm_tambahan" name="nm_tambahan">
+											</div>
+										</div>
+										<?php endif ?> -->
+
+										<div class="form-group">
+											<div class="col-md-2"></div>
+											<div class="col-md-8">
+												
+												<label > Log <br> </label>
+												<div class="table-responsive">
+													<table>
+														<tbody>
+															{!! $treedisp !!}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
 									</div>
 									<!-- <div class="sttabs tabs-style-underline">
 										<nav>
@@ -286,10 +304,10 @@
 								</div>
 							</div>
 							<div class="panel-footer">
-                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
-                                <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
-                                <div class="clearfix"></div>
-                            </div>
+								<button type="submit" class="btn btn-success pull-right">Simpan</button>
+								<!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
+								<div class="clearfix"></div>
+							</div>
 						</div>	
 						<div class="panel panel-info">
 							<div class="panel-heading">  

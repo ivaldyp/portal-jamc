@@ -356,6 +356,37 @@ class ProfilController extends Controller
 				->with('isEmployee', $isEmployee);
 	}
 
+	public function display_disposisi($no_form, $idtop, $level = 0)
+	{
+		$query = Fr_disposisi::
+					leftJoin('emp_data as emp1', 'emp1.id_emp', '=', 'fr_disposisi.to_pm')
+					->where('no_form', $no_form)
+					->where('idtop', $idtop)
+					->orderBy('ids')
+					->get();
+
+		$result = '';
+
+		// var_dump($query);
+		// die();
+
+		if (count($query) > 0) {
+			foreach ($query as $log) {
+				$padding = ($level * 20);
+				$result .= '<tr >
+								<td style="padding-left:'.$padding.'px; padding-top:10px">
+									<span class="fa fa-user"></span> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> | <span>Penanganan: '. $log['penanganan'] .'</span><br>
+								</td>
+							</tr>';
+
+				if ($log['child'] == 1) {
+					$result .= $this->display_disposisi($no_form, $log['ids'], $level+1);
+				}
+			}
+		}
+		return $result;
+	}
+
 	public function disposisilihat (Request $request)
 	{
 		$this->checkSessionTime();
@@ -364,6 +395,8 @@ class ProfilController extends Controller
 		Fr_disposisi::
 					where('ids', $request->ids)
 					->update([
+						'usr_rd' => Auth::user()->id_emp,
+						'tgl_rd' => date('Y-m-d'),
 						'rd' => 'Y',
 					]);
 
@@ -372,6 +405,15 @@ class ProfilController extends Controller
 							->where('no_form', $request->no_form)
 							->orderBy('ids')
 							->get();
+
+		$treedisp = '<tr>
+						<td>
+							<span class="fa fa-book"></span> <span>'.$opendisposisi[0]['no_form'].'</span> | <span>Kode: '.$opendisposisi[0]['kode_disposisi'].'</span> | <span>Nomor: '.$opendisposisi[0]['no_surat'].'</span><br>
+
+						</td>
+					</tr>';
+
+		$treedisp .= $this->display_disposisi($request->no_form, $opendisposisi[0]['ids']);
 
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
@@ -401,11 +443,14 @@ class ProfilController extends Controller
 					where('jabatan',  'like', '%Kepala Badan%')
 					->get();
 		} else {
-			$jabatans = Glo_org_jabatan::
-					whereRaw("LEFT(jabatan, 6) = 'kepala'")
-					->orWhereRaw("LEFT(jabatan, 5) = 'sekre'")
-					->orderBy('jabatan')
-					->get();
+			$jabatans = DB::select( DB::raw("
+						select *
+						from glo_org_jabatan org
+						cross apply (select top 1 * from emp_jab as jab where org.jabatan = jab.idjab order by jab.tmt_jab desc) resjab 
+						where (LEFT(org.jabatan, 6) = 'kepala' or LEFT(jabatan, 5) = 'sekre')
+						order by tmt_jab desc, resjab.idjab asc
+						"));
+			$jabatans = json_decode(json_encode($jabatans), true);
 		}
 
 		$penanganans = Glo_disposisi_penanganan::
@@ -428,7 +473,8 @@ class ProfilController extends Controller
 				->with('penanganans', $penanganans)
 				->with('isEmployee', $isEmployee)
 				->with('ids', $request->ids)
-				->with('no_form', $request->no_form);
+				->with('no_form', $request->no_form)
+				->with('treedisp', $treedisp);
 	}
 
 	public function disposisitambah (Request $request)
@@ -465,11 +511,14 @@ class ProfilController extends Controller
 					where('jabatan',  'like', '%Kepala Badan%')
 					->get();
 		} else {
-			$jabatans = Glo_org_jabatan::
-					whereRaw("LEFT(jabatan, 6) = 'kepala'")
-					->orWhereRaw("LEFT(jabatan, 5) = 'sekre'")
-					->orderBy('jabatan')
-					->get();
+			$jabatans = DB::select( DB::raw("
+						select *
+						from glo_org_jabatan org
+						cross apply (select top 1 * from emp_jab as jab where org.jabatan = jab.idjab) resjab 
+						where (LEFT(org.jabatan, 6) = 'kepala' or LEFT(jabatan, 5) = 'sekre')
+						order by tmt_jab desc, resjab.idjab asc
+						"));	
+			$jabatans = json_decode(json_encode($jabatans), true);
 		}
 
 		$penanganans = Glo_disposisi_penanganan::
@@ -490,64 +539,64 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
-		$filedispo = '';
-		$filetambahan = '';
+		//kalo dia orang TU brarti ngubah form doang
+		if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+			$filedispo = '';
 
-		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
-		if (isset($request->nm_file)) {
-			$file = $request->nm_file;
+			if (isset($request->nm_file)) {
+				$file = $request->nm_file;
 
-			if ($file->getSize() > 2222222) {
-				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
-			} 
+				if ($file->getSize() > 2222222) {
+					return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+				} 
 
-			$filedispo .= $file->getClientOriginalName();
+				$filedispo .= $file->getClientOriginalName();
 
-			$tujuan_upload = config('app.savefiledisposisi');
-			$file->move($tujuan_upload, $filedispo);
+				$tujuan_upload = config('app.savefiledisposisi');
+				$file->move($tujuan_upload, $filedispo);
+			}
+
+			// if (!(isset($filetambahan))) {
+			// 	$filetambahan = null;
+			// }
+
+			Fr_disposisi::where('ids', $request->ids)
+				->update([
+					'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+					'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+					'tgl_input' => date('Y-m-d H:i:s'),
+					'no_index' => $request->no_index,
+					'kode_disposisi' => $request->kode_disposisi,
+					'perihal' => $request->perihal,
+					'tgl_surat' => $request->tgl_surat,
+					'no_surat' => $request->no_surat,
+					'asal_surat' => $request->asal_surat,
+					'kepada_surat' => $request->kepada_surat,
+					'sifat1_surat' => $request->sifat1_surat,
+					'sifat2_surat' => $request->sifat2_surat,
+					'ket_lain' => $request->ket_lain,
+				]);
+
+			if ($filedispo != '') {
+				Fr_disposisi::where('ids', $request->ids)
+				->update([
+					'nm_file' => $filedispo,
+				]);
+			}
+
+			return redirect('/profil/disposisi')
+					->with('message', 'Disposisi berhasil diubah')
+					->with('msg_num', 1);
+		} else {
+			//kalo dia pegawai brarti lanjutin disposisi
+			if (is_null($request->jabatans) && is_null($request->stafs)) {
+				
+			} else {
+
+			}
+			var_dump($request->stafs);
+			die();
 		}
-
-		if (isset($request->nm_tambahan)) {
-			$file = $request->nm_tambahan;
-
-			if ($file->getSize() > 2222222) {
-				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
-			} 
-
-			$filedispo .= $file->getClientOriginalName();
-
-			$tujuan_upload = config('app.savefiledisposisi');
-			$file->move($tujuan_upload, $filedispo);
-		}
-			
-		if (!(isset($filedispo))) {
-			$filedispo = null;
-		}
-
-		if (!(isset($filedispo))) {
-			$filetambahan = null;
-		}
-
-		Fr_disposisi::where('ids', $request->ids)
-			->update([
-				'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
-				'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
-				'tgl_input' => date('Y-m-d H:i:s'),
-				'no_index' => $request->no_index,
-				'kode_disposisi' => $request->kode_disposisi,
-				'perihal' => $request->perihal,
-				'tgl_surat' => $request->tgl_surat,
-				'no_surat' => $request->no_surat,
-				'asal_surat' => $request->asal_surat,
-				'kepada_surat' => $request->kepada_surat,
-				'sifat1_surat' => $request->sifat1_surat,
-				'sifat2_surat' => $request->sifat2_surat,
-				'ket_lain' => $request->ket_lain,
-				'nm_file' => $filedispo,
-			]);
-
-		var_dump($request->all());
-		die();
 	}
 
 	public function forminsertdisposisi(Request $request)
@@ -628,9 +677,11 @@ class ProfilController extends Controller
 				'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
 				'kepada' => $request->jabatans[0],
 				'penanganan' => $request->penanganan,
+				'catatan' => $request->catatan,
 				'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
 				'to_pm' => $findidemp['id_emp'],
 				'rd' => 'N',
+				'selesai' => 'Y',
 				'child' => 0,
 			];
 
