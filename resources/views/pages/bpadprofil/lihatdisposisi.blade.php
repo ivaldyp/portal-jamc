@@ -75,7 +75,6 @@
 
 										<input type="hidden" name="ids" value="{{ $ids }}">
 										<input type="hidden" name="no_form" value="{{ $no_form }}">
-										<input type="hidden" name="" value="{{ $no_form }}">
 										<input type="hidden" id="isEmployeeFlag" value="{{ $isEmployee }}">
 
 										<div class="form-group">

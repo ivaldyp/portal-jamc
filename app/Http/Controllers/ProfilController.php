@@ -294,7 +294,7 @@ class ProfilController extends Controller
 
 		$idgroup = $_SESSION['user_data']['idgroup'];
 		if (substr($idgroup, 0, 8) == 'EMPLOYEE' || $idgroup == 'ADMIN DIA' || $idgroup == 'TYPIST') {
-			$disposisiinboxs = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
+			$disposisiinboxs = DB::select( DB::raw("select top 500 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
 										  from fr_disposisi disp
 										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
 										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
@@ -305,7 +305,7 @@ class ProfilController extends Controller
 										  order by disp.no_form DESC, disp.ids ASC") );
 
 			if (strlen($_SESSION['user_data']['idunit']) == 10) {
-				$disposisiends = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
+				$disposisiends = DB::select( DB::raw("select top 500 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
 										  from fr_disposisi disp
 										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
 										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
@@ -316,7 +316,7 @@ class ProfilController extends Controller
 										  order by disp.no_form DESC, disp.ids ASC") );
 				$disposisisents = 0;
 			} else {
-				$disposisisents = DB::select( DB::raw("select disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
+				$disposisisents = DB::select( DB::raw("select top 500 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
 										  from fr_disposisi disp
 										  left join emp_data emp1 on disp.from_pm = emp1.id_emp
 										  left join emp_data emp2 on disp.to_pm = emp2.id_emp
@@ -592,10 +592,55 @@ class ProfilController extends Controller
 			if (is_null($request->jabatans) && is_null($request->stafs)) {
 				
 			} else {
+				Fr_disposisi::where('ids', $request->ids)
+				->update([
+					'usr_input' => Auth::user()->id_emp,
+					'tgl_input' => date('Y-m-d H:i:s'),
+					'rd' => 'S',
+					'selesai' => '',
+					'child' => 1,
 
+				]);
+
+				$id_emp_array = [];
+
+				if ($request->jabatans) {
+					foreach ($request->jabatans as $jabatan) {
+						$kepada = explode("||", $jabatan)[0];
+						$to_pm = explode("||", $jabatan)[1];
+
+						$insertsurat = [
+							'sts' => 1,
+							'tgl' => date('Y-m-d H:i:s'),
+							'kd_skpd' => '1.20.512',
+							'kd_unit' => '01',
+							'no_form' => $request->no_form,
+							'idtop' => $request->ids,
+							'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+							'kepada' => $kepada,
+							'penanganan' => $request->penanganan,
+							'catatan' => $request->catatan,
+							'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+							'to_pm' => $to_pm,
+							'rd' => 'N',
+							'selesai' => 'Y',
+							'child' => 0,
+						];
+
+						array_push($id_emp_array, $to_pm);
+						Fr_disposisi::insert($insertsurat);
+					}
+
+					var_dump($id_emp_array);
+					if (in_array('1.20.512.20008', $id_emp_array)) {
+					}
+				}
 			}
-			var_dump($request->stafs);
+
 			die();
+			return redirect('/profil/disposisi')
+					->with('message', 'Disposisi berhasil dilanjutkan')
+					->with('msg_num', 1);
 		}
 	}
 
