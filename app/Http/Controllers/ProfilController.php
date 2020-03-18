@@ -474,6 +474,9 @@ class ProfilController extends Controller
 				->with('isEmployee', $isEmployee)
 				->with('ids', $request->ids)
 				->with('no_form', $request->no_form)
+				->with('idtop', $request->idtop)
+				->with('to_id', $request->to_id)
+				->with('asal_form', $request->asal_form)
 				->with('treedisp', $treedisp);
 	}
 
@@ -590,8 +593,18 @@ class ProfilController extends Controller
 		} else {
 			//kalo dia pegawai brarti lanjutin disposisi
 			if (is_null($request->jabatans) && is_null($request->stafs)) {
-				
+				Fr_disposisi::where('ids', $request->ids)
+				->update([
+					'usr_input' => Auth::user()->id_emp,
+					'tgl_input' => date('Y-m-d H:i:s'),
+					'rd' => 'S',
+				]);
+
+				return redirect('/profil/disposisi')
+					->with('message', 'Disposisi berhasil dilanjutkan')
+					->with('msg_num', 1);
 			} else {
+
 				Fr_disposisi::where('ids', $request->ids)
 				->update([
 					'usr_input' => Auth::user()->id_emp,
@@ -601,6 +614,14 @@ class ProfilController extends Controller
 					'child' => 1,
 
 				]);
+
+				if ($request->cekasal == 'inbox') {
+					$idtop = $request->ids;
+				} elseif ($request->cekasal == 'sent' && $request->cekto_id == Auth::user()->id_emp) {
+					$idtop = $request->ids;
+				} elseif ($request->cekasal == 'sent' && $request->cekto_id != Auth::user()->id_emp) {
+					$idtop = $request->cekidtop;
+				}
 
 				$id_emp_array = [];
 
@@ -615,7 +636,7 @@ class ProfilController extends Controller
 							'kd_skpd' => '1.20.512',
 							'kd_unit' => '01',
 							'no_form' => $request->no_form,
-							'idtop' => $request->ids,
+							'idtop' => $idtop,
 							'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
 							'kepada' => $kepada,
 							'penanganan' => $request->penanganan,
@@ -630,17 +651,12 @@ class ProfilController extends Controller
 						array_push($id_emp_array, $to_pm);
 						Fr_disposisi::insert($insertsurat);
 					}
-
-					var_dump($id_emp_array);
-					if (in_array('1.20.512.20008', $id_emp_array)) {
-					}
 				}
-			}
 
-			die();
-			return redirect('/profil/disposisi')
+				return redirect('/profil/disposisi')
 					->with('message', 'Disposisi berhasil dilanjutkan')
 					->with('msg_num', 1);
+			}
 		}
 	}
 
@@ -759,11 +775,22 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
+
 		$this->deleteLoopDisposisi($request->ids);
 
 		Fr_disposisi::
 				where('ids', $request->ids)
 				->delete();
+
+		$countanak = count(Fr_disposisi::where('idtop', $request->idtop)->get());
+		if ($countanak == 0) {
+			Fr_disposisi::where('ids', $request->idtop)
+				->update([
+					'rd' => 'Y',
+					'selesai' => 'Y',
+					'child' => 0,
+				]);
+		}
 
 		return redirect('/profil/disposisi')
 					->with('message', 'Disposisi berhasil dihapus')

@@ -153,6 +153,9 @@
 																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
 																			<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
 																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
+																			<input type="hidden" name="asal_form" value="inbox">
+																			<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
+																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																		</form>
 																		
@@ -175,6 +178,7 @@
 																				<div class="modal-body">
 																					<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
 																					<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																					<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
 																					<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
 																				</div>
 																				<div class="modal-footer">
@@ -225,7 +229,7 @@
 																$thissifat2 = $disp['sifat2_surat'];
 															}
 
-															if ($disp['from_id'] == $_SESSION['user_data']['id_emp'] || ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['selesai'] == 'Y')) { ?>
+															if ($disp['from_id'] == $_SESSION['user_data']['id_emp'] || ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['selesai'] == 'Y' && $disp['rd'] == 'S')) { ?>
 																<tr>
 																	<td>{{ $thisnoform }}</td>
 																	<td>{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
@@ -257,6 +261,9 @@
 																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
 																			<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
 																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
+																			<input type="hidden" name="asal_form" value="sent">
+																			<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
+																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																		</form>
 																		@endif
@@ -278,6 +285,7 @@
 																				<div class="modal-body">
 																					<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
 																					<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																					<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
 																					<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
 																				</div>
 																				<div class="modal-footer">
@@ -356,6 +364,7 @@
 																	<div class="modal-body">
 																		<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
 																		<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																		<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
 																		<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
 																		
 																	</div>
