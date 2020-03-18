@@ -392,13 +392,15 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
-		Fr_disposisi::
+		if (Auth::user()->id_emp == $request->to_id) {
+			Fr_disposisi::
 					where('ids', $request->ids)
 					->update([
 						'usr_rd' => Auth::user()->id_emp,
 						'tgl_rd' => date('Y-m-d'),
 						'rd' => 'Y',
 					]);
+		}
 
 		$opendisposisi = Fr_disposisi::
 							join('glo_disposisi_kode', 'glo_disposisi_kode.kd_jnssurat', '=', 'fr_disposisi.kode_disposisi')
@@ -605,22 +607,39 @@ class ProfilController extends Controller
 					->with('msg_num', 1);
 			} else {
 
-				Fr_disposisi::where('ids', $request->ids)
-				->update([
-					'usr_input' => Auth::user()->id_emp,
-					'tgl_input' => date('Y-m-d H:i:s'),
-					'rd' => 'S',
-					'selesai' => '',
-					'child' => 1,
-
-				]);
-
 				if ($request->cekasal == 'inbox') {
 					$idtop = $request->ids;
+
+					Fr_disposisi::where('ids', $request->ids)
+					->update([
+						'usr_input' => Auth::user()->id_emp,
+						'tgl_input' => date('Y-m-d H:i:s'),
+						'rd' => 'S',
+						'selesai' => '',
+						'child' => 1,
+					]);
 				} elseif ($request->cekasal == 'sent' && $request->cekto_id == Auth::user()->id_emp) {
 					$idtop = $request->ids;
+
+					Fr_disposisi::where('ids', $request->ids)
+					->update([
+						'usr_input' => Auth::user()->id_emp,
+						'tgl_input' => date('Y-m-d H:i:s'),
+						'rd' => 'S',
+						'selesai' => '',
+						'child' => 1,
+					]);
 				} elseif ($request->cekasal == 'sent' && $request->cekto_id != Auth::user()->id_emp) {
 					$idtop = $request->cekidtop;
+
+					Fr_disposisi::where('ids', $request->cekidtop)
+					->update([
+						'usr_input' => Auth::user()->id_emp,
+						'tgl_input' => date('Y-m-d H:i:s'),
+						'rd' => 'S',
+						'selesai' => '',
+						'child' => 1,
+					]);
 				}
 
 				$id_emp_array = [];
