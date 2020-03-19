@@ -672,6 +672,31 @@ class ProfilController extends Controller
 					}
 				}
 
+				if ($request->stafs) {
+					foreach ($request->stafs as $staf) {
+						if (!(in_array($staf, $id_emp_array))) {
+							$insertsurat = [
+								'sts' => 1,
+								'tgl' => date('Y-m-d H:i:s'),
+								'kd_skpd' => '1.20.512',
+								'kd_unit' => '01',
+								'no_form' => $request->no_form,
+								'idtop' => $idtop,
+								'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+								'kepada' => '',
+								'penanganan' => $request->penanganan,
+								'catatan' => $request->catatan,
+								'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+								'to_pm' => $staf,
+								'rd' => 'N',
+								'selesai' => 'Y',
+								'child' => 0,
+							];
+							Fr_disposisi::insert($insertsurat);
+						}
+					}
+				}
+
 				return redirect('/profil/disposisi')
 					->with('message', 'Disposisi berhasil dilanjutkan')
 					->with('msg_num', 1);
