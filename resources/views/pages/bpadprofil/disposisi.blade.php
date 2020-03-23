@@ -69,7 +69,7 @@
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
 								@if($access['zadd'] == 'y')
-								<a href="/bpadwebs/profil/tambah disposisi"><button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a> 
+								<a href="/bpadwebs/profil/tambah disposisi"><button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
 								@endif
 								@if($isEmployee == 1)
 									<ul class="nav customtab nav-tabs" role="tablist">
@@ -78,17 +78,14 @@
 									</ul>
 									<div class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="inbox">
-											<div class="table-responsive">
-												<table id="myTable" class="table table-hover table-striped">
+											<div class="table-responsive" style="overflow: visible;">
+												<table id="myTable" class="table table-hover table-striped" style="z-index: 99999;">
 													<thead>
 														<tr>
 															<th>No. Form</th>
 															<th class="col-md-1">Tanggal</th>
-															<th>Kode</th>
-															<th>No. Surat</th>
-															<th>Perihal</th>
-															<th>Asal</th>
 															<th>Sifat</th>
+															<th>Isi</th>
 															<th>Dari</th>
 															<!-- <th>Untuk</th> -->
 															<th>Penanganan</th>
@@ -115,14 +112,39 @@
 																<tr>
 																	<td>{{ $thisnoform ?? '-' }}</td>
 																	<td>{{ date('d-M-Y',strtotime($thistanggal ?? '-')) }}</td>
-																	<td>{{ $thiskode ?? '-' }}</td>
-																	<td>{{ $thisnosurat ?? '-' }}</td>
-																	<td>{{ $thisperihal ?? '-' }}</td>
-																	<td>{{ $thisasal ?? '-' }}</td>
 																	<td>
 																		<span class="label label-info">{{ $thissifat1 ?? '-' }}</span>
+																		@if($thissifat2)
 																		<br>
+																		@endif
 																		<span class="label label-warning">{{ $thissifat2 ?? '-' }}</span>
+																	</td>
+																	<td>
+																		<span class="mytooltip tooltip-effect-1"> 
+																			<span class="tooltip-item">Lihat Isi</span> 
+																			<span class="tooltip-content clearfix"> 
+																				<table class="table table-bordered">
+																					<tbody>
+																						<tr>
+																							<td><strong>Kode</strong></td>
+																							<td>{{ $thiskode ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>No Surat</strong></td>
+																							<td>{{ $thisnosurat ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>Perihal</strong></td>
+																							<td>{{ $thisperihal ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>Asal Surat</strong></td>
+																							<td>{{ $thisasal ?? '-' }}</td>
+																						</tr>
+																					</tbody>
+																				</table> 
+																			</span> 
+																		</span>
 																	</td>
 
 																	<td>
@@ -203,11 +225,8 @@
 														<tr>
 															<th>No. Form</th>
 															<th class="col-md-1">Tanggal</th>
-															<th>Kode</th>
-															<th>No. Surat</th>
-															<th>Perihal</th>
-															<th>Asal</th>
 															<th>Sifat</th>
+															<th>Isi</th>
 															<th>Dari</th>
 															<th>Untuk</th>
 															<th>Penanganan</th>
@@ -233,14 +252,39 @@
 																<tr>
 																	<td>{{ $thisnoform }}</td>
 																	<td>{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
-																	<td>{{ $thiskode }}</td>
-																	<td>{{ $thisnosurat }}</td>
-																	<td>{{ $thisperihal }}</td>
-																	<td>{{ $thisasal }}</td>
 																	<td>
 																		<span class="label label-info">{{ $thissifat1 }}</span>
+																		@if($thissifat2)
 																		<br>
-																		<span class="label label-warning">{{ $thissifat2 }}</span>
+																		@endif
+																		<span class="label label-warning">{{ $thissifat2 ?? '-' }}</span>
+																	</td>
+																	<td>
+																		<span class="mytooltip tooltip-effect-1"> 
+																			<span class="tooltip-item">Lihat Isi</span> 
+																			<span class="tooltip-content clearfix"> 
+																				<table class="table table-bordered">
+																					<tbody>
+																						<tr>
+																							<td><strong>Kode</strong></td>
+																							<td>{{ $thiskode ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>No Surat</strong></td>
+																							<td>{{ $thisnosurat ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>Perihal</strong></td>
+																							<td>{{ $thisperihal ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>Asal Surat</strong></td>
+																							<td>{{ $thisasal ?? '-' }}</td>
+																						</tr>
+																					</tbody>
+																				</table> 
+																			</span> 
+																		</span>
 																	</td>
 
 																	<td>
