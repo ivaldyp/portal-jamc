@@ -375,7 +375,8 @@ class ProfilController extends Controller
 				$padding = ($level * 20);
 				$result .= '<tr >
 								<td style="padding-left:'.$padding.'px; padding-top:10px">
-									<span class="fa fa-user"></span> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> | <span>Penanganan: '. $log['penanganan'] .'</span><br>
+									<span class="fa fa-user"></span> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> <br> 
+									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan_final'] ? $log['penanganan_final'] : '-') .'</b></span><br>
 								</td>
 							</tr>';
 
@@ -393,13 +394,19 @@ class ProfilController extends Controller
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
 		if (Auth::user()->id_emp == $request->to_id) {
-			Fr_disposisi::
+			$rd_status = Fr_disposisi::
+							where('ids', $request->ids)
+							->first(['rd']);
+
+			if ($rd_status['rd'] != 'S') {
+				Fr_disposisi::
 					where('ids', $request->ids)
 					->update([
 						'usr_rd' => Auth::user()->id_emp,
 						'tgl_rd' => date('Y-m-d'),
 						'rd' => 'Y',
 					]);
+			}
 		}
 
 		$opendisposisi = Fr_disposisi::
@@ -408,9 +415,26 @@ class ProfilController extends Controller
 							->orderBy('ids')
 							->get();
 
+		if ($request->asal_form == 'sent' && $request->to_id == Auth::user()->id_emp) {
+			$id_now = $request->ids;
+			$id_child = $request->ids;
+		} elseif ($request->asal_form == 'sent' && $request->to_id != Auth::user()->id_emp) {
+			$id_now = $request->idtop;
+			$id_child = $request->idtop;
+		}
+
+		$openpenanganannow = Fr_disposisi::
+							where('ids', $id_now)
+							->first(['penanganan', 'catatan', 'penanganan_final', 'catatan_final', 'child']);
+
+		$openpenangananchild = Fr_disposisi::
+							where('idtop', $id_child)
+							->first(['penanganan', 'catatan', 'penanganan_final', 'catatan_final']);
+
 		$treedisp = '<tr>
 						<td>
-							<span class="fa fa-book"></span> <span>'.$opendisposisi[0]['no_form'].'</span> | <span>Kode: '.$opendisposisi[0]['kode_disposisi'].'</span> | <span>Nomor: '.$opendisposisi[0]['no_surat'].'</span><br>
+							<span class="fa fa-book"></span> <span>'.$opendisposisi[0]['no_form'].'</span> <br>
+							<span class="text-muted">Kode: '.$opendisposisi[0]['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$opendisposisi[0]['no_surat'].'</span><br>
 
 						</td>
 					</tr>';
@@ -469,6 +493,8 @@ class ProfilController extends Controller
 		return view('pages.bpadprofil.lihatdisposisi')
 				->with('access', $access)
 				->with('opendisposisi', $opendisposisi)
+				->with('openpenanganannow', $openpenanganannow)
+				->with('openpenangananchild', $openpenangananchild)
 				->with('kddispos', $kddispos)
 				->with('stafs', $stafs)
 				->with('jabatans', $jabatans)
@@ -597,9 +623,11 @@ class ProfilController extends Controller
 			if (is_null($request->jabatans) && is_null($request->stafs)) {
 				Fr_disposisi::where('ids', $request->ids)
 				->update([
+					'penanganan_final' => $request->penanganan,
+					'catatan_final' => $request->catatan,
+					'rd' => 'S',
 					'usr_input' => Auth::user()->id_emp,
 					'tgl_input' => date('Y-m-d H:i:s'),
-					'rd' => 'S',
 				]);
 
 				return redirect('/profil/disposisi')
@@ -612,6 +640,8 @@ class ProfilController extends Controller
 
 					Fr_disposisi::where('ids', $request->ids)
 					->update([
+						'penanganan_final' => $request->penanganan,
+						'catatan_final' => $request->catatan,
 						'usr_input' => Auth::user()->id_emp,
 						'tgl_input' => date('Y-m-d H:i:s'),
 						'rd' => 'S',
@@ -623,6 +653,8 @@ class ProfilController extends Controller
 
 					Fr_disposisi::where('ids', $request->ids)
 					->update([
+						'penanganan_final' => $request->penanganan,
+						'catatan_final' => $request->catatan,
 						'usr_input' => Auth::user()->id_emp,
 						'tgl_input' => date('Y-m-d H:i:s'),
 						'rd' => 'S',
@@ -634,6 +666,8 @@ class ProfilController extends Controller
 
 					Fr_disposisi::where('ids', $request->cekidtop)
 					->update([
+						'penanganan_final' => $request->penanganan,
+						'catatan_final' => $request->catatan,
 						'usr_input' => Auth::user()->id_emp,
 						'tgl_input' => date('Y-m-d H:i:s'),
 						'rd' => 'S',

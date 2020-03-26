@@ -106,15 +106,16 @@
 																$thisasal = $disp['asal_surat'];
 																$thissifat1 = $disp['sifat1_surat'];
 																$thissifat2 = $disp['sifat2_surat'];
+																$thisfile = $disp['nm_file'];
 															}
 
 															if ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && ($disp['rd'] == 'N' || $disp['rd'] == 'Y')) { ?>
 																<tr>
 																	<td>{{ $thisnoform ?? '-' }}</td>
-																	<td>{{ date('d-M-Y',strtotime($thistanggal ?? '-')) }}</td>
+																	<td class="col-md-2">{{ date('d-M-Y',strtotime($thistanggal ?? '-')) }}</td>
 																	<td>
+																		@if($thissifat1)
 																		<span class="label label-info">{{ $thissifat1 ?? '-' }}</span>
-																		@if($thissifat2)
 																		<br>
 																		@endif
 																		<span class="label label-warning">{{ $thissifat2 ?? '-' }}</span>
@@ -140,6 +141,10 @@
 																						<tr>
 																							<td><strong>Asal Surat</strong></td>
 																							<td>{{ $thisasal ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>Download</strong></td>
+																							<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $thisfile }}">{{ $thisfile }}</a></td>
 																						</tr>
 																					</tbody>
 																				</table> 
@@ -177,7 +182,6 @@
 																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<input type="hidden" name="asal_form" value="inbox">
 																			<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
-																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																		</form>
 																		
@@ -219,7 +223,7 @@
 											</div>
 										</div>
 										<div role="tabpanel" class="tab-pane fade" id="sent">
-											<div class="table-responsive">
+											<div class="table-responsive" style="overflow: visible;">
 												<table id="myTable2" class="table table-hover table-striped">
 													<thead>
 														<tr>
@@ -251,10 +255,10 @@
 															if ($disp['from_id'] == $_SESSION['user_data']['id_emp'] || ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['selesai'] == 'Y' && $disp['rd'] == 'S')) { ?>
 																<tr>
 																	<td>{{ $thisnoform }}</td>
-																	<td>{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
+																	<td class="col-md-2">{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
 																	<td>
+																		@if($thissifat1)
 																		<span class="label label-info">{{ $thissifat1 }}</span>
-																		@if($thissifat2)
 																		<br>
 																		@endif
 																		<span class="label label-warning">{{ $thissifat2 ?? '-' }}</span>
@@ -307,7 +311,6 @@
 																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<input type="hidden" name="asal_form" value="sent">
 																			<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
-																			<input type="hidden" name="to_id" value="{{ $disp['to_id'] }}">
 																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																		</form>
 																		@endif

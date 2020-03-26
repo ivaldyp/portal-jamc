@@ -214,43 +214,47 @@
 
 									<div class="col-md-6">
 										<?php if ($_SESSION['user_data']['child'] == 1 || $_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL'): ?>
-										<div class="form-group">
-											<label class="col-md-2 control-label"> Disposisi Ke </label>
-											<div class="col-md-8">
-												<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
-													@foreach($jabatans as $jabatan)
-														<option value="{{ $jabatan['jabatan'] }}||{{ $jabatan['noid'] }}" > {{ $jabatan['jabatan'] }} </option>
-													@endforeach
-												</select>
+											<div class="form-group">
+												<label class="col-md-2 control-label"> Disposisi Ke </label>
+												<div class="col-md-8">
+													<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
+														@foreach($jabatans as $jabatan)
+															<option value="{{ $jabatan['jabatan'] }}||{{ $jabatan['noid'] }}" > {{ $jabatan['jabatan'] }} </option>
+														@endforeach
+													</select>
+												</div>
 											</div>
-										</div>
 
-										<?php if ($_SESSION['user_data']['child'] == 1): ?>
-										<div class="form-group">
-											<label for="nip_emp" class="col-md-2 control-label"> Staf </label>
-											<div class="col-md-8">
-												<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="stafs[]" id="stafs" required>
-													@foreach($stafs as $staf)
-														<option value="{{ $staf['id_emp'] }}"> 
-															{{ ucwords(strtolower($staf['nm_emp'])) }}
-															<?php if ($staf['nrk_emp']): ?>
-																- [{{ $staf['nrk_emp'] }}]
-															<?php endif ?>
-														</option>
-													@endforeach
-												</select>
+											<?php if ($_SESSION['user_data']['child'] == 1): ?>
+											<div class="form-group">
+												<label for="nip_emp" class="col-md-2 control-label"> Staf </label>
+												<div class="col-md-8">
+													<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="stafs[]" id="stafs" required>
+														@foreach($stafs as $staf)
+															<option value="{{ $staf['id_emp'] }}"> 
+																{{ ucwords(strtolower($staf['nm_emp'])) }}
+																<?php if ($staf['nrk_emp']): ?>
+																	- [{{ $staf['nrk_emp'] }}]
+																<?php endif ?>
+															</option>
+														@endforeach
+													</select>
+												</div>
 											</div>
-										</div>
+											<?php endif ?>
 										<?php endif ?>
-										
-										<?php endif ?>
+
+										<?php 
+											$penanganan_final = ($openpenanganannow['child'] == 1 ? $openpenangananchild['penanganan'] : $openpenanganannow['penanganan_final']);
+											$catatan_final = ($openpenanganannow['child'] == 1 ? $openpenangananchild['catatan'] : $openpenanganannow['catatan_final']);
+										?>
 
 										<div class="form-group">
 											<label for="tgl_join" class="col-md-2 control-label"> Penanganan </label>
 											<div class="col-md-8">
 												<select class="select2 form-control" name="penanganan" id="penanganan">
 													@foreach($penanganans as $penanganan)
-														<option value="{{ $penanganan['nm_penanganan'] }}"> {{ $penanganan['nm_penanganan'] }} </option>
+														<option value="{{ $penanganan['nm_penanganan'] }}" <?php if ($penanganan_final == $penanganan['nm_penanganan'] ): ?> selected <?php endif ?>> {{ $penanganan['nm_penanganan'] }} </option>
 													@endforeach
 												</select>
 											</div>
@@ -259,7 +263,8 @@
 										<div class="form-group">
 											<label for="catatan" class="col-md-2 control-label"> Catatan </label>
 											<div class="col-md-8">
-												<textarea name="catatan" class="form-control" rows="3"></textarea>
+												<textarea name="catatan" class="form-control" rows="3">{{ $catatan_final }}
+												</textarea>
 											</div>
 										</div>
 
@@ -275,6 +280,30 @@
 										<div class="form-group">
 											<div class="col-md-2"></div>
 											<div class="col-md-8">
+												<div class="panel panel-info">
+													<div class="panel-heading"> Penanganan Sebelumnya </div>
+													<div class="panel-wrapper collapse in" aria-expanded="true">
+														<div class="panel-body">
+															<div class="table-responsive">
+																<table>
+																	<tr>
+																		<td>
+																			<b>{{ $openpenanganannow['penanganan'] ?? '-' }}</b><br>
+																			<span class="text-muted">{{ $openpenanganannow['catatan'] ?? '-' }}</span>
+																		</td>
+																	</tr>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+												
+
+										<div class="form-group">
+											<div class="col-md-2"></div>
+											<div class="col-md-10">
 												
 												<label > Log <br> </label>
 												<div class="table-responsive">
