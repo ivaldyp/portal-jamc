@@ -21,6 +21,7 @@ use App\Glo_org_lokasi;
 use App\Glo_org_statusemp;
 use App\Glo_org_unitkerja;
 use App\Sec_access;
+use App\V_disposisi;
 
 session_start();
 
@@ -31,6 +32,7 @@ class KepegawaianController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+		set_time_limit(300);
 	}
 
 	// ------------------ DATA PEGAWAI ------------------ //
@@ -684,4 +686,154 @@ class KepegawaianController extends Controller
 					->with('message', 'Pegawai '.$request->nm_emp.' berhasil dihapus')
 					->with('msg_num', 1);
 	}
+
+	// ------------------ DATA PEGAWAI ------------------ //
+
+	// ---------------- STATUS DISPOSISI ---------------- //
+
+	public function statusdisposisi()
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 373);
+
+		$ids = Auth::user()->id_emp;
+
+		$data_self = DB::select( DB::raw("  
+							SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from emp_data as a
+							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+							CROSS APPLY (SELECT TOP 1 * FROM glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+							,glo_skpd as b,glo_org_unitkerja as c,glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+							and id_emp like '$ids'") )[0];
+		$data_self = json_decode(json_encode($data_self), true);
+
+		if (strlen($data_self['idunit']) == 10) {
+			// kalo dia staf
+			$result = '';
+
+			$result .= '<tr>
+							<td>'.(is_null($data_self['nrk_emp']) || $data_self['nrk_emp'] == '' ? '-' : $data_self['nrk_emp'] ).'</td>
+							<td>'.ucwords(strtolower($data_self['nm_emp'])).'</td>
+							<td>'.ucwords(strtolower($data_self['idjab'])).'</td>
+						';
+
+			$belum = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as belum
+						FROM v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'N'
+					"))[0]), true);
+
+			$baca = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as baca
+						FROM v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'Y'
+					"))[0]), true);
+
+			$balas = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as balas
+						FROM v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'S'
+					"))[0]), true);
+
+			$total = $belum['belum'] + $baca['baca'] + $balas['balas'];
+			
+			$result .= '	<td '. ($belum['belum'] > 0 ? 'class="text-danger"' : '') .'>'.$belum['belum'].'</td>
+								<td>'.$baca['baca'].'</td>
+								<td>'.$balas['balas'].'</td>
+								<td><b>'.$total.'</b></td>
+							</tr>';
+
+		} else {
+			// kalo dia atasan
+			$result = '<tr>
+							<td>'.(is_null($data_self['nrk_emp']) || $data_self['nrk_emp'] == '' ? '-' : $data_self['nrk_emp'] ).'</td>
+							<td>'.ucwords(strtolower($data_self['nm_emp'])).'</td>
+							<td>'.ucwords(strtolower($data_self['idjab'])).'</td>
+						';
+
+			$belum = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as belum
+						FROM v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'N'
+					"))[0]), true);
+
+			$baca = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as baca
+						FROM v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'Y'
+					"))[0]), true);
+
+			$balas = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as balas
+						FROM v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'S'
+					"))[0]), true);
+
+			$total = $belum['belum'] + $baca['baca'] + $balas['balas'];
+
+			$result .= '	<td '. ($belum['belum'] > 0 ? 'class="text-danger"' : '') .'>'.$belum['belum'].'</td>
+								<td>'.$baca['baca'].'</td>
+								<td>'.$balas['balas'].'</td>
+								<td><b>'.$total.'</b></td>
+							</tr>';
+
+			$idunit = $data_self['idunit'];
+			$querys = DB::select( DB::raw("  
+						SELECT id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from emp_data as a
+						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+						CROSS APPLY (SELECT TOP 1 * FROM glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+						,glo_skpd as b,glo_org_unitkerja as c,glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+						and tbunit.sao like '$idunit%' and ked_emp = 'aktif'") );
+			$querys = json_decode(json_encode($querys), true);
+
+			foreach ($querys as $key => $query) {
+				$result .= '<tr>
+								<td>'.(is_null($query['nrk_emp']) || $query['nrk_emp'] == '' ? '-' : $query['nrk_emp'] ).'</td>
+								<td>'.ucwords(strtolower($query['nm_emp'])).'</td>
+								<td>'.ucwords(strtolower($query['idjab'])).'</td>
+							';
+
+				$belum = json_decode(json_encode(DB::select( DB::raw("
+							SELECT Count(id_emp) as belum
+							FROM v_disposisi
+							where id_emp like '".$query['id_emp']."'
+							and rd = 'N'
+						"))[0]), true);
+
+				$baca = json_decode(json_encode(DB::select( DB::raw("
+							SELECT Count(id_emp) as baca
+							FROM v_disposisi
+							where id_emp like '".$query['id_emp']."'
+							and rd = 'Y'
+						"))[0]), true);
+
+				$balas = json_decode(json_encode(DB::select( DB::raw("
+							SELECT Count(id_emp) as balas
+							FROM v_disposisi
+							where id_emp like '".$query['id_emp']."'
+							and rd = 'S'
+						"))[0]), true);
+
+				$total = $belum['belum'] + $baca['baca'] + $balas['balas'];
+				
+				$result .= '	<td '. ($belum['belum'] > 0 ? 'class="text-danger"' : '') .'>'.$belum['belum'].'</td>
+								<td>'.$baca['baca'].'</td>
+								<td>'.$balas['balas'].'</td>
+								<td><b>'.$total.'</b></td>
+							</tr>';
+			}
+		}
+
+		return view('pages.bpadkepegawaian.statusdisposisi')
+				->with('access', $access)
+				->with('result', $result);
+
+	}
+
+	// ---------------- STATUS DISPOSISI ---------------- //
 }

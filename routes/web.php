@@ -87,6 +87,8 @@ Route::group(['prefix' => 'kepegawaian'], function () {
 	Route::post('/form/tambahpegawai', 'KepegawaianController@forminsertpegawai');
 	Route::post('/form/ubahpegawai', 'KepegawaianController@formupdatepegawai');
 	Route::post('/form/hapuspegawai', 'KepegawaianController@formdeletepegawai');
+
+	Route::get('/status disposisi', 'KepegawaianController@statusdisposisi');
 });
 
 Route::group(['prefix' => 'security'], function () {
