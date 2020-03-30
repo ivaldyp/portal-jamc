@@ -13,7 +13,10 @@ use App\Emp_data;
 use App\Emp_dik;
 use App\Emp_gol;
 use App\Emp_jab;
+use App\Fr_suratkeluar;
+use App\Fr_disposisi;
 use App\Glo_dik;
+use App\Glo_disposisi_kode;
 use App\Glo_org_golongan;
 use App\Glo_org_jabatan;
 use App\Glo_org_kedemp;
@@ -788,7 +791,8 @@ class KepegawaianController extends Controller
 						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 						CROSS APPLY (SELECT TOP 1 * FROM glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 						,glo_skpd as b,glo_org_unitkerja as c,glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
-						and tbunit.sao like '$idunit%' and ked_emp = 'aktif'") );
+						and tbunit.sao like '$idunit%' and ked_emp = 'aktif'
+						order by tbunit.kd_unit") );
 			$querys = json_decode(json_encode($querys), true);
 
 			foreach ($querys as $key => $query) {
@@ -833,6 +837,45 @@ class KepegawaianController extends Controller
 				->with('access', $access)
 				->with('result', $result);
 
+	}
+
+	public function suratkeluar()
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+
+		$surats = Fr_suratkeluar::
+					orderBy('tgl_input', 'desc')
+					->get();
+
+		return view('pages.bpadkepegawaian.suratkeluar')
+				->with('access', $access)
+				->with('surats', $surats);
+	}
+
+	public function suratkeluartambah()
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+
+		$disposisis = Fr_disposisi::
+						limit(200)
+						->whereNotNull('kode_disposisi')
+						->Where('kode_disposisi', '<>', '')
+						->orderBy('no_form', 'desc')
+						->get();
+
+		$dispkodes = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
+
+		return view('pages.bpadkepegawaian.suratkeluartambah')
+				->with('access', $access)
+				->with('disposisis', $disposisis)
+				->with('dispkodes', $dispkodes);
+	}
+
+	public function forminsertsuratkeluar(Request $request)
+	{
+		
 	}
 
 	// ---------------- STATUS DISPOSISI ---------------- //

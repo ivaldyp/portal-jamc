@@ -29,24 +29,25 @@ class HomeController extends Controller
     {
         if ($level == 0) {
             $query = Sec_menu::
-                    join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
-                    // ->where('sec_menu.tipe', 'l')
-                    // ->whereRaw('LEN(sec_menu.urut) = 1')
+                    join('sec_access', 'sec_access.idtop', '=', 'Sec_menu.ids')
+                    // ->where('Sec_menu.tipe', 'l')
+                    // ->whereRaw('LEN(Sec_menu.urut) = 1')
                     ->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
                     ->where('sec_access.zviw', 'y')
-                    ->where('sec_menu.sao', $parent)
+                    ->where('Sec_menu.sao', $parent)
                     ->where('tampilnew', 1)
-                    ->orderBy('sec_menu.urut')
+                    ->orderBy('Sec_menu.urut')
                     ->get();
         } else {
             $query = Sec_menu::
-                    join('sec_access', 'sec_access.idtop', '=', 'sec_menu.ids')
-                    // ->where('sec_menu.tipe', 'l')
-                    // ->whereRaw('LEN(sec_menu.urut) = 1')
+                    join('sec_access', 'sec_access.idtop', '=', 'Sec_menu.ids')
+                    // ->where('Sec_menu.tipe', 'l')
+                    // ->whereRaw('LEN(Sec_menu.urut) = 1')
                     ->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
                     ->where('sec_access.zviw', 'y')
-                    ->where('sec_menu.sao', $parent)
-                    ->orderBy('sec_menu.urut')
+                    ->where('Sec_menu.sao', $parent)
+                    ->where('tampilnew', 1)
+                    ->orderBy('Sec_menu.urut')
                     ->get();
         }
             

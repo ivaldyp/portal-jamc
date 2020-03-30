@@ -69,7 +69,7 @@
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
 								@if($access['zadd'] == 'y')
-								<a href="/bpadwebs/profil/tambah disposisi"><button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
+								<a href="/bpadwebs/profil/tambah disposisi"><button class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
 								@endif
 								@if($isEmployee == 1)
 									<ul class="nav customtab nav-tabs" role="tablist">

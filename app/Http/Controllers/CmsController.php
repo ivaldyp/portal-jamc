@@ -58,7 +58,7 @@ class CmsController extends Controller
 
 
                                 '.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
-                                    '<td>
+                                    '<td class="col-md-2">
                                         '.(($access['zupd'] == 'y') ? 
                                             '<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" data-tampilnew="'.$menu['tampilnew'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>'
                                         : '').'

@@ -764,6 +764,9 @@ class ProfilController extends Controller
 		}
 
 		$maxnoform = Fr_disposisi::max('no_form');
+		if (is_null($maxnoform)) {
+			$maxnoform = '1.20.512.20100001';
+		}
 		$splitnoform = explode(".", $maxnoform); 
 		$newnoform = $splitnoform[0] . "." . $splitnoform[1] . "." . $splitnoform[2] . "." . ($splitnoform[3]+1);
 
