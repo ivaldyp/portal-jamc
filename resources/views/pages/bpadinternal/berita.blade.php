@@ -75,7 +75,7 @@
 								</div>
 								<div class="row">
 									<div class="table-responsive">
-										<table class="myTable table table-hover">
+										<table class="myTable table table-hover table-bordered">
 											<thead>
 												<tr>
 													<th>No</th>
@@ -83,6 +83,7 @@
 													<th>Editor</th>
 													<th>Deskripsi</th>
 													<th>Kategori</th>
+													<th class="text-center">Approved</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-1">Aksi</th>
 													@endif
@@ -101,6 +102,13 @@
 													<td>{!! $berita['isi'] !!}</td>
 													<td>
 														<span class="label label-info">{{ $berita['tipe'] }}</span>
+													</td>
+													<td class="text-center">
+														{!! 
+															($berita['appr']) == 'Y' ? 
+															'<i style="color:green;" class="fa fa-check"></i>' : 
+															'<i style="color:red;" class="fa fa-times"></i>' 
+														!!}
 													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td class="col-md-1">
@@ -182,7 +190,9 @@
 				$("#label_delete").empty();
 			});
 
-			$('.myTable').DataTable();
+			$('.myTable').DataTable({
+				"order": [],
+			});
 		});
 	</script>
 @endsection

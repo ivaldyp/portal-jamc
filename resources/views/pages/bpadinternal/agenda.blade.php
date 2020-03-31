@@ -75,14 +75,16 @@
 								</div>
 								<div class="row">
 									<div class="table-responsive">
-										<table class="myTable table table-hover">
+										<table class="myTable table table-hover table-striped">
 											<thead>
 												<tr>
 													<th>No</th>
 													<th class="col-md-2">Waktu</th>
 													<th>Deskripsi</th>
 													<th>File</th>
+													<th>Editor</th>
 													<th>Untuk</th>
+													<th style="text-align: center;">Approved</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-1">Aksi</th>
 													@endif
@@ -102,11 +104,19 @@
 													<?php 
 														$split = explode(",", $agenda['tipe']);
 													?>
+													<th>{{ $agenda['an'] }}</th>
 													<td>
 														@foreach($split as $data)
 														<span class="label label-info">{{ $data }}</span>
 														<br>
 														@endforeach
+													</td>
+													<td class="text-center">
+														{!! 
+															($agenda['appr']) == 'Y' ? 
+															'<i style="color:green;" class="fa fa-check"></i><br><span style="color: white">1</span>' : 
+															'<i style="color:red;" class="fa fa-times"></i><br><span style="color: white">0</span>' 
+														!!}
 													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td class="col-md-1">

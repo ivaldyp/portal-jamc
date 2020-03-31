@@ -82,8 +82,19 @@ Route::group(['prefix' => 'cms'], function () {
 
 Route::group(['prefix' => 'internal'], function () {
 	Route::get('/agenda', 'InternalController@agenda');
+	Route::get('/agenda tambah', 'InternalController@agendatambah');
+	Route::post('/agenda ubah', 'InternalController@agendaubah');
+	Route::get('/form/appragenda', 'InternalController@formappragenda');
+	Route::post('/form/tambahagenda', 'InternalController@forminsertagenda');
+	Route::post('/form/ubahagenda', 'InternalController@formupdateagenda');
+	Route::post('/form/hapusagenda', 'InternalController@formdeleteagenda');
 
 	Route::get('/berita', 'InternalController@berita');
+	Route::get('/berita tambah', 'InternalController@beritatambah');
+	Route::post('/berita ubah', 'InternalController@beritaubah');
+	Route::post('/form/tambahberita', 'InternalController@forminsertberita');
+	Route::post('/form/ubahberita', 'InternalController@formupdateberita');
+	Route::post('/form/hapusberita', 'InternalController@formdeleteberita');
 });
 
 Route::group(['prefix' => 'kepegawaian'], function () {

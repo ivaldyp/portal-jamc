@@ -1023,7 +1023,9 @@ class KepegawaianController extends Controller
 		$filepath .= config('app.savefilesuratkeluar');
 		$filepath .= '/' . $request->nm_file;
 
-		unlink($filepath);
+		if ($request->nm_file) {
+			unlink($filepath);
+		}
 
 		return redirect('/kepegawaian/surat keluar')
 					->with('message', 'Surat Keluar berhasil dihapus')

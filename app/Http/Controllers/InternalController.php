@@ -30,11 +30,182 @@ class InternalController extends Controller
     	$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
 
-		$agendas = Agenda_tb::limit(200)->get();
+		$agendas = Agenda_tb::limit(200)
+					->orderBy('ids', 'desc')
+					->get();
 
 		return view('pages.bpadinternal.agenda')
 				->with('access', $access)
 				->with('agendas', $agendas);
+    }
+
+    public function agendatambah()
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
+
+		return view('pages.bpadinternal.agendatambah')
+				->with('access', $access);
+    }
+
+    public function agendaubah(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
+
+		$agenda = Agenda_tb::
+					where('ids', $request->ids)
+					->first();
+
+		return view('pages.bpadinternal.agendaubah')
+				->with('access', $access)
+				->with('ids', $request->ids)
+				->with('agenda', $agenda);
+    }
+
+    public function formappragenda(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
+
+		Agenda_tb::where('ids', $request->ids)
+			->update([
+				'appr' => $request->appr,
+			]);
+
+		if ($request->appr == 'Y') {
+			$message = 'Berhasil menyetujui agenda';
+		} else {
+			$message = 'Berhasil membatalkan persetujuan agenda';
+		}
+
+		return redirect('/internal/agenda')
+				->with('message', $message)
+				->with('msg_num', 1);
+    }
+
+    public function forminsertagenda(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
+
+		$fileagenda = '';
+
+		if (isset($request->dfile)) {
+			$file = $request->dfile;
+
+			if ($file->getSize() > 5500000) {
+				return redirect('/internal/agenda tambah')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
+			} 
+
+			$fileagenda .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefileagenda');
+			$file->move($tujuan_upload, $fileagenda);
+		}
+			
+		if (!(isset($fileagenda))) {
+			$fileagenda = null;
+		}
+
+		$inputipe = '';
+		if ($request->tipe) {
+			foreach ($request->tipe as $tipe) {
+				$inputipe .= $tipe . ',';
+			}
+		}
+
+		$insertagenda = [
+			'sts' => 1,
+			'tgl' => date('Y-m-d H:i:s'),
+			'kd_skpd' => '1.20.512',
+			'dtanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->dtanggal))),
+			'ddesk' => $request->ddesk,
+			'tipe' => $inputipe,
+			'dfile' => $fileagenda,
+			'an' => $request->an,
+			'appr' => 'N',
+			'usrinput' => $request->usrinput,
+			'thits' => 0,
+		];
+
+		Agenda_tb::insert($insertagenda);
+
+		return redirect('/internal/agenda')
+				->with('message', 'Agenda baru berhasil dibuat')
+				->with('msg_num', 1);
+    }
+
+    public function formupdateagenda(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
+
+		$fileagenda = '';
+
+		if (isset($request->dfile)) {
+			$file = $request->dfile;
+
+			if ($file->getSize() > 5500000) {
+				return redirect('/internal/agenda tambah')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
+			} 
+
+			$fileagenda .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefileagenda');
+			$file->move($tujuan_upload, $fileagenda);
+		}
+			
+		if (!(isset($fileagenda))) {
+			$fileagenda = null;
+		}
+
+		$inputipe = '';
+		if ($request->tipe) {
+			foreach ($request->tipe as $tipe) {
+				$inputipe .= $tipe . ',';
+			}
+		}
+
+		Agenda_tb::where('ids', $request->ids)
+					->update([
+						'dtanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->dtanggal))),
+						'ddesk' => $request->ddesk,
+						'tipe' => $inputipe,
+					]);
+
+		if($fileagenda != '') {
+			Agenda_tb::where('ids', $request->ids)
+			->update([
+				'dfile' => $fileagenda,
+			]);
+		}
+
+		return redirect('/internal/agenda')
+				->with('message', 'Agenda berhasil diubah')
+				->with('msg_num', 1);
+    }
+
+    public function formdeleteagenda(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
+
+		Agenda_tb::
+				where('ids', $request->ids)
+				->delete();
+
+		$filepath = '';
+		$filepath .= config('app.savefileagenda');
+		$filepath .= '/' . $request->dfile;
+
+		if ($request->dfile) {
+			unlink($filepath);
+		}
+
+		return redirect('/internal/agenda')
+					->with('message', 'Agenda berhasil dihapus')
+					->with('msg_num', 1);
     }
 
     // ========== </AGENDA> ========== //
@@ -46,11 +217,113 @@ class InternalController extends Controller
     	$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
-		$beritas = Berita_tb::limit(200)->get();
+		$beritas = Berita_tb::limit(200)
+					->orderBy('ids', 'desc')
+					->get();
 
 		return view('pages.bpadinternal.berita')
 				->with('access', $access)
 				->with('beritas', $beritas);
+    }
+
+    public function beritatambah()
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
+
+		return view('pages.bpadinternal.beritatambah')
+				->with('access', $access);
+    }
+
+    public function beritaubah(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
+
+		$berita = Berita_tb::
+					where('ids', $request->ids)
+					->first();
+
+		return view('pages.bpadinternal.beritaubah')
+				->with('access', $access)
+				->with('ids', $request->ids)
+				->with('berita', $berita);
+    }
+
+    public function formapprberita(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
+
+		Berita_tb::where('ids', $request->ids)
+			->update([
+				'appr' => $request->appr,
+			]);
+
+		if ($request->appr == 'Y') {
+			$message = 'Berhasil menyetujui berita';
+		} else {
+			$message = 'Berhasil membatalkan persetujuan berita';
+		}
+
+		return redirect('/internal/berita')
+				->with('message', $message)
+				->with('msg_num', 1);
+    }
+
+    public function forminsertberita(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
+
+		$insertberita = [
+			'sts' => 1,
+			'tgl' => date('Y-m-d H:i:s'),
+			'kd_skpd' => '1.20.512',
+			'tanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
+			'isi' => htmlentities($request->isi),
+			'tipe' => $request->tipe,
+			'an' => $request->an,
+			'appr' => 'N',
+			'usrinput' => $request->usrinput,
+		];
+
+		Berita_tb::insert($insertberita);
+
+		return redirect('/internal/berita')
+				->with('message', 'Berita baru berhasil dibuat')
+				->with('msg_num', 1);
+    }
+
+    public function formupdateberita(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
+
+		Berita_tb::where('ids', $request->ids)
+					->update([
+						'dtanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
+						'isi' => htmlentities($request->isi),
+						'tipe' => $request->tipe,
+					]);
+
+		return redirect('/internal/berita')
+				->with('message', 'Berita berhasil diubah')
+				->with('msg_num', 1);
+    }
+
+    public function formdeleteberita(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
+
+		Berita_tb::
+				where('ids', $request->ids)
+				->delete();
+
+		return redirect('/internal/berita')
+					->with('message', 'Berita berhasil dihapus')
+					->with('msg_num', 1);
     }
 
     // ========== </BERITA> ========== //
