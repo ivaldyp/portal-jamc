@@ -873,9 +873,161 @@ class KepegawaianController extends Controller
 				->with('dispkodes', $dispkodes);
 	}
 
+	public function suratkeluarubah(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+
+		$surat = Fr_suratkeluar::
+					where('ids', $request->ids)
+					->first();
+
+		$disposisis = Fr_disposisi::
+						limit(200)
+						->whereNotNull('kode_disposisi')
+						->Where('kode_disposisi', '<>', '')
+						->orderBy('no_form', 'desc')
+						->get();
+
+		$dispkodes = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
+
+		return view('pages.bpadkepegawaian.suratkeluarubah')
+				->with('access', $access)
+				->with('surat', $surat)
+				->with('disposisis', $disposisis)
+				->with('dispkodes', $dispkodes);
+	}
+
 	public function forminsertsuratkeluar(Request $request)
 	{
+		$this->checkSessionTime();
+		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+
+		$maxnoform = Fr_suratkeluar::max('no_form');
+		if (is_null($maxnoform)) {
+			$newnoform = '1.20.512.20200001';
+		} else {
+			$splitnoform = explode(".", $maxnoform); 
+			$newnoform = $splitnoform[0] . "." . $splitnoform[1] . "." . $splitnoform[2] . "." . ($splitnoform[3]+1);
+		}
+
+		$filesuratkeluar = '';
+
+		if (isset($request->nm_file)) {
+			$file = $request->nm_file;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/kepegawaian/surat keluar tambah')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$filesuratkeluar .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefilesuratkeluar');
+			$file->move($tujuan_upload, $filesuratkeluar);
+		}
+			
+		if (!(isset($filesuratkeluar))) {
+			$filesuratkeluar = null;
+		}
+
+		$insertsurat = [
+			'sts' => 1,
+			'tgl' => date('Y-m-d H:i:s'),
+			'kd_skpd' => '1.20.512',
+			'kd_unit' => '01',
+			'no_form' => $newnoform,
+			'tgl_terima' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_terima))),
+			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+			'tgl_input' => date('Y-m-d H:i:s'),
+			'kode_disposisi' => $request->kode_disposisi,
+			'perihal' => $request->perihal,
+			'tgl_surat' => $request->tgl_surat,
+			'no_surat' => $request->no_surat,
+			'asal_surat' => $request->asal_surat,
+			'ket_lain' => $request->ket_lain,
+			'kepada' => $request->kepada,
+			'no_form_in' => $request->no_form_in,
+			'nm_file' => $filesuratkeluar,
+		];
+
+		Fr_suratkeluar::insert($insertsurat);
+
+		return redirect('/kepegawaian/surat keluar')
+				->with('message', 'Surat Keluar berhasil dibuat')
+				->with('msg_num', 1);
+	}
+
+	public function formupdatesuratkeluar(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+
+		$filesuratkeluar = '';
+
+		if (isset($request->nm_file)) {
+			$file = $request->nm_file;
+
+			if ($file->getSize() > 2222222) {
+				return redirect('/kepegawaian/surat keluar tambah')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+
+			$filesuratkeluar .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefilesuratkeluar');
+			$file->move($tujuan_upload, $filesuratkeluar);
+		}
+			
+		if (!(isset($filesuratkeluar))) {
+			$filesuratkeluar = null;
+		}
+
+		Fr_suratkeluar::where('ids', $request->ids)
+						->update([
+							'sts' => 1,
+							'tgl' => date('Y-m-d H:i:s'),
+							'kd_skpd' => '1.20.512',
+							'kd_unit' => '01',
+							'tgl_terima' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_terima))),
+							'kode_disposisi' => $request->kode_disposisi,
+							'perihal' => $request->perihal,
+							'tgl_surat' => $request->tgl_surat,
+							'no_surat' => $request->no_surat,
+							'asal_surat' => $request->asal_surat,
+							'ket_lain' => $request->ket_lain,
+							'kepada' => $request->kepada,
+							'no_form_in' => $request->no_form_in,
+						]);
 		
+		if ($filesuratkeluar != '') {
+			Fr_suratkeluar::where('ids', $request->ids)
+			->update([
+				'nm_file' => $filesuratkeluar,
+			]);
+		}
+
+		return redirect('/kepegawaian/surat keluar')
+					->with('message', 'Surat Keluar berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function formdeletesuratkeluar(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+
+		Fr_suratkeluar::
+				where('ids', $request->ids)
+				->delete();
+
+		$filepath = '';
+		$filepath .= config('app.savefilesuratkeluar');
+		$filepath .= '/' . $request->nm_file;
+
+		unlink($filepath);
+
+		return redirect('/kepegawaian/surat keluar')
+					->with('message', 'Surat Keluar berhasil dihapus')
+					->with('msg_num', 1);
 	}
 
 	// ---------------- STATUS DISPOSISI ---------------- //

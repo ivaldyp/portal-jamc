@@ -6,11 +6,16 @@ return [
 	'savefileimggambar' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\images\cms\1.20.512\5\file',
 	'savefileimg' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\emp',
 	'savefiledocs' => 'C:\xampp\htdocs\bpadwebs\public\publicfile',
+
 	'savefiledisposisi' => 'C:\xampp\htdocs\bpadwebs\public\publicfile\disp',
+	'savefilesuratkeluar' => 'C:\xampp\htdocs\bpadwebs\public\publicfile\suratkeluar',
+	'savefileagenda' => 'C:\xampp\htdocs\bpadwebs\public\publicfile\agenda',
 
 	'openfileimg' => '/bpadwebs/public/publicimg/emp',
 	'openfileimgdefault' => '/bpadwebs/public/publicimg/account.png',
 	'openfiledisposisi' => '/bpadwebs/public/publicfile/disp',
+	'openfilesuratkeluar' => '/bpadwebs/public/publicfile/suratkeluar',
+	'openfileagenda' => '/bpadwebs/public/publicfile/agenda',
 
 	/*
 	|--------------------------------------------------------------------------

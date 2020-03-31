@@ -80,6 +80,12 @@ Route::group(['prefix' => 'cms'], function () {
 	Route::post('/form/hapuscontent', 'CmsController@formdeletecontent');
 });
 
+Route::group(['prefix' => 'internal'], function () {
+	Route::get('/agenda', 'InternalController@agenda');
+
+	Route::get('/berita', 'InternalController@berita');
+});
+
 Route::group(['prefix' => 'kepegawaian'], function () {
 	Route::get('/data pegawai', 'KepegawaianController@pegawaiall');
 	Route::get('/tambah pegawai', 'KepegawaianController@pegawaitambah');
@@ -92,7 +98,10 @@ Route::group(['prefix' => 'kepegawaian'], function () {
 
 	Route::get('/surat keluar', 'KepegawaianController@suratkeluar');
 	Route::get('/surat keluar tambah', 'KepegawaianController@suratkeluartambah');
+	Route::post('/surat keluar ubah', 'KepegawaianController@suratkeluarubah');
 	Route::post('/form/tambahsuratkeluar', 'KepegawaianController@forminsertsuratkeluar');
+	Route::post('/form/ubahsuratkeluar', 'KepegawaianController@formupdatesuratkeluar');
+	Route::post('/form/hapussuratkeluar', 'KepegawaianController@formdeletesuratkeluar');
 });
 
 Route::group(['prefix' => 'security'], function () {

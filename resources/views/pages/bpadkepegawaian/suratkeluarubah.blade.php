@@ -66,12 +66,15 @@
 			<div class="row ">
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/form/tambahsuratkeluar" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/form/ubahsuratkeluar" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
-							<div class="panel-heading"> Buat Surat Keluar </div>
+							<div class="panel-heading"> Ubah Surat Keluar </div>
 							<div class="panel-wrapper collapse in" aria-expanded="true">
 								<div class="panel-body">
+
+									<input type="hidden" name="ids" value="{{ $surat['ids'] }}">
+
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> SKPD </label>
 										<div class="col-md-8">
@@ -84,7 +87,7 @@
 										<div class="col-md-8">
 											<select class="form-control select2" name="no_form_in" id="no_form_in">
 												@foreach($disposisis as $disp)
-													<option value="{{ $disp['no_form'] }}"> [{{ $disp['no_form'] }}] - [{{ date('d-M-Y', strtotime($disp['tgl'])) }}] - [{{ $disp['perihal'] }}] </option>
+													<option value="{{ $disp['no_form'] }}" <?php if ($surat['no_form_in'] == $disp['no_form'] ): ?> selected <?php endif ?>> [{{ $disp['no_form'] }}] - [{{ date('d-M-Y', strtotime($disp['tgl'])) }}] - [{{ $disp['perihal'] }}] </option>
 												@endforeach
 											</select>
 										</div>
@@ -93,7 +96,7 @@
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Terima </label>
 										<div class="col-md-8">
-											<input type="text" name="tgl_terima" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy">
+											<input type="text" name="tgl_terima" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $surat['tgl_terima']))) }}">
 										</div>
 									</div>
 
@@ -102,7 +105,7 @@
 										<div class="col-md-8">
 											<select class="form-control select2" name="kode_disposisi" id="kode_disposisi">
 												@foreach($dispkodes as $kode)
-													<option value="{{ $kode['kd_jnssurat'] }}"> [{{ $kode['kd_jnssurat'] }}] - [{{ $kode['nm_jnssurat'] }}] </option>
+													<option value="{{ $kode['kd_jnssurat'] }}" <?php if ($surat['kode_disposisi'] == $kode['kd_jnssurat'] ): ?> selected <?php endif ?> > [{{ $kode['kd_jnssurat'] }}] - [{{ $kode['nm_jnssurat'] }}] </option>
 												@endforeach
 											</select>
 										</div>
@@ -111,43 +114,52 @@
 									<div class="form-group">
 										<label for="asal_surat" class="col-md-2 control-label"> Dari </label>
 										<div class="col-md-8">
-											<input autocomplete="off" type="text" name="asal_surat" class="form-control" id="asal_surat">
+											<input autocomplete="off" type="text" name="asal_surat" class="form-control" id="asal_surat" value="{{ $surat['asal_surat'] }}">
 										</div>
 									</div>
 
 									<div class="form-group">
 										<label for="asal_surat" class="col-md-2 control-label"> Kepada </label>
 										<div class="col-md-8">
-											<input autocomplete="off" type="text" name="kepada" class="form-control" id="kepada">
+											<input autocomplete="off" type="text" name="kepada" class="form-control" id="kepada" value="{{ $surat['kepada'] }}">
 										</div>
 									</div>
 
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Tgl & No Surat </label>
 										<div class="col-md-4">
-											<input type="text" name="tgl_surat" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy">
+											<input type="text" name="tgl_surat" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $surat['tgl_surat']))) }}">
 										</div>
 										<div class="col-md-4">
-											<input type="text" name="no_surat" class="form-control" autocomplete="off" placeholder="No Surat">
+											<input type="text" name="no_surat" class="form-control" autocomplete="off" placeholder="No Surat" value="{{ $surat['no_surat'] }}">
 										</div>
 									</div>
 
 									<div class="form-group">
 										<label for="perihal" class="col-md-2 control-label"> Perihal </label>
 										<div class="col-md-8">
-											<textarea name="perihal" class="form-control" rows="3"></textarea>
+											<textarea name="perihal" class="form-control" rows="3">{{ $surat['perihal'] }}</textarea>
 										</div>
 									</div>
 
 									<div class="form-group">
 										<label for="perihal" class="col-md-2 control-label"> Keterangan </label>
 										<div class="col-md-8">
-											<textarea name="ket_lain" class="form-control" rows="3"></textarea>
+											<textarea name="ket_lain" class="form-control" rows="3">{{ $surat['ket_lain'] }}</textarea>
 										</div>
 									</div>
 
+                                    <div class="form-group">
+                                        <label for="nm_file" class="col-lg-2 control-label"> Unduh File </label>
+                                        <div class="col-lg-8">
+                                            <p class="form-control-static">
+												<a target="_blank" href="{{ config('app.openfilesuratkeluar') }}/{{ $surat['nm_file'] }}"><i class="fa fa-download"></i> {{ $surat['nm_file'] }}</a>
+											</p>
+                                        </div>
+                                    </div>
+
 									<div class="form-group">
-                                        <label for="nm_file" class="col-lg-2 control-label"> File <br> </label>
+                                        <label for="nm_file" class="col-lg-2 control-label"> Ubah file <br> <span class="text-muted" style="font-size: 10px">Dapat dikosongkan</span> </label>
                                         <div class="col-lg-8">
                                             <input type="file" class="form-control" id="nm_file" name="nm_file">
                                         </div>

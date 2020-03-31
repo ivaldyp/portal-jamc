@@ -63,13 +63,13 @@
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
 					<div class="panel panel-default">
-						<div class="panel-heading">Konten</div>
+						<div class="panel-heading">Berita</div>
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
 								<div class="row " style="margin-bottom: 10px">
 									<div class="col-md-1">
 										@if ($access['zadd'] == 'y')
-										<a href="/bpadwebs/kepegawaian/surat keluar tambah"><button class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
+										<a href="/bpadwebs/internal/berita tambah"><button class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a> 
 										@endif
 									</div>
 								</div>
@@ -79,47 +79,40 @@
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>No Form</th>
-													<th>Tgl Terima</th>
-													<th>Kode</th>
-													<th>Perihal</th>
-													<th>Nomor Surat</th>
-													<th>Dari</th>
-													<th>File</th>
+													<th>Waktu</th>
+													<th>Editor</th>
+													<th>Deskripsi</th>
+													<th>Kategori</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-1">Aksi</th>
 													@endif
 												</tr>
 											</thead>
 											<tbody>
-												@foreach($surats as $key => $surat)
+												@foreach($beritas as $key => $berita)
 												<tr>
 													<td>{{ $key + 1 }}</td>
-													<td>{{ $surat['no_form'] }}</td>
-													<td>{{ date('d-M-Y',strtotime($surat['tgl_terima'])) }}</td>
-													<td>{{ $surat['kode_disposisi'] }}</td>
-													<td>{{ $surat['perihal'] }}</td>
 													<td>
-														@if($surat['no_surat'])
-														{{ $surat['no_surat'] }}
+														{{ date('d/m/Y', strtotime(str_replace('/', '-', $berita['tanggal']))) }}
 														<br>
-														@endif
-														<span class="text-muted">{{ date('d-M-Y',strtotime(str_replace('/', '-', $surat['tgl_surat']))) }}</span>
+														<span class="text-muted">{{ date('H:i:s', strtotime($berita['tanggal'])) }}</span>
 													</td>
-													<td>{{ $surat['asal_surat'] }}</td>
-													<td><a target="_blank" href="{{ config('app.openfilesuratkeluar') }}/{{ $surat['nm_file'] }}"><i class="fa fa-download"></i> {{ $surat['nm_file'] }}</a></td>
+													<td>{{ $berita['usrinput'] }}</td>
+													<td>{!! $berita['isi'] !!}</td>
+													<td>
+														<span class="label label-info">{{ $berita['tipe'] }}</span>
+													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td class="col-md-1">
 															@if($access['zupd'] == 'y')
-																<form method="POST" action="/bpadwebs/kepegawaian/surat keluar ubah">
+																<form method="POST" action="/bpadwebs/internal/berita ubah">
 																	@csrf
-																	<input type="hidden" name="ids" value="{{ $surat['ids'] }}">
-																	<input type="hidden" name="no_form" value="{{ $surat['no_form'] }}">
+																	<input type="hidden" name="ids" value="{{ $berita['ids'] }}">
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																</form>
 															@endif
 															@if($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $surat['ids'] }}" data-noform="{{ $surat['no_form'] }}" data-nmfile="{{ $surat['nm_file'] }}" ><i class="fa fa-trash"></i></button>
+																<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $berita['ids'] }}"><i class="fa fa-trash"></i></button>
 															@endif
 														</td>
 													@endif
@@ -138,16 +131,14 @@
 			<div id="modal-delete" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/bpadwebs/kepegawaian/form/hapussuratkeluar" class="form-horizontal">
+						<form method="POST" action="/bpadwebs/internal/form/hapusberita" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
-								<h4 class="modal-title"><b>Hapus Surat Keluar</b></h4>
+								<h4 class="modal-title"><b>Hapus Berita</b></h4>
 							</div>
 							<div class="modal-body">
 								<h4 id="label_delete"></h4>
 								<input type="hidden" name="ids" id="modal_delete_ids" value="">
-								<input type="hidden" name="no_form" id="modal_delete_noform" value="">
-								<input type="hidden" name="nm_file" id="modal_delete_nmfile" value="">
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
@@ -183,10 +174,8 @@
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus surat dengan nomor form <b>' + $el.data('noform') + '</b>?');
+				$("#label_delete").append('Apakah anda yakin ingin menghapus berita tersebut?');
 				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_noform").val($el.data('noform'));
-				$("#modal_delete_nmfile").val($el.data('nmfile'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {

@@ -46,6 +46,15 @@ class ContentController extends Controller
 
     public function berita_read($id)
     {
+        $thits = Content_tb::
+                    where('ids', $id)
+                    ->first(['thits']);
+
+        Content_tb::where('ids', $id)
+            ->update([
+                'thits' => $thits['thits'] + 1,
+            ]);
+
         $berita = Content_tb::
                     where('ids', $id)
                     ->first();

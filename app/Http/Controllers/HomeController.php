@@ -23,6 +23,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        set_time_limit(300);
     }
 
     public function display_menus($query, $parent, $level = 0)
