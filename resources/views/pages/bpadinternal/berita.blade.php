@@ -99,7 +99,7 @@
 														<span class="text-muted">{{ date('H:i:s', strtotime($berita['tanggal'])) }}</span>
 													</td>
 													<td>{{ $berita['usrinput'] }}</td>
-													<td>{!! $berita['isi'] !!}</td>
+													<td>{!! html_entity_decode($berita['isi']) !!}</td>
 													<td>
 														<span class="label label-info">{{ $berita['tipe'] }}</span>
 													</td>

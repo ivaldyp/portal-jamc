@@ -99,15 +99,7 @@
 					                          	
 					                        	</select>
 				                      		</div>
-				                      		<div class=" col-md-3">
-				                      			<label for="apprnow" class="control-label"> Approved </label>
-					                        	<select class="form-control" name="apprnow" id="apprnow">
-					                          	
-					                            	<option value="1" <?php if ($apprnow == 'Y') { echo "selected"; } ?> >Ya</option>
-					                            	<option value="0" <?php if ($apprnow == 'N') { echo "selected"; } ?> >Tidak</option>
-
-					                        	</select>
-				                      		</div>
+				                      		
 				                      		<button type="submit" class="btn btn-primary">Cari</button>
 						                </form>
                             		</div>
@@ -136,11 +128,19 @@
 												<tr>
 													<td>{{ $key + 1 }}</td>
 													<td>{!! ($content['sts']) == 0 ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
-													<td>{{ $content['tanggal'] }}</td>
+													<td>
+														{{ date('d/M/Y', strtotime(str_replace('/', '-', $content['tanggal']))) }}
+														<br>
+														<span class="text-muted">{{ date('H:i:s', strtotime($content['tanggal'])) }}</span>
+													</td>
 													<td>{{ $content['subkat'] }}</td>
 													<td>{{ $content['judul'] }}</td>
 													<td>{{ $content['editor'] }}</td>
-													<td>{!! ($content['appr']) == 'Y' ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
+													<td>
+														{!! ($content['appr']) == 'Y' ? 
+															'<i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>' : 
+															'<i style="color:red;" class="fa fa-times"></i><br><span style="color: white;">0</span>' !!}
+														</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td>
 															@if($access['zupd'] == 'y')

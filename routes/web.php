@@ -92,6 +92,7 @@ Route::group(['prefix' => 'internal'], function () {
 	Route::get('/berita', 'InternalController@berita');
 	Route::get('/berita tambah', 'InternalController@beritatambah');
 	Route::post('/berita ubah', 'InternalController@beritaubah');
+	Route::get('/form/apprberita', 'InternalController@formapprberita');
 	Route::post('/form/tambahberita', 'InternalController@forminsertberita');
 	Route::post('/form/ubahberita', 'InternalController@formupdateberita');
 	Route::post('/form/hapusberita', 'InternalController@formdeleteberita');

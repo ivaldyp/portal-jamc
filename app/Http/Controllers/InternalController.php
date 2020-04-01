@@ -302,7 +302,7 @@ class InternalController extends Controller
 
 		Berita_tb::where('ids', $request->ids)
 					->update([
-						'dtanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
+						'tanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
 						'isi' => htmlentities($request->isi),
 						'tipe' => $request->tipe,
 					]);

@@ -11,8 +11,6 @@
 	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/colors/blue-dark.css') }}" id="theme" rel="stylesheet">
-	<!-- Date picker plugins css -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 	<!-- page CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
@@ -90,8 +88,8 @@
 										<label for="kode_disposisi" class="col-md-2 control-label"> Editor </label>
 										<div class="col-md-8">
 											<input autocomplete="off" type="text" class="form-control" disabled value="{{ Auth::user()->id_emp ? ucwords($_SESSION['user_data']['nm_emp']) : Auth::user()->usname }}">
-											<input autocomplete="off" type="hidden" name="an" class="form-control" id="an" value="{{ Auth::user()->id_emp ? ucwords($_SESSION['user_data']['nm_emp']) : Auth::user()->usname }}">
-											<input autocomplete="off" type="hidden" name="usrinput" class="form-control" id="usrinput" value="{{ Auth::user()->id_emp ? Auth::user()->id_emp : 'Admin' }}">
+											<input autocomplete="off" type="hidden" name="an" class="form-control" id="an" value="{{ Auth::user()->id_emp ? ucwords($_SESSION['user_data']['nm_emp']) : 'Admin' }}">
+											<input autocomplete="off" type="hidden" name="usrinput" class="form-control" id="usrinput" value="{{ Auth::user()->id_emp ? Auth::user()->id_emp : Auth::user()->usname }}">
 										</div>
 									</div>
 

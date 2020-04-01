@@ -379,11 +379,11 @@ class CmsController extends Controller
             $suspnow = 'Y';
         }
 
-        if (is_null($request->apprnow) || $request->apprnow == 1) {
-            $apprnow = 'Y';
-        } elseif ($request->apprnow == 0) {
-            $apprnow = 'N';
-        } 
+        // if (is_null($request->apprnow) || $request->apprnow == 1) {
+        //     $apprnow = 'Y';
+        // } elseif ($request->apprnow == 0) {
+        //     $apprnow = 'N';
+        // } 
 
         $kategoris = Glo_kategori::
                         where('sts', 1)
@@ -398,7 +398,7 @@ class CmsController extends Controller
                     where('idkat', $katnow)
                     ->where('suspend', $suspnow)
                     ->where('sts', 1)
-                    ->where('appr', $apprnow)
+                    // ->where('appr', $apprnow)
                     ->orderBy('tanggal', 'desc')
                     ->get();
 
@@ -411,8 +411,7 @@ class CmsController extends Controller
                 ->with('subkats', $subkats)
                 ->with('contents', $contents)
                 ->with('katnow', $katnow)
-                ->with('suspnow', $suspnow)
-                ->with('apprnow', $apprnow);
+                ->with('suspnow', $suspnow);
     }
 
     public function contenttambah(Request $request)
@@ -503,8 +502,8 @@ class CmsController extends Controller
                 'sts'       => 1,
                 'idkat'     => $request->idkat,
                 'subkat'     => $subkat,
-                'tanggal'   => $request->tanggal,
-                'tglinput'   => $request->tanggal,
+                'tanggal'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
+                'tglinput'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
                 'judul'   => $request->judul,
                 'isi1'   => htmlentities($request->isi1),
                 'isi2'   => htmlentities($request->isi2),
@@ -536,8 +535,8 @@ class CmsController extends Controller
                 'sts'       => $request->sts,
                 'idkat'     => $request->idkat,
                 'subkat'     => $request->subkat,
-                'tanggal'   => $request->tanggal,
-                'tglinput'   => $request->tanggal,
+                'tanggal'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
+                'tglinput'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
                 'judul'   => $request->judul,
                 'isi1'   => htmlentities($request->isi1),
                 'isi2'   => htmlentities($request->isi2),
