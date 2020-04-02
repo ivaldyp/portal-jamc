@@ -36,13 +36,19 @@ class HomeController extends Controller
 			$sao = "(sao = ".$level.")";
 		}
 
+		if (env('DB_HOST') == '127.0.0.1' && $parent == 0) {
+			$sao = 0;
+		} elseif (env('DB_HOST') != '127.0.0.1' && $parent == 0) {
+			$sao = '';
+		} else {
+			$sao = $parent;
+		}
+
 		$query = Sec_menu::
 					join('bpaddt.dbo.sec_access', 'bpaddt.dbo.sec_access.idtop', '=', 'bpaddt.dbo.Sec_menu.ids')
-					// ->where('Sec_menu.tipe', 'l')
-					// ->whereRaw('LEN(Sec_menu.urut) = 1')
 					->where('bpaddt.dbo.sec_access.idgroup', $_SESSION['user_data']['idgroup'])
 					->where('bpaddt.dbo.sec_access.zviw', 'y')
-					->where('bpaddt.dbo.Sec_menu.sao', $parent)
+					->where('bpaddt.dbo.Sec_menu.sao', $sao)
 					->where('tampilnew', 1)
 					->orderBy('bpaddt.dbo.Sec_menu.urut')
 					->get();
