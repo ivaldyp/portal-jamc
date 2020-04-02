@@ -395,15 +395,13 @@ class CmsController extends Controller
                     get();
 
         $contents = Content_tb::
-                    where('idkat', $katnow)
+                    limit(100)
+                    ->where('idkat', $katnow)
                     ->where('suspend', $suspnow)
                     ->where('sts', 1)
                     // ->where('appr', $apprnow)
                     ->orderBy('tanggal', 'desc')
                     ->get();
-
-
-
 
         return view('pages.bpadcms.content')
                 ->with('access', $access)
@@ -427,6 +425,30 @@ class CmsController extends Controller
                 ->with('access', $access)
                 ->with('subkats', $subkats)
                 ->with('idkat', $request->kat);
+    }
+
+    public function contentubah(Request $request)
+    {
+        $this->checkSessionTime();
+        $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 31);
+
+        $ids = $request->ids;
+        $idkat = $request->idkat;
+
+        $subkats = Glo_subkategori::
+                    where('idkat', $idkat)
+                    ->get();
+
+        $content = Content_tb::
+                    where('ids', $ids)
+                    ->first();
+
+        return view('pages.bpadcms.contentubah')
+                ->with('access', $access)
+                ->with('ids', $ids)
+                ->with('idkat', $idkat)
+                ->with('subkats', $subkats)
+                ->with('content', $content);
     }
 
     public function forminsertcontent(Request $request)
@@ -529,18 +551,82 @@ class CmsController extends Controller
     {
         $this->checkSessionTime();
 
+        if (isset($request->tfile)) {
+            $file = $request->tfile;
+
+            if ($file->getSize() > 2222222) {
+                return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+            } 
+            if ($file->getClientOriginalExtension() != "png" && $file->getClientOriginalExtension() != "jpg" && $file->getClientOriginalExtension() != "jpeg") {
+                return redirect('/cms/content')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
+            } 
+
+            $file_name = "cms" . preg_replace("/[^0-9]/", "", $request->tanggal);
+            $file_name .= $_SESSION['user_data']['nrk_emp'];
+            $file_name .= ".". $file->getClientOriginalExtension();
+
+            $tujuan_upload = config('app.savefileimgberita');
+            $file->move($tujuan_upload, $file_name);
+        }
+
+        if (isset($request->tfiledownload)) {
+            $file = $request->tfiledownload;
+
+            if ($file->getSize() > 5555000) {
+                return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
+            } 
+
+            $file_name = $file->getClientOriginalName();
+
+            $tujuan_upload = config('app.savefiledocs');
+            $file->move($tujuan_upload, $file_name);
+        }
+            
+        if (!(isset($file_name))) {
+            $file_name = null;
+        }
+
+        if (!(isset($request->subkat))) {
+            $subkat = null;
+        } else {
+            $subkat = $request->subkat;
+        }
+
+        if (!(isset($request->url))) {
+            $url = null;
+        } else {
+            $url = $request->url;
+        }
+
+        if (!(isset($request->isi1))) {
+            $isi1 = null;
+        } else {
+            $isi1 = $request->isi1;
+        }
+
+        if (!(isset($request->isi2))) {
+            $isi2 = null;
+        } else {
+            $isi2 = $request->isi2;
+        }
+
+        if ($request->suspend == 'Y') {
+            $suspend = 'Y';
+        } else {
+            $suspend = '';
+        }
+
         Content_tb::
             where('ids', $request->ids)
             ->update([
-                'sts'       => $request->sts,
-                'idkat'     => $request->idkat,
-                'subkat'     => $request->subkat,
+                'subkat'     => $subkat,
                 'tanggal'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
-                'tglinput'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
                 'judul'   => $request->judul,
                 'isi1'   => htmlentities($request->isi1),
                 'isi2'   => htmlentities($request->isi2),
-                'editor'   => $request->editor, 
+                'tfile'   => $file_name,
+                'url'       => $url,
+                'suspend' => $suspend,
             ]);
 
         return redirect('/cms/content?katnow='.$request->idkat)
@@ -551,19 +637,11 @@ class CmsController extends Controller
     public function formapprcontent(Request $request)
     {
         $this->checkSessionTime();
-        var_dump($request->all());
-        // die();
-
-        if ($request->appr == 'Y') {
-            $appr = 'N';
-        } elseif ($request->appr == 'N') {
-            $appr = 'Y';
-        }
 
         Content_tb::
             where('ids', $request->ids)
             ->update([
-                'appr' => $appr,
+                'appr' => $request->appr,
             ]);
 
         return redirect('/cms/content?katnow='.$request->idkat)

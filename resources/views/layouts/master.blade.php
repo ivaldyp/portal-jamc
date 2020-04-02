@@ -100,7 +100,13 @@
 							<li><a href="single-blog.html">Single Blog</a></li>
 						</ul>
 					</li> -->
-					<li style="background: #006cb8;"><a style="color: white" href="{{ url('login') }}">Login</a></li>
+					<li style="background: #006cb8;"><a style="color: white" href="{{ url('login') }}">
+						@if(Auth::check())
+						Masuk
+						@else
+						Login
+						@endif
+					</a></li>
 				</ul>
 				<!-- Nav menu -->
 			</div>

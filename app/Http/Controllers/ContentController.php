@@ -62,12 +62,14 @@ class ContentController extends Controller
         $aside_top_view = Content_tb::take(3)
                             ->where('appr', 'Y')
                             ->where('idkat', 1)
+                            ->where('sts', 1)
                             ->orderBy('thits', 'desc')
                             ->get();
 
         $aside_recent = Content_tb::take(3)
                             ->where('appr', 'Y')
                             ->where('idkat', 1)
+                            ->where('sts', 1)
                             ->orderBy('tanggal', 'desc')
                             ->get();
 

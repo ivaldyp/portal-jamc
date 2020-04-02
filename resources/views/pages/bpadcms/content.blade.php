@@ -40,12 +40,12 @@
 						<?php 
 							if (count($link) == 5) {
 								?> 
-									<li class="active"> {{ ucwords($link[4]) }} </li>
+									<li class="active"> {{ ucwords(explode("?", $link[4])[0]) }} </li>
 								<?php
 							} elseif (count($link) > 5) {
 								?> 
-									<li class="active"> {{ ucwords($link[4]) }} </li>
-									<li class="active"> {{ ucwords($link[5]) }} </li>
+									<li class="active"> {{ ucwords(explode("?", $link[4])[0]) }} </li>
+									<li class="active"> {{ ucwords(explode("?", $link[5])[0]) }} </li>
 								<?php
 							} 
 						?>
@@ -144,7 +144,12 @@
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td>
 															@if($access['zupd'] == 'y')
-																<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $content['ids'] }}" data-sts = "{{ $content['sts'] }}" data-idkat = "{{ $content['idkat'] }}" data-subkat = "{{ $content['subkat'] }}" data-tanggal = "{{ $content['tanggal'] }}" data-tglinput = "{{ $content['tglinput'] }}" data-judul = "{{ $content['judul'] }}" data-isi1 = "{{ $content['isi1'] }}" data-isi2 = "{{ $content['isi2'] }}" data-editor = "{{ $content['editor'] }}" data-thits = "{{ $content['thits'] }}" data-tfile = "{{ $content['tfile'] }}" data-kd_cms = "{{ $content['kd_cms'] }}" data-appr = "{{ $content['appr'] }}" data-usrinput = "{{ $content['usrinput'] }}" data-contentnew = "{{ $content['contentnew'] }}"><i class="fa fa-edit"></i></button>
+																<form method="POST" action="/bpadwebs/cms/ubah content">
+																	@csrf
+																	<input type="hidden" name="ids" value="{{ $content['ids'] }}">
+																	<input type="hidden" name="idkat" value="{{ $content['idkat'] }}">
+																	<button type="submit" class="btn btn-info btn-update"><i class="ti-pencil-alt"></i></button>
+																</form>
 															@endif
 															@if($access['zdel'] == 'y')
 																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $content['ids'] }}" data-judul="{{ $content['judul'] }}" data-idkat="{{ $content['idkat'] }}"><i class="fa fa-trash"></i></button>

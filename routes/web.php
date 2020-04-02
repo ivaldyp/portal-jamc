@@ -74,6 +74,7 @@ Route::group(['prefix' => 'cms'], function () {
 
 	Route::get('/content', 'CmsController@contentall');
 	Route::get('/tambah content', 'CmsController@contenttambah');
+	Route::post('/ubah content', 'CmsController@contentubah');
 	Route::get('/form/apprcontent', 'CmsController@formapprcontent');
 	Route::post('/form/tambahcontent', 'CmsController@forminsertcontent');
 	Route::post('/form/ubahcontent', 'CmsController@formupdatecontent');
