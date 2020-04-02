@@ -702,9 +702,9 @@ class KepegawaianController extends Controller
 		$ids = Auth::user()->id_emp;
 
 		$data_self = DB::select( DB::raw("  
-							SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from emp_data as a
-							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-							CROSS APPLY (SELECT TOP 1 * FROM glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+							SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddt.dbo.emp_data as a
+							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddt.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+							CROSS APPLY (SELECT TOP 1 * FROM bpaddt.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 							,glo_skpd as b,glo_org_unitkerja as c,glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
 							and id_emp like '$ids'") )[0];
 		$data_self = json_decode(json_encode($data_self), true);
@@ -721,21 +721,21 @@ class KepegawaianController extends Controller
 
 			$belum = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as belum
-						FROM v_disposisi
+						FROM bpaddt.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'N'
 					"))[0]), true);
 
 			$baca = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as baca
-						FROM v_disposisi
+						FROM bpaddt.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'Y'
 					"))[0]), true);
 
 			$balas = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as balas
-						FROM v_disposisi
+						FROM bpaddt.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'S'
 					"))[0]), true);
@@ -758,21 +758,21 @@ class KepegawaianController extends Controller
 
 			$belum = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as belum
-						FROM v_disposisi
+						FROM bpaddt.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'N'
 					"))[0]), true);
 
 			$baca = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as baca
-						FROM v_disposisi
+						FROM bpaddt.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'Y'
 					"))[0]), true);
 
 			$balas = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as balas
-						FROM v_disposisi
+						FROM bpaddt.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'S'
 					"))[0]), true);
@@ -787,9 +787,9 @@ class KepegawaianController extends Controller
 
 			$idunit = $data_self['idunit'];
 			$querys = DB::select( DB::raw("  
-						SELECT id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from emp_data as a
-						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-						CROSS APPLY (SELECT TOP 1 * FROM glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+						SELECT id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddt.dbo.emp_data as a
+						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddt.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+						CROSS APPLY (SELECT TOP 1 * FROM bpaddt.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 						,glo_skpd as b,glo_org_unitkerja as c,glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
 						and tbunit.sao like '$idunit%' and ked_emp = 'aktif'
 						order by tbunit.kd_unit") );
@@ -804,21 +804,21 @@ class KepegawaianController extends Controller
 
 				$belum = json_decode(json_encode(DB::select( DB::raw("
 							SELECT Count(id_emp) as belum
-							FROM v_disposisi
+							FROM bpaddt.dbo.v_disposisi
 							where id_emp like '".$query['id_emp']."'
 							and rd = 'N'
 						"))[0]), true);
 
 				$baca = json_decode(json_encode(DB::select( DB::raw("
 							SELECT Count(id_emp) as baca
-							FROM v_disposisi
+							FROM bpaddt.dbo.v_disposisi
 							where id_emp like '".$query['id_emp']."'
 							and rd = 'Y'
 						"))[0]), true);
 
 				$balas = json_decode(json_encode(DB::select( DB::raw("
 							SELECT Count(id_emp) as balas
-							FROM v_disposisi
+							FROM bpaddt.dbo.v_disposisi
 							where id_emp like '".$query['id_emp']."'
 							and rd = 'S'
 						"))[0]), true);

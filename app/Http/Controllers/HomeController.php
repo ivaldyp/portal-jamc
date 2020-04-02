@@ -28,34 +28,19 @@ class HomeController extends Controller
 		set_time_limit(300);
 	}
 
-	public function display_menus($query, $parent, $level = 0)
+	public function display_menus($query, $parent, $level = 0, $idgroup)
 	{
-		if ($level == 0) {
-			$query = Sec_menu::
-					join('bpaddt.dbo.sec_access', 'bpaddt.dbo.sec_access.idtop', '=', 'bpaddt.dbo.Sec_menu.ids')
-					// ->where('Sec_menu.tipe', 'l')
-					// ->whereRaw('LEN(Sec_menu.urut) = 1')
-					->where('bpaddt.dbo.sec_access.idgroup', $_SESSION['user_data']['idgroup'])
-					->where('bpaddt.dbo.sec_access.zviw', 'y')
-					->where('bpaddt.dbo.Sec_menu.sao', $parent)
-					->where('tampilnew', 1)
-					->orderBy('bpaddt.dbo.Sec_menu.urut')
-					->get();
+		$query = DB::select( DB::raw("SELECT ids, suspend, urut, desk, child, sao, tipe, zket, urlnew, iconnew, tampilnew 
+				from bpaddt.dbo.sec_menu
+				join bpaddt.dbo.sec_access on bpaddt.dbo.sec_access.idtop = bpaddt.dbo.sec_menu.ids
+				where idgroup = '$idgroup'
+				AND zviw = 'y'
+				and sao = $parent
+				and tampilnew = 1
+				order by urut"));
+		$query = json_decode(json_encode($query), true);
 
-		} else {
-			$query = Sec_menu::
-					join('sec_access', 'sec_access.idtop', '=', 'Sec_menu.ids')
-					// ->where('Sec_menu.tipe', 'l')
-					// ->whereRaw('LEN(Sec_menu.urut) = 1')
-					->where('sec_access.idgroup', $_SESSION['user_data']['idgroup'])
-					->where('sec_access.zviw', 'y')
-					->where('Sec_menu.sao', $parent)
-					->where('tampilnew', 1)
-					->orderBy('Sec_menu.urut')
-					->get();
-		}
-			
-
+							
 		$result = '';
 		$link = '';
 		$arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">'];
@@ -84,7 +69,7 @@ class HomeController extends Controller
 				} elseif ($menu['child'] == 1) {
 					$result .= '<li> <a href="'.$link.'" class="waves-effect"><i class="fa '. (($menu['iconnew'])? $menu['iconnew'] :'').' fa-fw"></i> <span class="hide-menu">'.$menu['desk'].'<span class="fa arrow"></span></span></a>';
 					
-					$result .= $this->display_menus($query, $menu['ids'], $level+1);
+					$result .= $this->display_menus($query, $menu['ids'], $level+1, $idgroup);
 
 					$result .= '</li>';
 				}
@@ -125,7 +110,7 @@ class HomeController extends Controller
 
 		$all_menu = [];
 
-		$menus = $this->display_menus($all_menu, 0, 0);
+		$menus = $this->display_menus($all_menu, 0, 0, $_SESSION['user_data']['idgroup']);
 
 		$_SESSION['menus'] = $menus;
 

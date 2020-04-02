@@ -25,10 +25,10 @@ class SecurityController extends Controller
 	public function display_roles($query, $idgroup, $access, $parent, $level = 0)
 	{
 		$query = Sec_menu::
-				join('sec_access', 'sec_access.idtop', '=', 'Sec_menu.ids')
-                ->where('sec_access.idgroup', $idgroup)
-                ->where('Sec_menu.sao', $parent)
-                ->orderBy('Sec_menu.urut')
+				join('bpaddt.dbo.sec_access', 'bpaddt.dbo.sec_access.idtop', '=', 'bpaddt.dbo.Sec_menu.ids')
+                ->where('bpaddt.dbo.sec_access.idgroup', $idgroup)
+                ->where('bpaddt.dbo.Sec_menu.sao', $parent)
+                ->orderBy('bpaddt.dbo.Sec_menu.urut')
 				->get();
 
 		$result = '';
