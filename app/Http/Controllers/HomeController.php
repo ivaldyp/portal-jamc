@@ -36,16 +36,16 @@ class HomeController extends Controller
 			$sao = "(sao = ".$level.")";
 		}
 
-		$query = DB::select( DB::raw("SELECT ids, suspend, urut, desk, child, sao, tipe, zket, urlnew, iconnew, tampilnew 
-				from bpaddt.dbo.sec_menu
-				join bpaddt.dbo.sec_access on bpaddt.dbo.sec_access.idtop = bpaddt.dbo.sec_menu.ids
-				where idgroup = '$idgroup'
-				AND zviw = 'y'
-				and $sao
-				and tampilnew = 1
-				order by urut"));
-		$query = json_decode(json_encode($query), true);
-
+		$query = Sec_menu::
+					join('bpaddt.dbo.sec_access', 'bpaddt.dbo.sec_access.idtop', '=', 'bpaddt.dbo.Sec_menu.ids')
+					// ->where('Sec_menu.tipe', 'l')
+					// ->whereRaw('LEN(Sec_menu.urut) = 1')
+					->where('bpaddt.dbo.sec_access.idgroup', $_SESSION['user_data']['idgroup'])
+					->where('bpaddt.dbo.sec_access.zviw', 'y')
+					->where('bpaddt.dbo.Sec_menu.sao', $parent)
+					->where('tampilnew', 1)
+					->orderBy('bpaddt.dbo.Sec_menu.urut')
+					->get();
 							
 		$result = '';
 		$link = '';
