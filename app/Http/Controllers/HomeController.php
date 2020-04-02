@@ -42,8 +42,6 @@ class HomeController extends Controller
 					->orderBy('bpaddt.dbo.Sec_menu.urut')
 					->get();
 
-					var_dump(Sec_menu::get());
-					die;
 		} else {
 			$query = Sec_menu::
 					join('sec_access', 'sec_access.idtop', '=', 'Sec_menu.ids')
