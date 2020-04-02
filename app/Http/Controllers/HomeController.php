@@ -30,12 +30,18 @@ class HomeController extends Controller
 
 	public function display_menus($query, $parent, $level = 0, $idgroup)
 	{
+		if ($level == 0) {
+			$sao = "(sao = 0 or sao is null)";
+		} else {
+			$sao = "(sao = ".$level.")";
+		}
+
 		$query = DB::select( DB::raw("SELECT ids, suspend, urut, desk, child, sao, tipe, zket, urlnew, iconnew, tampilnew 
 				from bpaddt.dbo.sec_menu
 				join bpaddt.dbo.sec_access on bpaddt.dbo.sec_access.idtop = bpaddt.dbo.sec_menu.ids
 				where idgroup = '$idgroup'
 				AND zviw = 'y'
-				and sao = $parent
+				and $sao
 				and tampilnew = 1
 				order by urut"));
 		$query = json_decode(json_encode($query), true);

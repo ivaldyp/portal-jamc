@@ -55,19 +55,19 @@
 				<div class="col-md-12">
 					<div class="white-box">
 						<div class="row row-in">
-							<div class="col-lg-3 col-sm-6 row-in-br">
+							<div class="col-md-3 col-sm-6 row-in-br">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-info"><i class="ti-user"></i></span>
 									</li>
 									<li class="col-last"><h3 class="counter text-right m-t-15">{{ $countpegawai['total'] }}</h3></li>
 									<li class="col-middle">
-										<h4>Total Pegawai</h4>
+										<h4>Pegawai</h4>
 									</li>
 										
 								</ul>
 							</div>
-						  	<div class="col-lg-3 col-sm-6 row-in-br b-r-none">
+						  	<div class="col-md-3 col-sm-6 row-in-br b-r-none">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-danger"><i class="ti-email"></i></span>
@@ -79,7 +79,7 @@
 									
 								</ul>
 						  	</div>
-						  	<div class="col-lg-3 col-sm-6 row-in-br">
+						  	<div class="col-md-3 col-sm-6 row-in-br">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-success"><i class="ti-comment"></i></span>
@@ -92,7 +92,7 @@
 									</li>
 								</ul>
 						  	</div>
-						  	<div class="col-lg-3 col-sm-6 b-0">
+						  	<div class="col-md-3 col-sm-6 b-0">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-warning"><i class="fa fa-dollar"></i></span>
