@@ -63,7 +63,7 @@
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
 					<div class="panel panel-default">
-						<div class="panel-heading">Konten</div>
+						<div class="panel-heading">Surat Keluar</div>
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
 								<div class="row " style="margin-bottom: 10px">
