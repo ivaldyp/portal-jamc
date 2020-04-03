@@ -34,7 +34,7 @@
             <div class="navbar-header">
                 <div class="top-left-part">
                     <!-- Logo -->
-                    <a class="logo" href="home">
+                    <a class="logo" href="/bpadwebs/home">
                         <span class="hidden-sm hidden-md hidden-lg"><img width="50%" src="{{ ('/bpadwebs/public/img/photo/bpad-logo-05.png') }}"></span>
                         <span class="hidden-xs"><img width="20%" src="{{ ('/bpadwebs/public/img/photo/bpad-logo-000.png') }}"><strong>BPAD</strong>
                         </span>
