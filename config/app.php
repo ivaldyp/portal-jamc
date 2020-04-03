@@ -6,6 +6,7 @@ return [
 	'savefileimggambar' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\images\cms\1.20.512\5\file',
 	'savefileimg' => 'C:\xampp\htdocs\bpadwebs\public\publicimg\emp',
 	'savefiledocs' => 'C:\xampp\htdocs\bpadwebs\public\publicfile',
+	'savefilwwwwww' => 'C:\xampp\htdocs\bpadwebs\public\publicfile',
 
 	'savefiledisposisi' => 'C:\xampp\htdocs\bpadwebs\public\publicfile\disp',
 	'savefilesuratkeluar' => 'C:\xampp\htdocs\bpadwebs\public\publicfile\suratkeluar',
