@@ -13,7 +13,7 @@
 	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
-	
+
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -61,7 +61,7 @@
                             <div class="panel-body">
                             	<div class="row" style="margin-bottom: 10px">
                         			<form method="GET" action="/bpadwebs/kepegawaian/laporan kinerja">
-                        				<div class="col-sm-3">
+                        				<div class="col-md-3">
                         					<select class="form-control" name="now_id_emp" id="now_id_emp" onchange="this.form.submit()">
                         						@forelse($pegawais as $pegawai)
                         						<option <?php if ($now_id_emp == $pegawai['id_emp']): ?> selected <?php endif ?> value="{{ $pegawai['id_emp'] }}">{{ ucwords(strtolower($pegawai['nm_emp'])) }}-{{ $pegawai['nrk_emp'] }}</option>
@@ -70,7 +70,7 @@
                         						@endforelse
                         					</select>
                         				</div>
-				                      	<div class="col-sm-2">
+				                      	<div class="col-md-2">
 				                        	<select class="form-control" name="now_month" id="now_month" onchange="this.form.submit()">
 				                          		<option <?php if ($now_month == 1): ?> selected <?php endif ?> value="1">Januari</option>
 				                          		<option <?php if ($now_month == 2): ?> selected <?php endif ?> value="2">Februari</option>
@@ -86,7 +86,7 @@
 				                          		<option <?php if ($now_month == 12): ?> selected <?php endif ?> value="12">Desember</option>
 				                        	</select>
 			                      		</div>
-			                      		<div class=" col-sm-2">
+			                      		<div class=" col-md-2">
 				                        	<select class="form-control" name="now_year" id="now_year" onchange="this.form.submit()">
 				                            	<option <?php if ($now_year == (int)date('Y')): ?> selected <?php endif ?> value="{{ (int)date('Y') }}">{{ (int)date('Y') }}</option>
 				                          		<option <?php if ($now_year == (int)date('Y') - 1): ?> selected <?php endif ?> value="{{ (int)date('Y') - 1 }}">{{ (int)date('Y') - 1 }}</option>
@@ -171,13 +171,13 @@
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<!-- start - This is for export functionality only -->
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <!-- end - This is for export functionality only -->
 
 	<script>
