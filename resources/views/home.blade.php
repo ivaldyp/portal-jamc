@@ -10,7 +10,7 @@
 	<!-- Custom CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/colors/blue-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,7 +29,7 @@
 				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
 					<h4 class="page-title"><?php 
 												$link = explode("/", url()->full());    
-												echo ucwords(explode("?", $link[4])[0]);
+												echo str_replace('%20', ' ', ucwords(explode("?", $link[4])[0]));
 											?> </h4> </div>
 				<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"> 
 					<ol class="breadcrumb">

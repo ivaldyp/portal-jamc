@@ -10,7 +10,7 @@
 	<!-- Custom CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/colors/blue-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- Date picker plugins css -->
 	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 	<!-- page CSS -->
@@ -33,7 +33,7 @@
 				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
 					<h4 class="page-title"><?php 
 												$link = explode("/", url()->full());    
-												echo ucwords($link[4]);
+												echo str_replace('%20', ' ', ucwords(explode("?", $link[4])[0]));
 											?> </h4> </div>
 				<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"> 
 					<ol class="breadcrumb">
@@ -41,12 +41,12 @@
 						<?php 
 							if (count($link) == 5) {
 								?> 
-									<li class="active"> {{ ucwords($link[4]) }} </li>
+									<li class="active"> {{ str_replace('%20', ' ', ucwords(explode("?", $link[4])[0])) }} </li>
 								<?php
 							} elseif (count($link) > 5) {
 								?> 
-									<li class="active"> {{ ucwords($link[4]) }} </li>
-									<li class="active"> {{ ucwords($link[5]) }} </li>
+									<li class="active"> {{ str_replace('%20', ' ', ucwords(explode("?", $link[4])[0])) }} </li>
+									<li class="active"> {{ str_replace('%20', ' ', ucwords(explode("?", $link[5])[0])) }} </li>
 								<?php
 							} 
 						?>

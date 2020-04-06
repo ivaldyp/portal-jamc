@@ -13,7 +13,7 @@
     <!-- Custom CSS -->
     <link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
     <!-- color CSS -->
-    <link href="{{ ('/bpadwebs/public/ample/css/colors/blue-dark.css') }}" id="theme" rel="stylesheet">
+    <link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -67,7 +67,7 @@
             </div>
             <div class="row ">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-info">
                         <div class="panel-heading">Tambah Konten</div>
                         <form class="form-horizontal" method="POST" action="/bpadwebs/cms/form/tambahcontent" data-toggle="validator" enctype="multipart/form-data">
                         @csrf   
