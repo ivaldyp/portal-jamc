@@ -105,7 +105,7 @@
 													<th>NRK</th>
 													<th>Nama</th>
 													<th>Group</th>
-													<th>Tgl Lahir</th>
+													<th class="col-md-1">Tgl Lahir</th>
 													<th>Jns Kel</th>
 													<th>TMT</th>
 													<th>Status</th>

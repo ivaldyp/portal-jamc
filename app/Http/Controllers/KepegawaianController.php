@@ -1038,6 +1038,62 @@ class KepegawaianController extends Controller
 
 	// -------------------- EKINERJA -------------------- //
 
+	public function entrikinerja(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 335);
+
+		$laporans = DB::select( DB::raw("
+					SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+					from bpaddt.dbo.kinerja_data a
+					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+					where a.idemp = '1.20.512.19005'
+					and a.tgl_trans = b.tgl_trans
+					and a.stat is null
+					order by b.tgl_trans asc, time1 asc
+					"));
+		$laporans = json_decode(json_encode($laporans), true);
+
+		return view('pages.bpadkepegawaian.kinerjaentri')
+				->with('access', $access)
+				->with('laporans', $laporans);
+	}
+
+	public function kinerjatambah()
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 335);
+
+		return view('pages.bpadkepegawaian.kinerjatambah')
+				->with('access', $access);
+	}
+
+	public function getaktivitas()
+	{
+		$query = DB::select( DB::raw("
+					SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+					from bpaddt.dbo.kinerja_data a
+					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+					where a.idemp = '1.20.512.19005'
+					and a.tgl_trans = b.tgl_trans
+					and YEAR(b.tgl_trans) = 2019
+					and MONTH(b.tgl_trans) = 11
+					-- and a.stat is null
+					order by b.tgl_trans asc, time1 asc
+					"));
+		$query = json_decode(json_encode($query), true);
+
+		return $query;
+	}
+
+	public function formdeleteaktivitas(Request $request)
+	{
+		var_dump($request->all());
+		die();
+	}
+
 	public function laporankinerja(Request $request)
 	{
 		$this->checkSessionTime();
@@ -1092,13 +1148,23 @@ class KepegawaianController extends Controller
 			$now_year = (int)date('Y');
 		}
 
+		if ($request->now_valid) {
+			$now_valid = $request->now_valid;
+		} else {
+			$now_valid = "= 1";
+		}
+
 		$laporans = DB::select( DB::raw("
-					SELECT *
-					from bpaddt.dbo.kinerja_detail
-					where idemp = '$now_id_emp'
-					and YEAR(tgl_trans) = '$now_year'
-					and MONTH(tgl_trans) = '$now_month'
-					order by tgl_trans asc, time1 asc
+					SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+					from bpaddt.dbo.kinerja_data a
+					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+					where a.idemp = '1.20.512.19005'
+					and a.tgl_trans = b.tgl_trans
+					and a.stat $now_valid
+					and YEAR(b.tgl_trans) = 2019
+					and MONTH(b.tgl_trans) = 11
+					order by b.tgl_trans asc, time1 asc
 					"));
 		$laporans = json_decode(json_encode($laporans), true);
 
@@ -1108,6 +1174,7 @@ class KepegawaianController extends Controller
 				->with('now_id_emp', $now_id_emp)
 				->with('now_month', $now_month)
 				->with('now_year', $now_year)
+				->with('now_valid', $now_valid)
 				->with('laporans', $laporans);
 	}
 

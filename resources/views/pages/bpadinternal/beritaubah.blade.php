@@ -153,5 +153,9 @@
         $(document).ready(function () {
             $('.textarea_editor').wysihtml5();
         });
+
+        function goBack() {
+		  window.history.back();
+		}
     </script>
 @endsection
