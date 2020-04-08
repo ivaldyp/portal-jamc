@@ -127,11 +127,13 @@ class HomeController extends Controller
 		$_SESSION['menus'] = $menus;
 
 		$agendas = Agenda_tb::
-					orderBy('ids', 'desc')
+					where('appr', 'Y')
+					->orderBy('ids', 'desc')
 					->paginate(3);
 
 		$beritas = Berita_tb::
-					orderBy('ids', 'desc')
+					where('appr', 'Y')
+					->orderBy('ids', 'desc')
 					->paginate(3);
 
 		$countpegawai = DB::select( DB::raw("

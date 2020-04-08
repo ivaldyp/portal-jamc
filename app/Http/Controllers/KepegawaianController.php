@@ -1048,7 +1048,7 @@ class KepegawaianController extends Controller
 							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
 					from bpaddt.dbo.kinerja_data a
 					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-					where a.idemp = '1.20.512.19005'
+					where a.idemp = 'Auth::user()->id_emp'
 					and a.tgl_trans = b.tgl_trans
 					and a.stat is null
 					order by b.tgl_trans asc, time1 asc
@@ -1071,21 +1071,119 @@ class KepegawaianController extends Controller
 
 	public function getaktivitas()
 	{
+		$idemp = Auth::user()->id_emp;
 		$query = DB::select( DB::raw("
 					SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
 							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
 					from bpaddt.dbo.kinerja_data a
 					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-					where a.idemp = '1.20.512.19005'
+					where b.idemp = '$idemp' 
 					and a.tgl_trans = b.tgl_trans
-					and YEAR(b.tgl_trans) = 2019
-					and MONTH(b.tgl_trans) = 11
-					-- and a.stat is null
-					order by b.tgl_trans asc, time1 asc
+					and a.stat is null
+					order by b.tgl_trans desc, time1 asc
 					"));
 		$query = json_decode(json_encode($query), true);
 
 		return $query;
+	}
+
+	public function forminsertaktivitas(Request $request)
+	{
+		$idemp = Auth::user()->id_emp;
+		$tgl_trans = $request->tgltrans;
+
+		$cekaktivitas = DB::select( DB::raw("
+						SELECT *
+						from bpaddt.dbo.kinerja_data
+						where idemp = '$idemp'
+						and tgl_trans = CONVERT(datetime, '$tgl_trans')
+						"));
+		$cekaktivitas = json_decode(json_encode($cekaktivitas), true);
+
+		if (count($cekaktivitas) == 0) {
+		
+			if (is_null($request->lainnya)) {
+				$lainnya = '';
+			} else {
+				$lainnya = $request->lainnya;
+			}
+
+			$insertkinerja = [
+				'sts' => 1,
+				'tgl' => date('Y-m-d H:i:s'),
+				'uname' => Auth::user()->id_emp,
+				'idemp' => Auth::user()->id_emp,
+				'tgl_trans' => $request->tgltrans,
+				'tipe_hadir' => $request->tipehadir,
+				'jns_hadir' => $request->jnshadir,
+				'lainnya' => ($request->lainnya ? $request->lainnya : ''),
+				'stat' => null,
+				'tipe_hadir_app' => null,
+				'jns_hadir_app' => null,
+				'catatan_app' => null,
+			];
+			Kinerja_data::insert($insertkinerja);
+		}
+
+		$insertaktivitas = [
+			'sts' => 1,
+			'tgl' => date('Y-m-d H:i:s'),
+			'uname' => Auth::user()->id_emp,
+			'idemp' => Auth::user()->id_emp,
+			'tgl_trans' => $request->tgltrans,
+			'time1' => $request->time1,
+			'time2' => $request->time2,
+			'uraian' => $request->uraian,
+			'keterangan' => $request->keterangan,
+		];
+
+		if (Kinerja_detail::insert($insertaktivitas)) {
+			$query = DB::select( DB::raw("
+						SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+								b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+						from bpaddt.dbo.kinerja_data a
+						join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+						where b.idemp = '$idemp' 
+						and a.tgl_trans = b.tgl_trans
+						and a.stat is null
+						order by b.tgl_trans desc, time1 asc
+						"));
+			$query = json_decode(json_encode($query), true);
+
+			$body_append = '';
+			$now_date = '';
+			foreach ($query as $data) {
+				$splittime1 = explode(":", $data['time1']);
+				$time1 = $splittime1[0] . ":" . $splittime1[1];
+
+				$splittime2 = explode(":", $data['time2']);
+				$time2 = $splittime2[0] . ":" . $splittime2[1];
+
+				$splitdate1 = explode(" ", $data['detail_tgl_trans'])[0];
+				$splitdate2 = explode("-", $splitdate1);
+				$date = $splitdate2[2] . "-" . $splitdate2[1] . "-" . $splitdate2[0];
+
+				if ($now_date != $data['detail_tgl_trans']) {
+					$now_date = $data['detail_tgl_trans'];
+					$body_append .= '<tr style="background-color: #f7fafc !important">
+										<td colspan="5"><b>TANGGAL: '.$date.'</b></td>
+									</tr>';
+				}
+
+				$body_append .= '<tr>
+									<td>'.$time1.'</td>
+									<td>'.$time2.'</td>
+									<td>'.$data['uraian'].'</td>
+									<td>'.$data['keterangan'].'</td>
+									<td>
+										<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas"><i class="fa fa-trash"></i></button></td>
+									</td>
+								</tr>';
+			}
+			return json_encode($body_append);
+		} else {
+			return 0;
+		}
 	}
 
 	public function formdeleteaktivitas(Request $request)
@@ -1159,11 +1257,11 @@ class KepegawaianController extends Controller
 							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
 					from bpaddt.dbo.kinerja_data a
 					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-					where a.idemp = '1.20.512.19005'
+					where a.idemp = '$now_id_emp'
 					and a.tgl_trans = b.tgl_trans
 					and a.stat $now_valid
-					and YEAR(b.tgl_trans) = 2019
-					and MONTH(b.tgl_trans) = 11
+					and YEAR(b.tgl_trans) = $now_year
+					and MONTH(b.tgl_trans) = $now_month
 					order by b.tgl_trans asc, time1 asc
 					"));
 		$laporans = json_decode(json_encode($laporans), true);

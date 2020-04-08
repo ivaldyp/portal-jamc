@@ -129,22 +129,15 @@
 														<td style="display: none;"></td>
 														<td style="display: none;"></td>
 													</tr>
-													<tr>
-														<td>{{ date('d-M-Y',strtotime($laporan['detail_tgl_trans'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
-														<td>{{ $laporan['uraian'] }}</td>
-														<td>{{ $laporan['keterangan'] }}</td>
-													</tr>
-												@else
-													<tr>
-														<td>{{ date('d-M-Y',strtotime($laporan['detail_tgl_trans'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
-														<td>{{ $laporan['uraian'] }}</td>
-														<td>{{ $laporan['keterangan'] }}</td>
-													</tr>
 												@endif
+
+												<tr>
+													<td>{{ date('d-M-Y',strtotime($laporan['detail_tgl_trans'])) }}</td>
+													<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
+													<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
+													<td>{{ $laporan['uraian'] }}</td>
+													<td>{{ $laporan['keterangan'] }}</td>
+												</tr>
 												
 												@endforeach
 											</tbody>

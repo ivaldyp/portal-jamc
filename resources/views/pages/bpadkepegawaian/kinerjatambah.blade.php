@@ -67,7 +67,7 @@
 			<div class="row ">
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<form class="form-horizontal" method="POST" action="/bpadwebs/internal/form/tambahagenda" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/form/tambahkinerja" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Input Kinerja </div>
@@ -78,7 +78,7 @@
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Tanggal </label>
 										<div class="col-md-8">
-											<input type="text" class="form-control" id="datepicker-autoclose" name="tgl_trans" autocomplete="off" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
+											<input type="text" class="form-control datepicker-autoclose" id="tgl_trans" name="tgl_trans" autocomplete="off" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
 										</div>
 									</div>
 
@@ -117,17 +117,19 @@
 										</div>
 									</div>
 
+									<hr>
+
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Awal </label>
-										<div class="col-md-2">
+										<div class="col-md-3">
 											<div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
-												<input type="text" class="form-control" value="" name="time1"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+												<input type="text" class="form-control" value="00:00" name="time1" id="time1"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
 											</div>
 										</div>
 										<label for="tgl_masuk" class="col-md-2 control-label"> Akhir </label>
-										<div class="col-md-2">
+										<div class="col-md-3">
 											<div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
-												<input type="text" class="form-control" value="" name="time2"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+												<input type="text" class="form-control" value="00:00" name="time2" id="time2"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
 											</div>
 										</div>
 									</div>
@@ -140,17 +142,23 @@
 									</div>
 
 									<div class="form-group" id="input_lainnya">
-										<label for="kegiatan" class="col-md-2 control-label"> Kegiatan </label>
+										<label for="keterangan" class="col-md-2 control-label"> Keterangan </label>
 										<div class="col-md-8">
-											<textarea class="form-control" name="kegiatan" id="kegiatan"></textarea>
+											<textarea class="form-control" name="keterangan" id="keterangan"></textarea>
 										</div>
 									</div>
 
-								</div>
+									<div class="col-md-10">	
+										<button type="button" class="btn btn-info m-b-20 m-l-20 pull-right" id="btn_tambah_aktivitas">Tambah Aktivitas</button>
+									</div>
+
+								</div>	
 								<hr>
-								<button type="button" class="btn btn-info m-b-20 m-l-20 btn-delete" data-toggle="modal" data-target="#modal-delete">Tambah Kegiatan</button>
+								<div class="col-md-12">		
+									<button type="submit" class="btn btn-success m-b-20 m-l-20 pull-right simpan">Simpan</button>
+								</div>
 								<div class="table-responsive" style="padding: 10px">
-									<table class="color-table primary-table table table-hover table-striped">
+									<table class="color-table primary-table table table-hover">
 										<thead>
 											<tr>
 												<th>Awal</th>
@@ -167,7 +175,7 @@
 								</div>
 							</div>
 							<div class="panel-footer">
-								<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal-tambah">Simpan</button>
+								<!-- <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal-tambah">Simpan</button> -->
 								<div class="clearfix"></div>
 							</div>
 						</div>	
@@ -231,25 +239,25 @@
 		$('.clockpicker').clockpicker({
 			donetext: 'Done'
 			, }).find('input').change(function () {
-			console.log(this.value);
 		});
 
 
 		$(function () {
-			jQuery('#datepicker-autoclose').datepicker({
+			jQuery('.datepicker-autoclose').datepicker({
 				autoclose: true
 				, todayHighlight: true
 				, format: 'dd/mm/yyyy'
 			});
 
 			$.ajax({ 
-           	method: "GET", 
-           	url: "/bpadwebs/kepegawaian/getaktivitas",
+			method: "GET", 
+			url: "/bpadwebs/kepegawaian/getaktivitas",
 			}).done(function( data ) { 
-				console.log(data);
+
 				var idemp = $('#idemp').val();
 				var csrf_js_var = "{{ csrf_token() }}"
 				$('#body_tabel').empty();
+				var now_date = '';
 				for (var i = 0; i < data.length; i++) {
 					var splittime1 = (data[i].time1).split(":");
 					var time1 = splittime1[0] + ":" + splittime1[1];
@@ -257,27 +265,70 @@
 					var splittime2 = (data[i].time2).split(":");
 					var time2 = splittime2[0] + ":" + splittime2[1];
 
+					var splitdate1 = (data[i].detail_tgl_trans).split(" ");
+					var splitdate2 = (splitdate1[0]).split("-");
+					var date = splitdate2[2] + "-" + splitdate2[1] + "-" + splitdate2[0];
+
+					if (now_date != date) {
+						now_date = date;
+						$('#body_tabel').append("<tr style='background-color: #f7fafc !important'>"+
+													"<td colspan='5'><b>TANGGAL: "+date+"</b></td>"+
+												"</tr>");
+					}
+
 					$('#body_tabel').append("<tr>"+
 												"<td>"+time1+"</td>"+
 												"<td>"+time2+"</td>"+
 												"<td>"+data[i].uraian+"</td>"+
 												"<td>"+data[i].keterangan+"</td>"+
 												"<td>"+
-													"<form method='POST' action='/bpadwebs/kepegawaian/form/hapusaktivitas'>"+
-														"<input type='hidden' name='idemp' value="+idemp+">"+
-														"<input type='hidden' name='tgl_trans' value="+data[i].detail_tgl_trans+">"+
-														"<input type='hidden' name='time1' value="+data[i].time1+">"+
-														"<input name='_token' value='"+csrf_js_var+"' type='hidden'>"+
-														"<button type='submit' class='btn btn-danger btn-outline btn-circle m-r-5 btn-update'><i class='fa fa-trash'></i></button></td>"+
-													"</form>"+
+													"<input id='idemp-"+i+"' type='hidden' value='"+idemp+"'>"+
+													"<input id='tgl_trans-"+i+"' type='hidden' value='"+data[i].detail_tgl_trans+"'>"+
+													"<input id='time1-"+i+"' type='hidden' value='"+data[i].time1+"'>"+
+													"<button type='button' class='btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas' id='"+i+"'><i class='fa fa-trash'></i></button></td>"+
 												"</tr>");
 				}
 			}); 
 
+			$('#body_tabel').on('click', '.btn_delete_aktivitas', function() {
+				alert(this.id);
+				alert($('#idemp-'+(this.id)).val());
+				alert($('#tgl_trans-'+(this.id)).val());
+				alert($('#time1-'+(this.id)).val());
+			});
+
+			$('#btn_tambah_aktivitas').on('click', function () {
+				var vartipehadir = $('#tipe_hadir').val();
+				var varjnshadir = $('#jns_hadir').val();
+				var varlainnya = $('#lainnya').val();
+
+				var tgltrans = $('#tgl_trans').val().split("/");
+				var vartgltrans = tgltrans[2] + "-" + tgltrans[1] + "-" + tgltrans[0];
+				
+				var vartime1 = $('#time1').val();
+				var vartime2 = $('#time2').val();
+				var varuraian = $('#uraian').val();
+				var varketerangan = $('#keterangan').val();
+				var csrf_js_var = "{{ csrf_token() }}";
+				$.ajax({ 
+				type: "POST", 
+				url: "/bpadwebs/kepegawaian/form/tambahaktivitas",
+				data: { tgltrans : vartgltrans, time1 : vartime1, time2 : vartime2, uraian : varuraian, keterangan : varketerangan, _token : csrf_js_var, tipehadir : vartipehadir, jnshadir : varjnshadir, lainnya : varlainnya,  },
+				dataType: "JSON",
+				}).done(function( data ) { 
+					$('#body_tabel').empty();
+					$('#body_tabel').append(data);
+					$('#time1').val("00:00");
+					$('#time2').val("00:00");
+					$('#uraian').val("");
+					$('#keterangan').val("");
+				}); 
+			});
+
 			$('.myTable').DataTable({
 				"paging":   false,
-		        "ordering": false,
-		        "info":     false,
+				"ordering": false,
+				"info":     false,
 			});
 
 		});
