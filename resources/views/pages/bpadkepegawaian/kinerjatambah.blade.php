@@ -78,7 +78,7 @@
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Tanggal </label>
 										<div class="col-md-8">
-											<input type="text" class="form-control datepicker-autoclose" id="tgl_trans" name="tgl_trans" autocomplete="off" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
+											<input type="text" class="form-control datepicker-autoclose" id="tgl_trans" name="tgl_trans" autocomplete="off" value="{{ $now_tgl_trans }}">
 										</div>
 									</div>
 
@@ -86,26 +86,26 @@
 										<label for="tipe" class="col-md-2 control-label"> Kehadiran </label>
 										<div class="col-md-4">
 											<select class="form-control" name="tipe_hadir" id="tipe_hadir" onchange="getval(this);">
-												<option value="1"> Hadir </option>
-												<option value="2"> Tidak Hadir </option>
-												<option value="3"> DL Full </option>
+												<option <?php if ($now_tipe_hadir == 1): ?> selected <?php endif ?> value="1"> Hadir </option>
+												<option <?php if ($now_tipe_hadir == 2): ?> selected <?php endif ?> value="2"> Tidak Hadir </option>
+												<option <?php if ($now_tipe_hadir == 3): ?> selected <?php endif ?> value="3"> DL Full </option>
 											</select>
 										</div>
 										<div class="col-md-4">
 											<select class="form-control" name="jns_hadir" id="jns_hadir">
-												<option class="select_jns_hadir tipe-1" id="1-first" value="Tepat Waktu (8,5 jam/hari)"> Tepat Waktu (8,5 jam/hari) </option>
-												<option class="select_jns_hadir tipe-1" value="Dinas Luar Awal"> Dinas Luar Awal </option>
-												<option class="select_jns_hadir tipe-1" value="Dinas Luar Akhir"> Dinas Luar Akhir </option>
-												<option class="select_jns_hadir tipe-1" value="Terlambat"> Terlambat </option>
-												<option class="select_jns_hadir tipe-1" value="Pulang Cepat"> Pulang Cepat </option>
-												<option class="select_jns_hadir tipe-2" id="2-first" value="Sakit"> Sakit </option>
-												<option class="select_jns_hadir tipe-2" value="Izin"> Izin </option>
-												<option class="select_jns_hadir tipe-2" value="Cuti"> Cuti </option>
-												<option class="select_jns_hadir tipe-2" value="Alpa"> Alpa </option>
-												<option class="select_jns_hadir tipe-2 lainnya" value="Lainnya (sebutkan)"> Lainnya (sebutkan) </option>
-												<option class="select_jns_hadir tipe-3" id="3-first" value="Rapat"> Rapat </option>
-												<option class="select_jns_hadir tipe-3" value="Peninjauan Lapangan"> Peninjauan Lapangan </option>
-												<option class="select_jns_hadir tipe-3 lainnya" value="Lainnya (sebutkan)"> Lainnya (sebutkan) </option>
+												<option <?php if ($now_jns_hadir == 'Tepat Waktu (8,5 jam/hari)'): ?> selected <?php endif ?> class="select_jns_hadir tipe-1" id="1-first" value="Tepat Waktu (8,5 jam/hari)"> Tepat Waktu (8,5 jam/hari) </option>
+												<option <?php if ($now_jns_hadir == 'Dinas Luar Awal'): ?> selected <?php endif ?> class="select_jns_hadir tipe-1" value="Dinas Luar Awal"> Dinas Luar Awal </option>
+												<option <?php if ($now_jns_hadir == 'Dinas Luar Akhir'): ?> selected <?php endif ?> class="select_jns_hadir tipe-1" value="Dinas Luar Akhir"> Dinas Luar Akhir </option>
+												<option <?php if ($now_jns_hadir == 'Terlambat'): ?> selected <?php endif ?> class="select_jns_hadir tipe-1" value="Terlambat"> Terlambat </option>
+												<option <?php if ($now_jns_hadir == 'Pulang Cepat'): ?> selected <?php endif ?> class="select_jns_hadir tipe-1" value="Pulang Cepat"> Pulang Cepat </option>
+												<option <?php if ($now_jns_hadir == 'Sakit'): ?> selected <?php endif ?> class="select_jns_hadir tipe-2" id="2-first" value="Sakit"> Sakit </option>
+												<option <?php if ($now_jns_hadir == 'Izin'): ?> selected <?php endif ?> class="select_jns_hadir tipe-2" value="Izin"> Izin </option>
+												<option <?php if ($now_jns_hadir == 'Cuti'): ?> selected <?php endif ?> class="select_jns_hadir tipe-2" value="Cuti"> Cuti </option>
+												<option <?php if ($now_jns_hadir == 'Alpa'): ?> selected <?php endif ?> class="select_jns_hadir tipe-2" value="Alpa"> Alpa </option>
+												<option <?php if ($now_jns_hadir == 'Lainnya (sebutkan)'): ?> selected <?php endif ?> class="select_jns_hadir tipe-2 lainnya" value="Lainnya (sebutkan)"> Lainnya (sebutkan) </option>
+												<option <?php if ($now_jns_hadir == 'Rapat'): ?> selected <?php endif ?> class="select_jns_hadir tipe-3" id="3-first" value="Rapat"> Rapat </option>
+												<option <?php if ($now_jns_hadir == 'Peninjauan Lapangan'): ?> selected <?php endif ?> class="select_jns_hadir tipe-3" value="Peninjauan Lapangan"> Peninjauan Lapangan </option>
+												<option <?php if ($now_jns_hadir == 'Lainnya (sebutkan)'): ?> selected <?php endif ?> class="select_jns_hadir tipe-3 lainnya" value="Lainnya (sebutkan)"> Lainnya (sebutkan) </option>
 											</select>
 										</div>
 									</div>
@@ -113,50 +113,55 @@
 									<div class="form-group" id="input_lainnya">
 										<label for="lainnya" class="col-md-2 control-label"> Lainnya </label>
 										<div class="col-md-8">
-											<textarea class="form-control" name="lainnya" id="lainnya"></textarea>
+											<textarea class="form-control" name="lainnya" id="lainnya">{{ $now_lainnya }}</textarea>
 										</div>
 									</div>
 
 									<hr>
 
-									<div class="form-group">
-										<label for="tgl_masuk" class="col-md-2 control-label"> Awal </label>
-										<div class="col-md-3">
-											<div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
-												<input type="text" class="form-control" value="00:00" name="time1" id="time1"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+									<div id="form_aktivitas">
+										<div class="form-group">
+											<label for="tgl_masuk" class="col-md-2 control-label"> Awal </label>
+											<div class="col-md-3">
+												<div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+													<input type="text" class="form-control" value="00:00" name="time1" id="time1"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+												</div>
+											</div>
+											<label for="tgl_masuk" class="col-md-2 control-label"> Akhir </label>
+											<div class="col-md-3">
+												<div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
+													<input type="text" class="form-control" value="00:00" name="time2" id="time2"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+												</div>
 											</div>
 										</div>
-										<label for="tgl_masuk" class="col-md-2 control-label"> Akhir </label>
-										<div class="col-md-3">
-											<div class="input-group clockpicker" data-placement="bottom" data-align="top" data-autoclose="true">
-												<input type="text" class="form-control" value="00:00" name="time2" id="time2"> <span class="input-group-addon"> <span class="glyphicon glyphicon-time"></span> </span>
+
+										<div class="form-group" id="input_lainnya">
+											<label for="uraian" class="col-md-2 control-label"> Uraian </label>
+											<div class="col-md-8">
+												<textarea class="form-control" name="uraian" id="uraian"></textarea>
 											</div>
 										</div>
-									</div>
 
-									<div class="form-group" id="input_lainnya">
-										<label for="uraian" class="col-md-2 control-label"> Uraian </label>
-										<div class="col-md-8">
-											<textarea class="form-control" name="uraian" id="uraian"></textarea>
+										<div class="form-group" id="input_lainnya">
+											<label for="keterangan" class="col-md-2 control-label"> Keterangan </label>
+											<div class="col-md-8">
+												<textarea class="form-control" name="keterangan" id="keterangan"></textarea>
+											</div>
+										</div>
+
+										<div class="col-md-10">	
+											<button type="button" class="btn btn-info m-b-20 m-l-20 pull-right" id="btn_tambah_aktivitas">Tambah Aktivitas</button>
 										</div>
 									</div>
 
-									<div class="form-group" id="input_lainnya">
-										<label for="keterangan" class="col-md-2 control-label"> Keterangan </label>
-										<div class="col-md-8">
-											<textarea class="form-control" name="keterangan" id="keterangan"></textarea>
-										</div>
-									</div>
-
-									<div class="col-md-10">	
-										<button type="button" class="btn btn-info m-b-20 m-l-20 pull-right" id="btn_tambah_aktivitas">Tambah Aktivitas</button>
-									</div>
+										
 
 								</div>	
 								<hr>
-								<div class="col-md-12">		
-									<button type="submit" class="btn btn-success m-b-20 m-l-20 pull-right simpan">Simpan</button>
+								<div class="col-md-12 col-sm-12 col-xs-12">		
+									<button type="submit" class="btn btn-success m-b-20 m-l-20 pull-right simpan">Simpan Kinerja</button>
 								</div>
+								<br>
 								<div class="table-responsive" style="padding: 10px">
 									<table class="color-table primary-table table table-hover">
 										<thead>
@@ -221,17 +226,23 @@
 		$('#input_lainnya').hide();
 
 		$('#tipe_hadir').on('change', function() {
-			var value = this.value;
 			$('.select_jns_hadir').hide();
+			var value = this.value;
+			if (this.value == 2) {
+				$('#form_aktivitas').hide();
+			} else {
+				$('#form_aktivitas').show();
+			}
 			$('.tipe-'+value).show();
 			$("#jns_hadir > #"+value+"-first").attr("selected", true);
+			
 		});
 
 		$('#jns_hadir').on('change', function() {
+			$('#lainnya').val("");
 			if($('select[id="jns_hadir"] :selected').hasClass('lainnya')){
 				$('#input_lainnya').show();
 			} else {
-				$('#lainnya').val("");
 				$('#input_lainnya').hide();
 			}
 		});
@@ -291,10 +302,21 @@
 			}); 
 
 			$('#body_tabel').on('click', '.btn_delete_aktivitas', function() {
-				alert(this.id);
-				alert($('#idemp-'+(this.id)).val());
-				alert($('#tgl_trans-'+(this.id)).val());
-				alert($('#time1-'+(this.id)).val());
+
+				var varidemp = $('#idemp-'+(this.id)).val();
+				var vartgltrans = $('#tgl_trans-'+(this.id)).val();
+				var vartime1 = $('#time1-'+(this.id)).val();
+
+				$.ajax({ 
+				type: "GET", 
+				url: "/bpadwebs/kepegawaian/form/hapusaktivitas",
+				data: { idemp : varidemp, tgltrans : vartgltrans, time1 : vartime1 },
+				dataType: "JSON",
+				}).done(function( data ) { 
+					$('#body_tabel').empty();
+					$('#body_tabel').append(data);
+					alert("Berhasil menghapus aktivitas");
+				}); 
 			});
 
 			$('#btn_tambah_aktivitas').on('click', function () {
@@ -322,6 +344,7 @@
 					$('#time2').val("00:00");
 					$('#uraian').val("");
 					$('#keterangan').val("");
+					alert("Berhasil menambahkan aktivitas baru");
 				}); 
 			});
 

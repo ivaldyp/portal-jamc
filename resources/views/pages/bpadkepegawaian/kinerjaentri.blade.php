@@ -52,7 +52,13 @@
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
-
+			<div class="row">
+				<div class="col-sm-12">
+					@if(Session::has('message'))
+						<div class="alert <?php if(Session::get('msg_num') == 1) { ?>alert-success<?php } else { ?>alert-danger<?php } ?> alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
+					@endif
+				</div>
+			</div>
 			<div class="row ">
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
@@ -63,7 +69,10 @@
                             	<div class="row" style="margin-bottom: 10px">
                             		<div class="col-md-1">
 										@if ($access['zadd'] == 'y')
-										<a href="/bpadwebs/kepegawaian/kinerja tambah"><button class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a> 
+										<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/kinerja tambah">
+											<button class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
+										@csrf
+										</form>
 										@endif
 									</div>
                             	</div>
@@ -73,45 +82,52 @@
 										<table class="myTable table table-hover color-table primary-table" >
 											<thead>
 												<tr>
-													<th class="col-md-1">Tanggal</th>
-													<th class="col-md-1">Awal</th>
-													<th class="col-md-1">Akhir</th>
-													<th class="col-md-4">Uraian</th>
-													<th class="col-md-4">Kegiatan</th>
+													<th class="col-md-2">Tanggal</th>
+													<th class="col-md-4">Kehadiran</th>
+													<th class="col-md-2">lainnya</th>
+													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
 											<tbody>
-												@php
-												$nowdate = 0
-												@endphp
 
-												@foreach($laporans as $laporan)
+												@foreach($laporans as $key => $laporan)
 												
-												@if($nowdate != $laporan['detail_tgl_trans'])
-													@php $nowdate = $laporan['detail_tgl_trans'] @endphp
-													<tr style="background-color: #f7fafc !important">
-														<td colspan="5"><b>TANGGAL: {{ date('D, d-M-Y',strtotime($laporan['detail_tgl_trans'])) }} --- {{ $laporan['jns_hadir_app'] }}</b></td>
-														<td style="display: none;"></td>
-														<td style="display: none;"></td>
-														<td style="display: none;"></td>
-														<td style="display: none;"></td>
-													</tr>
+													<?php 
+														if ($laporan['tipe_hadir'] == 1) {
+															$tipe_hadir = 'Hadir';
+														} elseif ($laporan['tipe_hadir'] == 2) {
+															$tipe_hadir = 'Tidak Hadir';
+														} elseif ($laporan['tipe_hadir'] == 3) {
+															$tipe_hadir = 'DL Full';
+														}
+													?>
+
 													<tr>
-														<td>{{ date('d-M-Y',strtotime($laporan['detail_tgl_trans'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
-														<td>{{ $laporan['uraian'] }}</td>
-														<td>{{ $laporan['keterangan'] }}</td>
+														<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
+														<td>{{ $tipe_hadir }} --- {{ $laporan['jns_hadir'] }}</td>
+														<td>{{ ($laporan['lainnya'] ? $laporan['lainnya'] : '-') }}</td>
+														<td>
+															<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+																<form method="POST" action="/bpadwebs/kepegawaian/kinerja tambah">
+																	@csrf
+																	<input type="hidden" name="now_tgl_trans" value="{{ $laporan['tgl_trans'] }}">
+																	<input type="hidden" name="now_tipe_hadir" value="{{ $laporan['tipe_hadir'] }}">
+																	<input type="hidden" name="now_jns_hadir" value="{{ $laporan['jns_hadir'] }}">
+																	<input type="hidden" name="now_lainnya" value="{{ $laporan['lainnya'] }}">
+																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn_update_kinerja"><i class='fa fa-edit'></i></button>
+																</form>
+															</div>
+															<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+																<form method="POST" action="/bpadwebs/kepegawaian/form/hapuskinerja">
+																	@csrf
+																	<input type="hidden" name="idemp" value="{{ $laporan['idemp'] }}">
+																	<input type="hidden" name="tgl_trans" value="{{ $laporan['tgl_trans'] }}">
+																	<button type="submit" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_kinerja" ><i class='fa fa-trash'></i></button>
+																</form>
+															</div>
+															
+														</td>
 													</tr>
-												@else
-													<tr>
-														<td>{{ date('d-M-Y',strtotime($laporan['detail_tgl_trans'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
-														<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
-														<td>{{ $laporan['uraian'] }}</td>
-														<td>{{ $laporan['keterangan'] }}</td>
-													</tr>
-												@endif
 												
 												@endforeach
 											</tbody>
