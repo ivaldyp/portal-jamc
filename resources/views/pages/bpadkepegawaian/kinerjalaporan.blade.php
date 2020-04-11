@@ -13,7 +13,8 @@
 	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
-
+	<!-- page CSS -->
+	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -56,51 +57,51 @@
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
 					<div class="panel panel-default">
-                        <div class="panel-heading"> Laporan Kinerja </div>
-                    	<div class="panel-wrapper collapse in">
-                            <div class="panel-body">
-                            	<div class="row" style="margin-bottom: 10px">
-                        			<form method="GET" action="/bpadwebs/kepegawaian/laporan kinerja">
-                        				<div class="col-md-3">
-                        					<select class="form-control" name="now_id_emp" id="now_id_emp" onchange="this.form.submit()">
-                        						@forelse($pegawais as $pegawai)
-                        						<option <?php if ($now_id_emp == $pegawai['id_emp']): ?> selected <?php endif ?> value="{{ $pegawai['id_emp'] }}">{{ ucwords(strtolower($pegawai['nm_emp'])) }}-{{ $pegawai['nrk_emp'] }}</option>
-                        						@empty
-                        						<option value="{{ $_SESSION['user_data']['id_emp'] }}">{{ ucwords(strtolower($_SESSION['user_data']['nm_emp'])) }}-{{ $_SESSION['user_data']['nrk_emp'] }}</option>
-                        						@endforelse
-                        					</select>
-                        				</div>
-				                      	<div class="col-md-2">
-				                        	<select class="form-control" name="now_month" id="now_month" onchange="this.form.submit()">
-				                          		<option <?php if ($now_month == 1): ?> selected <?php endif ?> value="1">Januari</option>
-				                          		<option <?php if ($now_month == 2): ?> selected <?php endif ?> value="2">Februari</option>
-				                          		<option <?php if ($now_month == 3): ?> selected <?php endif ?> value="3">Maret</option>
-				                          		<option <?php if ($now_month == 4): ?> selected <?php endif ?> value="4">April</option>
-				                          		<option <?php if ($now_month == 5): ?> selected <?php endif ?> value="5">Mei</option>
-				                          		<option <?php if ($now_month == 6): ?> selected <?php endif ?> value="6">Juni</option>
-				                          		<option <?php if ($now_month == 7): ?> selected <?php endif ?> value="7">Juli</option>
-				                          		<option <?php if ($now_month == 8): ?> selected <?php endif ?> value="8">Agustus</option>
-				                          		<option <?php if ($now_month == 9): ?> selected <?php endif ?> value="9">September</option>
-				                          		<option <?php if ($now_month == 10): ?> selected <?php endif ?> value="10">Oktober</option>
-				                          		<option <?php if ($now_month == 11): ?> selected <?php endif ?> value="11">November</option>
-				                          		<option <?php if ($now_month == 12): ?> selected <?php endif ?> value="12">Desember</option>
-				                        	</select>
-			                      		</div>
-			                      		<div class=" col-md-2">
-				                        	<select class="form-control" name="now_year" id="now_year" onchange="this.form.submit()">
-				                            	<option <?php if ($now_year == (int)date('Y')): ?> selected <?php endif ?> value="{{ (int)date('Y') }}">{{ (int)date('Y') }}</option>
-				                          		<option <?php if ($now_year == (int)date('Y') - 1): ?> selected <?php endif ?> value="{{ (int)date('Y') - 1 }}">{{ (int)date('Y') - 1 }}</option>
-				                          		<option <?php if ($now_year == (int)date('Y') - 2): ?> selected <?php endif ?> value="{{ (int)date('Y') - 2 }}">{{ (int)date('Y') - 2 }}</option>
-				                        	</select>
-			                      		</div>
-			                      		<div class=" col-md-2">
-				                        	<select class="form-control" name="now_valid" id="now_valid" onchange="this.form.submit()">
-				                            	<option <?php if ($now_valid == "= 1" ): ?> selected <?php endif ?> value="= 1">Valid</option>
-				                          		<option <?php if ($now_valid == "is null" ): ?> selected <?php endif ?> value="is null">Invalid</option>
-				                          	</select>
-			                      		</div>
-					                </form>
-                            	</div>
+						<div class="panel-heading"> Laporan Kinerja </div>
+						<div class="panel-wrapper collapse in">
+							<div class="panel-body">
+								<div class="row" style="margin-bottom: 10px">
+									<form method="GET" action="/bpadwebs/kepegawaian/laporan kinerja">
+										<div class="col-md-3">
+											<select class="form-control select2" name="now_id_emp" id="now_id_emp" onchange="this.form.submit()">
+												@forelse($pegawais as $pegawai)
+												<option <?php if ($now_id_emp == $pegawai['id_emp']): ?> selected <?php endif ?> value="{{ $pegawai['id_emp'] }}">{{ ucwords(strtolower($pegawai['nm_emp'])) }}-{{ $pegawai['nrk_emp'] }}</option>
+												@empty
+												<option value="{{ $_SESSION['user_data']['id_emp'] }}">{{ ucwords(strtolower($_SESSION['user_data']['nm_emp'])) }}-{{ $_SESSION['user_data']['nrk_emp'] }}</option>
+												@endforelse
+											</select>
+										</div>
+										<div class="col-md-2">
+											<select class="form-control" name="now_month" id="now_month" onchange="this.form.submit()">
+												<option <?php if ($now_month == 1): ?> selected <?php endif ?> value="1">Januari</option>
+												<option <?php if ($now_month == 2): ?> selected <?php endif ?> value="2">Februari</option>
+												<option <?php if ($now_month == 3): ?> selected <?php endif ?> value="3">Maret</option>
+												<option <?php if ($now_month == 4): ?> selected <?php endif ?> value="4">April</option>
+												<option <?php if ($now_month == 5): ?> selected <?php endif ?> value="5">Mei</option>
+												<option <?php if ($now_month == 6): ?> selected <?php endif ?> value="6">Juni</option>
+												<option <?php if ($now_month == 7): ?> selected <?php endif ?> value="7">Juli</option>
+												<option <?php if ($now_month == 8): ?> selected <?php endif ?> value="8">Agustus</option>
+												<option <?php if ($now_month == 9): ?> selected <?php endif ?> value="9">September</option>
+												<option <?php if ($now_month == 10): ?> selected <?php endif ?> value="10">Oktober</option>
+												<option <?php if ($now_month == 11): ?> selected <?php endif ?> value="11">November</option>
+												<option <?php if ($now_month == 12): ?> selected <?php endif ?> value="12">Desember</option>
+											</select>
+										</div>
+										<div class=" col-md-2">
+											<select class="form-control" name="now_year" id="now_year" onchange="this.form.submit()">
+												<option <?php if ($now_year == (int)date('Y')): ?> selected <?php endif ?> value="{{ (int)date('Y') }}">{{ (int)date('Y') }}</option>
+												<option <?php if ($now_year == (int)date('Y') - 1): ?> selected <?php endif ?> value="{{ (int)date('Y') - 1 }}">{{ (int)date('Y') - 1 }}</option>
+												<option <?php if ($now_year == (int)date('Y') - 2): ?> selected <?php endif ?> value="{{ (int)date('Y') - 2 }}">{{ (int)date('Y') - 2 }}</option>
+											</select>
+										</div>
+										<div class=" col-md-2">
+											<select class="form-control" name="now_valid" id="now_valid" onchange="this.form.submit()">
+												<option <?php if ($now_valid == "= 1" ): ?> selected <?php endif ?> value="= 1">Valid</option>
+												<option <?php if ($now_valid == "is null" ): ?> selected <?php endif ?> value="is null">Invalid</option>
+											</select>
+										</div>
+									</form>
+								</div>
 								<div class="row">
 									<div class="table-responsive">
 										<table class="myTable table table-hover color-table primary-table" >
@@ -144,14 +145,14 @@
 										</table>
 									</div>
 								</div>
-                            	
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 @endsection
 
 <!-- /////////////////////////////////////////////////////////////// -->
@@ -168,34 +169,37 @@
 	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
+	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<!-- start - This is for export functionality only -->
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-    <!-- end - This is for export functionality only -->
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+	<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+	<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+	<!-- end - This is for export functionality only -->
 
 	<script>
 		$(function () {
+			$(".select2").select2();
+
 			$('.myTable').DataTable({
 				"paging":   false,
-		        "ordering": false,
-		        "info":     false,
-		        dom: 'Bfrtip'
-	            ,buttons: [
-		            {
-		                extend: 'excelHtml5',
-		                title: 'Laporan Kinerja'
-		            },
-		            {
-		                extend: 'pdfHtml5',
-		                title: 'Laporan Kinerja'
-		            }
-		        ]
+				"ordering": false,
+				"info":     false,
+				dom: 'Bfrtip'
+				,buttons: [
+					{
+						extend: 'excelHtml5',
+						title: 'Laporan Kinerja'
+					},
+					{
+						extend: 'pdfHtml5',
+						title: 'Laporan Kinerja'
+					}
+				]
 			});
 		});
 	</script>

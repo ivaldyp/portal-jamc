@@ -63,33 +63,38 @@
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
 					<div class="panel panel-default">
-                        <div class="panel-heading"> Entri Kinerja </div>
-                    	<div class="panel-wrapper collapse in">
-                            <div class="panel-body">
-                            	<div class="row" style="margin-bottom: 10px">
-                            		<div class="col-md-1">
-										@if ($access['zadd'] == 'y' && $_SESSION['user_data']['id_emp'] )
-										<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/kinerja tambah">
-											<button class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
-										@csrf
-										</form>
-										@endif
-									</div>
-                            	</div>
-								<div class="row container">
+						<div class="panel-heading"> Approve Kinerja </div>
+						<div class="panel-wrapper collapse in">
+							<div class="panel-body">
+								<div class="row" style="margin-bottom: 10px">
+									<form method="GET" action="/bpadwebs/kepegawaian/laporan kinerja">
+										<div class="col-md-3">
+											<select class="form-control select2" name="now_id_emp" id="now_id_emp" onchange="this.form.submit()">
+												@forelse($pegawais as $pegawai)
+												<option <?php if ($now_id_emp == $pegawai['id_emp']): ?> selected <?php endif ?> value="{{ $pegawai['id_emp'] }}">{{ ucwords(strtolower($pegawai['nm_emp'])) }}-{{ $pegawai['nrk_emp'] }}</option>
+												@empty
+												<option value="{{ $_SESSION['user_data']['id_emp'] }}">{{ ucwords(strtolower($_SESSION['user_data']['nm_emp'])) }}-{{ $_SESSION['user_data']['nrk_emp'] }}</option>
+												@endforelse
+											</select>
+										</div>
+									</form>
+								</div>
+								<div class="row ">
 									<h3 class="text-center">tabel kinerja belum tervalidasi</h3>
 									<div class="table-responsive">
-										<table class="myTable table table-hover color-table primary-table" >
+										<table class=" table table-hover color-table primary-table" >
 											<thead>
 												<tr>
-													<th class="col-md-2">Tanggal</th>
-													<th class="col-md-4">Kehadiran</th>
-													<th class="col-md-2">lainnya</th>
-													<th class="col-md-1">Action</th>
+													<th></th>
+													<th></th>
+													<th class="col-md-2">Nama</th>
+													<th>Tanggal</th>
+													<th class="col-md-6">Kehadiran</th>
+													<th>Status</th>
 												</tr>
 											</thead>
 											<tbody>
-
+												<form method="POST" action="/bpadwebs/kepegawaian/form/approvekinerja">
 												@foreach($laporans as $key => $laporan)
 												
 													<?php 
@@ -100,48 +105,67 @@
 														} elseif ($laporan['tipe_hadir'] == 3) {
 															$tipe_hadir = 'DL Full';
 														}
+
+														if ($laporan['tipe_hadir_app']) {
+															if ($laporan['tipe_hadir_app'] == 1) {
+																$tipe_hadir_app = 'Hadir';
+															} elseif ($laporan['tipe_hadir_app'] == 2) {
+																$tipe_hadir_app = 'Tidak Hadir';
+															} elseif ($laporan['tipe_hadir_app'] == 3) {
+																$tipe_hadir_app = 'DL Full';
+															}
+														}
 													?>
 
 													<tr>
-														<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
-														<td>{{ $tipe_hadir }} --- {{ $laporan['jns_hadir'] }}</td>
-														<td>{{ ($laporan['lainnya'] ? $laporan['lainnya'] : '-') }}</td>
 														<td>
-															<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-																<form method="POST" action="/bpadwebs/kepegawaian/kinerja tambah">
-																	@csrf
-																	<input type="hidden" name="now_tgl_trans" value="{{ $laporan['tgl_trans'] }}">
-																	<input type="hidden" name="now_tipe_hadir" value="{{ $laporan['tipe_hadir'] }}">
-																	<input type="hidden" name="now_jns_hadir" value="{{ $laporan['jns_hadir'] }}">
-																	<input type="hidden" name="now_lainnya" value="{{ $laporan['lainnya'] }}">
-																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn_update_kinerja"><i class='fa fa-edit'></i></button>
-																</form>
-															</div>
-															<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-																<form method="POST" action="/bpadwebs/kepegawaian/form/hapuskinerja">
-																	@csrf
-																	<input type="hidden" name="idemp" value="{{ $laporan['idemp'] }}">
-																	<input type="hidden" name="tgl_trans" value="{{ $laporan['tgl_trans'] }}">
-																	<button type="submit" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_kinerja" ><i class='fa fa-trash'></i></button>
-																</form>
-															</div>
-															
+															<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn_update_kinerja"><i class='fa fa-edit'></i></button>
+														</td>
+														<td style="vertical-align: middle;">
+															<input type="checkbox" name="laporan[]" id="checkbox-{{$key}}" value="{{ $laporan['idemp'] }}||{{ $laporan['tgl_trans'] }}">
+														</td>
+														<td>
+															{{ ucwords(strtolower($laporan['nm_emp'])) }}
+															<br>
+															<span class="text-muted">{{ $laporan['idemp'] }}</span>
+														</td>
+														<td>{{ date('d-m-Y', strtotime( $laporan['tgl_trans'])) }}</td>
+														<td>
+															{{ $tipe_hadir }}
+															@if($laporan['tipe_hadir_app'])
+															-> {{ $tipe_hadir_app }}
+															@endif
+															<br>
+															<span class="text-muted">
+																{{ $laporan['jns_hadir'] }}
+																@if($laporan['jns_hadir_app'])
+																-> {{ $laporan['jns_hadir_app'] }}
+																@endif
+															</span>
+														</td>
+														<td>
+															@if($laporan['stat'] == 'Y')
+															Approved
+															@else
+															Not Approved
+															@endif
 														</td>
 													</tr>
 												
 												@endforeach
+												</form>
 											</tbody>
 										</table>
 									</div>
 								</div>
-                            	
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 @endsection
 
 <!-- /////////////////////////////////////////////////////////////// -->
@@ -159,22 +183,13 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
-	<!-- start - This is for export functionality only -->
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-    <!-- end - This is for export functionality only -->
 
 	<script>
 		$(function () {
 			$('.myTable').DataTable({
 				"paging":   false,
-		        "ordering": false,
-		        "info":     false,
+				"ordering": false,
+				"info":     false,
 			});
 		});
 	</script>

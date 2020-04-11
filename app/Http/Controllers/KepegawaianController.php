@@ -1362,6 +1362,64 @@ class KepegawaianController extends Controller
 		return json_encode($body_append);
 	}
 
+	public function approvekinerja(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 336);
+
+		if ($_SESSION['user_data']['idunit']) {
+			$idunit = $_SESSION['user_data']['idunit'];
+		} else {
+			$idunit = '01';
+		}
+
+		$pegawais = DB::select( DB::raw("
+					SELECT id_emp, nm_emp, nrk_emp FROM bpaddt.dbo.emp_data as a
+					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddt.dbo.emp_gol,bpaddt.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddt.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddt.dbo.emp_dik,bpaddt.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+					CROSS APPLY (SELECT TOP 1 * FROM bpaddt.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+					,bpaddt.dbo.glo_skpd as b,bpaddt.dbo.glo_org_unitkerja as c,bpaddt.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+					and ked_emp = 'aktif' and tgl_end is null and tbunit.sao like '$idunit%'
+					order by nm_emp"));
+		$pegawais = json_decode(json_encode($pegawais), true);
+
+		if ($request->now_id_emp) {
+			//kalo ada input milih pegawai
+			$now_id_emp = $request->now_id_emp;
+		} else {
+			// kalo gada milih pegawai
+			if (Auth::user()->usname) {
+				// kalo yg login admin -> ambil id_emp pertama
+				$now_id_emp = $pegawais[0]['id_emp'];
+			} elseif (Auth::user()->id_emp) {
+				// kalo yg login pegawai
+				if (strlen($_SESSION['user_data']['idunit']) == 10) {
+					// set id_emp sekarang = id_emp pegawai yg login
+					$now_id_emp = Auth::user()->id_emp;
+				} else {
+					// set id_emp sekarang = id_emp pertama dari query list pegawai
+					$now_id_emp = $pegawais[0]['id_emp'];
+				}
+			}
+		}
+
+		$laporans = DB::select( DB::raw("
+					SELECT kinerja_data.*, emp_data.nm_emp					
+					from bpaddt.dbo.kinerja_data
+					join bpaddt.dbo.emp_data on emp_data.id_emp = kinerja_data.idemp
+					where idemp = '$now_id_emp'
+					and stat is null
+					order by tgl_trans desc
+					"));
+		$laporans = json_decode(json_encode($laporans), true);
+
+		return view('pages.bpadkepegawaian.kinerjaapprove')
+				->with('access', $access)
+				->with('laporans', $laporans)
+				->with('pegawais', $pegawais);
+	}
+
 	public function laporankinerja(Request $request)
 	{
 		$this->checkSessionTime();
