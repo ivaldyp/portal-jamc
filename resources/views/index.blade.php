@@ -47,8 +47,12 @@
 					<!-- testimonial -->
 					@foreach($hot_content as $hot)
 
-						<?php 
-							$fullpath = "/bpadwebs/public/publicimg/images/cms/1.20.512/1/file/" . $hot['tfile'];
+						<?php
+							if (file_exists(config('app.openfileimgberita') . $hot['tfile'])) {
+								$fullpath = config('app.openfileimgberita') . $hot['tfile'];
+							} else {
+								$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $hot['tfile'];
+							}
 						?>
 
 						<div class="testimonial col-md-12 hot-div">
