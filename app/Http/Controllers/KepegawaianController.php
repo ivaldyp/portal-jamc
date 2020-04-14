@@ -1112,7 +1112,7 @@ class KepegawaianController extends Controller
 
 		$query = DB::select( DB::raw("
 					SELECT *
-					from v_kinerja
+					from bpaddt.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
 					"));
@@ -1260,7 +1260,7 @@ class KepegawaianController extends Controller
 			// 			"));
 			$query = DB::select( DB::raw("
 					SELECT *
-					from v_kinerja
+					from bpaddt.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
 					"));
@@ -1331,7 +1331,7 @@ class KepegawaianController extends Controller
 		// 			"));
 		$query = DB::select( DB::raw("
 					SELECT *
-					from v_kinerja
+					from bpaddt.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
 					"));
@@ -1555,7 +1555,7 @@ class KepegawaianController extends Controller
 
 		$laporans = DB::select( DB::raw("
 					SELECT *
-					from v_kinerja
+					from bpaddt.dbo.v_kinerja
 					where idemp = '$now_id_emp'
 					and stat $now_valid
 					and YEAR(tgl_trans) = $now_year
