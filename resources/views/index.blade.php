@@ -100,7 +100,12 @@
 			@foreach($normal_content as $normal)
 
 				<?php 
-					$fullpath = '/bpadwebs/public/publicimg/images/cms/1.20.512/1/file/' . $normal['tfile'];
+					if (file_exists(config('app.openfileimgberita') . $normal['tfile'])) {
+						$fullpath = config('app.openfileimgberita') . $normal['tfile'];
+					} else {
+						$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $normal['tfile'];
+					}
+
 					$originalDate = explode(" ", $normal['tanggal']);
 					$newTime = explode(":", $originalDate[1]);
 					$newDate = date("l, d F Y", strtotime($originalDate[0]));
@@ -184,7 +189,11 @@
 			<?php $count = 1 ?>
 			@foreach($photo_content as $photo)
 				<?php
-					$fullpath = '/bpadwebs/public/publicimg/images/cms/1.20.512/5/file/' . $photo['tfile'];
+					if (file_exists(config('app.openfileimggambar') . $photo['tfile'])) {
+						$fullpath = config('app.openfileimggambar') . $photo['tfile'];
+					} else {
+						$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $photo['tfile'];
+					}
 				?>
 
 				<div class="col-md-6">
