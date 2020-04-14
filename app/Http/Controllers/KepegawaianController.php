@@ -704,10 +704,10 @@ class KepegawaianController extends Controller
 		$ids = Auth::user()->id_emp;
 
 		$data_self = DB::select( DB::raw("  
-							SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddt.dbo.emp_data as a
-							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddt.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-							CROSS APPLY (SELECT TOP 1 * FROM bpaddt.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-							,bpaddt.dbo.glo_skpd as b,bpaddt.dbo.glo_org_unitkerja as c,bpaddt.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+							SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddtfake.dbo.emp_data as a
+							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+							CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+							,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
 							and id_emp like '$ids'") )[0];
 		$data_self = json_decode(json_encode($data_self), true);
 
@@ -723,21 +723,21 @@ class KepegawaianController extends Controller
 
 			$belum = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as belum
-						FROM bpaddt.dbo.v_disposisi
+						FROM bpaddtfake.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'N'
 					"))[0]), true);
 
 			$baca = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as baca
-						FROM bpaddt.dbo.v_disposisi
+						FROM bpaddtfake.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'Y'
 					"))[0]), true);
 
 			$balas = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as balas
-						FROM bpaddt.dbo.v_disposisi
+						FROM bpaddtfake.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'S'
 					"))[0]), true);
@@ -760,21 +760,21 @@ class KepegawaianController extends Controller
 
 			$belum = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as belum
-						FROM bpaddt.dbo.v_disposisi
+						FROM bpaddtfake.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'N'
 					"))[0]), true);
 
 			$baca = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as baca
-						FROM bpaddt.dbo.v_disposisi
+						FROM bpaddtfake.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'Y'
 					"))[0]), true);
 
 			$balas = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as balas
-						FROM bpaddt.dbo.v_disposisi
+						FROM bpaddtfake.dbo.v_disposisi
 						where id_emp like '".$ids."'
 						and rd = 'S'
 					"))[0]), true);
@@ -789,10 +789,10 @@ class KepegawaianController extends Controller
 
 			$idunit = $data_self['idunit'];
 			$querys = DB::select( DB::raw("  
-						SELECT id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddt.dbo.emp_data as a
-						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddt.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-						CROSS APPLY (SELECT TOP 1 * FROM bpaddt.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-						,bpaddt.dbo.glo_skpd as b,bpaddt.dbo.glo_org_unitkerja as c,bpaddt.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+						SELECT id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddtfake.dbo.emp_data as a
+						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+						CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+						,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
 						and tbunit.sao like '$idunit%' and ked_emp = 'aktif'
 						order by tbunit.kd_unit") );
 			$querys = json_decode(json_encode($querys), true);
@@ -806,21 +806,21 @@ class KepegawaianController extends Controller
 
 				$belum = json_decode(json_encode(DB::select( DB::raw("
 							SELECT Count(id_emp) as belum
-							FROM bpaddt.dbo.v_disposisi
+							FROM bpaddtfake.dbo.v_disposisi
 							where id_emp like '".$query['id_emp']."'
 							and rd = 'N'
 						"))[0]), true);
 
 				$baca = json_decode(json_encode(DB::select( DB::raw("
 							SELECT Count(id_emp) as baca
-							FROM bpaddt.dbo.v_disposisi
+							FROM bpaddtfake.dbo.v_disposisi
 							where id_emp like '".$query['id_emp']."'
 							and rd = 'Y'
 						"))[0]), true);
 
 				$balas = json_decode(json_encode(DB::select( DB::raw("
 							SELECT Count(id_emp) as balas
-							FROM bpaddt.dbo.v_disposisi
+							FROM bpaddtfake.dbo.v_disposisi
 							where id_emp like '".$query['id_emp']."'
 							and rd = 'S'
 						"))[0]), true);
@@ -1047,7 +1047,7 @@ class KepegawaianController extends Controller
 
 		$laporans = DB::select( DB::raw("
 					SELECT *
-					from bpaddt.dbo.kinerja_data
+					from bpaddtfake.dbo.kinerja_data
 					where idemp = '$idemp'
 					and stat is null
 					order by tgl_trans desc
@@ -1102,8 +1102,8 @@ class KepegawaianController extends Controller
 		// $query = DB::select( DB::raw("
 		// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
 		// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-		// 			from bpaddt.dbo.kinerja_data a
-		// 			join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+		// 			from bpaddtfake.dbo.kinerja_data a
+		// 			join bpaddtfake.dbo.kinerja_detail b on b.idemp = a.idemp
 		// 			where b.idemp = '$idemp' 
 		// 			and a.tgl_trans = b.tgl_trans
 		// 			and a.stat is null
@@ -1112,7 +1112,7 @@ class KepegawaianController extends Controller
 
 		$query = DB::select( DB::raw("
 					SELECT *
-					from bpaddt.dbo.v_kinerja
+					from bpaddtfake.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
 					"));
@@ -1132,7 +1132,7 @@ class KepegawaianController extends Controller
 
 		$cekkinerja = DB::select( DB::raw("
 						SELECT *
-						from bpaddt.dbo.kinerja_data
+						from bpaddtfake.dbo.kinerja_data
 						where idemp = '$idemp'
 						and tgl_trans = '$tgl_trans'
 						"));
@@ -1210,7 +1210,7 @@ class KepegawaianController extends Controller
 
 		$cekaktivitas = DB::select( DB::raw("
 						SELECT *
-						from bpaddt.dbo.kinerja_data
+						from bpaddtfake.dbo.kinerja_data
 						where idemp = '$idemp'
 						and tgl_trans = CONVERT(datetime, '$tgl_trans')
 						"));
@@ -1251,8 +1251,8 @@ class KepegawaianController extends Controller
 			// $query = DB::select( DB::raw("
 			// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
 			// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-			// 			from bpaddt.dbo.kinerja_data a
-			// 			join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+			// 			from bpaddtfake.dbo.kinerja_data a
+			// 			join bpaddtfake.dbo.kinerja_detail b on b.idemp = a.idemp
 			// 			where b.idemp = '$idemp' 
 			// 			and a.tgl_trans = b.tgl_trans
 			// 			and a.stat is null
@@ -1260,7 +1260,7 @@ class KepegawaianController extends Controller
 			// 			"));
 			$query = DB::select( DB::raw("
 					SELECT *
-					from bpaddt.dbo.v_kinerja
+					from bpaddtfake.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
 					"));
@@ -1322,8 +1322,8 @@ class KepegawaianController extends Controller
 		// $query = DB::select( DB::raw("
 		// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
 		// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-		// 			from bpaddt.dbo.kinerja_data a
-		// 			join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+		// 			from bpaddtfake.dbo.kinerja_data a
+		// 			join bpaddtfake.dbo.kinerja_detail b on b.idemp = a.idemp
 		// 			where b.idemp = '$idemp' 
 		// 			and a.tgl_trans = b.tgl_trans
 		// 			and a.stat is null
@@ -1331,7 +1331,7 @@ class KepegawaianController extends Controller
 		// 			"));
 		$query = DB::select( DB::raw("
 					SELECT *
-					from bpaddt.dbo.v_kinerja
+					from bpaddtfake.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
 					"));
@@ -1387,12 +1387,12 @@ class KepegawaianController extends Controller
 		}
 
 		$pegawais = DB::select( DB::raw("
-					SELECT id_emp, nm_emp, nrk_emp FROM bpaddt.dbo.emp_data as a
-					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddt.dbo.emp_gol,bpaddt.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
-					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddt.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddt.dbo.emp_dik,bpaddt.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
-					CROSS APPLY (SELECT TOP 1 * FROM bpaddt.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-					,bpaddt.dbo.glo_skpd as b,bpaddt.dbo.glo_org_unitkerja as c,bpaddt.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+					SELECT id_emp, nm_emp, nrk_emp FROM bpaddtfake.dbo.emp_data as a
+					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+					CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+					,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
 					and ked_emp = 'aktif' and tgl_end is null and tbunit.sao like '$idunit%'
 					order by nm_emp"));
 		$pegawais = json_decode(json_encode($pegawais), true);
@@ -1419,8 +1419,8 @@ class KepegawaianController extends Controller
 
 		$laporans = DB::select( DB::raw("
 					SELECT kinerja_data.*, emp_data.nm_emp					
-					from bpaddt.dbo.kinerja_data
-					join bpaddt.dbo.emp_data on emp_data.id_emp = kinerja_data.idemp
+					from bpaddtfake.dbo.kinerja_data
+					join bpaddtfake.dbo.emp_data on emp_data.id_emp = kinerja_data.idemp
 					where idemp = '$now_id_emp'
 					and stat is null
 					order by tgl_trans desc, nm_emp asc
@@ -1505,12 +1505,12 @@ class KepegawaianController extends Controller
 		}
 
 		$pegawais = DB::select( DB::raw("
-					SELECT id_emp, nm_emp, nrk_emp FROM bpaddt.dbo.emp_data as a
-					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddt.dbo.emp_gol,bpaddt.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
-					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddt.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddt.dbo.emp_dik,bpaddt.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
-					CROSS APPLY (SELECT TOP 1 * FROM bpaddt.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-					,bpaddt.dbo.glo_skpd as b,bpaddt.dbo.glo_org_unitkerja as c,bpaddt.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+					SELECT id_emp, nm_emp, nrk_emp FROM bpaddtfake.dbo.emp_data as a
+					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+					CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+					,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
 					and ked_emp = 'aktif' and tgl_end is null and tbunit.sao like '$idunit%'
 					order by nm_emp"));
 		$pegawais = json_decode(json_encode($pegawais), true);
@@ -1555,7 +1555,7 @@ class KepegawaianController extends Controller
 
 		$laporans = DB::select( DB::raw("
 					SELECT *
-					from bpaddt.dbo.v_kinerja
+					from bpaddtfake.dbo.v_kinerja
 					where idemp = '$now_id_emp'
 					and stat $now_valid
 					and YEAR(tgl_trans) = $now_year
