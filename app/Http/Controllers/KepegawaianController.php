@@ -1045,16 +1045,6 @@ class KepegawaianController extends Controller
 
 		$idemp = Auth::user()->id_emp;
 
-		// $laporans = DB::select( DB::raw("
-		// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
-		// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-		// 			from bpaddt.dbo.kinerja_data a
-		// 			join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-		// 			where a.idemp = '$idemp'
-		// 			and a.tgl_trans = b.tgl_trans
-		// 			and a.stat is null
-		// 			order by b.tgl_trans desc, time1 asc
-		// 			"));
 		$laporans = DB::select( DB::raw("
 					SELECT *
 					from bpaddt.dbo.kinerja_data
@@ -1109,15 +1099,22 @@ class KepegawaianController extends Controller
 	public function getaktivitas()
 	{
 		$idemp = Auth::user()->id_emp;
+		// $query = DB::select( DB::raw("
+		// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+		// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+		// 			from bpaddt.dbo.kinerja_data a
+		// 			join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+		// 			where b.idemp = '$idemp' 
+		// 			and a.tgl_trans = b.tgl_trans
+		// 			and a.stat is null
+		// 			order by b.tgl_trans desc, time1 asc
+		// 			"));
+
 		$query = DB::select( DB::raw("
-					SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
-							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-					from bpaddt.dbo.kinerja_data a
-					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-					where b.idemp = '$idemp' 
-					and a.tgl_trans = b.tgl_trans
-					and a.stat is null
-					order by b.tgl_trans desc, time1 asc
+					SELECT *
+					from v_kinerja
+					where idemp = '$idemp'
+					and stat is null
 					"));
 		$query = json_decode(json_encode($query), true);
 
@@ -1149,7 +1146,7 @@ class KepegawaianController extends Controller
 		}
 
 		if (count($cekkinerja) == 0) {
-        	Kinerja_data::insert([
+			Kinerja_data::insert([
 				'sts' => 1,
 				'tgl' => date('Y-m-d H:i:s'),
 				'uname' => Auth::user()->id_emp,
@@ -1162,7 +1159,7 @@ class KepegawaianController extends Controller
 				'tipe_hadir_app' => null,
 				'jns_hadir_app' => null,
 				'catatan_app' => null,
-        	]);
+			]);
 		} else {
 			Kinerja_data::
 				where('idemp', $idemp)
@@ -1180,7 +1177,7 @@ class KepegawaianController extends Controller
 					'tipe_hadir_app' => null,
 					'jns_hadir_app' => null,
 					'catatan_app' => null,
-	        	]);
+				]);
 		}
 
 		return redirect('/kepegawaian/entri kinerja');
@@ -1203,7 +1200,7 @@ class KepegawaianController extends Controller
 
 		return redirect('/kepegawaian/entri kinerja')
 					->with('message', 'Data kinerja berhasil dihapus')
-                    ->with('msg_num', 1);
+					->with('msg_num', 1);
 	}
 
 	public function forminsertaktivitas(Request $request)
@@ -1251,50 +1248,58 @@ class KepegawaianController extends Controller
 		];
 
 		if (Kinerja_detail::insert($insertaktivitas)) {
+			// $query = DB::select( DB::raw("
+			// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+			// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+			// 			from bpaddt.dbo.kinerja_data a
+			// 			join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+			// 			where b.idemp = '$idemp' 
+			// 			and a.tgl_trans = b.tgl_trans
+			// 			and a.stat is null
+			// 			order by b.tgl_trans desc, time1 asc
+			// 			"));
 			$query = DB::select( DB::raw("
-						SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
-								b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-						from bpaddt.dbo.kinerja_data a
-						join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-						where b.idemp = '$idemp' 
-						and a.tgl_trans = b.tgl_trans
-						and a.stat is null
-						order by b.tgl_trans desc, time1 asc
-						"));
+					SELECT *
+					from v_kinerja
+					where idemp = '$idemp'
+					and stat is null
+					"));
 			$query = json_decode(json_encode($query), true);
 
 			$body_append = '';
 			$now_date = '';
 			foreach ($query as $key => $data) {
-				$splittime1 = explode(":", $data['time1']);
-				$time1 = $splittime1[0] . ":" . $splittime1[1];
+				if ($data['tipe_hadir'] != 2 && $data['time1'] && $data['time2']) {
+					$splittime1 = explode(":", $data['time1']);
+					$time1 = $splittime1[0] . ":" . $splittime1[1];
 
-				$splittime2 = explode(":", $data['time2']);
-				$time2 = $splittime2[0] . ":" . $splittime2[1];
+					$splittime2 = explode(":", $data['time2']);
+					$time2 = $splittime2[0] . ":" . $splittime2[1];
 
-				$splitdate1 = explode(" ", $data['detail_tgl_trans'])[0];
-				$splitdate2 = explode("-", $splitdate1);
-				$date = $splitdate2[2] . "-" . $splitdate2[1] . "-" . $splitdate2[0];
+					$splitdate1 = explode(" ", $data['tgl_trans'])[0];
+					$splitdate2 = explode("-", $splitdate1);
+					$date = $splitdate2[2] . "-" . $splitdate2[1] . "-" . $splitdate2[0];
 
-				if ($now_date != $data['detail_tgl_trans']) {
-					$now_date = $data['detail_tgl_trans'];
-					$body_append .= '<tr style="background-color: #f7fafc !important">
-										<td colspan="5"><b>TANGGAL: '.$date.'</b></td>
+					if ($now_date != $data['tgl_trans']) {
+						$now_date = $data['tgl_trans'];
+						$body_append .= '<tr style="background-color: #f7fafc !important">
+											<td colspan="5"><b>TANGGAL: '.$date.'</b></td>
+										</tr>';
+					}
+
+					$body_append .= '<tr>
+										<td>'.$time1.'</td>
+										<td>'.$time2.'</td>
+										<td>'.$data['uraian'].'</td>
+										<td>'.$data['keterangan'].'</td>
+										<td>
+											<input id="idemp-'.$key.'" type="hidden" value="'.$idemp.'"></input>
+											<input id="tgl_trans-'.$key.'" type="hidden" value="'.$data['tgl_trans'].'"></input>
+											<input id="time1-'.$key.'" type="hidden" value="'.$data['time1'].'"></input>
+											<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas" id="'.$key.'"><i class="fa fa-trash"></i></button></td>
+										</td>
 									</tr>';
 				}
-
-				$body_append .= '<tr>
-									<td>'.$time1.'</td>
-									<td>'.$time2.'</td>
-									<td>'.$data['uraian'].'</td>
-									<td>'.$data['keterangan'].'</td>
-									<td>
-										<input id="idemp-'.$key.'" type="hidden" value="'.$idemp.'"></input>
-										<input id="tgl_trans-'.$key.'" type="hidden" value="'.$data['detail_tgl_trans'].'"></input>
-										<input id="time1-'.$key.'" type="hidden" value="'.$data['time1'].'"></input>
-										<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas" id="'.$key.'"><i class="fa fa-trash"></i></button></td>
-									</td>
-								</tr>';
 			}
 			return json_encode($body_append);
 		} else {
@@ -1314,50 +1319,58 @@ class KepegawaianController extends Controller
 			->where('time1', $time1)
 			->delete();
 
+		// $query = DB::select( DB::raw("
+		// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+		// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+		// 			from bpaddt.dbo.kinerja_data a
+		// 			join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
+		// 			where b.idemp = '$idemp' 
+		// 			and a.tgl_trans = b.tgl_trans
+		// 			and a.stat is null
+		// 			order by b.tgl_trans desc, time1 asc
+		// 			"));
 		$query = DB::select( DB::raw("
-					SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
-							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-					from bpaddt.dbo.kinerja_data a
-					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-					where b.idemp = '$idemp' 
-					and a.tgl_trans = b.tgl_trans
-					and a.stat is null
-					order by b.tgl_trans desc, time1 asc
+					SELECT *
+					from v_kinerja
+					where idemp = '$idemp'
+					and stat is null
 					"));
 		$query = json_decode(json_encode($query), true);
 
 		$body_append = '';
 		$now_date = '';
 		foreach ($query as $key => $data) {
-			$splittime1 = explode(":", $data['time1']);
-			$time1 = $splittime1[0] . ":" . $splittime1[1];
+			if ($data['tipe_hadir'] != 2 && $data['time1'] && $data['time2']) {
+				$splittime1 = explode(":", $data['time1']);
+				$time1 = $splittime1[0] . ":" . $splittime1[1];
 
-			$splittime2 = explode(":", $data['time2']);
-			$time2 = $splittime2[0] . ":" . $splittime2[1];
+				$splittime2 = explode(":", $data['time2']);
+				$time2 = $splittime2[0] . ":" . $splittime2[1];
 
-			$splitdate1 = explode(" ", $data['detail_tgl_trans'])[0];
-			$splitdate2 = explode("-", $splitdate1);
-			$date = $splitdate2[2] . "-" . $splitdate2[1] . "-" . $splitdate2[0];
+				$splitdate1 = explode(" ", $data['tgl_trans'])[0];
+				$splitdate2 = explode("-", $splitdate1);
+				$date = $splitdate2[2] . "-" . $splitdate2[1] . "-" . $splitdate2[0];
 
-			if ($now_date != $data['detail_tgl_trans']) {
-				$now_date = $data['detail_tgl_trans'];
-				$body_append .= '<tr style="background-color: #f7fafc !important">
-									<td colspan="5"><b>TANGGAL: '.$date.'</b></td>
+				if ($now_date != $data['tgl_trans']) {
+					$now_date = $data['tgl_trans'];
+					$body_append .= '<tr style="background-color: #f7fafc !important">
+										<td colspan="5"><b>TANGGAL: '.$date.'</b></td>
+									</tr>';
+				}
+
+				$body_append .= '<tr>
+									<td>'.$time1.'</td>
+									<td>'.$time2.'</td>
+									<td>'.$data['uraian'].'</td>
+									<td>'.$data['keterangan'].'</td>
+									<td>
+										<input id="idemp-'.$key.'" type="hidden" value="'.$idemp.'"></input>
+										<input id="tgl_trans-'.$key.'" type="hidden" value="'.$data['tgl_trans'].'"></input>
+										<input id="time1-'.$key.'" type="hidden" value="'.$data['time1'].'"></input>
+										<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas" id="'.$key.'"><i class="fa fa-trash"></i></button></td>
+									</td>
 								</tr>';
 			}
-
-			$body_append .= '<tr>
-								<td>'.$time1.'</td>
-								<td>'.$time2.'</td>
-								<td>'.$data['uraian'].'</td>
-								<td>'.$data['keterangan'].'</td>
-								<td>
-									<input id="idemp-'.$key.'" type="hidden" value="'.$idemp.'"></input>
-									<input id="tgl_trans-'.$key.'" type="hidden" value="'.$data['detail_tgl_trans'].'"></input>
-									<input id="time1-'.$key.'" type="hidden" value="'.$data['time1'].'"></input>
-									<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas" id="'.$key.'"><i class="fa fa-trash"></i></button></td>
-								</td>
-							</tr>';
 		}
 		return json_encode($body_append);
 	}
@@ -1410,14 +1423,74 @@ class KepegawaianController extends Controller
 					join bpaddt.dbo.emp_data on emp_data.id_emp = kinerja_data.idemp
 					where idemp = '$now_id_emp'
 					and stat is null
-					order by tgl_trans desc
+					order by tgl_trans desc, nm_emp asc
 					"));
+
 		$laporans = json_decode(json_encode($laporans), true);
 
 		return view('pages.bpadkepegawaian.kinerjaapprove')
 				->with('access', $access)
 				->with('laporans', $laporans)
-				->with('pegawais', $pegawais);
+				->with('pegawais', $pegawais)
+				->with('now_id_emp', $now_id_emp);
+	}
+
+	public function formapprovekinerja(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 336);
+
+		foreach ($request->laporan as $key => $data) {
+			$idemp = $request->{'idemp_'.$data};
+			Kinerja_data::
+				where('idemp', $request->{'idemp_'.$data})
+				->where('tgl_trans', $request->{'tgl_trans_'.$data})
+				->update([
+					'stat' => 1,
+					'tipe_hadir_app' => $request->{'tipe_hadir_'.$data},
+					'jns_hadir_app' => $request->{'jns_hadir_'.$data},
+					'catatan_app' => '',
+				]);
+		}
+
+		return redirect('/kepegawaian/approve kinerja?now_id_emp='.$idemp)
+					->with('message', 'Data kinerja berhasil disetujui')
+					->with('msg_num', 1);
+	}
+
+	public function formapprovekinerjasingle(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 336);
+
+		$tgl_trans = date('Y-m-d',strtotime($request->tgl_trans));
+
+		if ($request->lainnya) {
+			Kinerja_data::
+			where('idemp', $request->idemp)
+			->where('tgl_trans', $tgl_trans)
+			->update([
+				'stat' => 1,
+				'lainnya' => $request->lainnya,
+				'tipe_hadir_app' => $request->tipe_hadir,
+				'jns_hadir_app' => $request->jns_hadir,
+				'catatan_app' => $request->catatan_app,
+			]);
+		} else {
+			Kinerja_data::
+			where('idemp', $request->idemp)
+			->where('tgl_trans', $tgl_trans)
+			->update([
+				'stat' => 1,
+				'tipe_hadir_app' => $request->tipe_hadir,
+				'jns_hadir_app' => $request->jns_hadir,
+				'catatan_app' => $request->catatan_app,
+			]);
+		}
+
+		return redirect('/kepegawaian/approve kinerja?now_id_emp='.$request->idemp)
+					->with('message', 'Data kinerja berhasil disetujui')
+					->with('msg_num', 1);
 	}
 
 	public function laporankinerja(Request $request)
@@ -1463,13 +1536,13 @@ class KepegawaianController extends Controller
 		}
 
 		if ($request->now_month) {
-			$now_month = $request->now_month;
+			$now_month = (int)$request->now_month;
 		} else {
 			$now_month = (int)date('m');
 		}
 
 		if ($request->now_year) {
-			$now_year = $request->now_year;
+			$now_year = (int)$request->now_year;
 		} else {
 			$now_year = (int)date('Y');
 		}
@@ -1481,16 +1554,12 @@ class KepegawaianController extends Controller
 		}
 
 		$laporans = DB::select( DB::raw("
-					SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
-							b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
-					from bpaddt.dbo.kinerja_data a
-					join bpaddt.dbo.kinerja_detail b on b.idemp = a.idemp
-					where a.idemp = '$now_id_emp'
-					and a.tgl_trans = b.tgl_trans
-					and a.stat $now_valid
-					and YEAR(b.tgl_trans) = $now_year
-					and MONTH(b.tgl_trans) = $now_month
-					order by b.tgl_trans asc, time1 asc
+					SELECT *
+					from v_kinerja
+					where idemp = '$now_id_emp'
+					and stat $now_valid
+					and YEAR(tgl_trans) = $now_year
+		 			and MONTH(tgl_trans) = $now_month
 					"));
 		$laporans = json_decode(json_encode($laporans), true);
 

@@ -121,10 +121,16 @@
 
 												@foreach($laporans as $laporan)
 												
-												@if($nowdate != $laporan['detail_tgl_trans'])
-													@php $nowdate = $laporan['detail_tgl_trans'] @endphp
+												@if($nowdate != $laporan['tgl_trans'])
+													@php $nowdate = $laporan['tgl_trans'] @endphp
 													<tr style="background-color: #f7fafc !important">
-														<td colspan="5"><b>TANGGAL: {{ date('D, d-M-Y',strtotime($laporan['detail_tgl_trans'])) }} --- {{ $laporan['jns_hadir_app'] }}</b></td>
+														<td colspan="5"><b>TANGGAL: {{ date('D, d-M-Y',strtotime($laporan['tgl_trans'])) }} --- {{ $laporan['jns_hadir_app'] }}
+
+														@if($laporan['jns_hadir_app'] == 'Lainnya (sebutkan)')
+														 --- {{ $laporan['lainnya'] }}
+														@endif
+
+														</b></td>
 														<td style="display: none;"></td>
 														<td style="display: none;"></td>
 														<td style="display: none;"></td>
@@ -132,13 +138,15 @@
 													</tr>
 												@endif
 
+												@if($laporan['tipe_hadir_app'] != 2)
 												<tr>
-													<td>{{ date('d-M-Y',strtotime($laporan['detail_tgl_trans'])) }}</td>
+													<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
 													<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
 													<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
 													<td>{{ $laporan['uraian'] }}</td>
 													<td>{{ $laporan['keterangan'] }}</td>
 												</tr>
+												@endif
 												
 												@endforeach
 											</tbody>

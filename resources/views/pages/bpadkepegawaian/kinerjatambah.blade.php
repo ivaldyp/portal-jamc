@@ -270,34 +270,37 @@
 				$('#body_tabel').empty();
 				var now_date = '';
 				for (var i = 0; i < data.length; i++) {
-					var splittime1 = (data[i].time1).split(":");
-					var time1 = splittime1[0] + ":" + splittime1[1];
+					if (data[i].tipe_hadir != 2 && data[i].time1 != null && data[i].time2 != null) {
+						var splittime1 = (data[i].time1).split(":");
+						var time1 = splittime1[0] + ":" + splittime1[1];
 
-					var splittime2 = (data[i].time2).split(":");
-					var time2 = splittime2[0] + ":" + splittime2[1];
+						var splittime2 = (data[i].time2).split(":");
+						var time2 = splittime2[0] + ":" + splittime2[1];
 
-					var splitdate1 = (data[i].detail_tgl_trans).split(" ");
-					var splitdate2 = (splitdate1[0]).split("-");
-					var date = splitdate2[2] + "-" + splitdate2[1] + "-" + splitdate2[0];
+						var splitdate1 = (data[i].tgl_trans).split(" ");
+						var splitdate2 = (splitdate1[0]).split("-");
+						var date = splitdate2[2] + "-" + splitdate2[1] + "-" + splitdate2[0];
 
-					if (now_date != date) {
-						now_date = date;
-						$('#body_tabel').append("<tr style='background-color: #f7fafc !important'>"+
-													"<td colspan='5'><b>TANGGAL: "+date+"</b></td>"+
-												"</tr>");
+						if (now_date != date) {
+							now_date = date;
+							$('#body_tabel').append("<tr style='background-color: #f7fafc !important'>"+
+														"<td colspan='5'><b>TANGGAL: "+date+"</b></td>"+
+													"</tr>");
+						}
+
+						$('#body_tabel').append("<tr>"+
+													"<td>"+time1+"</td>"+
+													"<td>"+time2+"</td>"+
+													"<td>"+data[i].uraian+"</td>"+
+													"<td>"+data[i].keterangan+"</td>"+
+													"<td>"+
+														"<input id='idemp-"+i+"' type='hidden' value='"+idemp+"'>"+
+														"<input id='tgl_trans-"+i+"' type='hidden' value='"+data[i].tgl_trans+"'>"+
+														"<input id='time1-"+i+"' type='hidden' value='"+data[i].time1+"'>"+
+														"<button type='button' class='btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas' id='"+i+"'><i class='fa fa-trash'></i></button></td>"+
+													"</tr>");
 					}
-
-					$('#body_tabel').append("<tr>"+
-												"<td>"+time1+"</td>"+
-												"<td>"+time2+"</td>"+
-												"<td>"+data[i].uraian+"</td>"+
-												"<td>"+data[i].keterangan+"</td>"+
-												"<td>"+
-													"<input id='idemp-"+i+"' type='hidden' value='"+idemp+"'>"+
-													"<input id='tgl_trans-"+i+"' type='hidden' value='"+data[i].detail_tgl_trans+"'>"+
-													"<input id='time1-"+i+"' type='hidden' value='"+data[i].time1+"'>"+
-													"<button type='button' class='btn btn-danger btn-outline btn-circle m-r-5 btn_delete_aktivitas' id='"+i+"'><i class='fa fa-trash'></i></button></td>"+
-												"</tr>");
+						
 				}
 			}); 
 
