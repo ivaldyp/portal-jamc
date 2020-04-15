@@ -20,7 +20,6 @@ class ContentController extends Controller
                     where('idkat', 1)
                     ->where('appr', 'Y')
                     ->where('sts', 1)
-                    ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->paginate(10);
 
@@ -87,7 +86,6 @@ class ContentController extends Controller
                     where('idkat', 5)
                     ->where('appr', 'Y')
                     ->where('sts', 1)
-                    ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->paginate(10);
         } else {
@@ -96,7 +94,6 @@ class ContentController extends Controller
                     ->where('sts', 1)
                     ->where('subkat', $subkat)
                     ->where('appr', 'Y')
-                    ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->paginate(10);
         }
@@ -143,7 +140,6 @@ class ContentController extends Controller
                     where('idkat', 12)
                     ->where('appr', 'Y')
                     ->where('sts', 1)
-                    ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->paginate(15);
 
