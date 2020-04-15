@@ -89,7 +89,6 @@ class LandingController extends Controller
                     where('idkat', 1)
                     ->where('appr', 'Y')
                     ->where('sts', 1)
-                    ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->take(4)
                     ->get();
@@ -98,7 +97,6 @@ class LandingController extends Controller
                     where('idkat', 1)
                     ->where('appr', 'Y')
                     ->where('sts', 1)
-                    ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->skip(4)
                     ->take(4)
@@ -108,7 +106,6 @@ class LandingController extends Controller
                     where('idkat', 5)
                     ->where('appr', 'Y')
                     ->where('sts', 1)
-                    ->orderBy('ids', 'desc')
                     ->orderBy('tanggal', 'desc')
                     ->take(4)
                     ->get();
