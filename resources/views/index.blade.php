@@ -61,7 +61,7 @@
 							<div class="col-md-6">
 								<h3 class="hot-title">{{ $hot['judul'] }}</h3><br>
 								<div class="hot-text" style="color: black">
-									{!! $hot['isi1'] !!}
+									{!! html_entity_decode($hot['isi1']) !!}
 								</div>
 								<hr>
 								<a href="{{ url('/content/berita/' . $hot['ids']) }}" class="primary-button pull-right">Lihat Berita</a>

@@ -46,7 +46,7 @@
 					<!-- article content -->
 					<div class="article-content">
 						<div>
-							{!! $berita['isi2'] !!}
+							{!! html_entity_decode($berita['isi2']) !!}
 						</div>
 					</div>
 					<br>
