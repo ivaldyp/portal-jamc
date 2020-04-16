@@ -694,6 +694,17 @@ class KepegawaianController extends Controller
 
 	// ------------------ DATA PEGAWAI ------------------ //
 
+	// --------------- STRUKTUR ORGANISASI --------------- //
+
+	public function strukturorganisasi()
+	{
+		$this->checkSessionTime();
+
+		return view('pages.bpadkepegawaian.struktur');
+	}
+
+	// --------------- STRUKTUR ORGANISASI --------------- //
+
 	// ---------------- STATUS DISPOSISI ---------------- //
 
 	public function statusdisposisi()

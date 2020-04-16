@@ -108,6 +108,8 @@ Route::group(['prefix' => 'kepegawaian'], function () {
 	Route::post('/form/ubahpegawai', 'KepegawaianController@formupdatepegawai');
 	Route::post('/form/hapuspegawai', 'KepegawaianController@formdeletepegawai');
 
+	Route::get('/struktur', 'KepegawaianController@strukturorganisasi');
+
 	Route::get('/entri kinerja', 'KepegawaianController@entrikinerja');
 	Route::post('/kinerja tambah', 'KepegawaianController@kinerjatambah');
 	Route::get('/getaktivitas', 'KepegawaianController@getaktivitas');
