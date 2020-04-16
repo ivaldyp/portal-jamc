@@ -113,14 +113,25 @@ class CmsController extends Controller
         $request->sao == 0 ? $sao = '' : $sao = $request->sao;
 
         $insert = [
-                'desk'      => $request->desk,
-                'zket'      => $request->zket,
-                'sao'       => $sao,
+                'uname'     => Auth::user()->usname,
+                'tgl'       => date('Y-m-d H:i:s'),
+                'ip'        => '',
+                'logbuat'   => '',
+                'suspend'   => '',
                 'urut'      => $urut,
+                'desk'      => $request->desk,
+                'validat'   => '',
+                'isi'       => '',
+                'ipserver'  => '',
                 'child'     => 0,
+                'sao'       => $sao,
+                'tipe'      => '',
+                'icon'      => '',
+                'zfile'     => '',
+                'zket'      => $request->zket,
                 'iconnew'   => $request->iconnew,
                 'urlnew'    => $request->urlnew,
-                'tampilnew' => $request->tampilnew
+                'tampilnew' => $request->tampilnew,
             ];
 
         if (Sec_menu::insert($insert) && $sao > 0) {
