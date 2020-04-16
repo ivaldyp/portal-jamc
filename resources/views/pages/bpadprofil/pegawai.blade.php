@@ -301,7 +301,7 @@
 															<td class="col-md-6 p-l-30"><h4>Nama Rekening</h4></td>
 															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
 																<?php if ($emp_data['an_bank'] && $emp_data['an_bank'] != '') : ?>
-																	$emp_data['an_bank']
+																	{{ $emp_data['an_bank'] }}
 																<?php else : ?>
 																	-
 																<?php endif ?>
@@ -314,7 +314,7 @@
 															<td class="col-md-6 p-l-30"><h4>Nomor Rekening</h4></td>
 															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
 																<?php if ($emp_data['nr_bank'] && $emp_data['nr_bank'] != '') : ?>
-																	$emp_data['nr_bank']
+																	{{ $emp_data['nr_bank'] }}
 																<?php else : ?>
 																	-
 																<?php endif ?>
@@ -327,7 +327,7 @@
 															<td class="col-md-6 p-l-30"><h4>Nomor Taspen</h4></td>
 															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
 																<?php if ($emp_data['no_taspen'] && $emp_data['no_taspen'] != '') : ?>
-																	$emp_data['no_taspen']
+																	{{ $emp_data['no_taspen'] }}
 																<?php else : ?>
 																	-
 																<?php endif ?>
@@ -340,7 +340,7 @@
 															<td class="col-md-6 p-l-30"><h4>NPWP</h4></td>
 															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
 																<?php if ($emp_data['npwp'] && $emp_data['npwp'] != '') : ?>
-																	$emp_data['npwp']
+																	{{ $emp_data['npwp'] }}
 																<?php else : ?>
 																	-
 																<?php endif ?>
@@ -353,7 +353,7 @@
 															<td class="col-md-6 p-l-30"><h4>Nomor Askes</h4></td>
 															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
 																<?php if ($emp_data['no_askes'] && $emp_data['no_askes'] != '') : ?>
-																	$emp_data['no_askes']
+																	{{ $emp_data['no_askes'] }}
 																<?php else : ?>
 																	-
 																<?php endif ?>
@@ -363,10 +363,10 @@
 															</td>
 														</tr>
 														<tr>
-															<td class="col-md-6 p-l-30"><h4>Nomor Jamsostek</h4></td>
+															<td class="col-md-6 p-l-30"><h4>BPJS</h4></td>
 															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
 																<?php if ($emp_data['no_jamsos'] && $emp_data['no_jamsos'] != '') : ?>
-																	$emp_data['no_jamsos']
+																	{{ $emp_data['no_jamsos'] }}
 																<?php else : ?>
 																	-
 																<?php endif ?>

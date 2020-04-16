@@ -421,6 +421,9 @@ class ProfilController extends Controller
 		} elseif ($request->asal_form == 'sent' && $request->to_id != Auth::user()->id_emp) {
 			$id_now = $request->idtop;
 			$id_child = $request->idtop;
+		} elseif ($request->asal_form == 'inbox') {
+			$id_now = $request->ids;
+			$id_child = $request->ids;
 		}
 
 		$openpenanganannow = Fr_disposisi::
