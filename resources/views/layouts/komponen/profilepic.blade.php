@@ -20,9 +20,12 @@
 		<li class="user-footer">
 		  <div class="pull-right p-r-30">
 			<!-- <a href="{{ route('logout') }}" class="btn btn-danger btn-flat">Sign out</a> -->
-			<a class="dropdown-item btn btn-danger" href="{{ route('logout') }}"
+			<!-- <a class="dropdown-item btn btn-danger" href="{{ route('logout') }}"
 			  onclick="event.preventDefault();
 			  document.getElementById('logout-form').submit();">
+			  {{ __('Logout') }}
+			</a> -->
+			<a class="dropdown-item btn btn-danger" href="{{ url('logout') }}">
 			  {{ __('Logout') }}
 			</a>
 

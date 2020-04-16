@@ -118,12 +118,14 @@
 																</form>
 															</div>
 															<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+																@if($laporan['stat'] != 1)
 																<form method="POST" action="/bpadwebs/kepegawaian/form/hapuskinerja">
 																	@csrf
 																	<input type="hidden" name="idemp" value="{{ $laporan['idemp'] }}">
 																	<input type="hidden" name="tgl_trans" value="{{ $laporan['tgl_trans'] }}">
 																	<button type="submit" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_kinerja" ><i class='fa fa-trash'></i></button>
 																</form>
+																@endif
 															</div>
 															
 														</td>

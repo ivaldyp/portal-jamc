@@ -126,7 +126,9 @@
 													<table class="table table-hover">
 														<tr>
 															<td class="col-md-6 p-l-30"><h4>ID</h4></td>
-															<td class="col-md-6" style="vertical-align: middle;"><h4 class="text-muted">{{ $emp_data['id_emp'] }}</h4></td>
+															<td class="col-md-6" style="vertical-align: middle;">
+															<h4 class="text-muted">{{ $emp_data['id_emp'] }}</h4></td>
+															<input class="form-control" type="hidden" name="id_emp" value="{{ $emp_data['id_emp'] }}">
 														</tr>
 														<tr>
 															<td class="col-md-6 p-l-30"><h4>NIP</h4></td>

@@ -23,6 +23,7 @@ Route::get('/', 'LandingController@index');
 Route::get('/home', 'HomeController@index');
 Route::post('/mail', 'HomeController@feedback');
 Route::post('/post', 'ProfilController@test');
+Route::get('/logout', 'LandingController@logout');
 
 // ------------- BPAD CMS -------------
 
