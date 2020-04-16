@@ -98,7 +98,13 @@
 										<div class="form-group">
 											<label for="no_index" class="col-md-2 control-label"> No Index </label>
 											<div class="col-md-8">
-												<p class="form-control-static parDisp">{{ $opendisposisi[0]['no_index'] }}</p>
+												<p class="form-control-static parDisp">
+													<?php if ($opendisposisi[0]['no_index'] && $opendisposisi[0]['no_index'] != '') : ?>
+														[{{ $opendisposisi[0]['no_index'] }}]
+													<?php else : ?>
+														[-]
+													<?php endif ?>
+												</p>
 												<input autocomplete="off" type="text" name="no_index" class="form-control formDisp" id="no_index" value="{{ $opendisposisi[0]['no_index'] }}"> 
 											</div>
 										</div>
@@ -125,11 +131,23 @@
 											} else {
 												echo 'class="col-md-4"';
 											} ?> >
-												<p class="form-control-static parDisp">{{ $opendisposisi[0]['no_surat'] }}</p>
+												<p class="form-control-static parDisp">
+													<?php if ($opendisposisi[0]['no_surat'] && $opendisposisi[0]['no_surat'] != '') : ?>
+														[{{ $opendisposisi[0]['no_surat'] }}]
+													<?php else : ?>
+														[-]
+													<?php endif ?>
+												</p>
 												<input autocomplete="off" type="text" name="no_surat" class="form-control formDisp" id="no_surat" placeholder="Nomor" value="{{ $opendisposisi[0]['no_surat'] }}">
 											</div>
 											<div class="col-md-4">
-												<p class="form-control-static parDisp">{{ date('d-M-Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}</p>
+												<p class="form-control-static parDisp">
+													<?php if ($opendisposisi[0]['tgl_surat'] && $opendisposisi[0]['tgl_surat'] != '') : ?>
+														[{{ date('d-M-Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}]
+													<?php else : ?>
+														[-]
+													<?php endif ?>
+												</p>
 												<input type="text" name="tgl_surat" class="form-control formDisp" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $opendisposisi[0]['tgl_surat']))) }}">
 											</div>
 										</div>
@@ -245,8 +263,8 @@
 										<?php endif ?>
 
 										<?php 
-											$penanganan_final = ($openpenanganannow['child'] == 1 ? $openpenangananchild['penanganan'] : $openpenanganannow['penanganan_final']);
-											$catatan_final = ($openpenanganannow['child'] == 1 ? $openpenangananchild['catatan'] : $openpenanganannow['catatan_final']);
+											$penanganan_final = ($openpenanganannow['child'] == 1 ? $openpenangananchild['penanganan'] : ($openpenanganannow['penanganan_final'] ? $openpenanganannow['penanganan_final'] : $openpenanganannow['penanganan'] ) );
+											$catatan_final = ($openpenanganannow['child'] == 1 ? $openpenangananchild['catatan'] : ($openpenanganannow['catatan_final'] ? $openpenanganannow['catatan_final'] : $openpenanganannow['catatan'] ));
 										?>
 
 										<div class="form-group">

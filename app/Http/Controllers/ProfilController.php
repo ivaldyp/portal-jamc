@@ -376,7 +376,7 @@ class ProfilController extends Controller
 				$result .= '<tr >
 								<td style="padding-left:'.$padding.'px; padding-top:10px">
 									<span class="fa fa-user"></span> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> <br> 
-									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan_final'] ? $log['penanganan_final'] : '-') .'</b></span><br>
+									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan_final'] ? $log['penanganan_final'] : $log['penanganan'] )) .'</b></span><br>
 								</td>
 							</tr>';
 
@@ -428,11 +428,11 @@ class ProfilController extends Controller
 
 		$openpenanganannow = Fr_disposisi::
 							where('ids', $id_now)
-							->first(['penanganan', 'catatan', 'penanganan_final', 'catatan_final', 'child']);
+							->first();
 
 		$openpenangananchild = Fr_disposisi::
 							where('idtop', $id_child)
-							->first(['penanganan', 'catatan', 'penanganan_final', 'catatan_final']);
+							->first();
 
 		$treedisp = '<tr>
 						<td>
