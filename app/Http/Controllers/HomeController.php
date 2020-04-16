@@ -96,6 +96,8 @@ class HomeController extends Controller
 	{
 		$this->checkSessionTime();
 		
+		unset($_SESSION['user_data']);
+
 		if (is_null(Auth::user()->usname)) {
 			$iduser = Auth::user()->id_emp;
 
