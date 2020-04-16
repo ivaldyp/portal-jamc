@@ -98,7 +98,7 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 37);
 
-		$id_emp = $_SESSION['user_data']['id_emp'];
+		$id_emp = $request->id_emp;
 		$filefoto = '';
 
 		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
