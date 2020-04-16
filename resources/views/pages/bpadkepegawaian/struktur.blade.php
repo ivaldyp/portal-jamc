@@ -71,7 +71,7 @@
 									<!-- <svgs>       
 										<image href="https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png" height="200" width="200"/>
 									</svg> -->
-									<img src="{{ ('/bpadwebs/public/img/profil/organisasi2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/>
+									<a href="/bpadwebs/public/img/profil/organisasi2.jpg" target="_blank"><img src="{{ ('/bpadwebs/public/img/profil/organisasi2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/></a>
 								</span>
 					            <br><br>
 
@@ -79,7 +79,7 @@
 					            <!-- <img id="img-overlay" src="{{ ('/bpadwebs/public/img/profil/organisasi.png') }}" style="width: 100%"> -->
 					            <!-- <div id="overlay"></div> -->
 					            <span class="zoom" id="ex1">
-									<img src="{{ ('/bpadwebs/public/img/profil/organisasi_suban2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/>
+									<a href="/bpadwebs/public/img/profil/organisasi_suban2.jpg" target="_blank"><img src="{{ ('/bpadwebs/public/img/profil/organisasi_suban2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/></a>
 								</span>
 					            <br><br>
 
