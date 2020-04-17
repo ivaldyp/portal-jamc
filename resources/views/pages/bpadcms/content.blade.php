@@ -78,7 +78,7 @@
                             			<form method="GET" action="/bpadwebs/cms/content">
 					                      	<div class=" col-md-3">
 					                      		<label for="katnow" class="control-label"> Tipe </label>
-					                        	<select class="form-control" name="katnow" id="katnow" required>
+					                        	<select class="form-control" name="katnow" id="katnow" required onchange="this.form.submit()">
 					                          	<?php foreach ($kategoris as $key => $kategori) { ?>
 					                            	<option value="{{ $kategori['ids'] }}" 
 					                              	<?php 
@@ -92,7 +92,7 @@
 				                      		</div>
 				                      		<div class=" col-md-3">
 				                      			<label for="suspnow" class="control-label"> Suspend </label>
-					                        	<select class="form-control" name="suspnow" id="suspnow">
+					                        	<select class="form-control" name="suspnow" id="suspnow" onchange="this.form.submit()">
 					                          	
 					                            	<option value="N" <?php if ($suspnow == 'N') { echo "selected"; } ?> >Tidak</option>
 					                            	<option value="Y" <?php if ($suspnow == 'Y') { echo "selected"; } ?> >Ya</option>
@@ -100,7 +100,6 @@
 					                        	</select>
 				                      		</div>
 				                      		
-				                      		<button type="submit" class="btn btn-primary">Cari</button>
 						                </form>
                             		</div>
                             		

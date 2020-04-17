@@ -138,14 +138,14 @@
 										<div class="form-group" id="input_lainnya">
 											<label for="uraian" class="col-md-2 control-label"> Uraian </label>
 											<div class="col-md-8">
-												<textarea class="form-control" name="uraian" id="uraian"></textarea>
+												<textarea class="form-control" required name="uraian" id="uraian"></textarea>
 											</div>
 										</div>
 
 										<div class="form-group" id="input_lainnya">
 											<label for="keterangan" class="col-md-2 control-label"> Keterangan </label>
 											<div class="col-md-8">
-												<textarea class="form-control" name="keterangan" id="keterangan"></textarea>
+												<textarea class="form-control" required name="keterangan" id="keterangan"></textarea>
 											</div>
 										</div>
 
