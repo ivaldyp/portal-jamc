@@ -93,7 +93,7 @@
 													<tr>
 														@if($_SESSION['user_data']['idunit'])
 														@if(strlen($_SESSION['user_data']['idunit']) < 10)
-														<th></th>
+														<th style="display: none;"></th>
 														<th>Pilih</th>
 														@endif
 														@endif
@@ -134,7 +134,7 @@
 														<input type="hidden" name="tgl_trans_{{$key}}" value="{{ $laporan['tgl_trans'] }}">
 														<input type="hidden" name="tipe_hadir_{{$key}}" value="{{ $laporan['tipe_hadir'] }}">
 														<input type="hidden" name="jns_hadir_{{$key}}" value="{{ $laporan['jns_hadir'] }}">
-														<td>
+														<td style="display: none;">
 															<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn_update_kinerja" data-toggle="modal" data-target="#modal-update" data-idemp="{{ $laporan['idemp'] }}" data-tgltrans="{{ date('d-m-Y', strtotime( $laporan['tgl_trans'])) }}" data-tipehadir="{{ $laporan['tipe_hadir'] }}" data-jnshadir="{{ $laporan['jns_hadir'] }}" data-lainnya="{{ $laporan['lainnya'] }}"><i class='fa fa-edit'></i></button>
 														</td>
 														<td style="vertical-align: middle;">
