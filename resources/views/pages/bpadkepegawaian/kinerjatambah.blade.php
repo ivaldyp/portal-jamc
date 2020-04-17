@@ -170,7 +170,7 @@
 												<th>Akhir</th>
 												<th>Uraian</th>
 												<th>Keterangan</th>
-												<th>Aksi</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody id="body_tabel">

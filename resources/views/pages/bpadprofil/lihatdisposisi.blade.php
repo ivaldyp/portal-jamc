@@ -353,6 +353,7 @@
 							</div>
 							<div class="panel-footer">
 								<button type="submit" class="btn btn-success pull-right">Simpan</button>
+								<button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
 								<!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
 								<div class="clearfix"></div>
 							</div>
@@ -399,6 +400,9 @@
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
 	<script>
+		function goBack() {
+		  window.history.back();
+		}
 		$(function () {
 			if ($("#isEmployeeFlag").val() == 1) {
 				$(".formDisp").hide();

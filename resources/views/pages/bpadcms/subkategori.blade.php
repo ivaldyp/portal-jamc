@@ -86,7 +86,7 @@
 															<tr>
 																<th>Nama</th>
 																@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-																<th>Aksi</th>
+																<th>Action</th>
 																@endif
 															</tr>
 														</thead>

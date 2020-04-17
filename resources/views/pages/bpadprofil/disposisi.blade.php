@@ -91,7 +91,7 @@
 															<th>Penanganan</th>
 															<th>Status</th>
 															@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-															<th class="col-md-1">Aksi</th>
+															<th class="col-md-1">Action</th>
 															@endif
 														</tr>
 													</thead>
@@ -235,7 +235,7 @@
 															<th>Untuk</th>
 															<th>Penanganan</th>
 															@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-															<th class="col-md-1">Aksi</th>
+															<th class="col-md-1">Action</th>
 															@endif
 														</tr>
 													</thead>
@@ -364,7 +364,7 @@
 													<th>Asal</th>
 													<th>Sifat</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th class="col-md-1">Aksi</th>
+													<th class="col-md-1">Action</th>
 													@endif
 												</tr>
 											</thead>

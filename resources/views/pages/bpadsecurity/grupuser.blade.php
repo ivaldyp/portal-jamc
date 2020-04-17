@@ -78,7 +78,7 @@
                                                 <th class="col-md-1">No</th>
                                                 <th>Grup User</th>
                                                 @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                                <th>Aksi</th>
+                                                <th>Action</th>
                                                 @endif
                                             </tr>
                                         </thead>

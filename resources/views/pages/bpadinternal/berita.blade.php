@@ -85,7 +85,7 @@
 													<th>Kategori</th>
 													<th class="text-center">Approved</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th class="col-md-1">Aksi</th>
+													<th class="col-md-1">Action</th>
 													@endif
 												</tr>
 											</thead>
