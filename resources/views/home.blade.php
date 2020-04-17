@@ -11,7 +11,6 @@
 	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
-
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -67,7 +66,7 @@
 										
 								</ul>
 							</div>
-						  	<div class="col-md-3 col-sm-6 row-in-br b-r-none">
+							<div class="col-md-3 col-sm-6 row-in-br b-r-none">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-danger"><i class="ti-email"></i></span>
@@ -78,8 +77,8 @@
 									</li>
 									
 								</ul>
-						  	</div>
-						  	<div class="col-md-3 col-sm-6 row-in-br">
+							</div>
+							<div class="col-md-3 col-sm-6 row-in-br">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-success"><i class="ti-comment"></i></span>
@@ -91,8 +90,8 @@
 										<h4>Konten</h4>
 									</li>
 								</ul>
-						  	</div>
-						  	<div class="col-md-3 col-sm-6 b-0">
+							</div>
+							<div class="col-md-3 col-sm-6 b-0">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-warning"><i class="fa fa-dollar"></i></span>
@@ -102,7 +101,7 @@
 										<h4>Net Earnings</h4>
 									</li>
 								</ul>
-						 	 </div> 
+							 </div> 
 						</div>
 					</div>
 				</div>
@@ -112,22 +111,87 @@
 					<div class="row">
 						<div class="col-lg-8">
 							<div class="panel panel-info">
-								<div class="panel-heading">Isi 
+								<div class="panel-heading">Organisasi 
 									<div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
 								</div>
 								<div class="panel-wrapper collapse in">
 									<div class="panel-body">
-										- list pegawai di bidang / subbid yg sama<br>
-										- ??? :)<br>
-										- ??? :)<br>
-										- ??? :)
+										<div>
+											@if(isset(Auth::user()->usname) || $_SESSION['user_data']['idunit'] == '01')
+												<ul id="tree1">
+
+												@foreach($employees as $key => $emp)
+													@if(substr($emp['nm_emp'], 0, 3) != 'Plt')
+														<li>
+														@if(strlen($emp['idunit']) < 10)
+														{{ $emp['idjab'] }}<br>
+														@endif
+														<span class="text-muted">{{ ucwords(strtolower($emp['nm_emp'])) }}</span>
+
+														@if(isset($employees[$key+1]))
+														@if(strlen($employees[$key+1]['idunit']) < strlen($emp['idunit']) )
+														</ul>
+														</li>
+														@endif
+														@endif
+
+														@if(isset($employees[$key+1]))
+														@if(strlen($employees[$key+1]['idunit']) > strlen($emp['idunit']) )
+														<ul>
+														@endif
+														@endif
+													@endif
+												@endforeach
+
+												</ul>
+											@endif
+
+											@if(strlen($_SESSION['user_data']['idunit']) < 10 && strlen($_SESSION['user_data']['idunit']) > 2)
+												<ul id="tree1">
+
+												@foreach($employees as $key => $emp)
+													@if(substr($emp['nm_emp'], 0, 3) != 'Plt')
+														<li>
+														@if(strlen($emp['idunit']) < 10)
+														{{ $emp['idjab'] }}<br>
+														@endif
+														<span class="text-muted">{{ ucwords(strtolower($emp['nm_emp'])) }}</span>
+
+														@if($emp['child'] == 1)
+														<ul>
+														@endif
+
+														@if(isset($employees[$key+1]))
+														@if(strlen($employees[$key+1]['idunit']) < strlen($emp['idunit']) )
+														</ul>
+														</li>
+														@endif
+														@endif
+													@endif
+												@endforeach
+												</ul>
+											@endif
+
+											@if(strlen($_SESSION['user_data']['idunit']) == 10)
+												<ul id="tree1">
+													<li>{{ $employees[0]['idjab'] }}
+														<ul>
+															@foreach($employees as $key => $emp)
+															<li>{{ ucwords(strtolower($emp['nm_emp'])) }}</li>
+															@endforeach
+														</ul>
+													</li>
+												</ul>
+											@endif
+												
+										</div>
 									</div>
 								</div>
 							</div>	
 						</div>
 						<div class="col-md-4">
 							<div class="panel panel-info">
-								<div class="panel-heading">Info Sampingan
+								<div class="panel-heading">Info
 									<div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
 								</div>
 								<div class="panel-wrapper collapse in">
@@ -136,7 +200,7 @@
 											<li role="presentation" class="active"><a href="#agenda" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Agenda</span></a></li>
 											<li role="presentation" class=""><a href="#berita" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Berita</span></a></li>
 											<li role="presentation" class=""><a href="#ulangtahun" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">Ultah</span></a></li>
-											<li role="presentation" class=""><a href="#pensiun" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-settings"></i></span> <span class="hidden-xs">Pensiun</span></a></li>
+											<!-- <li role="presentation" class=""><a href="#pensiun" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-settings"></i></span> <span class="hidden-xs">Pensiun</span></a></li> -->
 										</ul>
 										<div class="tab-content">
 											<div role="tabpanel" class="tab-pane fade active in" id="agenda">
@@ -163,8 +227,36 @@
 												{{ $beritas->onEachSide(2)->links() }}
 												<div class="clearfix"></div>
 											</div>
-											<div role="tabpanel" class="tab-pane fade in" id="ulangtahun"></div>
-											<div role="tabpanel" class="tab-pane fade in" id="pensiun"></div>
+											<div role="tabpanel" class="tab-pane fade in" id="ulangtahun">
+												@if(count($ultah_yes) > 0)
+												<h4>Kemarin:</h4>
+												<ol>
+												@foreach($ultah_yes as $yes)
+												<li>{{ $yes['nm_emp'] }} - {{ $yes['idjab'] }}</li>
+												@endforeach
+												</ol><hr>
+												@endif
+
+												@if(count($ultah_now) > 0)
+												<h4>Hari Ini:</h4>
+												<ol>
+												@foreach($ultah_now as $now)
+												<li>{{ $now['nm_emp'] }} - {{ $now['idjab'] }}</li>
+												@endforeach
+												</ol><hr>
+												@endif
+
+												@if(count($ultah_tom) > 0)
+												<h4>Besok:</h4>
+												<ol>
+												@foreach($ultah_tom as $tom)
+												<li>{{ $tom['nm_emp'] }} - {{ $tom['idjab'] }}</li>
+												@endforeach
+												</ol><hr>
+												@endif
+
+											</div>
+											<!-- <div role="tabpanel" class="tab-pane fade in" id="pensiun"></div> -->
 										</div>
 										
 									</div>
@@ -197,4 +289,64 @@
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<!--Style Switcher -->
 	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
+
+	<script type="text/javascript">
+		$.fn.extend({
+			treed: function (o) {
+			  
+			  var openedClass = 'glyphicon-minus-sign';
+			  var closedClass = 'glyphicon-plus-sign';
+			  
+			  if (typeof o != 'undefined'){
+				if (typeof o.openedClass != 'undefined'){
+				openedClass = o.openedClass;
+				}
+				if (typeof o.closedClass != 'undefined'){
+				closedClass = o.closedClass;
+				}
+			  };
+			  
+				//initialize each of the top levels
+				var tree = $(this);
+				tree.addClass("tree");
+				tree.find('li').has("ul").each(function () {
+					var branch = $(this); //li with children ul
+					branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
+					branch.addClass('branch');
+					branch.on('click', function (e) {
+						if (this == e.target) {
+							var icon = $(this).children('i:first');
+							icon.toggleClass(openedClass + " " + closedClass);
+							$(this).children().children().toggle();
+						}
+					})
+					branch.children().children().toggle();
+				});
+				//fire event from the dynamically added icon
+			  tree.find('.branch .indicator').each(function(){
+				$(this).on('click', function () {
+					$(this).closest('li').click();
+				});
+			  });
+				//fire event to open branch if the li contains an anchor instead of text
+				tree.find('.branch>a').each(function () {
+					$(this).on('click', function (e) {
+						$(this).closest('li').click();
+						e.preventDefault();
+					});
+				});
+				//fire event to open branch if the li contains a button instead of text
+				tree.find('.branch>button').each(function () {
+					$(this).on('click', function (e) {
+						$(this).closest('li').click();
+						e.preventDefault();
+					});
+				});
+			}
+		});
+
+		//Initialization of treeviews
+
+		$('#tree1').treed();
+	</script>
 @endsection
