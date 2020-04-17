@@ -66,7 +66,8 @@
 										
 								</ul>
 							</div>
-							<div class="col-md-3 col-sm-6 row-in-br b-r-none">
+							<a href="/bpadwebs/profil/disposisi">
+							<div class="col-md-3 col-sm-6 row-in-br">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-danger"><i class="ti-email"></i></span>
@@ -78,6 +79,9 @@
 									
 								</ul>
 							</div>
+							</a>
+
+							<a href="/bpadwebs/cms/content">
 							<div class="col-md-3 col-sm-6 row-in-br">
 								<ul class="col-in">
 									<li>
@@ -91,7 +95,9 @@
 									</li>
 								</ul>
 							</div>
-							<div class="col-md-3 col-sm-6 b-0">
+							</a>
+							
+							<div class="col-md-3 col-sm-6">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-warning"><i class="fa fa-dollar"></i></span>

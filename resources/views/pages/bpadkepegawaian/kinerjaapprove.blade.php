@@ -177,7 +177,9 @@
 										</div>
 									@if($_SESSION['user_data']['idunit'])
 									@if(strlen($_SESSION['user_data']['idunit']) < 10)
+									@if(count($laporans) != 0)
 									<button id="confirmButton" type="submit" class="btn btn-warning">Setujui & Proses</button>
+									@endif
 									@endif
 									@endif
 									</form>
