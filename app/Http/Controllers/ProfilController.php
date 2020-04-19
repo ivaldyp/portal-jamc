@@ -219,18 +219,25 @@ class ProfilController extends Controller
 		$id_emp = $_SESSION['user_data']['id_emp'];
 		$fileijazah = '';
 
+		$nm_ijazah = Emp_dik::where('ids', $request->ids)->first();
+
 		// (PENDIDIKAN) cek dan set variabel untuk file foto ijazah
 		if (isset($request->fileijazah)) {
 			$file = $request->fileijazah;
 
 			if ($file->getSize() > 2222222) {
-				return redirect('/profil/pegawai')->with('message', 'Ukuran file foto ijazah terlalu besar (Maksimal 2MB)');     
+				return redirect('/profil/pegawai')->with('message', 'Ukuran file foto ijazah terlalu besar (Maksimal 2MB)')->with('msg_num', 2);     
 			} 
 
 			$fileijazah .= "dik_" . $request->iddik . "_" . $id_emp . ".". $file->getClientOriginalExtension();
 
 			$tujuan_upload = config('app.savefileimg');
 			$tujuan_upload .= "/" . $id_emp;
+			if ($request->fileijazah) {
+				$filepath = $tujuan_upload . "/" . $nm_ijazah['gambar'];
+				unlink($filepath);
+			}
+
 
 			$file->move($tujuan_upload, $fileijazah);
 		}

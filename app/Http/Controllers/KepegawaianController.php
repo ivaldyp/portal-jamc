@@ -1037,14 +1037,14 @@ class KepegawaianController extends Controller
 	{
 		$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+		$filepath = '';
+		$filepath .= config('app.savefilesuratkeluar');
+		$filepath .= '/' . $request->nm_file;
 
 		Fr_suratkeluar::
 				where('ids', $request->ids)
 				->delete();
 
-		$filepath = '';
-		$filepath .= config('app.savefilesuratkeluar');
-		$filepath .= '/' . $request->nm_file;
 
 		if ($request->nm_file) {
 			unlink($filepath);
