@@ -323,6 +323,7 @@
 			});
 
 			$('#btn_tambah_aktivitas').on('click', function () {
+				var flag = 0;
 				var vartipehadir = $('#tipe_hadir').val();
 				var varjnshadir = $('#jns_hadir').val();
 				var varlainnya = $('#lainnya').val();
@@ -334,21 +335,46 @@
 				var vartime2 = $('#time2').val();
 				var varuraian = $('#uraian').val();
 				var varketerangan = $('#keterangan').val();
+				
+				if (vartime1 == '00:00' && vartime2 == '00:00' && varuraian == '') {
+					alert("Mohon isi detail kegiatan");
+					flag = 1;
+				} else if (vartime1 == '00:00' && vartime2 == '00:00') {
+					alert("Mohon isi waktu kegiatan");
+					flag = 1;
+				} else if (vartime1 == '00:00') {
+					alert("Mohon isi waktu mulai kegiatan");
+					flag = 1;
+				} else if (vartime2 == '00:00') {
+					alert("Mohon isi waktu berakhir kegiatan");
+					flag = 1;
+				} else if (varuraian == '') {
+					alert("Mohon isi uraian kegiatan");
+					flag = 1;
+				}
+
+				if (varketerangan == '') {
+					varketerangan = '-';
+				}
+
 				var csrf_js_var = "{{ csrf_token() }}";
-				$.ajax({ 
-				type: "POST", 
-				url: "/bpadwebs/kepegawaian/form/tambahaktivitas",
-				data: { tgltrans : vartgltrans, time1 : vartime1, time2 : vartime2, uraian : varuraian, keterangan : varketerangan, _token : csrf_js_var, tipehadir : vartipehadir, jnshadir : varjnshadir, lainnya : varlainnya,  },
-				dataType: "JSON",
-				}).done(function( data ) { 
-					$('#body_tabel').empty();
-					$('#body_tabel').append(data);
-					$('#time1').val("00:00");
-					$('#time2').val("00:00");
-					$('#uraian').val("");
-					$('#keterangan').val("");
-					alert("Berhasil menambahkan aktivitas baru");
-				}); 
+
+				if (flag == 0) {
+					$.ajax({ 
+					type: "POST", 
+					url: "/bpadwebs/kepegawaian/form/tambahaktivitas",
+					data: { tgltrans : vartgltrans, time1 : vartime1, time2 : vartime2, uraian : varuraian, keterangan : varketerangan, _token : csrf_js_var, tipehadir : vartipehadir, jnshadir : varjnshadir, lainnya : varlainnya,  },
+					dataType: "JSON",
+					}).done(function( data ) { 
+						$('#body_tabel').empty();
+						$('#body_tabel').append(data);
+						$('#time1').val("00:00");
+						$('#time2').val("00:00");
+						$('#uraian').val("");
+						$('#keterangan').val("");
+						alert("Berhasil menambahkan aktivitas baru");
+					}); 
+				}
 			});
 
 			$('.myTable').DataTable({
