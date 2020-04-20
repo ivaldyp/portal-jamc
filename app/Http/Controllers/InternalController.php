@@ -293,10 +293,10 @@ class InternalController extends Controller
 			'logbuat'   => '',
 			'kd_skpd' => '1.20.512',
 			'tanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
-			'appr' => 'N',
+			'an' => $request->an,
 			'isi' => htmlentities($isi),
 			'tipe' => $request->tipe,
-			'an' => $request->an,
+			'appr' => 'N',
 			'usrinput' => $request->usrinput,
 		];
 

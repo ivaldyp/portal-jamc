@@ -84,7 +84,7 @@
 												<div class="form-group">
 													<label for="tgl_join" class="col-md-2 control-label"> TMT </label>
 													<div class="col-md-4">
-														<input type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy">
+														<input required type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy">
 													</div>
 												</div>
 
@@ -302,7 +302,7 @@
 												<div class="form-group">
 													<label for="passmd5" class="col-md-2 control-label"> Password </label>
 													<div class="col-md-4">
-														<input autocomplete="off" type="text" name="passmd5" class="form-control" id="passmd5" value="12345678">
+														<input autocomplete="off" type="text" name="passmd5" class="form-control" id="passmd5" value="123456">
 													</div>
 												</div>
 
@@ -313,12 +313,12 @@
 													</div>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="filettd" class="col-lg-2 control-label"> Upload Tandatangan <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 													<div class="col-lg-4">
 														<input type="file" class="form-control" id="filettd" name="filettd">
 													</div>
-												</div>
+												</div> -->
 											</section>
 											<section id="section-underline-2">
 												<div class="form-group">
@@ -366,8 +366,8 @@
 													</div>
 												</div>
 
-												<div class="form-group">
-													<label for="ijz_cpns" class="col-md-2 control-label"> Ijazah CPNS </label>
+												<!-- <div class="form-group">
+													<label for="ijz_cpns" class="col-md-2 control-label"> Ijazah </label>
 													<div class="col-md-4">
 														<select class="form-control" name="ijz_cpns" id="ijz_cpns">
 															<option value="Y"> Ada </option>
@@ -381,7 +381,7 @@
 													<div class="col-lg-4">
 														<input type="file" class="form-control" id="fileijazah" name="fileijazah">
 													</div>
-												</div>
+												</div> -->
 											</section>
 											<section id="section-underline-3">
 												<div class="form-group">
@@ -437,12 +437,12 @@
 													<label for="tmt_sk_gol" class="col-md-1 control-label"> Bulan </label>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="fileskgol" class="col-lg-2 control-label"> Upload SK <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 													<div class="col-lg-4">
 														<input type="file" class="form-control" id="fileskgol" name="fileskgol">
 													</div>
-												</div>
+												</div> -->
 											</section>
 											<section id="section-underline-4">
 												<div class="form-group">
@@ -510,12 +510,12 @@
 													</div>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="fileskjab" class="col-lg-2 control-label"> Upload SK <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 													<div class="col-lg-4">
 														<input type="file" class="form-control" id="fileskjab" name="fileskjab">
 													</div>
-												</div>
+												</div> -->
 												<button type="submit" class="btn btn-success pull-right"> Simpan </button>
 												<!-- <button type="submit" class="btn btn-default pull-right m-r-10"> Kembali </button> -->
 											</section>
