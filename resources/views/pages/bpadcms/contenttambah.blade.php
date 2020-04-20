@@ -75,9 +75,6 @@
                                 <div class="panel-body">
                                     <input type="hidden" name="idkat" value="{{ $idkat }}">
                                     <input type="hidden" name="contentnew" value="1">
-                                    <input type="hidden" name="thits" value="0">
-                                    <input type="hidden" name="likes" value="0">
-                                    <input type="hidden" name="kd_cms" value="1.20.512">
                                     <input type="hidden" name="appr" value="N">
                                     <input type="hidden" name="usrinput" value="{{ isset(Auth::user()->id_emp) ? Auth::user()->id_emp : Auth::user()->usname }}">
 

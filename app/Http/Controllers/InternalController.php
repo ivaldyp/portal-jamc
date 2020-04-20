@@ -105,7 +105,7 @@ class InternalController extends Controller
 		}
 			
 		if (!(isset($fileagenda))) {
-			$fileagenda = null;
+			$fileagenda = '';
 		}
 
 		$inputipe = '';
@@ -117,10 +117,13 @@ class InternalController extends Controller
 
 		$insertagenda = [
 			'sts' => 1,
-			'tgl' => date('Y-m-d H:i:s'),
+			'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+			'tgl'       => date('Y-m-d H:i:s'),
+			'ip'        => '',
+			'logbuat'   => '',
 			'kd_skpd' => '1.20.512',
 			'dtanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->dtanggal))),
-			'ddesk' => $request->ddesk,
+			'ddesk' => ($request->ddesk ? $request->ddesk : ''),
 			'tipe' => $inputipe,
 			'dfile' => $fileagenda,
 			'an' => $request->an,
@@ -157,7 +160,7 @@ class InternalController extends Controller
 		}
 			
 		if (!(isset($fileagenda))) {
-			$fileagenda = null;
+			$fileagenda = '';
 		}
 
 		$inputipe = '';
@@ -170,7 +173,7 @@ class InternalController extends Controller
 		Agenda_tb::where('ids', $request->ids)
 					->update([
 						'dtanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->dtanggal))),
-						'ddesk' => $request->ddesk,
+						'ddesk' => ($request->ddesk ? $request->ddesk : ''),
 						'tipe' => $inputipe,
 					]);
 
@@ -276,15 +279,24 @@ class InternalController extends Controller
     	$this->checkSessionTime();
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
+		if (is_null($request->isi)) {
+			$isi = '';
+		} else {
+			$isi = $request->isi;
+		}
+
 		$insertberita = [
 			'sts' => 1,
-			'tgl' => date('Y-m-d H:i:s'),
+			'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+			'tgl'       => date('Y-m-d H:i:s'),
+			'ip'        => '',
+			'logbuat'   => '',
 			'kd_skpd' => '1.20.512',
 			'tanggal' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
-			'isi' => htmlentities($request->isi),
+			'appr' => 'N',
+			'isi' => htmlentities($isi),
 			'tipe' => $request->tipe,
 			'an' => $request->an,
-			'appr' => 'N',
 			'usrinput' => $request->usrinput,
 		];
 

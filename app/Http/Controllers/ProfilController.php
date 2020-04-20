@@ -852,7 +852,7 @@ class ProfilController extends Controller
 		foreach ($querys as $key => $query) {
 			$this->deleteLoopDisposisi($query['ids']);
 			Fr_disposisi::
-				where('ids', $query->ids)
+				where('ids', $query['ids'])
 				->delete();
 		}
 
