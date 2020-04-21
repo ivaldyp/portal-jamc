@@ -235,7 +235,7 @@ class SecurityController extends Controller
 				'tgl'       => date('Y-m-d H:i:s'),
 				'ip'        => '',
 				'logbuat'   => '',
-				'createdate'	=> date("Y-m-d H:i:s")
+				'createdate'	=> date("Y-m-d H:i:s"),
 				'usname' 		=> $request->username,
 				'passid'		=> '',
 				'idgroup' 		=> $request->idgroup,
