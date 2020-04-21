@@ -127,6 +127,11 @@ class SecurityController extends Controller
 		$result = array();
 		foreach ($query as $key => $data) {
 			array_push($result, [
+				'sts' => 1,
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
 				'idgroup' => strtoupper($request->idgroup),
 				'idtop' => $data['idtop'],
 			]);
@@ -225,13 +230,33 @@ class SecurityController extends Controller
 		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
 
 		$data = [
-				'usname' 		=> $request->username,
-				'passmd5' 		=> md5($request->password),
-				'idgroup' 		=> $request->idgroup,
-				'nama_user'		 => $request->name,
-				'deskripsi_user' => $request->deskripsi_user,
-				'email_user'	=> $request->email_user,
+				'sts'			=> 1,
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
 				'createdate'	=> date("Y-m-d H:i:s")
+				'usname' 		=> $request->username,
+				'passid'		=> '',
+				'idgroup' 		=> $request->idgroup,
+				'idtop'			=> '',
+				'kd_skpd'		=> '1.20.512',
+				'kd_unit'		=> null,
+				'nama_user'		 => ($request->name ? $request->name : ''),
+				'deskripsi_user' => ($request->deskripsi_user ? $request->deskripsi_user : ''),
+				'email_user'	=> ($request->email_user ? $request->email_user : ''),
+				'gambar'		=> '',
+				'lastlogin'		=> null,
+				'lastip'		=> null,
+				'lasttemp'		=> '',
+				'dwinternal'	=> '',
+				'dwaset'		=> '',
+				'kd_prop'		=> null,
+				'kd_rayon'		=> null,
+				'telegram_id'	=> null,
+				'kd_subwil'		=> null,
+				'kd_wil'		=> null,
+				'passmd5' 		=> md5($request->password),
 			];
 
 		if (Sec_logins::insert($data)) {

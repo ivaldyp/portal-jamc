@@ -116,34 +116,45 @@ class ProfilController extends Controller
 		}
 			
 		if (!(isset($filefoto))) {
-			$filefoto = null;
+			$filefoto = '';
+		}
+
+		if (isset($request->tgl_join)) {
+			$tgl_join = date('Y-m-d',strtotime($request->tgl_join));
+		} else {
+			$tgl_join = '';
+		}
+
+		if (isset($request->tgl_lahir)) {
+			$tgl_lahir = date('Y-m-d',strtotime($request->tgl_lahir));
+		} else {
+			$tgl_lahir = '';
 		}
 
 		Emp_data::where('id_emp', $id_emp)
 			->update([
-				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : null),
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_join))) : ''),
 				'status_emp' => $request->status_emp,
-				'nrk_emp' => $request->nrk_emp,
-				'nm_emp' => $request->nm_emp,
-				'gelar_dpn' => $request->gelar_dpn,
-				'gelar_blk' => $request->gelar_blk,
+				'nrk_emp' => ($request->nrk_emp ? $request->nrk_emp : ''),
+				'nm_emp' => ($request->nm_emp ? $request->nm_emp : ''),
+				'gelar_dpn' => ($request->gelar_dpn ? $request->gelar_dpn : ''),
+				'gelar_blk' => ($request->gelar_blk ? $request->gelar_blk : ''),
 				'jnkel_emp' => $request->jnkel_emp,
-				'tempat_lahir' => $request->tempat_lahir,
-				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_lahir))) : null),
-				'idagama' => $request->idagama,
-				'alamat_emp' => $request->alamat_emp,
-				'tlp_emp' => $request->tlp_emp,
-				'email_emp' => $request->email_emp,
+				'tempat_lahir' => ($request->tempat_lahir ? $request->tempat_lahir : ''),
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_lahir))) : ''),
+				'alamat_emp' => ($request->alamat_emp ? $request->alamat_emp : ''),
+				'tlp_emp' => ($request->tlp_emp ? $request->tlp_emp : ''),
+				'email_emp' => ($request->email_emp ? $request->email_emp : ''),
 				'status_nikah' => $request->status_nikah,
 				'gol_darah' => $request->gol_darah,
-				'nm_bank' => $request->nm_bank,
-				'cb_bank' => $request->cb_bank,
-				'an_bank' => $request->an_bank,
-				'nr_bank' => $request->nr_bank,
-				'no_taspen' => $request->no_taspen,
-				'no_askes' => $request->no_askes,
-				'npwp' => $request->npwp,
-				'no_jamsos' => $request->no_jamsos,
+				'nm_bank' => ($request->nm_bank ? $request->nm_bank : ''),
+				'cb_bank' => ($request->cb_bank ? $request->cb_bank : ''),
+				'an_bank' => ($request->an_bank ? $request->an_bank : ''),
+				'nr_bank' => ($request->nr_bank ? $request->nr_bank : ''),
+				'no_taspen' => ($request->no_taspen ? $request->no_taspen : ''),
+				'npwp' => ($request->npwp ? $request->npwp : ''),
+				'no_askes' => ($request->no_askes ? $request->no_askes : ''),
+				'no_jamsos' => ($request->no_jamsos ? $request->no_jamsos : ''),
 			]);
 
 		if ($filefoto != '') {
@@ -184,21 +195,24 @@ class ProfilController extends Controller
 		}
 			
 		if (!(isset($fileijazah))) {
-			$fileijazah = null;
+			$fileijazah = '';
 		}
 
 		$insert_emp_dik = [
 				// PENDIDIKAN
 				'sts' => 1,
-				'tgl' => date('Y-m-d H:i:s'),
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
 				'noid' => $id_emp,
 				'iddik' => $request->iddik,
-				'prog_sek' => $request->prog_sek,
-				'nm_sek' => $request->nm_sek,
-				'no_sek' => $request->no_sek,
-				'th_sek' => $request->th_sek,
-				'gelar_dpn_sek' => $request->gelar_dpn_sek,
-				'gelar_blk_sek' => $request->gelar_blk_sek,
+				'prog_sek' => ($request->prog_sek ? $request->prog_sek : ''),
+				'nm_sek' => ($request->nm_sek ? $request->nm_sek : ''),
+				'no_sek' => ($request->no_sek ? $request->no_sek : ''),
+				'th_sek' => ($request->th_sek ? $request->th_sek : ''),
+				'gelar_dpn_sek' => ($request->gelar_dpn_sek ? $request->gelar_dpn_sek : ''),
+				'gelar_blk_sek' => ($request->gelar_blk_sek ? $request->gelar_blk_sek : ''),
 				'ijz_cpns' => $request->ijz_cpns,
 				'gambar' => $fileijazah,
 				'tampilnew' => 1,
@@ -243,21 +257,19 @@ class ProfilController extends Controller
 		}
 			
 		if (!(isset($fileijazah))) {
-			$fileijazah = null;
+			$fileijazah = '';
 		}
 
 		Emp_dik::where('noid', $id_emp)
 			->where('ids', $request->ids)
 			->update([
-				'sts' => 1,
-				'tgl' => date('Y-m-d H:i:s'),
 				'iddik' => $request->iddik,
-				'prog_sek' => $request->prog_sek,
-				'nm_sek' => $request->nm_sek,
-				'no_sek' => $request->no_sek,
-				'th_sek' => $request->th_sek,
-				'gelar_dpn_sek' => $request->gelar_dpn_sek,
-				'gelar_blk_sek' => $request->gelar_blk_sek,
+				'prog_sek' => ($request->prog_sek ? $request->prog_sek : ''),
+				'nm_sek' => ($request->nm_sek ? $request->nm_sek : ''),
+				'no_sek' => ($request->no_sek ? $request->no_sek : ''),
+				'th_sek' => ($request->th_sek ? $request->th_sek : ''),
+				'gelar_dpn_sek' => ($request->gelar_dpn_sek ? $request->gelar_dpn_sek : ''),
+				'gelar_blk_sek' => ($request->gelar_blk_sek ? $request->gelar_blk_sek : ''),
 				'ijz_cpns' => $request->ijz_cpns,
 				'gambar' => $fileijazah,
 			]);
@@ -693,18 +705,41 @@ class ProfilController extends Controller
 
 						$insertsurat = [
 							'sts' => 1,
-							'tgl' => date('Y-m-d H:i:s'),
-							'kd_skpd' => '1.20.512',
-							'kd_unit' => '01',
+							'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+							'tgl'       => date('Y-m-d H:i:s'),
+							'ip'        => '',
+							'logbuat'   => '',
+							'kd_skpd'	=> '1.20.512',
+							'kd_unit'	=> '01',
 							'no_form' => $request->no_form,
+							'kd_surat' => '',
+							'status_surat' => '',
 							'idtop' => $idtop,
-							'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+							'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : null),
+							'usr_input' => '',
+							'tgl_input' => null,
+							'no_index' => '',
+							'kode_disposisi' => '',
+							'perihal' => '',
+							'tgl_surat' => '',
+							'no_surat' => '',
+							'asal_surat' => '',
+							'kepada_surat' => '',
+							'sifat1_surat' => '',
+							'sifat2_surat' => '',
+							'ket_lain' => '',
+							'nm_file' => '',
 							'kepada' => $kepada,
-							'penanganan' => $request->penanganan,
-							'catatan' => $request->catatan,
+							'noid' => '',
+							'penanganan' => ($request->penanganan ? $request->penanganan : ''),
+							'catatan' => ($request->catatan ? $request->catatan : ''),
+							'from_user' => '',
 							'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+							'to_user' => '',
 							'to_pm' => $to_pm,
 							'rd' => 'N',
+							'usr_rd' => '',
+							'tgl_rd' => null,
 							'selesai' => 'Y',
 							'child' => 0,
 						];
@@ -719,18 +754,41 @@ class ProfilController extends Controller
 						if (!(in_array($staf, $id_emp_array))) {
 							$insertsurat = [
 								'sts' => 1,
-								'tgl' => date('Y-m-d H:i:s'),
-								'kd_skpd' => '1.20.512',
-								'kd_unit' => '01',
+								'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+								'tgl'       => date('Y-m-d H:i:s'),
+								'ip'        => '',
+								'logbuat'   => '',
+								'kd_skpd'	=> '1.20.512',
+								'kd_unit'	=> '01',
 								'no_form' => $request->no_form,
+								'kd_surat' => '',
+								'status_surat' => '',
 								'idtop' => $idtop,
-								'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+								'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : null),
+								'usr_input' => '',
+								'tgl_input' => null,
+								'no_index' => '',
+								'kode_disposisi' => '',
+								'perihal' => '',
+								'tgl_surat' => '',
+								'no_surat' => '',
+								'asal_surat' => '',
+								'kepada_surat' => '',
+								'sifat1_surat' => '',
+								'sifat2_surat' => '',
+								'ket_lain' => '',
+								'nm_file' => '',
 								'kepada' => '',
-								'penanganan' => $request->penanganan,
-								'catatan' => $request->catatan,
+								'noid' => '',
+								'penanganan' => ($request->penanganan ? $request->penanganan : ''),
+								'catatan' => ($request->catatan ? $request->catatan : ''),
+								'from_user' => '',
 								'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+								'to_user' => '',
 								'to_pm' => $staf,
 								'rd' => 'N',
+								'usr_rd' => '',
+								'tgl_rd' => null,
 								'selesai' => 'Y',
 								'child' => 0,
 							];
@@ -780,14 +838,17 @@ class ProfilController extends Controller
 
 		$insertsuratmaster = [
 			'sts' => 1,
-			'tgl' => date('Y-m-d H:i:s'),
-			'kd_skpd' => '1.20.512',
-			'kd_unit' => '01',
+			'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+			'tgl'       => date('Y-m-d H:i:s'),
+			'ip'        => '',
+			'logbuat'   => '',
+			'kd_skpd'	=> '1.20.512',
+			'kd_unit'	=> '01',
 			'no_form' => $newnoform,
 			'kd_surat' => '',
 			'status_surat' => '',
 			'idtop' => 0,
-			'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+			'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : ''),
 			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
 			'tgl_input' => date('Y-m-d H:i:s'),
 			'no_index' => $request->no_index,
@@ -801,6 +862,18 @@ class ProfilController extends Controller
 			'sifat2_surat' => $request->sifat2_surat,
 			'ket_lain' => $request->ket_lain,
 			'nm_file' => $filedispo,
+			'kepada' => 'Kepala Badan Pengelola Aset Daerah',
+			'noid' => '',
+			'penanganan' => '',
+			'catatan' => '',
+			'from_user' => '',
+			'from_pm' => '',
+			'to_user' => '',
+			'to_pm' => '',
+			'rd' => '',
+			'usr_rd' => null,
+			'tgl_rd' => null,
+			'selesai' => '',
 			'child' => 0,
 		];
 
@@ -819,18 +892,41 @@ class ProfilController extends Controller
 			$idnew = DB::getPdo()->lastInsertId();
 			$insertsurat = [
 				'sts' => 1,
-				'tgl' => date('Y-m-d H:i:s'),
-				'kd_skpd' => '1.20.512',
-				'kd_unit' => '01',
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
+				'kd_skpd'	=> '1.20.512',
+				'kd_unit'	=> '01',
 				'no_form' => $newnoform,
+				'kd_surat' => '',
+				'status_surat' => '',
 				'idtop' => $idnew,
-				'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
-				'kepada' => $request->jabatans[0],
-				'penanganan' => $request->penanganan,
-				'catatan' => $request->catatan,
+				'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : null),
+				'usr_input' => '',
+				'tgl_input' => null,
+				'no_index' => '',
+				'kode_disposisi' => '',
+				'perihal' => '',
+				'tgl_surat' => '',
+				'no_surat' => '',
+				'asal_surat' => '',
+				'kepada_surat' => '',
+				'sifat1_surat' => '',
+				'sifat2_surat' => '',
+				'ket_lain' => '',
+				'nm_file' => '',
+				'kepada' => ($request->jabatans[0] ? $request->jabatans[0] : ''),
+				'noid' => '',
+				'penanganan' => ($request->penanganan ? $request->penanganan : ''),
+				'catatan' => ($request->catatan ? $request->catatan : ''),
+				'from_user' => '',
 				'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+				'to_user' => '',
 				'to_pm' => $findidemp['id_emp'],
 				'rd' => 'N',
+				'usr_rd' => '',
+				'tgl_rd' => null,
 				'selesai' => 'Y',
 				'child' => 0,
 			];
