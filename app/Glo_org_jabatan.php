@@ -8,7 +8,7 @@ class Glo_org_jabatan extends Model
 {
     protected $connection = 'sqlsrv2';
     // protected $primaryKey = "id_emp"; 
-    protected $table = "glo_org_jabatan";
+    protected $table = "glo_org_jabatan_2020";
     
     public $incrementing = 'false';
     public $timestamps = false;

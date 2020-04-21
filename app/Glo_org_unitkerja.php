@@ -8,7 +8,7 @@ class Glo_org_unitkerja extends Model
 {
     protected $connection = 'sqlsrv2';
     // protected $primaryKey = "id_emp"; 
-    protected $table = "glo_org_unitkerja";
+    protected $table = "glo_org_unitkerja_2020";
     
     public $incrementing = 'false';
     public $timestamps = false;
