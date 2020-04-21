@@ -130,7 +130,7 @@
 													@if(substr($emp['nm_emp'], 0, 3) != 'Plt')
 														<li>
 														@if(strlen($emp['idunit']) < 10)
-														{{ $emp['idjab'] }}<br>
+														{{ $emp['nm_unit'] }}<br>
 														@endif
 														<span class="text-muted">{{ ucwords(strtolower($emp['nm_emp'])) }}</span>
 
@@ -159,7 +159,7 @@
 													@if(substr($emp['nm_emp'], 0, 3) != 'Plt')
 														<li>
 														@if(strlen($emp['idunit']) < 10)
-														{{ $emp['idjab'] }}<br>
+														{{ $emp['nm_unit'] }}<br>
 														@endif
 														<span class="text-muted">{{ ucwords(strtolower($emp['nm_emp'])) }}</span>
 
@@ -180,7 +180,7 @@
 
 											@if(strlen($_SESSION['user_data']['idunit']) == 10)
 												<ul id="tree1">
-													<li>{{ $employees[0]['idjab'] }}
+													<li>{{ $employees[0]['nm_unit'] }}
 														<ul>
 															@foreach($employees as $key => $emp)
 															<li>{{ ucwords(strtolower($emp['nm_emp'])) }}</li>
@@ -238,7 +238,7 @@
 												<h4>Kemarin:</h4>
 												<ol>
 												@foreach($ultah_yes as $yes)
-												<li>{{ $yes['nm_emp'] }} - {{ $yes['idjab'] }}</li>
+												<li>{{ $yes['nm_emp'] }} - {{ $yes['nm_unit'] }}</li>
 												@endforeach
 												</ol><hr>
 												@endif
@@ -247,7 +247,7 @@
 												<h4>Hari Ini:</h4>
 												<ol>
 												@foreach($ultah_now as $now)
-												<li>{{ $now['nm_emp'] }} - {{ $now['idjab'] }}</li>
+												<li>{{ $now['nm_emp'] }} - {{ $now['nm_unit'] }}</li>
 												@endforeach
 												</ol><hr>
 												@endif
@@ -256,7 +256,7 @@
 												<h4>Besok:</h4>
 												<ol>
 												@foreach($ultah_tom as $tom)
-												<li>{{ $tom['nm_emp'] }} - {{ $tom['idjab'] }}</li>
+												<li>{{ $tom['nm_emp'] }} - {{ $tom['nm_unit'] }}</li>
 												@endforeach
 												</ol><hr>
 												@endif
