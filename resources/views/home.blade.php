@@ -238,7 +238,7 @@
 												<h4>Kemarin:</h4>
 												<ol>
 												@foreach($ultah_yes as $yes)
-												<li>{{ $yes['nm_emp'] }} - {{ $yes['idjab'] }}</li>
+												<li>{{ $yes['nm_emp'] }} - {{ $yes['nm_unit'] }}</li>
 												@endforeach
 												</ol><hr>
 												@endif
@@ -247,7 +247,7 @@
 												<h4>Hari Ini:</h4>
 												<ol>
 												@foreach($ultah_now as $now)
-												<li>{{ $now['nm_emp'] }} - {{ $now['idjab'] }}</li>
+												<li>{{ $now['nm_emp'] }} - {{ $now['nm_unit'] }}</li>
 												@endforeach
 												</ol><hr>
 												@endif
@@ -256,7 +256,7 @@
 												<h4>Besok:</h4>
 												<ol>
 												@foreach($ultah_tom as $tom)
-												<li>{{ $tom['nm_emp'] }} - {{ $tom['idjab'] }}</li>
+												<li>{{ $tom['nm_emp'] }} - {{ $tom['nm_unit'] }}</li>
 												@endforeach
 												</ol><hr>
 												@endif
