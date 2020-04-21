@@ -54,18 +54,6 @@
 				<div class="col-md-12">
 					<div class="white-box">
 						<div class="row row-in">
-							<!-- <div class="col-md-3 col-sm-6 row-in-br">
-								<ul class="col-in">
-									<li>
-										<span class="circle circle-md bg-info"><i class="ti-user"></i></span>
-									</li>
-									<li class="col-last"><h3 class="counter text-right m-t-15">{{ $countpegawai['total'] }}</h3></li>
-									<li class="col-middle">
-										<h4>Pegawai</h4>
-									</li>
-										
-								</ul>
-							</div> -->
 							<div class="col-md-4 col-sm-4 row-in-br">
 								<ul class="col-in">
 									<li>
