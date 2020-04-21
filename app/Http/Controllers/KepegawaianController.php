@@ -972,7 +972,7 @@ class KepegawaianController extends Controller
 			'kd_skpd' => '1.20.512',
 			'kd_unit' => '01',
 			'no_form' => $newnoform,
-			'tgl_terima' => (isset($request->tgl_terima) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_terima))) : ''),  ,
+			'tgl_terima' => (isset($request->tgl_terima) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_terima))) : ''),
 			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
 			'tgl_input' => date('Y-m-d H:i:s'),
 			'kode_disposisi' => $request->kode_disposisi,
