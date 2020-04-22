@@ -148,15 +148,23 @@ class KepegawaianController extends Controller
 
 		$emp_dik = Emp_dik::
 						where('noid', $id_emp)
-						->first();
+						->where('sts', 1)
+						->orderBy('th_sek', 'desc')
+						->get();
 
 		$emp_gol = Emp_gol::
 						where('noid', $id_emp)
-						->first();
+						->where('sts', 1)
+						->orderBy('tmt_gol', 'desc')
+						->get();
 
 		$emp_jab = Emp_jab::
-						where('noid', $id_emp)
-						->first();
+						with('lokasi')
+						->with('unit')
+						->where('noid', $id_emp)
+						->where('sts', 1)
+						->orderBy('tmt_jab', 'desc')
+						->get();
 
 		$statuses = Glo_org_statusemp::get();
 
@@ -187,6 +195,7 @@ class KepegawaianController extends Controller
 		$units = glo_org_unitkerja::get();
 
 		return view('pages.bpadkepegawaian.pegawaiubah')
+				->with('access', $access)
 				->with('id_emp', $id_emp)
 				->with('emp_data', $emp_data)
 				->with('emp_dik', $emp_dik)
@@ -217,22 +226,22 @@ class KepegawaianController extends Controller
 		// $fileskjab = '';
 
 		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
-		if (isset($request->filefoto)) {
-			$file = $request->filefoto;
+		// if (isset($request->filefoto)) {
+		// 	$file = $request->filefoto;
 
-			if ($file->getSize() > 2222222) {
-				return redirect('/kepegawaian/tambah pegawai')->with('message', 'Ukuran file foto pegawai terlalu besar (Maksimal 2MB)');     
-			} 
+		// 	if ($file->getSize() > 2222222) {
+		// 		return redirect('/kepegawaian/tambah pegawai')->with('message', 'Ukuran file foto pegawai terlalu besar (Maksimal 2MB)');     
+		// 	} 
 
-			$filefoto .= $new_id_emp . ".". $file->getClientOriginalExtension();
+		// 	$filefoto .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileimgemp');
-			$file->move($tujuan_upload, $filefoto);
-		}
+		// 	$tujuan_upload = config('app.savefileimgemp');
+		// 	$file->move($tujuan_upload, $filefoto);
+		// }
 			
-		if (!(isset($filefoto))) {
-			$filefoto = '';
-		}
+		// if (!(isset($filefoto))) {
+		// 	$filefoto = '';
+		// }
 
 		// (IDENTITAS) cek dan set variabel untuk file foto ttd pegawai
 		// if (isset($request->filettd)) {
@@ -308,7 +317,8 @@ class KepegawaianController extends Controller
 	
 		// mulai insert
 
-
+		// var_dump($request->all());
+		// die();
 
 		$insert_emp_data = [
 				// IDENTITAS
@@ -326,7 +336,7 @@ class KepegawaianController extends Controller
 				'gelar_blk' => ($request->gelar_blk ? $request->gelar_blk : ''),
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => ($request->tempat_lahir ? $request->tempat_lahir : ''),
-				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime($request->tgl_lahir)) : null),
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_lahir))) : null),
 				'idagama' => $request->idagama,
 				'alamat_emp' => ($request->alamat_emp ? $request->alamat_emp : ''),
 				'tlp_emp' => ($request->tlp_emp ? $request->tlp_emp : ''),
@@ -343,7 +353,7 @@ class KepegawaianController extends Controller
 				'npwp' => ($request->npwp ? $request->npwp : ''),
 				'no_askes' => ($request->no_askes ? $request->no_askes : ''),
 				'no_jamsos' => ($request->no_jamsos ? $request->no_jamsos : ''),
-				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : null),
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_join))) : null),
 				'tgl_end' => null,
 				'reason' => '',
 				'idgroup' => $request->idgroup,
@@ -352,7 +362,7 @@ class KepegawaianController extends Controller
 				'lastlogin' => null,
 				'lastip' => '',
 				'lasttemp' => '',
-				'dwiinternal' => '',
+				'dwinternal' => '',
 				'dwaset' => '',
 				'ttd' => '',
 				'telegram_id' => '',
@@ -387,13 +397,13 @@ class KepegawaianController extends Controller
 				'ip'        => '',
 				'logbuat'   => '',
 				'noid' => $new_id_emp,
-				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime($request->tmt_gol)) : null),
-				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime($request->tmt_sk_gol)) : null),
+				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_gol))) : null),
+				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_gol))) : null),
 				'no_sk_gol' => ($request->no_sk_gol ? $request->no_sk_gol : ''),
 				'idgol' => $request->idgol,
 				'jns_kp' => $request->jns_kp,
-				'mk_thn' => ($request->mk_thn ? $request->mk_thn : ''),
-				'mk_bln' => ($request->mk_bln ? $request->mk_bln : ''),
+				'mk_thn' => ($request->mk_thn ? $request->mk_thn : 0),
+				'mk_bln' => ($request->mk_bln ? $request->mk_bln : 0),
 				'tampilnew' => 1,
 			];
 
@@ -408,11 +418,11 @@ class KepegawaianController extends Controller
 				'ip'        => '',
 				'logbuat'   => '',
 				'noid' => $new_id_emp,
-				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime($request->tmt_jab)) : null),
+				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_jab))) : null),
 				'idskpd' => '1.20.512',
 				'idunit' => $request->idunit,
 				'idlok' => $request->idlok,
-				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime($request->tmt_sk_jab)) : null),
+				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_jab))) : null),
 				'no_sk_jab' => ($request->no_sk_jab ? $request->no_sk_jab : ''),
 				'jns_jab' => $jns_jab,
 				'idjab' => $idjab,
@@ -444,22 +454,22 @@ class KepegawaianController extends Controller
 		// $fileskjab = '';
 
 		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
-		if (isset($request->filefoto)) {
-			$file = $request->filefoto;
+		// if (isset($request->filefoto)) {
+		// 	$file = $request->filefoto;
 
-			if ($file->getSize() > 2222222) {
-				return redirect('/kepegawaian/data pegawai')->with('message', 'Ukuran file foto pegawai terlalu besar (Maksimal 2MB)');     
-			} 
+		// 	if ($file->getSize() > 2222222) {
+		// 		return redirect('/kepegawaian/data pegawai')->with('message', 'Ukuran file foto pegawai terlalu besar (Maksimal 2MB)');     
+		// 	} 
 
-			$filefoto .= $new_id_emp . ".". $file->getClientOriginalExtension();
+		// 	$filefoto .= $new_id_emp . ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileimgemp');
-			$file->move($tujuan_upload, $filefoto);
-		}
+		// 	$tujuan_upload = config('app.savefileimgemp');
+		// 	$file->move($tujuan_upload, $filefoto);
+		// }
 			
-		if (!(isset($filefoto))) {
-			$filefoto = '';
-		}
+		// if (!(isset($filefoto))) {
+		// 	$filefoto = '';
+		// }
 
 		// (IDENTITAS) cek dan set variabel untuk file foto ttd pegawai
 		// if (isset($request->filettd)) {
@@ -572,23 +582,20 @@ class KepegawaianController extends Controller
 		// }
 	
 		// mulai insert
-		$jabatan = explode("||", $request->jabatan);
-		$jns_jab = $jabatan[0];
-		$idjab = $jabatan[1];
 
 		Emp_data::where('id_emp', $id_emp)
 			->update([
-				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : null),
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_join))) : null),
 				'status_emp' => $request->status_emp,
 				'ked_emp' => $request->ked_emp,
 				'nip_emp' => ($request->nip_emp ? $request->nip_emp : ''),
 				'nrk_emp' => ($request->nrk_emp ? $request->nrk_emp : ''),
-				'nm_emp' => ($request->nm_emp ? $request->nm_emp : ''),
+				'nm_emp' => ($request->nm_emp ? strtoupper($request->nm_emp) : ''),
 				'gelar_dpn' => ($request->gelar_dpn ? $request->gelar_dpn : ''),
 				'gelar_blk' => ($request->gelar_blk ? $request->gelar_blk : ''),
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => ($request->tempat_lahir ? $request->tempat_lahir : ''),
-				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime($request->tgl_lahir)) : null),
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_lahir))) : null),
 				'idagama' => $request->idagama,
 				'alamat_emp' => ($request->alamat_emp ? $request->alamat_emp : ''),
 				'tlp_emp' => ($request->tlp_emp ? $request->tlp_emp : ''),
@@ -606,49 +613,49 @@ class KepegawaianController extends Controller
 				'idgroup' => $request->idgroup,
 			]);
 
-		Emp_dik::where('noid', $id_emp)
-			->update([
-				'iddik' => $request->iddik,
-				'prog_sek' => ($request->prog_sek ? $request->prog_sek : ''),
-				'nm_sek' => ($request->nm_sek ? $request->nm_sek : ''),
-				'no_sek' => ($request->no_sek ? $request->no_sek : ''),
-				'th_sek' => ($request->th_sek ? $request->th_sek : ''),
-				'gelar_dpn_sek' => ($request->gelar_dpn_sek ? $request->gelar_dpn_sek : ''),
-				'gelar_blk_sek' => ($request->gelar_blk_sek ? $request->gelar_blk_sek : ''),
-				'ijz_cpns' => $request->ijz_cpns,
-			]);
+		// Emp_dik::where('noid', $id_emp)
+		// 	->update([
+		// 		'iddik' => $request->iddik,
+		// 		'prog_sek' => ($request->prog_sek ? $request->prog_sek : ''),
+		// 		'nm_sek' => ($request->nm_sek ? $request->nm_sek : ''),
+		// 		'no_sek' => ($request->no_sek ? $request->no_sek : ''),
+		// 		'th_sek' => ($request->th_sek ? $request->th_sek : ''),
+		// 		'gelar_dpn_sek' => ($request->gelar_dpn_sek ? $request->gelar_dpn_sek : ''),
+		// 		'gelar_blk_sek' => ($request->gelar_blk_sek ? $request->gelar_blk_sek : ''),
+		// 		'ijz_cpns' => $request->ijz_cpns,
+		// 	]);
 
-		Emp_gol::where('noid', $id_emp)
-			->update([
-				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime($request->tmt_gol)) : null),
-				'no_sk_gol' => ($request->no_sk_gol ? $request->no_sk_gol : ''),
-				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime($request->tmt_sk_gol)) : null),
-				'idgol' => $request->idgol,
-				'jns_kp' => $request->jns_kp,
-				'mk_thn' => ($request->mk_thn ? $request->mk_thn : ''),
-				'mk_bln' => ($request->mk_bln ? $request->mk_bln : ''),
-			]);
+		// Emp_gol::where('noid', $id_emp)
+		// 	->update([
+		// 		'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_gol))) : null),
+		// 		'no_sk_gol' => ($request->no_sk_gol ? $request->no_sk_gol : ''),
+		// 		'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_gol))) : null),
+		// 		'idgol' => $request->idgol,
+		// 		'jns_kp' => $request->jns_kp,
+		// 		'mk_thn' => ($request->mk_thn ? $request->mk_thn : ''),
+		// 		'mk_bln' => ($request->mk_bln ? $request->mk_bln : ''),
+		// 	]);
 
-		Emp_jab::where('noid', $id_emp)
-			->update([
-				// JABATAN
-				'idskpd' => '1.20.512',
-				'jns_jab' => $jns_jab,
-				'idjab' => $idjab,
-				'idunit' => $request->idunit,
-				'idlok' => $request->idlok,
-				'eselon' => $request->eselon,
-				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime($request->tmt_jab)) : null),
-				'no_sk_jab' => ($request->no_sk_jab ? $request->no_sk_jab : ''),
-				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime($request->tmt_sk_jab)) : null),
-			]);
+		// Emp_jab::where('noid', $id_emp)
+		// 	->update([
+		// 		// JABATAN
+		// 		'idskpd' => '1.20.512',
+		// 		'jns_jab' => $jns_jab,
+		// 		'idjab' => $idjab,
+		// 		'idunit' => $request->idunit,
+		// 		'idlok' => $request->idlok,
+		// 		'eselon' => $request->eselon,
+		// 		'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_jab))) : null),
+		// 		'no_sk_jab' => ($request->no_sk_jab ? $request->no_sk_jab : ''),
+		// 		'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_jab))) : null),
+		// 	]);
 
-		if ($filefoto != '') {
-			Emp_data::where('id_emp', $id_emp)
-			->update([
-				'foto' => $filefoto,
-			]);
-		}
+		// if ($filefoto != '') {
+		// 	Emp_data::where('id_emp', $id_emp)
+		// 	->update([
+		// 		'foto' => $filefoto,
+		// 	]);
+		// }
 
 		// if ($filettd != '') {
 		// 	Emp_data::where('id_emp', $id_emp)

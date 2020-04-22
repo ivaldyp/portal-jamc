@@ -103,10 +103,20 @@ Route::group(['prefix' => 'internal'], function () {
 Route::group(['prefix' => 'kepegawaian'], function () {
 	Route::get('/data pegawai', 'KepegawaianController@pegawaiall');
 	Route::get('/tambah pegawai', 'KepegawaianController@pegawaitambah');
-	Route::post('/ubah pegawai', 'KepegawaianController@pegawaiubah');
+	Route::get('/ubah pegawai', 'KepegawaianController@pegawaiubah');
 	Route::post('/form/tambahpegawai', 'KepegawaianController@forminsertpegawai');
 	Route::post('/form/ubahpegawai', 'KepegawaianController@formupdatepegawai');
 	Route::post('/form/hapuspegawai', 'KepegawaianController@formdeletepegawai');
+	Route::post('/form/ubahstatuspegawai', 'KepegawaianController@formupdatestatuspegawai');
+	Route::post('/form/tambahdikpegawai', 'KepegawaianController@forminsertdikpegawai');
+	Route::post('/form/ubahdikpegawai', 'KepegawaianController@formupdatedikpegawai');
+	Route::post('/form/hapusdikpegawai', 'KepegawaianController@formdeletedikpegawai');
+	Route::post('/form/tambahgolpegawai', 'KepegawaianController@forminsertgolpegawai');
+	Route::post('/form/ubahgolpegawai', 'KepegawaianController@formupdategolpegawai');
+	Route::post('/form/hapusgolpegawai', 'KepegawaianController@formdeletegolpegawai');
+	Route::post('/form/tambahjabpegawai', 'KepegawaianController@forminsertjabpegawai');
+	Route::post('/form/ubahjabpegawai', 'KepegawaianController@formupdatejabpegawai');
+	Route::post('/form/hapusjabpegawai', 'KepegawaianController@formdeletejabpegawai');
 
 	Route::get('/struktur', 'KepegawaianController@strukturorganisasi');
 

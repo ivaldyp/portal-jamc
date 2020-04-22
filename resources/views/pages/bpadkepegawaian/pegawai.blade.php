@@ -107,7 +107,7 @@
 													<th>Group</th>
 													<th class="col-md-1">Tgl Lahir</th>
 													<th>Jns Kel</th>
-													<th>TMT</th>
+													<th class="col-md-1">TMT</th>
 													<th>Status</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-1">Action</th>
@@ -128,14 +128,13 @@
 													<td>{{ $employee['nrk_emp'] ? $employee['nrk_emp'] :' -' }}</td>
 													<td>{{ $employee['nm_emp'] }}</td>
 													<td>{{ $employee['idgroup'] }}</td>
-													<td>{{ $tgl_lahir[0] }}</td>
+													<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $employee['tgl_lahir'] ))) }}</td>
 													<td>{{ $employee['jnkel_emp'] }}</td>
-													<td>{{ $tgl_join[0] }}</td>
+													<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $employee['tgl_join'] ))) }}</td>
 													<td>{{ $employee['status_emp'] }}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td>
-															<form method="POST" action="/bpadwebs/kepegawaian/ubah pegawai">
-															@csrf
+															<form method="GET" action="/bpadwebs/kepegawaian/ubah pegawai">
 															@if($access['zupd'] == 'y')
 																<input type="hidden" name="id_emp" value="{{ $employee['id_emp'] }}">
 																<button type="submit" class="btn btn-info btn-update"><i class="fa fa-edit"></i></button>

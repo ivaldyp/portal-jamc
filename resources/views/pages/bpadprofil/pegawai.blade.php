@@ -569,7 +569,7 @@
 														<?php endif ?>
 													<?php endif ?> -->
 
-													<?php if ($gol['gambar'] && $gol['gambar'] != '' && $gol['tampilnew'] == 1) : ?> 
+													<?php if ($jab['gambar'] && $jab['gambar'] != '' && $jab['tampilnew'] == 1) : ?> 
 														<td style="vertical-align: middle;">
 															<strong>File</strong>
 															<br><a target="_blank" href="/bpadwebs/public/publicimg/jab/{{ $jab['gambar'] }}"></a>

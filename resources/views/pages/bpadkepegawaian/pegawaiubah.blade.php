@@ -62,26 +62,28 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8">
-					<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/form/ubahpegawai" data-toggle="validator" enctype="multipart/form-data">
-					@csrf
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					
 						<div class="panel panel-info">
-							<div class="panel-heading"> Data Pegawai </div>
+							<div class="panel-heading"> Data Pegawai {{ ucwords(strtolower($emp_data['nm_emp'])) }} </div>
 							<div class="panel-wrapper collapse in" aria-expanded="true">
 								<div class="panel-body">
 									<div class="sttabs tabs-style-underline">
 									<nav>
 										<ul>
-											<li><a href="#section-underline-1" class="sticon ti-book"><span>Identitas</span></a></li>
-											<li><a href="#section-underline-2" class="sticon ti-camera"><span>Pendidikan</span></a></li>
-											<li><a href="#section-underline-3" class="sticon ti-book"><span>Golongan</span></a></li>
-											<li><a href="#section-underline-4" class="sticon ti-camera"><span>Jabatan</span></a></li>
+											<li><a href="#section-underline-1" class=""><span>Identitas</span></a></li>
+											<li><a href="#section-underline-2" class=""><span>Pendidikan</span></a></li>
+											<li><a href="#section-underline-3" class=""><span>Golongan</span></a></li>
+											<li><a href="#section-underline-4" class=""><span>Jabatan</span></a></li>
+											<li><a href="#section-underline-5" class=""><span>Status</span></a></li>
 										</ul>
 									</nav>
 									<div class="content-wrap">
 										<section id="section-underline-1">
-											<div class="col-md-8">
+										<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/form/ubahpegawai" data-toggle="validator" enctype="multipart/form-data">
+										@csrf
+											<div class="col-md-12">
 												<input type="hidden" name="id_emp" value="{{ $id_emp }}">
 
 												<div class="form-group">
@@ -94,7 +96,7 @@
 												<div class="form-group">
 													<label for="tgl_join" class="col-md-2 control-label"> TMT </label>
 													<div class="col-md-8">
-														<input type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($emp_data['tgl_join'])) }}">
+														<input type="text" name="tgl_join" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime($emp_data['tgl_join'])) }}">
 													</div>
 												</div>
 
@@ -189,7 +191,7 @@
 														<input autocomplete="off" type="text" name="tempat_lahir" class="form-control" id="tempat_lahir" placeholder="Tempat" value="{{ $emp_data['tempat_lahir'] }}">
 													</div>
 													<div class="col-md-4">
-														<input autocomplete="off" type="text" name="tgl_lahir" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($emp_data['tgl_lahir'])) }}">
+														<input autocomplete="off" type="text" name="tgl_lahir" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime($emp_data['tgl_lahir'])) }}">
 													</div>
 												</div>
 
@@ -304,7 +306,7 @@
 												</div>
 
 												<div class="form-group">
-													<label for="no_jamsos" class="col-md-2 control-label"> Nomor Jamsostek </label>
+													<label for="no_jamsos" class="col-md-2 control-label"> Nomor BPJS </label>
 													<div class="col-md-8">
 														<input autocomplete="off" type="text" name="no_jamsos" class="form-control" id="no_jamsos" value="{{ $emp_data['no_jamsos'] }}">
 													</div>
@@ -321,7 +323,7 @@
 													</div>
 												</div>
 
-												<div class="form-group">
+												<!-- <div class="form-group">
 													<label for="filefoto" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 													<div class="col-lg-8">
 														<input type="file" class="form-control" id="filefoto" name="filefoto">
@@ -333,219 +335,686 @@
 													<div class="col-lg-8">
 														<input type="file" class="form-control" id="filettd" name="filettd">
 													</div>
-												</div>
+												</div> -->
 											</div>
-											<div class="col-md-4">
+											<!-- <div class="col-md-4">
 												<?php if ($emp_data	['foto'] && $emp_data['foto'] != '') : ?>
-													<?php if ($emp_data['tampilnew'] == 1) : ?>
-														<img src="/bpadwebs/public/publicimg/{{ $emp_data['foto'] }}" style="width: 100%; height: 100%;">
-													<?php else : ?>
-														<img src="http://bpad.jakarta.go.id/images/emp/{{ $emp_data['foto'] }}" style="width: 100%; height: 100%;">
-													<?php endif ?>
+													<img src="{{ config('app.openfileimg') }}/{{ $emp_data['foto'] }}" style="height: 100%; width: 20%" class="thumb-lg img-circle" alt="img">
+												<?php else : ?>
+													<img src="{{ config('app.openfileimgdefault') }}" style="height: 100%; width: 30%" class="thumb-lg img-circle" alt="img">
 												<?php endif ?>
-											</div>
-												
+											</div> -->
+											<button type="submit" class="m-b-20 m-t-10 btn btn-success pull-right"> Simpan </button>
+											<a href="/bpadwebs/kepegawaian/data pegawai"><button type="button" class="m-b-20 m-t-10 btn btn-default pull-right m-r-10"> Kembali </button></a>	
+										
+											</form>
 										</section>
 										<section id="section-underline-2">
-											<div class="form-group">
-												<label for="iddik" class="col-md-2 control-label"> Pendidikan Terakhir </label>
-												<div class="col-md-4">
-													<select class="form-control" name="iddik" id="iddik">
-														@foreach($pendidikans as $pendidikan)
-															<option value="{{ $pendidikan['dik'] }}" <?php if ($emp_dik['iddik'] == $pendidikan['dik']): ?> selected <?php endif ?> > {{ $pendidikan['nm_dik'] }} </option>
+											<button class="btn btn-info m-b-20" type="button" data-toggle="modal" data-target="#modal-insert-dik">Tambah</button>
+											<div class="table-responsive">
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>No</th>
+															<th>Pendidikan</th>
+															<th>Program Studi</th>
+															<th>Ijazah</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach($emp_dik as $key => $dik)
+														<tr>
+															<td>{{ $key+1 }}</td>
+															<td>{{ $dik['iddik'] }}</td>
+															<td>{{ $dik['nm_sek'] }}<br>
+																<span class="text-muted">{{$dik['prog_sek']}}</span>
+															</td>
+															<td>{{ $dik['no_sek'] }}<br>
+																<span class="text-muted">{{$dik['th_sek']}}</span>
+															</td>
+															<td>
+																@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																	<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update-dik" data-toggle="modal" data-target="#modal-update-dik-{{$key}}" ><i class="ti-pencil-alt"></i></button>
+																	<button type="button" class="btn btn-danger btn-delete-dik btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-dik-{{$key}}"><i class="ti-trash"></i></button>
+																	<div id="modal-delete-dik-{{$key}}" class="modal fade" role="dialog">
+																		<div class="modal-dialog">
+																			<div class="modal-content">
+																				<form method="POST" action="/bpadwebs/kepegawaian/form/hapusdikpegawai" class="form-horizontal">
+																				@csrf
+																					<div class="modal-header">
+																						<h4 class="modal-title"><b>Hapus Pendidikan</b></h4>
+																					</div>
+																					<div class="modal-body">
+																						<h4>Apa anda yakin ingin menghapus pendidikan {{$dik['iddik']}} </h4>
+																						<input type="hidden" name="ids" value="{{$dik['ids']}}">
+																						<input type="hidden" name="noid" value="{{$dik['noid']}}">
+																						<input type="hidden" name="iddik" value="{{$dik['iddik']}}">
+																					</div>
+																					<div class="modal-footer">
+																						<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+																						<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																					</div>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																@endif
+															</td>
+															<div id="modal-update-dik-{{$key}}" class="modal fade" role="dialog">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<form method="POST" action="/bpadwebs/kepegawaian/form/ubahdikpegawai" class="form-horizontal" enctype="multipart/form-data">
+																		@csrf
+																			<div class="modal-header">
+																				<h4 class="modal-title"><b>Ubah Pendidikan</b></h4>
+																			</div>
+																			<div class="modal-body">
+																				
+																				<input type="hidden" name="ids" value="{{$dik['ids']}}">
+																				<input type="hidden" name="noid" value="{{$dik['noid']}}">
+
+																				<div class="form-group col-md-12">
+																					<label for="iddik" class="col-md-3 control-label"> Pendidikan Terakhir </label>
+																					<div class="col-md-9">
+																						<select class="form-control" name="iddik">
+																							@foreach($pendidikans as $pendidikan)
+																								<option value="{{ $pendidikan['dik'] }}" <?php if ($dik['iddik'] == $pendidikan['dik'] ): ?> selected <?php endif ?> > {{ $pendidikan['nm_dik'] }} </option>
+																							@endforeach
+																						</select>
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="prog_sek" class="col-md-3 control-label"> Program Studi </label>
+																					<div class="col-md-9">
+																						<input autocomplete="off" type="text" name="prog_sek" class="form-control" value="{{$dik['prog_sek']}}">
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="nm_sek" class="col-md-3 control-label"> Nama Lembaga </label>
+																					<div class="col-md-9">
+																						<input autocomplete="off" type="text" name="nm_sek" class="form-control" value="{{$dik['nm_sek']}}">
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label class="col-md-3 control-label"> Nomor / Tahun Ijazah </label>
+																					<div class="col-md-6">
+																						<input autocomplete="off" type="text" name="no_sek" class="form-control" value="{{$dik['no_sek']}}" placeholder="Nomor Ijazah">
+																					</div>
+																					<div class="col-md-3">
+																						<input autocomplete="off" type="text" name="th_sek" class="form-control" value="{{$dik['th_sek']}}" placeholder="Tahun">
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="gelar" class="col-md-3 control-label"> Gelar </label>
+																					<div class="col-md-3">
+																						<input autocomplete="off" type="text" name="gelar_dpn_sek" class="form-control" value="{{$dik['gelar_dpn_sek']}}" placeholder="Depan">
+																					</div>
+																					<div class="col-md-3">
+																						<input autocomplete="off" type="text" name="gelar_blk_sek" class="form-control" value="{{$dik['gelar_blk_sek']}}" placeholder="Belakang">
+																					</div>
+																				</div>
+
+																				<div class="clearfix"></div>
+																			</div>
+																			<div class="modal-footer">
+																				<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+																				<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																			</div>
+																		</form>
+																	</div>
+																</div>
+															</div>
+														</tr>
 														@endforeach
-													</select>
-												</div>
+													</tbody>
+												</table>
 											</div>
-
-											<div class="form-group">
-												<label for="prog_sek" class="col-md-2 control-label"> Program Studi </label>
-												<div class="col-md-4">
-													<input autocomplete="off" type="text" name="prog_sek" class="form-control" id="prog_sek" value="{{ $emp_dik['prog_sek'] }}">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="nm_sek" class="col-md-2 control-label"> Nama Lembaga </label>
-												<div class="col-md-4">
-													<input autocomplete="off" type="text" name="nm_sek" class="form-control" id="nm_sek" value="{{ $emp_dik['nm_sek'] }}">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-2 control-label"> Nomor / Tahun Ijazah </label>
-												<div class="col-md-3">
-													<input autocomplete="off" type="text" name="no_sek" class="form-control" id="no_sek" placeholder="Nomor Ijazah" value="{{ $emp_dik['no_sek'] }}">
-												</div>
-												<div class="col-md-1">
-													<input autocomplete="off" type="text" name="th_sek" class="form-control" id="th_sek" placeholder="Tahun" value="{{ $emp_dik['th_sek'] }}">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="gelar" class="col-md-2 control-label"> Gelar </label>
-												<div class="col-md-2">
-													<input autocomplete="off" type="text" name="gelar_dpn_sek" class="form-control" id="gelar_dpn_sek" placeholder="Depan" value="{{ $emp_dik['gelar_dpn_sek'] }}">
-												</div>
-												<div class="col-md-2">
-													<input autocomplete="off" type="text" name="gelar_blk_sek" class="form-control" id="gelar_blk_sek" placeholder="Belakang" value="{{ $emp_dik['gelar_blk_sek'] }}">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="ijz_cpns" class="col-md-2 control-label"> Ijazah CPNS </label>
-												<div class="col-md-4">
-													<select class="form-control" name="ijz_cpns" id="ijz_cpns">
-														<option value="Y" <?php if ($emp_dik['ijz_cpns'] == "Y" ): ?> selected <?php endif ?> > Ada </option>
-														<option value="T" <?php if ($emp_dik['ijz_cpns'] == "T" ): ?> selected <?php endif ?> > Tidak </option>
-													</select>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="fileijazah" class="col-lg-2 control-label"> Upload Ijazah <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
-												<div class="col-lg-4">
-													<input type="file" class="form-control" id="fileijazah" name="fileijazah">
-												</div>
-											</div>
+											<a href="/bpadwebs/kepegawaian/data pegawai"><button type="button" class="btn btn-default pull-right m-b-20 m-t-10"> Kembali </button></a>	
 										</section>
+										<div id="modal-insert-dik" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<form method="POST" action="/bpadwebs/kepegawaian/form/tambahdikpegawai" class="form-horizontal" enctype="multipart/form-data">
+													@csrf
+														<div class="modal-header">
+															<h4 class="modal-title"><b>Tambah Pendidikan</b></h4>
+														</div>
+														<div class="modal-body">
+
+															<input type="hidden" name="noid" value="{{$id_emp}}">
+
+															<div class="form-group">
+																<label for="iddik" class="col-md-3 control-label"> Pendidikan Terakhir </label>
+																<div class="col-md-8">
+																	<select class="form-control" name="iddik" id="modal_insert_dik_iddik">
+																		@foreach($pendidikans as $pendidikan)
+																			<option value="{{ $pendidikan['dik'] }}"> {{ $pendidikan['nm_dik'] }} </option>
+																		@endforeach
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="prog_sek" class="col-md-3 control-label"> Program Studi </label>
+																<div class="col-md-8">
+																	<input autocomplete="off" type="text" name="prog_sek" class="form-control" id="modal_insert_dik_prog_sek">
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="nm_sek" class="col-md-3 control-label"> Nama Lembaga </label>
+																<div class="col-md-8">
+																	<input autocomplete="off" type="text" name="nm_sek" class="form-control" id="modal_insert_dik_nm_sek">
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label class="col-md-3 control-label"> Nomor / Tahun Ijazah </label>
+																<div class="col-md-6">
+																	<input autocomplete="off" type="text" name="no_sek" class="form-control" id="modal_insert_dik_no_sek" placeholder="Nomor Ijazah">
+																</div>
+																<div class="col-md-2">
+																	<input autocomplete="off" type="text" name="th_sek" class="form-control" id="modal_insert_dik_th_sek" placeholder="Tahun">
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="gelar" class="col-md-3 control-label"> Gelar </label>
+																<div class="col-md-4">
+																	<input autocomplete="off" type="text" name="gelar_dpn_sek" class="form-control" id="modal_insert_dik_gelar_dpn_sek" placeholder="Depan">
+																</div>
+																<div class="col-md-4">
+																	<input autocomplete="off" type="text" name="gelar_blk_sek" class="form-control" id="modal_insert_dik_gelar_blk_sek" placeholder="Belakang">
+																</div>
+															</div>
+
+														</div>
+														<div class="modal-footer">
+															<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+															<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
 										<section id="section-underline-3">
-											<div class="form-group">
-												<label class="col-md-2 control-label"> TMT Golongan </label>
-												<div class="col-md-4">
-													<input type="text" name="tmt_gol" class="form-control" id="datepicker-autoclose3" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($emp_gol['tmt_gol'])) }}">
-												</div>
-											</div>
+											<button class="btn btn-info m-b-20" type="button" data-toggle="modal" data-target="#modal-insert-gol">Tambah</button>
+											<div class="table-responsive">
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>No</th>
+															<th>TMT</th>
+															<th>No SK</th>
+															<th>Golongan</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach($emp_gol as $key => $gol)
+														<tr>
+															<td>{{ $key+1 }}</td>
+															<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $gol['tmt_gol']))) }}</td>
+															<td>{{ $gol['no_sk_gol'] }}
+															</td>
+															<td>{{ $gol['idgol'] }}
+															</td>
+															<td>
+																@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																	<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update-gol" data-toggle="modal" data-target="#modal-update-gol-{{$key}}" ><i class="ti-pencil-alt"></i></button>
+																	<button type="button" class="btn btn-danger btn-delete-gol btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-gol-{{$key}}"><i class="ti-trash"></i></button>
+																	<div id="modal-delete-gol-{{$key}}" class="modal fade" role="dialog">
+																		<div class="modal-dialog">
+																			<div class="modal-content">
+																				<form method="POST" action="/bpadwebs/kepegawaian/form/hapusgolpegawai" class="form-horizontal">
+																				@csrf
+																					<div class="modal-header">
+																						<h4 class="modal-title"><b>Hapus Golongan</b></h4>
+																					</div>
+																					<div class="modal-body">
+																						<h4>Apa anda yakin ingin menghapus golongan {{$gol['idgol']}} </h4>
+																						<input type="hidden" name="ids" value="{{$gol['ids']}}">
+																						<input type="hidden" name="noid" value="{{$gol['noid']}}">
+																						<input type="hidden" name="idgol" value="{{$gol['idgol']}}">
+																					</div>
+																					<div class="modal-footer">
+																						<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+																						<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																					</div>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																@endif
+															</td>
+															<div id="modal-update-gol-{{$key}}" class="modal fade" role="dialog">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<form method="POST" action="/bpadwebs/kepegawaian/form/ubahgolpegawai" class="form-horizontal" enctype="multipart/form-data">
+																		@csrf
+																			<div class="modal-header">
+																				<h4 class="modal-title"><b>Ubah Golongan</b></h4>
+																			</div>
+																			<div class="modal-body">
+																				
+																				<input type="hidden" name="ids" value="{{$gol['ids']}}">
+																				<input type="hidden" name="noid" value="{{$gol['noid']}}">
 
-											<div class="form-group">
-												<label for="no_sk_gol" class="col-md-2 control-label"> Nomor SK </label>
-												<div class="col-md-4">
-													<input autocomplete="off" type="text" name="no_sk_gol" class="form-control" id="no_sk_gol" value="{{ $emp_gol['no_sk_gol'] }}">
-												</div>
-											</div>
+																				<div class="form-group col-md-12">
+																					<label class="col-md-2 control-label"> TMT Golongan </label>
+																					<div class="col-md-8">
+																						<input type="text" name="tmt_gol" class="form-control" id="datepicker-autoclose3" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $gol['tmt_gol']))) }}">
+																					</div>
+																				</div>
 
-											<div class="form-group">
-												<label for="tmt_sk_gol" class="col-md-2 control-label"> Tanggal SK </label>
-												<div class="col-md-4">
-													<input type="text" name="tmt_sk_gol" class="form-control" id="datepicker-autoclose4" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($emp_gol['tmt_sk_gol'])) }}">
-												</div>
-											</div>
+																				<div class="form-group col-md-12">
+																					<label for="no_sk_gol" class="col-md-2 control-label"> Nomor SK </label>
+																					<div class="col-md-8">
+																						<input autocomplete="off" type="text" name="no_sk_gol" class="form-control" value="{{$gol['no_sk_gol']}}">
+																					</div>
+																				</div>
 
-											<div class="form-group">
-												<label for="idgol" class="col-md-2 control-label"> Golongan </label>
-												<div class="col-md-4">
-													<select class="form-control select2" name="idgol" id="idgol">
-														@foreach($golongans as $golongan)
-															<option value="{{ $golongan['gol'] }}" <?php if ($emp_gol['idgol'] == $golongan['gol'] ): ?> selected <?php endif ?> > {{ $golongan['gol'] }} - {{ $golongan['nm_pangkat'] }} </option>
+																				<div class="form-group col-md-12">
+																					<label for="tmt_sk_gol" class="col-md-2 control-label"> Tanggal SK </label>
+																					<div class="col-md-8">
+																						<input type="text" name="tmt_sk_gol" class="form-control" id="datepicker-autoclose4" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $gol['tmt_sk_gol']))) }}">
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="idgol" class="col-md-2 control-label"> Golongan </label>
+																					<div class="col-md-8">
+																						<select class="form-control select2" name="idgol">
+																							@foreach($golongans as $golongan)
+																								<option value="{{ $golongan['gol'] }}" <?php if ($gol['idgol'] == $golongan['gol'] ): ?> selected <?php endif ?> > {{ $golongan['gol'] }} - {{ $golongan['nm_pangkat'] }} </option>
+																							@endforeach
+																						</select>
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="jns_kp" class="col-md-2 control-label"> Jenis KP <br> <span style="font-size: 10px">KP (Kenaikan Pangkat)</span> </label>
+																					<div class="col-md-8">
+																						<select class="form-control" name="jns_kp">
+																							<option value="Reguler"> Reguler </option>
+																						</select>
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label class="col-md-2 control-label"> Masa Kerja </label>
+																					<div class="col-md-3">
+																						<input autocomplete="off" type="text" name="mk_thn" class="form-control intLimitTextBox" placeholder="Tahun" value="{{$gol['mk_thn']}}">
+																					</div>
+																					<label for="tmt_sk_gol" class="col-md-1 control-label"> Tahun </label>
+																					<div class="col-md-3">
+																						<input autocomplete="off" type="text" name="mk_bln" class="form-control intLimitTextBox" placeholder="Bulan" value="{{$gol['mk_bln']}}">
+																					</div>
+																					<label for="tmt_sk_gol" class="col-md-1 control-label"> Bulan </label>
+																				</div>
+
+																				<div class="clearfix"></div>
+																			</div>
+																			<div class="modal-footer">
+																				<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+																				<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																			</div>
+																		</form>
+																	</div>
+																</div>
+															</div>
+														</tr>
 														@endforeach
-													</select>
-												</div>
+													</tbody>
+												</table>
 											</div>
-
-											<div class="form-group">
-												<label for="jns_kp" class="col-md-2 control-label"> Jenis KP <br> <span style="font-size: 10px">KP (Kenaikan Pangkat)</span> </label>
-												<div class="col-md-4">
-													<select class="form-control" name="jns_kp" id="jns_kp">
-														<option value="Reguler" <?php if ($emp_gol['jns_kp'] == "Reguler" ): ?> selected <?php endif ?> > Reguler </option>
-													</select>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-2 control-label"> Masa Kerja </label>
-												<div class="col-md-1">
-													<input autocomplete="off" type="text" name="mk_thn" class="form-control intLimitTextBox" id="mk_thn" placeholder="Tahun" value="{{ $emp_gol['mk_thn'] }}">
-												</div>
-												<label for="tmt_sk_gol" class="col-md-1 control-label"> Tahun </label>
-												<div class="col-md-1">
-													<input autocomplete="off" type="text" name="mk_bln" class="form-control intLimitTextBox" id="mk_bln" placeholder="Bulan" value="{{ $emp_gol['mk_bln'] }}">
-												</div>
-												<label for="tmt_sk_gol" class="col-md-1 control-label"> Bulan </label>
-											</div>
-
-											<div class="form-group">
-												<label for="fileskgol" class="col-lg-2 control-label"> Upload SK <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
-												<div class="col-lg-4">
-													<input type="file" class="form-control" id="fileskgol" name="fileskgol">
-												</div>
-											</div>
+											<a href="/bpadwebs/kepegawaian/data pegawai"><button type="button" class="btn btn-default pull-right m-b-20 m-t-10"> Kembali </button></a>
 										</section>
+										<div id="modal-insert-gol" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<form method="POST" action="/bpadwebs/kepegawaian/form/tambahgolpegawai" class="form-horizontal" enctype="multipart/form-data">
+													@csrf
+														<div class="modal-header">
+															<h4 class="modal-title"><b>Tambah Golongan</b></h4>
+														</div>
+														<div class="modal-body">
+
+															<input type="hidden" name="noid" value="{{$id_emp}}">
+
+															<div class="form-group">
+																<label class="col-md-3 control-label"> TMT Golongan </label>
+																<div class="col-md-8">
+																	<input type="text" name="tmt_gol" class="form-control" id="datepicker-autoclose8" autocomplete="off" placeholder="dd/mm/yyyy">
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="no_sk_gol" class="col-md-3 control-label"> Nomor SK </label>
+																<div class="col-md-8">
+																	<input autocomplete="off" type="text" name="no_sk_gol" class="form-control">
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="tmt_sk_gol" class="col-md-3 control-label"> Tanggal SK </label>
+																<div class="col-md-8">
+																	<input type="text" name="tmt_sk_gol" class="form-control" id="datepicker-autoclose9" autocomplete="off" placeholder="dd/mm/yyyy" >
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="idgol" class="col-md-3 control-label"> Golongan </label>
+																<div class="col-md-8">
+																	<select class="form-control select2" name="idgol">
+																		@foreach($golongans as $golongan)
+																			<option value="{{ $golongan['gol'] }}" > {{ $golongan['gol'] }} - {{ $golongan['nm_pangkat'] }} </option>
+																		@endforeach
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="jns_kp" class="col-md-3 control-label"> Jenis KP <br> <span style="font-size: 10px">KP (Kenaikan Pangkat)</span> </label>
+																<div class="col-md-8">
+																	<select class="form-control" name="jns_kp">
+																		<option value="Reguler"> Reguler </option>
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label class="col-md-3 control-label"> Masa Kerja </label>
+																<div class="col-md-3">
+																	<input autocomplete="off" type="text" name="mk_thn" class="form-control intLimitTextBox" placeholder="Tahun">
+																</div>
+																<label for="tmt_sk_gol" class="col-md-1 control-label"> Tahun </label>
+																<div class="col-md-3">
+																	<input autocomplete="off" type="text" name="mk_bln" class="form-control intLimitTextBox" placeholder="Bulan">
+																</div>
+																<label for="tmt_sk_gol" class="col-md-1 control-label"> Bulan </label>
+															</div>
+
+														</div>
+														<div class="modal-footer">
+															<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+															<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
 										<section id="section-underline-4">
-											<div class="form-group">
-												<label for="jabatan" class="col-md-2 control-label"> Jabatan </label>
-												<div class="col-md-4">
-													<select class="form-control select2" name="jabatan" id="jabatan">
-														@foreach($jabatans as $jabatan)
-															<option value="{{ $jabatan['jns_jab'] }}||{{ $jabatan['jabatan'] }}" <?php if ($emp_jab['jns_jab'] . "||" . $emp_jab['idjab'] == $jabatan['jns_jab'] . "||" . $jabatan['jabatan'] ): ?> selected <?php endif ?> > {{ $jabatan['jabatan'] }} </option>
+											<button class="btn btn-info m-b-20" type="button" data-toggle="modal" data-target="#modal-insert-jab">Tambah</button>
+											<div class="table-responsive">
+												<table class="table table-hover table-bordered">
+													<thead>
+														<tr>
+															<th>No</th>
+															<th>TMT</th>
+															<th>Unit</th>
+															<th>Lokasi</th>
+															<th>Jenis</th>
+															<th>Jabatan</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach($emp_jab as $key => $jab)
+														<tr>
+															<td>{{ $key+1 }}</td>
+															<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $jab['tmt_jab']))) }}</td>
+															<td>{{ $jab['unit']['nm_unit'] }}</td>
+															<td>{{ $jab['lokasi']['nm_lok'] }}</td>
+															<td>{{ $jab['jns_jab'] }}</td>
+															<td>{{ $jab['idjab'] }}</td>
+															</td>
+															<td>
+																@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																	<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update-jab" data-toggle="modal" data-target="#modal-update-jab-{{$key}}" ><i class="ti-pencil-alt"></i></button>
+																	<button type="button" class="btn btn-danger btn-delete-jab btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-jab-{{$key}}"><i class="ti-trash"></i></button>
+																	<div id="modal-delete-jab-{{$key}}" class="modal fade" role="dialog">
+																		<div class="modal-dialog">
+																			<div class="modal-content">
+																				<form method="POST" action="/bpadwebs/kepegawaian/form/hapusjabpegawai" class="form-horizontal">
+																				@csrf
+																					<div class="modal-header">
+																						<h4 class="modal-title"><b>Hapus Jabatan</b></h4>
+																					</div>
+																					<div class="modal-body">
+																						<h4>Apa anda yakin ingin menghapus jabatan {{$jab['unit']['nm_unit']}} </h4>
+																						<input type="hidden" name="ids" value="{{$jab['ids']}}">
+																						<input type="hidden" name="noid" value="{{$jab['noid']}}">
+																						<input type="hidden" name="nmjab" value="{{$jab['unit']['nm_unit']}}">
+																					</div>
+																					<div class="modal-footer">
+																						<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+																						<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																					</div>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																@endif
+															</td>
+															<div id="modal-update-jab-{{$key}}" class="modal fade" role="dialog">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<form method="POST" action="/bpadwebs/kepegawaian/form/ubahjabpegawai" class="form-horizontal" enctype="multipart/form-data">
+																		@csrf
+																			<div class="modal-header">
+																				<h4 class="modal-title"><b>Ubah Jabatan</b></h4>
+																			</div>
+																			<div class="modal-body">
+																				
+																				<input type="hidden" name="ids" value="{{$jab['ids']}}">
+																				<input type="hidden" name="noid" value="{{$jab['noid']}}">
+
+																				<div class="form-group col-md-12">
+																					<label for="jabatan" class="col-md-2 control-label"> Jabatan </label>
+																					<div class="col-md-8">
+																						<select class="form-control select2" name="jabatan" id="jabatan">
+																							@foreach($jabatans as $jabatan)
+																								<option value="{{ $jabatan['jns_jab'] }}||{{ $jabatan['jabatan'] }}" <?php if ($jab['jns_jab']."||".$jab['idjab'] == $jabatan['jns_jab'] ."||". $jabatan['jabatan'] ): ?> selected <?php endif ?> > {{ $jabatan['jabatan'] }} </option>
+																							@endforeach
+																						</select>
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="idunit" class="col-md-2 control-label"> Unit Organisasi </label>
+																					<div class="col-md-8">
+																						<select class="form-control select2" name="idunit" id="idunit">
+																							@foreach($units as $unit)
+																								<option value="{{ $unit['kd_unit'] }}" <?php if ($jab['idunit'] == $unit['kd_unit'] ): ?> selected <?php endif ?> > {{ $unit['kd_unit'] }} - {{ $unit['notes'] }}</option>
+																							@endforeach
+																						</select>
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="idlok" class="col-md-2 control-label"> Lokasi </label>
+																					<div class="col-md-8">
+																						<select class="form-control" name="idlok" id="idlok">
+																							@foreach($lokasis as $lokasi)
+																								<option value="{{ $lokasi['kd_lok'] }}" <?php if ($jab['idlok'] == $lokasi['kd_lok'] ): ?> selected <?php endif ?> > {{ $lokasi['nm_lok'] }}</option>
+																							@endforeach
+																						</select>
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="eselon" class="col-md-2 control-label"> Golongan </label>
+																					<div class="col-md-8">
+																						<select class="form-control select2" name="eselon" id="eselon">
+																							@foreach($golongans as $golongan)
+																								<option value="{{ $golongan['gol'] }}" <?php if ($jab['eselon'] == $golongan['gol'] ): ?> selected <?php endif ?> > {{ $golongan['gol'] }} - {{ $golongan['nm_pangkat'] }} </option>
+																							@endforeach
+																						</select>
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label class="col-md-2 control-label"> TMT Jabatan </label>
+																					<div class="col-md-8">
+																						<input type="text" name="tmt_jab" class="form-control" id="datepicker-autoclose5" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $jab['tmt_jab']))) }}">
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label for="no_sk_jab" class="col-md-2 control-label"> No SK Jabatan </label>
+																					<div class="col-md-8">
+																						<input autocomplete="off" type="text" name="no_sk_jab" class="form-control" value="{{ $jab['no_sk_jab'] }}">
+																					</div>
+																				</div>
+
+																				<div class="form-group col-md-12">
+																					<label class="col-md-2 control-label"> Tanggal SK </label>
+																					<div class="col-md-8">
+																						<input type="text" name="tmt_sk_jab" class="form-control" id="datepicker-autoclose6" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/M/Y', strtotime(str_replace('/', '-', $jab['tmt_sk_jab']))) }}">
+																					</div>
+																				</div>
+
+																				<div class="clearfix"></div>
+																			</div>
+																			<div class="modal-footer">
+																				<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+																				<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																			</div>
+																		</form>
+																	</div>
+																</div>
+															</div>
+														</tr>
 														@endforeach
-													</select>
-												</div>
+													</tbody>
+												</table>
 											</div>
-
-											<div class="form-group">
-												<label for="idunit" class="col-md-2 control-label"> Unit Organisasi </label>
-												<div class="col-md-4">
-													<select class="form-control select2" name="idunit" id="idunit">
-														@foreach($units as $unit)
-															<option value="{{ $unit['kd_unit'] }}" <?php if ($emp_jab['idunit'] == $unit['kd_unit'] ): ?> selected <?php endif ?> > {{ $unit['kd_unit'] }} - {{ $unit['nm_unit'] }}</option>
-														@endforeach
-													</select>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="idlok" class="col-md-2 control-label"> Lokasi </label>
-												<div class="col-md-4">
-													<select class="form-control" name="idlok" id="idlok">
-														@foreach($lokasis as $lokasi)
-															<option value="{{ $lokasi['kd_lok'] }}" <?php if ($emp_jab['idlok'] == $lokasi['kd_lok'] ): ?> selected <?php endif ?> > {{ $lokasi['nm_lok'] }}</option>
-														@endforeach
-													</select>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="eselon" class="col-md-2 control-label"> Golongan </label>
-												<div class="col-md-4">
-													<select class="form-control select2" name="eselon" id="eselon">
-														@foreach($golongans as $golongan)
-															<option value="{{ $golongan['gol'] }}" <?php if ($emp_jab['eselon'] == $golongan['gol'] ): ?> selected <?php endif ?> > {{ $golongan['gol'] }} - {{ $golongan['nm_pangkat'] }} </option>
-														@endforeach
-													</select>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-2 control-label"> TMT Jabatan </label>
-												<div class="col-md-4">
-													<input type="text" name="tmt_jab" class="form-control" id="datepicker-autoclose5" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($emp_jab['tmt_jab'])) }}">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="no_sk_jab" class="col-md-2 control-label"> No SK Jabatan </label>
-												<div class="col-md-4">
-													<input autocomplete="off" type="text" name="no_sk_jab" class="form-control" id="no_sk_jab" value="{{ $emp_jab['no_sk_jab'] }}">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-2 control-label"> Tanggal SK </label>
-												<div class="col-md-4">
-													<input type="text" name="tmt_sk_jab" class="form-control" id="datepicker-autoclose6" autocomplete="off" placeholder="mm/dd/yyyy" value="{{ date('d/m/Y', strtotime($emp_jab['tmt_sk_jab'])) }}">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="fileskjab" class="col-lg-2 control-label"> Upload SK <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
-												<div class="col-lg-4">
-													<input type="file" class="form-control" id="fileskjab" name="fileskjab">
-												</div>
-											</div>
-											<button type="submit" class="btn btn-success pull-right"> Simpan </button>
-											<!-- <button type="submit" class="btn btn-default pull-right m-r-10"> Kembali </button> -->
+											<a href="/bpadwebs/kepegawaian/data pegawai"><button type="button" class="btn btn-default pull-right m-b-20 m-t-10"> Kembali </button></a>
 										</section>
+										<div id="modal-insert-jab" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<form method="POST" action="/bpadwebs/kepegawaian/form/tambahjabpegawai" class="form-horizontal" enctype="multipart/form-data">
+													@csrf
+														<div class="modal-header">
+															<h4 class="modal-title"><b>Tambah Jabatan</b></h4>
+														</div>
+														<div class="modal-body">
 
+															<input type="hidden" name="noid" value="{{$id_emp}}">
+
+															<div class="form-group">
+																<label for="jabatan" class="col-md-2 control-label"> Jabatan </label>
+																<div class="col-md-8">
+																	<select class="form-control select2" name="jabatan" id="jabatan">
+																		@foreach($jabatans as $jabatan)
+																			<option value="{{ $jabatan['jns_jab'] }}||{{ $jabatan['jabatan'] }}" > {{ $jabatan['jabatan'] }} </option>
+																		@endforeach
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="idunit" class="col-md-2 control-label"> Unit Organisasi </label>
+																<div class="col-md-8">
+																	<select class="form-control select2" name="idunit" id="idunit">
+																		@foreach($units as $unit)
+																			<option value="{{ $unit['kd_unit'] }}" > {{ $unit['kd_unit'] }} - {{ $unit['notes'] }}</option>
+																		@endforeach
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="idlok" class="col-md-2 control-label"> Lokasi </label>
+																<div class="col-md-8">
+																	<select class="form-control" name="idlok" id="idlok">
+																		@foreach($lokasis as $lokasi)
+																			<option value="{{ $lokasi['kd_lok'] }}"> {{ $lokasi['nm_lok'] }}</option>
+																		@endforeach
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="eselon" class="col-md-2 control-label"> Golongan </label>
+																<div class="col-md-8">
+																	<select class="form-control select2" name="eselon" id="eselon">
+																		@foreach($golongans as $golongan)
+																			<option value="{{ $golongan['gol'] }}"> {{ $golongan['gol'] }} - {{ $golongan['nm_pangkat'] }} </option>
+																		@endforeach
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label class="col-md-2 control-label"> TMT Jabatan </label>
+																<div class="col-md-8">
+																	<input type="text" name="tmt_jab" class="form-control" id="datepicker-autoclose10" autocomplete="off" placeholder="dd/mm/yyyy" >
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="no_sk_jab" class="col-md-2 control-label"> No SK Jabatan </label>
+																<div class="col-md-8">
+																	<input autocomplete="off" type="text" name="no_sk_jab" class="form-control" >
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label class="col-md-2 control-label"> Tanggal SK </label>
+																<div class="col-md-8">
+																	<input type="text" name="tmt_sk_jab" class="form-control" id="datepicker-autoclose11" autocomplete="off" placeholder="dd/mm/yyyy">
+																</div>
+															</div>
+
+														</div>
+														<div class="modal-footer">
+															<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+															<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+										<section id="section-underline-5">
+											<form class="form-horizontal" method="POST" action="/bpadwebs/kepegawaian/form/ubahstatuspegawai" data-toggle="validator" enctype="multipart/form-data">
+											@csrf
+												<div class="col-md-12">
+													<input type="hidden" name="id_emp" value="{{ $id_emp }}">
+
+													<div class="form-group">
+														<label for="ked_emp" class="col-md-2 control-label"> Status </label>
+														<div class="col-md-8">
+															<select class="form-control" name="ked_emp" id="ked_emp">
+																@foreach($kedudukans as $kedudukan)
+																	<option value="{{ $kedudukan['ked_emp'] }}"
+																		<?php if ($emp_data['ked_emp'] == $kedudukan['ked_emp']): ?>
+																			selected
+																		<?php endif ?>
+																	> {{ $kedudukan['ked_emp'] }} </option>
+																@endforeach
+															</select>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label for="tgl_end" class="col-md-2 control-label"> Tanggal </label>
+														<div class="col-md-8">
+															<input type="text" name="tgl_end" class="form-control" id="datepicker-autoclose7" autocomplete="off" placeholder="dd/mm/yyyy">
+														</div>
+													</div>
+												</div>
+												<button type="submit" class="m-b-20 m-t-10 btn btn-success pull-right"> Simpan </button>
+												<a href="/bpadwebs/kepegawaian/data pegawai"><button type="button" class="m-b-20 m-t-10 btn btn-default pull-right m-r-10"> Kembali </button></a>	
+											</form>
+										</section>
 								</div>
 							</div>
 						</div>
@@ -555,9 +1024,10 @@
 								
 							</div>
 						</div>
-					</form>
+					
 				</div>
 			</div>
+			
 		</div>
 	</div>
 @endsection
@@ -648,6 +1118,43 @@
 			, todayHighlight: false
 			, format: 'dd/mm/yyyy'
 		});
+
+		jQuery('#datepicker-autoclose7').datepicker({
+			autoclose: true
+			, todayHighlight: false
+			, format: 'dd/mm/yyyy'
+		});
+
+		jQuery('#datepicker-autoclose8').datepicker({
+			autoclose: true
+			, todayHighlight: false
+			, format: 'dd/mm/yyyy'
+		});
+
+		jQuery('#datepicker-autoclose9').datepicker({
+			autoclose: true
+			, todayHighlight: false
+			, format: 'dd/mm/yyyy'
+		});
+
+		jQuery('#datepicker-autoclose10').datepicker({
+			autoclose: true
+			, todayHighlight: false
+			, format: 'dd/mm/yyyy'
+		});
+
+		jQuery('#datepicker-autoclose11').datepicker({
+			autoclose: true
+			, todayHighlight: false
+			, format: 'dd/mm/yyyy'
+		});
+
+		jQuery('#datepicker-autoclose12').datepicker({
+			autoclose: true
+			, todayHighlight: false
+			, format: 'dd/mm/yyyy'
+		});
+
 	</script>
 
 	
