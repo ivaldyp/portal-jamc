@@ -580,7 +580,7 @@ class CmsController extends Controller
 
 		$insert = [
 				'sts'       => 1,
-				'uname'		=> (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp) ,
+				'uname'		=> (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
 				'tgl'		=> date('Y-m-d H:i:s'),
 				'ip'		=> '',
 				'logbuat'	=> '',

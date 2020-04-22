@@ -326,7 +326,7 @@ class KepegawaianController extends Controller
 				'gelar_blk' => ($request->gelar_blk ? $request->gelar_blk : ''),
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => ($request->tempat_lahir ? $request->tempat_lahir : ''),
-				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime($request->tgl_lahir)) : ''),
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime($request->tgl_lahir)) : null),
 				'idagama' => $request->idagama,
 				'alamat_emp' => ($request->alamat_emp ? $request->alamat_emp : ''),
 				'tlp_emp' => ($request->tlp_emp ? $request->tlp_emp : ''),
@@ -343,13 +343,13 @@ class KepegawaianController extends Controller
 				'npwp' => ($request->npwp ? $request->npwp : ''),
 				'no_askes' => ($request->no_askes ? $request->no_askes : ''),
 				'no_jamsos' => ($request->no_jamsos ? $request->no_jamsos : ''),
-				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : ''),
-				'tgl_end' => '',
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : null),
+				'tgl_end' => null,
 				'reason' => '',
 				'idgroup' => $request->idgroup,
 				'pass_emp' => '',
 				'foto' => $filefoto,
-				'lastlogin' => '',
+				'lastlogin' => null,
 				'lastip' => '',
 				'lasttemp' => '',
 				'dwiinternal' => '',
@@ -387,8 +387,8 @@ class KepegawaianController extends Controller
 				'ip'        => '',
 				'logbuat'   => '',
 				'noid' => $new_id_emp,
-				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime($request->tmt_gol)) : ''),
-				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime($request->tmt_sk_gol)) : ''),
+				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime($request->tmt_gol)) : null),
+				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime($request->tmt_sk_gol)) : null),
 				'no_sk_gol' => ($request->no_sk_gol ? $request->no_sk_gol : ''),
 				'idgol' => $request->idgol,
 				'jns_kp' => $request->jns_kp,
@@ -408,11 +408,11 @@ class KepegawaianController extends Controller
 				'ip'        => '',
 				'logbuat'   => '',
 				'noid' => $new_id_emp,
-				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime($request->tmt_jab)) : ''),
+				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime($request->tmt_jab)) : null),
 				'idskpd' => '1.20.512',
 				'idunit' => $request->idunit,
 				'idlok' => $request->idlok,
-				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime($request->tmt_sk_jab)) : ''),
+				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime($request->tmt_sk_jab)) : null),
 				'no_sk_jab' => ($request->no_sk_jab ? $request->no_sk_jab : ''),
 				'jns_jab' => $jns_jab,
 				'idjab' => $idjab,
@@ -535,41 +535,41 @@ class KepegawaianController extends Controller
 
 
 		// ubah semua variabel tanggal jadi format 'Ymd'
-		if (isset($request->tgl_join)) {
-			$tgl_join = date('Y-m-d',strtotime($request->tgl_join));
-		} else {
-			$tgl_join = '';
-		}
+		// if (isset($request->tgl_join)) {
+		// 	$tgl_join = date('Y-m-d',strtotime($request->tgl_join));
+		// } else {
+		// 	$tgl_join = null;
+		// }
 
-		if (isset($request->tgl_lahir)) {
-			$tgl_lahir = date('Y-m-d',strtotime($request->tgl_lahir));
-		} else {
-			$tgl_lahir = '';
-		}
+		// if (isset($request->tgl_lahir)) {
+		// 	$tgl_lahir = date('Y-m-d',strtotime($request->tgl_lahir));
+		// } else {
+		// 	$tgl_lahir = null;
+		// }
 
-		if (isset($request->tmt_gol)) {
-			$tmt_gol = date('Y-m-d',strtotime($request->tmt_gol));
-		} else {
-			$tmt_gol = '';
-		}
+		// if (isset($request->tmt_gol)) {
+		// 	$tmt_gol = date('Y-m-d',strtotime($request->tmt_gol));
+		// } else {
+		// 	$tmt_gol = null;
+		// }
 
-		if (isset($request->tmt_sk_gol)) {
-			$tmt_sk_gol = date('Y-m-d',strtotime($request->tmt_sk_gol));
-		} else {
-			$tmt_sk_gol = '';
-		}
+		// if (isset($request->tmt_sk_gol)) {
+		// 	$tmt_sk_gol = date('Y-m-d',strtotime($request->tmt_sk_gol));
+		// } else {
+		// 	$tmt_sk_gol = null;
+		// }
 
-		if (isset($request->tmt_jab)) {
-			$tmt_jab = date('Y-m-d',strtotime($request->tmt_jab));
-		} else {
-			$tmt_jab = '';
-		}
+		// if (isset($request->tmt_jab)) {
+		// 	$tmt_jab = date('Y-m-d',strtotime($request->tmt_jab));
+		// } else {
+		// 	$tmt_jab = null;
+		// }
 
-		if (isset($request->tmt_sk_jab)) {
-			$tmt_sk_jab = date('Y-m-d',strtotime($request->tmt_sk_jab));
-		} else {
-			$tmt_sk_jab = '';
-		}
+		// if (isset($request->tmt_sk_jab)) {
+		// 	$tmt_sk_jab = date('Y-m-d',strtotime($request->tmt_sk_jab));
+		// } else {
+		// 	$tmt_sk_jab = null;
+		// }
 	
 		// mulai insert
 		$jabatan = explode("||", $request->jabatan);
@@ -578,7 +578,7 @@ class KepegawaianController extends Controller
 
 		Emp_data::where('id_emp', $id_emp)
 			->update([
-				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : ''),
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime($request->tgl_join)) : null),
 				'status_emp' => $request->status_emp,
 				'ked_emp' => $request->ked_emp,
 				'nip_emp' => ($request->nip_emp ? $request->nip_emp : ''),
@@ -588,7 +588,7 @@ class KepegawaianController extends Controller
 				'gelar_blk' => ($request->gelar_blk ? $request->gelar_blk : ''),
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => ($request->tempat_lahir ? $request->tempat_lahir : ''),
-				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime($request->tgl_lahir)) : ''),
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime($request->tgl_lahir)) : null),
 				'idagama' => $request->idagama,
 				'alamat_emp' => ($request->alamat_emp ? $request->alamat_emp : ''),
 				'tlp_emp' => ($request->tlp_emp ? $request->tlp_emp : ''),
@@ -620,9 +620,9 @@ class KepegawaianController extends Controller
 
 		Emp_gol::where('noid', $id_emp)
 			->update([
-				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime($request->tmt_gol)) : ''),
+				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime($request->tmt_gol)) : null),
 				'no_sk_gol' => ($request->no_sk_gol ? $request->no_sk_gol : ''),
-				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime($request->tmt_sk_gol)) : ''),
+				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime($request->tmt_sk_gol)) : null),
 				'idgol' => $request->idgol,
 				'jns_kp' => $request->jns_kp,
 				'mk_thn' => ($request->mk_thn ? $request->mk_thn : ''),
@@ -638,9 +638,9 @@ class KepegawaianController extends Controller
 				'idunit' => $request->idunit,
 				'idlok' => $request->idlok,
 				'eselon' => $request->eselon,
-				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime($request->tmt_jab)) : ''),
+				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime($request->tmt_jab)) : null),
 				'no_sk_jab' => ($request->no_sk_jab ? $request->no_sk_jab : ''),
-				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime($request->tmt_sk_jab)) : ''),
+				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime($request->tmt_sk_jab)) : null),
 			]);
 
 		if ($filefoto != '') {
@@ -972,7 +972,7 @@ class KepegawaianController extends Controller
 			'kd_skpd' => '1.20.512',
 			'kd_unit' => '01',
 			'no_form' => $newnoform,
-			'tgl_terima' => (isset($request->tgl_terima) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_terima))) : ''),
+			'tgl_terima' => (isset($request->tgl_terima) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_terima))) : null),
 			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
 			'tgl_input' => date('Y-m-d H:i:s'),
 			'kode_disposisi' => $request->kode_disposisi,

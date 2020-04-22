@@ -133,7 +133,7 @@ class ProfilController extends Controller
 
 		Emp_data::where('id_emp', $id_emp)
 			->update([
-				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_join))) : ''),
+				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_join))) : null),
 				'status_emp' => $request->status_emp,
 				'nrk_emp' => ($request->nrk_emp ? $request->nrk_emp : ''),
 				'nm_emp' => ($request->nm_emp ? $request->nm_emp : ''),
@@ -141,7 +141,7 @@ class ProfilController extends Controller
 				'gelar_blk' => ($request->gelar_blk ? $request->gelar_blk : ''),
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => ($request->tempat_lahir ? $request->tempat_lahir : ''),
-				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_lahir))) : ''),
+				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_lahir))) : null),
 				'alamat_emp' => ($request->alamat_emp ? $request->alamat_emp : ''),
 				'tlp_emp' => ($request->tlp_emp ? $request->tlp_emp : ''),
 				'email_emp' => ($request->email_emp ? $request->email_emp : ''),
@@ -848,7 +848,7 @@ class ProfilController extends Controller
 			'kd_surat' => '',
 			'status_surat' => '',
 			'idtop' => 0,
-			'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : ''),
+			'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : null),
 			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
 			'tgl_input' => date('Y-m-d H:i:s'),
 			'no_index' => $request->no_index,
