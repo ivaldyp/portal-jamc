@@ -116,21 +116,6 @@
 												</div>
 
 												<div class="form-group">
-													<label for="ked_emp" class="col-md-2 control-label"> Kedudukan Pegawai </label>
-													<div class="col-md-8">
-														<select class="form-control" name="ked_emp" id="ked_emp">
-															@foreach($kedudukans as $kedudukan)
-																<option value="{{ $kedudukan['ked_emp'] }}"
-																	<?php if ($emp_data['ked_emp'] == $kedudukan['ked_emp']): ?>
-																		selected
-																	<?php endif ?>
-																> {{ $kedudukan['ked_emp'] }} </option>
-															@endforeach
-														</select>
-													</div>
-												</div>
-
-												<div class="form-group">
 													<label for="nip_emp" class="col-md-2 control-label"> NIP </label>
 													<div class="col-md-8">
 														<input autocomplete="off" type="text" name="nip_emp" class="form-control" id="nip_emp" value="{{ $emp_data['nip_emp'] }}">
@@ -1007,7 +992,7 @@
 													<div class="form-group">
 														<label for="tgl_end" class="col-md-2 control-label"> Tanggal </label>
 														<div class="col-md-8">
-															<input type="text" name="tgl_end" class="form-control" id="datepicker-autoclose7" autocomplete="off" placeholder="dd/mm/yyyy">
+															<input type="text" name="tgl_end" class="form-control" id="datepicker-autoclose7" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y') }}">
 														</div>
 													</div>
 												</div>

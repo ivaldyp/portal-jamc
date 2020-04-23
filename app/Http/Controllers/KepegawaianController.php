@@ -719,6 +719,248 @@ class KepegawaianController extends Controller
 					->with('msg_num', 1);
 	}
 
+	public function formupdatestatuspegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		if ($request->ked_emp == 'AKTIF') {
+			$tgl_end = null;
+		} else {
+			$tgl_end = (isset($request->tgl_end) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_end))) : null);
+		}
+
+		Emp_data::where('id_emp', $request->id_emp)
+			->update([
+				'tgl_end' => $tgl_end,
+				'ked_emp' => $request->ked_emp,
+			]);
+
+		return redirect('/kepegawaian/data pegawai')
+					->with('message', 'Status pegawai berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function forminsertdikpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		$insert_emp_dik = [
+				// PENDIDIKAN
+				'sts' => 1,
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
+				'noid' => $request->noid,
+				'iddik' => $request->iddik,
+				'prog_sek' => ($request->prog_sek ? $request->prog_sek : ''),
+				'nm_sek' => ($request->nm_sek ? $request->nm_sek : ''),
+				'no_sek' => ($request->no_sek ? $request->no_sek : ''),
+				'th_sek' => ($request->th_sek ? $request->th_sek : ''),
+				'gelar_dpn_sek' => ($request->gelar_dpn_sek ? $request->gelar_dpn_sek : ''),
+				'gelar_blk_sek' => ($request->gelar_blk_sek ? $request->gelar_blk_sek : ''),
+				'ijz_cpns' => 'T',
+				'tampilnew' => 1,
+			];
+
+		Emp_dik::insert($insert_emp_dik);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data pendidikan pegawai berhasil ditambah')
+					->with('msg_num', 1);
+	}
+
+	public function formupdatedikpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		Emp_dik::where('noid', $request->noid)
+			->where('ids', $request->ids)
+			->update([
+				'iddik' => $request->iddik,
+				'prog_sek' => ($request->prog_sek ? $request->prog_sek : ''),
+				'nm_sek' => ($request->nm_sek ? $request->nm_sek : ''),
+				'no_sek' => ($request->no_sek ? $request->no_sek : ''),
+				'th_sek' => ($request->th_sek ? $request->th_sek : ''),
+				'gelar_dpn_sek' => ($request->gelar_dpn_sek ? $request->gelar_dpn_sek : ''),
+				'gelar_blk_sek' => ($request->gelar_blk_sek ? $request->gelar_blk_sek : ''),
+			]);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data pendidikan pegawai berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function formdeletedikpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		Emp_dik::where('noid', $request->noid)
+			->where('ids', $request->ids)
+			->update([
+				'sts' => 0,
+			]);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data pendidikan '.$request->iddik.' berhasil dihapus')
+					->with('msg_num', 1);
+	}
+
+	//------------------------------------------------------
+
+	public function forminsertgolpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		$insert_emp_gol = [
+				// GOLONGAN
+				'sts' => 1,
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
+				'noid' => $request->noid,
+				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_gol))) : null),
+				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_gol))) : null),
+				'no_sk_gol' => ($request->no_sk_gol ? $request->no_sk_gol : ''),
+				'idgol' => $request->idgol,
+				'jns_kp' => $request->jns_kp,
+				'mk_thn' => ($request->mk_thn ? $request->mk_thn : 0),
+				'mk_bln' => ($request->mk_bln ? $request->mk_bln : 0),
+				'tampilnew' => 1,
+			];
+
+		Emp_gol::insert($insert_emp_gol);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data golongan pegawai berhasil ditambah')
+					->with('msg_num', 1);
+	}
+
+	public function formupdategolpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		Emp_gol::where('noid', $request->noid)
+			->where('ids', $request->ids)
+			->update([
+				'tmt_gol' => (isset($request->tmt_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_gol))) : null),
+				'tmt_sk_gol' => (isset($request->tmt_sk_gol) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_gol))) : null),
+				'no_sk_gol' => ($request->no_sk_gol ? $request->no_sk_gol : ''),
+				'idgol' => $request->idgol,
+				'jns_kp' => $request->jns_kp,
+				'mk_thn' => ($request->mk_thn ? $request->mk_thn : 0),
+				'mk_bln' => ($request->mk_bln ? $request->mk_bln : 0),
+			]);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data golongan pegawai berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function formdeletegolpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		Emp_gol::where('noid', $request->noid)
+			->where('ids', $request->ids)
+			->update([
+				'sts' => 0,
+			]);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data golongan '.$request->idgol.' berhasil dihapus')
+					->with('msg_num', 1);
+	}
+
+	//--------------------------------------------------
+
+	public function forminsertjabpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		$jabatan = explode("||", $request->jabatan);
+		$jns_jab = $jabatan[0];
+		$idjab = $jabatan[1];
+		$insert_emp_jab = [
+				// JABATAN
+				'sts' => 1,
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
+				'noid' => $request->noid,
+				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_jab))) : null),
+				'idskpd' => '1.20.512',
+				'idunit' => $request->idunit,
+				'idlok' => $request->idlok,
+				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_jab))) : null),
+				'no_sk_jab' => ($request->no_sk_jab ? $request->no_sk_jab : ''),
+				'jns_jab' => $jns_jab,
+				'idjab' => $idjab,
+				'eselon' => $request->eselon,
+				'tampilnew' => 1,
+			];
+
+		Emp_jab::insert($insert_emp_jab);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data jabatan pegawai berhasil ditambah')
+					->with('msg_num', 1);
+	}
+
+	public function formupdatejabpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		$jabatan = explode("||", $request->jabatan);
+		$jns_jab = $jabatan[0];
+		$idjab = $jabatan[1];
+
+		Emp_jab::where('noid', $request->noid)
+			->where('ids', $request->ids)
+			->update([
+				'tmt_jab' => (isset($request->tmt_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_jab))) : null),
+				'idunit' => $request->idunit,
+				'idlok' => $request->idlok,
+				'tmt_sk_jab' => (isset($request->tmt_sk_jab) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tmt_sk_jab))) : null),
+				'no_sk_jab' => ($request->no_sk_jab ? $request->no_sk_jab : ''),
+				'jns_jab' => $jns_jab,
+				'idjab' => $idjab,
+				'eselon' => $request->eselon,
+				'tampilnew' => 1,
+			]);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data jabatan pegawai berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function formdeletejabpegawai(Request $request)
+	{
+		$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+
+		Emp_jab::where('noid', $request->noid)
+			->where('ids', $request->ids)
+			->update([
+				'sts' => 0,
+			]);
+
+		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
+					->with('message', 'Data jabatan '.$request->idjab.' berhasil dihapus')
+					->with('msg_num', 1);
+	}
+
 	// ------------------ DATA PEGAWAI ------------------ //
 
 	// --------------- STRUKTUR ORGANISASI --------------- //
