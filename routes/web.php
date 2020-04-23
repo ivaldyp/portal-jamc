@@ -107,6 +107,7 @@ Route::group(['prefix' => 'kepegawaian'], function () {
 	Route::post('/form/tambahpegawai', 'KepegawaianController@forminsertpegawai');
 	Route::post('/form/ubahpegawai', 'KepegawaianController@formupdatepegawai');
 	Route::post('/form/hapuspegawai', 'KepegawaianController@formdeletepegawai');
+	Route::post('/form/ubahpassuser', 'KepegawaianController@formupdatepassuser');
 	Route::post('/form/ubahstatuspegawai', 'KepegawaianController@formupdatestatuspegawai');
 	Route::post('/form/tambahdikpegawai', 'KepegawaianController@forminsertdikpegawai');
 	Route::post('/form/ubahdikpegawai', 'KepegawaianController@formupdatedikpegawai');
@@ -157,6 +158,7 @@ Route::group(['prefix' => 'security'], function () {
 	Route::get('/manage user', 'SecurityController@manageuser');
 	Route::post('/form/tambahuser', 'SecurityController@forminsertuser');
 	Route::post('/form/ubahuser', 'SecurityController@formupdateuser');
+	Route::post('/form/ubahpassuser', 'SecurityController@formupdatepassuser');
 	Route::post('/form/hapususer', 'SecurityController@formdeleteuser');
 });
 Auth::routes();

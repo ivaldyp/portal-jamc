@@ -719,6 +719,21 @@ class KepegawaianController extends Controller
 					->with('msg_num', 1);
 	}
 
+	public function formupdatepassuser(Request $request)
+	{
+		$this->checkSessionTime();
+
+		Emp_data::
+			where('id_emp', $request->id_emp)
+			->update([
+				'passmd5' => md5($request->passmd5),
+			]);
+
+		return redirect('/kepegawaian/data pegawai')
+					->with('message', 'Password '.$request->nm_emp.' berhasil diubah')
+					->with('msg_num', 1);
+	}
+
 	public function formupdatestatuspegawai(Request $request)
 	{
 		$this->checkSessionTime();

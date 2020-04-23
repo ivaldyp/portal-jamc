@@ -110,7 +110,7 @@
 													<th class="col-md-1">TMT</th>
 													<th>Status</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th class="col-md-1">Action</th>
+													<th class="col-md-2">Action</th>
 													@endif
 												</tr>
 											</thead>
@@ -138,11 +138,43 @@
 															@if($access['zupd'] == 'y')
 																<input type="hidden" name="id_emp" value="{{ $employee['id_emp'] }}">
 																<button type="submit" class="btn btn-info btn-update"><i class="fa fa-edit"></i></button>
+																<button type="button" class="btn btn-warning btn-password" data-toggle="modal" data-target="#modal-password-{{$key}}"><i class="fa fa-key"></i></button>
 															@endif
 															@if($access['zdel'] == 'y')
 																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-id_emp="{{ $employee['id_emp'] }}" data-nm_emp="{{ $employee['nm_emp'] }}"><i class="fa fa-trash"></i></button>
 															@endif
 															</form>
+															<div id="modal-password-{{$key}}" class="modal fade" role="dialog">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<form method="POST" action="/bpadwebs/kepegawaian/form/ubahpassuser" class="form-horizontal">
+																		@csrf
+																			<div class="modal-header">
+																				<h4 class="modal-title"><b>Ubah Password</b></h4>
+																			</div>
+																			<div class="modal-body">
+																				<h4>Masukkan password baru  </h4>
+
+																				<input type="hidden" name="id_emp" value="{{ $employee['id_emp'] }}">
+																				<input type="hidden" name="nm_emp" value="{{ $employee['nm_emp'] }}">
+
+																				<div class="form-group col-md-12">
+																					<label for="idunit" class="col-md-2 control-label"> Password </label>
+																					<div class="col-md-8">
+																						<input autocomplete="off" type="text" name="passmd5" class="form-control" required>
+																					</div>
+																				</div>
+
+																				<div class="clearfix"></div>
+																			</div>
+																			<div class="modal-footer">
+																				<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+																				<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																			</div>
+																		</form>
+																	</div>
+																</div>
+															</div>
 														</td>
 													@endif
 												</tr>

@@ -317,6 +317,22 @@ class SecurityController extends Controller
 					->with('msg_num', 1);
 	}
 
+	public function formupdatepassuser(Request $request)
+	{
+		$this->checkSessionTime();
+		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 6);
+		
+		Sec_logins::
+			where('ids', $request->ids)
+			->update([
+				'passmd5' => md5($request->passmd5),
+			]);
+
+		return redirect('/security/manage user')
+					->with('message', 'Password '.$request->usname.' berhasil diubah')
+					->with('msg_num', 1);
+	}
+
 	public function formdeleteuser(Request $request)
 	{
 		$this->checkSessionTime();
