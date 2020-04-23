@@ -238,7 +238,7 @@
 										</label>
 										<label class="radio-inline">
 											<div class="radio radio-info">
-												<input type="radio" name="tampilnew" id="update_tampil2" value="0   ">
+												<input type="radio" name="tampilnew" id="update_tampil2" value="0">
 												<label for="update_tampil2">Tidak </label>
 											</div>
 										</label>
