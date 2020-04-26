@@ -17,7 +17,7 @@
 		<!-- row -->
 		<div class="row">
 			<!-- MAIN -->
-			<main id="main" class="col-md-9">
+			<main id="main" class="col-md-9" style="border-right: 2px solid #eee;">
 				@if(!(empty($subkat)))
 					<strong>Filtered By Kategori {{ $subkat }}</strong>
 					<hr>
@@ -77,7 +77,7 @@
 			<!-- ASIDE -->
 			<aside id="aside" class="col-md-3">
 				<!-- category widget -->
-				<div class="widget">
+				<div class="widget" style="margin-left: 30px">
 					<h3 class="widget-title">Kategori</h3>
 					<div class="widget-category">
 						<ul style="list-style: none; padding: 0;">
@@ -92,7 +92,7 @@
 				<!-- /category widget -->
 				<hr>
 				<!-- recent widget -->
-				<div class="widget">
+				<div class="widget" style="margin-left: 30px">
 					<h3 class="widget-title">Foto Terbaru</h3>
 
 					@foreach($aside_recent as $aside)

@@ -28,7 +28,7 @@
 		</div> -->
 		<div class="row">
 			<!-- MAIN -->
-			<main id="main" class="col-md-9">
+			<main id="main" class="col-md-9" style="border-right: 2px solid #eee;">
 				<div class="row">
 					<!-- article -->
 
@@ -85,7 +85,7 @@
 			<!-- ASIDE -->
 			<aside id="aside" class="col-md-3">
 				<!-- recent widget -->
-				<div class="widget">
+				<div class="widget" style="margin-left: 30px">
 					<h3 class="widget-title">Berita Terbaru</h3>
 
 					@foreach($aside_recent as $aside)
@@ -126,7 +126,7 @@
 				<hr>
 
 				<!-- top view widget -->
-				<div class="widget">
+				<div class="widget" style="margin-left: 30px">
 					<h3 class="widget-title">Paling Banyak Dilihat</h3>
 
 					@foreach($aside_top_view as $aside)
