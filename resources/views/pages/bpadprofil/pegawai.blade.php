@@ -242,6 +242,37 @@
 															</td>
 														</tr>
 														<tr>
+															<td class="col-md-6 p-l-30"><h4>Agama</h4></td>
+															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
+																<?php if ($emp_data['idagama'] == 'A') : ?>
+																	Islam
+																<?php elseif ($emp_data['idagama'] == 'B') : ?>
+																	Katolik
+																<?php elseif ($emp_data['idagama'] == 'C') : ?>
+																	Protestan
+																<?php elseif ($emp_data['idagama'] == 'D') : ?>
+																	Budha
+																<?php elseif ($emp_data['idagama'] == 'E') : ?>
+																	Hindu
+																<?php elseif ($emp_data['idagama'] == 'F') : ?>
+																	Lainnya
+																<?php elseif ($emp_data['idagama'] == 'G') : ?>
+																	Konghucu
+																<?php endif ?>
+															</h4></td>
+															<td class="col-md-6 data-input">
+																<select class="form-control" name="idagama" id="idagama">
+																	<option value="A" <?php if ($emp_data['idagama'] == "A"): ?> selected <?php endif ?> >Islam </option>
+																	<option value="B" <?php if ($emp_data['idagama'] == "B"): ?> selected <?php endif ?> > Katolik </option>
+																	<option value="C" <?php if ($emp_data['idagama'] == "C"): ?> selected <?php endif ?> > Protestan </option>
+																	<option value="D" <?php if ($emp_data['idagama'] == "D"): ?> selected <?php endif ?> > Budha </option>
+																	<option value="E" <?php if ($emp_data['idagama'] == "E"): ?> selected <?php endif ?> > Hindu </option>
+																	<option value="F" <?php if ($emp_data['idagama'] == "F"): ?> selected <?php endif ?> > Lainnya </option>
+																	<option value="G" <?php if ($emp_data['idagama'] == "G"): ?> selected <?php endif ?> > Konghucu </option>
+																</select>
+															</td>
+														</tr>
+														<tr>
 															<td class="col-md-6 p-l-30"><h4>Alamat</h4></td>
 															<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">{{ $emp_data['alamat_emp'] }}</h4></td>
 															<td class="col-md-6 data-input">

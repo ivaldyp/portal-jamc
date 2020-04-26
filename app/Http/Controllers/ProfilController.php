@@ -54,7 +54,7 @@ class ProfilController extends Controller
 		$emp_data = Emp_data::
 						where('id_emp', Auth::user()->id_emp)
 						->where('sts', 1)
-						->first();
+						->get();
 
 		$emp_dik = Emp_dik::with('dik')
 						->where('noid', Auth::user()->id_emp)
@@ -80,7 +80,7 @@ class ProfilController extends Controller
 
 		return view('pages.bpadprofil.pegawai')
 				->with('id_emp', Auth::user()->id_emp)
-				->with('emp_data', $emp_data)
+				->with('emp_data', $emp_data[0])
 				->with('emp_dik', $emp_dik)
 				->with('emp_gol', $emp_gol)
 				->with('emp_jab', $emp_jab)
@@ -142,6 +142,7 @@ class ProfilController extends Controller
 				'jnkel_emp' => $request->jnkel_emp,
 				'tempat_lahir' => ($request->tempat_lahir ? $request->tempat_lahir : ''),
 				'tgl_lahir' => (isset($request->tgl_lahir) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_lahir))) : null),
+				'idagama' => $request->idagama,
 				'alamat_emp' => ($request->alamat_emp ? $request->alamat_emp : ''),
 				'tlp_emp' => ($request->tlp_emp ? $request->tlp_emp : ''),
 				'email_emp' => ($request->email_emp ? $request->email_emp : ''),
