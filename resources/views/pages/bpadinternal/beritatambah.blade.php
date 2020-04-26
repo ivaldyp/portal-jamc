@@ -3,9 +3,10 @@
 @section('css')
 	<!-- Bootstrap Core CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<!-- summernotes CSS -->
+	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/summernote/dist/summernote.css') }}" rel="stylesheet" />
 	<!-- Menu CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
-	<link rel="stylesheet" href="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.css') }}" />
 	<!-- animation CSS -->
 	<link href="{{ ('/bpadwebs/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
@@ -100,7 +101,7 @@
 									<div class="form-group">
                                         <label for="isi" class="col-md-2 control-label"> Isi </label>
                                         <div class="col-md-8">
-                                            <textarea class="textarea_editor form-control" rows="15" placeholder="Enter text ..." name="isi"></textarea>
+                                            <textarea class="summernote form-control" rows="15" placeholder="Enter text ..." name="isi"></textarea>
                                         </div>
                                     </div>
 
@@ -140,12 +141,16 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
-	<!-- wysuhtml5 Plugin JavaScript -->
-    <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/wysihtml5-0.3.0.js') }}"></script>
-    <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('.textarea_editor').wysihtml5();
-        });
-    </script>
+	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
+	<script>
+		jQuery(document).ready(function () {
+			$('.summernote').summernote({
+				height: 350, // set editor height
+				width: 800,
+				minHeight: null, // set minimum height of editor
+				maxHeight: null, // set maximum height of editor
+				focus: false // set focus to editable area after initializing summernote
+			});
+		});
+	</script>
 @endsection
