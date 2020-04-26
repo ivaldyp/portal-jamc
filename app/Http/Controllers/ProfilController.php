@@ -167,7 +167,7 @@ class ProfilController extends Controller
 		}
 
 		return redirect('/profil/pegawai')
-					->with('message', 'Pegawai '.$request->nm_emp.' berhasil diubah')
+					->with('message', 'Pegawai '.$request->nm_emp.' berhasil diubah. Apabila terdapat kesalahan data, mohon melakukan login ulang')
 					->with('msg_num', 1);
 	}
 
