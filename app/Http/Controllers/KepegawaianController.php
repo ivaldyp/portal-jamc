@@ -1339,13 +1339,22 @@ class KepegawaianController extends Controller
 
 		$idemp = Auth::user()->id_emp;
 
+		// $laporans = DB::select( DB::raw("
+		// 			SELECT *
+		// 			from bpaddtfake.dbo.kinerja_data
+		// 			where idemp = '$idemp'
+		// 			and stat is null
+		// 			order by tgl_trans desc
+		// 			"));
+
 		$laporans = DB::select( DB::raw("
 					SELECT *
-					from bpaddtfake.dbo.kinerja_data
+					from bpaddtfake.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
 					order by tgl_trans desc
 					"));
+
 		$laporans = json_decode(json_encode($laporans), true);
 
 		return view('pages.bpadkepegawaian.kinerjaentri')
@@ -1403,12 +1412,12 @@ class KepegawaianController extends Controller
 		// 			and a.stat is null
 		// 			order by b.tgl_trans desc, time1 asc
 		// 			"));
-
 		$query = DB::select( DB::raw("
 					SELECT *
 					from bpaddtfake.dbo.v_kinerja
 					where idemp = '$idemp'
 					and stat is null
+					order by tgl_trans desc
 					"));
 		$query = json_decode(json_encode($query), true);
 

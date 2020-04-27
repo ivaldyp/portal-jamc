@@ -80,7 +80,7 @@
 					                      		<label for="katnow" class="control-label"> Tipe </label>
 					                        	<select class="form-control" name="katnow" id="katnow" required onchange="this.form.submit()">
 					                          	<?php foreach ($kategoris as $key => $kategori) { ?>
-					                          		@if($kategori['ids'] != 11)
+					                          		@if($kategori['ids'] != 11 && $kategori['ids'] != 16)
 					                            	<option value="{{ $kategori['ids'] }}" 
 					                              	<?php 
 					                                	if ($katnow == $kategori['ids']) {
@@ -183,7 +183,7 @@
                                     <div class="col-md-8">
                                         <select class="form-control select2" name="kat" id="kat" required>
                                             @foreach($kategoris as $kategori)
-                                            	@if($kategori['ids'] != 11)
+                                            	@if($kategori['ids'] != 11 && $kategori['ids'] != 16)
                                             	<option value="{{ $kategori['ids'] }}">{{ $kategori['nmkat'] }}</option>
                                             	@endif
                                             @endforeach

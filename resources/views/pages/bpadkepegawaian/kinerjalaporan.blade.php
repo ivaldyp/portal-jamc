@@ -124,7 +124,12 @@
 												@if($nowdate != $laporan['tgl_trans'])
 													@php $nowdate = $laporan['tgl_trans'] @endphp
 													<tr style="background-color: #f7fafc !important">
-														<td colspan="5"><b>TANGGAL: {{ date('D, d-M-Y',strtotime($laporan['tgl_trans'])) }} --- {{ $laporan['jns_hadir_app'] }}
+														<td colspan="5"><b>TANGGAL: {{ date('D, d-M-Y',strtotime($laporan['tgl_trans'])) }} --- 
+														@if($now_valid == "= 1")
+														{{ $laporan['jns_hadir_app'] }}
+														@else
+														{{ $laporan['jns_hadir'] }}
+														@endif
 
 														@if($laporan['jns_hadir_app'] == 'Lainnya (sebutkan)')
 														 --- {{ $laporan['lainnya'] }}
@@ -138,15 +143,29 @@
 													</tr>
 												@endif
 
-												@if($laporan['tipe_hadir_app'] != 2)
-												<tr>
-													<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
-													<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
-													<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
-													<td>{{ $laporan['uraian'] }}</td>
-													<td>{{ $laporan['keterangan'] }}</td>
-												</tr>
+												@if($now_valid == "= 1")
+													@if($laporan['tipe_hadir_app'] != 2)
+													<tr>
+														<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
+														<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
+														<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
+														<td>{{ $laporan['uraian'] }}</td>
+														<td>{{ $laporan['keterangan'] }}</td>
+													</tr>
+													@endif
+												@else
+													@if($laporan['tipe_hadir'] != 2)
+													<tr>
+														<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
+														<td>{{ date('H:i',strtotime($laporan['time1'])) }}</td>
+														<td>{{ date('H:i',strtotime($laporan['time2'])) }}</td>
+														<td>{{ $laporan['uraian'] }}</td>
+														<td>{{ $laporan['keterangan'] }}</td>
+													</tr>
+													@endif
 												@endif
+
+												
 												
 												@endforeach
 											</tbody>

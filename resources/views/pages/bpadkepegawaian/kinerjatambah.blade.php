@@ -160,9 +160,11 @@
 								<hr>
 								<div class="col-md-12 col-sm-12 col-xs-12">		
 									<button type="submit" class="btn btn-success m-b-20 m-l-20 pull-right simpan">Simpan Kinerja</button>
+									<button type="button" class="btn btn-default pull-right" onclick="goBack()">Kembali</button>
 								</div>
 								<br>
 								<div class="table-responsive" style="padding: 10px">
+									<span style="color: red">* Refresh dan hapus cache apabila detail kinerja tidak muncul</span>
 									<table class="color-table primary-table table table-hover">
 										<thead>
 											<tr>
@@ -252,6 +254,9 @@
 			, }).find('input').change(function () {
 		});
 
+		function goBack() {
+		  window.history.back();
+		}
 
 		$(function () {
 			jQuery('.datepicker-autoclose').datepicker({
@@ -264,7 +269,6 @@
 			method: "GET", 
 			url: "/bpadwebs/kepegawaian/getaktivitas",
 			}).done(function( data ) { 
-
 				var idemp = $('#idemp').val();
 				var csrf_js_var = "{{ csrf_token() }}"
 				$('#body_tabel').empty();
@@ -291,8 +295,8 @@
 						$('#body_tabel').append("<tr>"+
 													"<td>"+time1+"</td>"+
 													"<td>"+time2+"</td>"+
-													"<td>"+data[i].uraian+"</td>"+
-													"<td>"+data[i].keterangan+"</td>"+
+													"<td>"+(data[i].uraian ? data[i].uraian : '-')+"</td>"+
+													"<td>"+(data[i].keterangan ? data[i].keterangan : '-')+"</td>"+
 													"<td>"+
 														"<input id='idemp-"+i+"' type='hidden' value='"+idemp+"'>"+
 														"<input id='tgl_trans-"+i+"' type='hidden' value='"+data[i].tgl_trans+"'>"+
