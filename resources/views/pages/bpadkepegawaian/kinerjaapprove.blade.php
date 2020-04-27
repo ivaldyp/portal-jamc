@@ -100,6 +100,7 @@
 														<th class="col-md-2">Nama</th>
 														<th>Tanggal</th>
 														<th class="col-md-6">Kehadiran</th>
+														<th>Detail</th>
 														<th>Status</th>
 													</tr>
 												</thead>
@@ -162,6 +163,10 @@
 															</span>
 														</td>
 														<td>
+															<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-detail" data-toggle="modal" data-target="#modal-detail" data-idemp="{{$laporan['idemp']}}" data-tgl_trans="{{$laporan['tgl_trans']}}"><i class="fa fa-eye"></i></button>
+														</td>
+
+														<td>
 															@if($laporan['stat'] == 'Y')
 															Approved
 															@else
@@ -190,6 +195,27 @@
 					</div>
 				</div>
 			</div>
+			<div id="modal-detail" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content" style="padding: 20px">
+						<span style="color: red">* Refresh dan hapus cache apabila detail kinerja tidak muncul</span>
+						<table class="table table-hover color-table primary-table">
+							<thead>
+								<tr>
+									<th>Awal</th>
+									<th>Akhir</th>
+									<th>Uraian</th>
+									<th>Kegiatan</th>
+								</tr>
+							</thead>
+							<tbody id="detail-kinerja">
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
 			<div id="modal-update" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -322,6 +348,50 @@
 				, todayHighlight: true
 				, format: 'dd/mm/yyyy'
 			});
+
+			$("#modal-detail").on("hidden.bs.modal", function () {
+				$("#detail-kinerja").html("");
+			});
+
+			$('.btn-detail').on('click', function () {
+				var $el = $(this);
+
+				var tgltrans = $el.data('tgl_trans').split(" ");
+				var vartgltrans = tgltrans[0];
+
+				var varidemp = $el.data('idemp');
+
+				$.ajax({ 
+				method: "GET", 
+				url: "/bpadwebs/kepegawaian/getdetailaktivitas",
+				data: { tgl_trans : vartgltrans, idemp : varidemp,  },
+				}).done(function( data ) { 
+					console.log(data);
+					if (data[0] == null) {
+						$('#detail-kinerja').append("<tr>"+
+													"<td colspan='4' class='text-center'>Tidak ada Kinerja</td>"+
+													"</tr>");
+					} else {
+						for (var i = 0; i < data.length; i++) {
+
+							var splittime1 = (data[i].time1).split(":");
+							var time1 = splittime1[0] + ":" + splittime1[1];
+
+							var splittime2 = (data[i].time2).split(":");
+							var time2 = splittime2[0] + ":" + splittime2[1];
+
+							$('#detail-kinerja').append("<tr>"+
+														"<td>"+time1+"</td>"+
+														"<td>"+time2+"</td>"+
+														"<td>"+(data[i].uraian ? data[i].uraian : '-')+"</td>"+
+														"<td>"+(data[i].keterangan ? data[i].keterangan : '-')+"</td>"+
+														"</tr>");
+						}
+					}
+				});
+			});
+
+			
 
 			$('.btn_update_kinerja').on('click', function () {
 				var $el = $(this);

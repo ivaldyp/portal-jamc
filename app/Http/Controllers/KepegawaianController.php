@@ -1775,6 +1775,32 @@ class KepegawaianController extends Controller
 					->with('msg_num', 1);
 	}
 
+	public function getdetailaktivitas(Request $request)
+	{
+		$idemp = $request->idemp;
+		$tgl_trans = $request->tgl_trans;
+		// $query = DB::select( DB::raw("
+		// 			SELECT a.sts as data_sts, a.tgl as data_tgl, a.idemp as data_idemp, a.tgl_trans as data_tgl_trans, tipe_hadir, jns_hadir, lainnya, stat, tipe_hadir_app, jns_hadir_app, catatan_app,
+		// 					b.sts as detail_sts, b.tgl as detail_sts, b.idemp as detail_idemp, b.tgl_trans as detail_tgl_trans, time1, time2, uraian, keterangan
+		// 			from bpaddtfake.dbo.kinerja_data a
+		// 			join bpaddtfake.dbo.kinerja_detail b on b.idemp = a.idemp
+		// 			where b.idemp = '$idemp' 
+		// 			and a.tgl_trans = b.tgl_trans
+		// 			and a.stat is null
+		// 			order by b.tgl_trans desc, time1 asc
+		// 			"));
+		$query = DB::select( DB::raw("
+					SELECT *
+					from bpaddtfake.dbo.kinerja_detail
+					where idemp = '$idemp'
+					and tgl_trans = '$tgl_trans'
+					order by time1
+					"));
+		$query = json_decode(json_encode($query), true);
+
+		return $query;
+	}
+
 	public function formapprovekinerjasingle(Request $request)
 	{
 		$this->checkSessionTime();
