@@ -138,14 +138,14 @@
 										<div class="form-group" id="input_lainnya">
 											<label for="uraian" class="col-md-2 control-label"> Uraian </label>
 											<div class="col-md-8">
-												<textarea class="form-control" required name="uraian" id="uraian"></textarea>
+												<textarea class="form-control" name="uraian" id="uraian"></textarea>
 											</div>
 										</div>
 
 										<div class="form-group" id="input_lainnya">
 											<label for="keterangan" class="col-md-2 control-label"> Keterangan </label>
 											<div class="col-md-8">
-												<textarea class="form-control" required name="keterangan" id="keterangan"></textarea>
+												<textarea class="form-control" name="keterangan" id="keterangan"></textarea>
 											</div>
 										</div>
 
@@ -226,6 +226,20 @@
 		$('.select_jns_hadir').hide();
 		$('.tipe-1').show();
 		$('#input_lainnya').hide();
+
+		var valuenow = $( "#tipe_hadir" ).val();
+		$('.select_jns_hadir').hide();
+		$('.tipe-'+valuenow).show();
+
+		if (valuenow == 2) {
+			$('#form_aktivitas').hide();
+		} else {
+			$('#form_aktivitas').show();
+		}
+
+		if($('select[id="jns_hadir"] :selected').hasClass('lainnya')){
+			$('#input_lainnya').show();
+		}
 
 		$('#tipe_hadir').on('change', function() {
 			$('.select_jns_hadir').hide();

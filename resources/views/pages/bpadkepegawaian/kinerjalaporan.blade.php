@@ -96,8 +96,8 @@
 										</div>
 										<div class=" col-md-2">
 											<select class="form-control" name="now_valid" id="now_valid" onchange="this.form.submit()">
-												<option <?php if ($now_valid == "= 1" ): ?> selected <?php endif ?> value="= 1">Valid</option>
-												<option <?php if ($now_valid == "is null" ): ?> selected <?php endif ?> value="is null">Invalid</option>
+												<option <?php if ($now_valid == "= 1" ): ?> selected <?php endif ?> value="= 1">Approved</option>
+												<option <?php if ($now_valid == "is null" ): ?> selected <?php endif ?> value="is null">Not Approved</option>
 											</select>
 										</div>
 									</form>
@@ -131,7 +131,7 @@
 														{{ $laporan['jns_hadir'] }}
 														@endif
 
-														@if($laporan['jns_hadir_app'] == 'Lainnya (sebutkan)')
+														@if($laporan['jns_hadir_app'] == 'Lainnya (sebutkan)' || $laporan['jns_hadir'] == 'Lainnya (sebutkan)')
 														 --- {{ $laporan['lainnya'] }}
 														@endif
 

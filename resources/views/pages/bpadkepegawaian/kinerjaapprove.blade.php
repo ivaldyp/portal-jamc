@@ -151,15 +151,18 @@
 														<td>{{ date('d-m-Y', strtotime( $laporan['tgl_trans'])) }}</td>
 														<td>
 															{{ $tipe_hadir }}
-															@if($laporan['tipe_hadir_app'])
+															<!-- @if($laporan['tipe_hadir_app'])
 															-> {{ $tipe_hadir_app }}
-															@endif
+															@endif -->
 															<br>
 															<span class="text-muted">
 																{{ $laporan['jns_hadir'] }}
-																@if($laporan['jns_hadir_app'])
-																-> {{ $laporan['jns_hadir_app'] }}
+																@if( $laporan['lainnya'] != '' )
+																-> {{ $laporan['lainnya'] }}
 																@endif
+																<!-- @if($laporan['jns_hadir_app'])
+																-> {{ $laporan['jns_hadir_app'] }}
+																@endif -->
 															</span>
 														</td>
 														<td>
