@@ -53,6 +53,7 @@
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
+			
 			<div class="row ">
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
@@ -103,6 +104,11 @@
 									</form>
 								</div>
 								<div class="row">
+									<div class="col-md-12">
+										<a href="/bpadwebs/kepegawaian/excel?id={{$now_id_emp}}&month={{$now_month}}&year={{$now_year}}&valid={{$now_valid}}"><button class="btn btn-info"> Excel </button></a>
+									</div>
+								</div>
+								<div class="row">
 									<div class="table-responsive">
 										<table class="myTable table table-hover color-table primary-table" >
 											<thead>
@@ -111,7 +117,7 @@
 													<th class="col-md-1">Awal</th>
 													<th class="col-md-1">Akhir</th>
 													<th class="col-md-4">Uraian</th>
-													<th class="col-md-4">Kegiatan</th>
+													<th class="col-md-4">Keterangan</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -216,17 +222,17 @@
 				"paging":   false,
 				"ordering": false,
 				"info":     false,
-				dom: 'Bfrtip'
-				,buttons: [
-					{
-						extend: 'excelHtml5',
-						title: 'Laporan Kinerja'
-					},
-					{
-						extend: 'pdfHtml5',
-						title: 'Laporan Kinerja'
-					}
-				]
+				// dom: 'Bfrtip'
+				// ,buttons: [
+				// 	{
+				// 		extend: 'excelHtml5',
+				// 		title: 'Laporan Kinerja'
+				// 	},
+				// 	{
+				// 		extend: 'pdfHtml5',
+				// 		title: 'Laporan Kinerja'
+				// 	}
+				// ]
 			});
 		});
 	</script>

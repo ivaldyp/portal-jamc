@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+require 'vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
@@ -1842,6 +1847,246 @@ class KepegawaianController extends Controller
 		return redirect('/kepegawaian/approve kinerja?now_id_emp='.$request->idemp)
 					->with('message', 'Data kinerja berhasil disetujui')
 					->with('msg_num', 1);
+	}
+
+	public function printexcel(Request $request)
+	{
+		$now_id = $request->id;
+		$now_month = $request->month;
+		$now_year = $request->year;
+		$now_valid = $request->valid;
+
+		$monthName = date('F', mktime(0, 0, 0, $now_month, 10)); // March
+
+		$now_emp = DB::select( DB::raw("  
+				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao from bpaddtfake.dbo.emp_data as a
+				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja_2020 WHERE glo_org_unitkerja_2020.kd_unit = tbjab.idunit) tbunit
+				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja_2020 as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+				and id_emp like '$now_id' AND ked_emp = 'AKTIF'") )[0];
+		$now_emp = json_decode(json_encode($now_emp), true);
+
+		$sao_es4 = $now_emp['sao'];
+		$now_es4 = DB::select( DB::raw("  
+				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao from bpaddtfake.dbo.emp_data as a
+				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja_2020 WHERE glo_org_unitkerja_2020.kd_unit = tbjab.idunit) tbunit
+				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja_2020 as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+				and idunit like '$sao_es4' AND ked_emp = 'AKTIF'") )[0];
+		$now_es4 = json_decode(json_encode($now_es4), true);
+
+		$sao_es3 = $now_es4['sao'];
+		$now_es3 = DB::select( DB::raw("  
+				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao from bpaddtfake.dbo.emp_data as a
+				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja_2020 WHERE glo_org_unitkerja_2020.kd_unit = tbjab.idunit) tbunit
+				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja_2020 as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+				and idunit like '$sao_es3' AND ked_emp = 'AKTIF'") )[0];
+		$now_es3 = json_decode(json_encode($now_es3), true);
+
+		$laporans = DB::select( DB::raw("
+					SELECT *
+					from bpaddtfake.dbo.v_kinerja
+					where idemp = '$now_id'
+					and stat $now_valid
+					and YEAR(tgl_trans) = $now_year
+					and MONTH(tgl_trans) = $now_month
+					"));
+		$laporans = json_decode(json_encode($laporans), true);
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->mergeCells('A1:E1');
+		$sheet->setCellValue('A1', 'LAPORAN KINERJA');
+		$sheet->getStyle('A1')->getFont()->setBold( true );
+		$sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
+
+		$sheet->mergeCells('A2:E2');
+		$sheet->setCellValue('A2', 'TENAGA AHLI '.$now_emp['nm_unit'].' BADAN PENGELOLAAN ASET DAERAH');
+		$sheet->getStyle('A2')->getFont()->setBold( true );
+		$sheet->getStyle('A2')->getAlignment()->setHorizontal('center');
+
+		$sheet->mergeCells('A3:E3');
+		$sheet->setCellValue('A3', 'BADAN PENGELOLAAN ASET DAERAH (BPAD) PROVINSI DKI JAKARTA '.date('Y'));
+		$sheet->getStyle('A3')->getFont()->setBold( true );
+		$sheet->getStyle('A3')->getAlignment()->setHorizontal('center');
+
+		$sheet->setCellValue('A5', 'Nama');
+		$sheet->setCellValue('A6', 'Tempat Tugas');
+		$sheet->setCellValue('A7', 'Periode');
+
+		$sheet->setCellValue('C5', ': '.ucwords(strtolower($now_emp['nm_emp'])));
+		$sheet->getStyle('C5')->getFont()->setBold( true );
+		$sheet->setCellValue('C6', ': '.ucwords(strtolower($now_emp['nm_unit'])) . ' BPAD Provinsi DKI Jakarta');
+		$sheet->setCellValue('C7', ': '.$monthName .' '. $now_year);		
+
+		$styleArray = [
+		    'font' => [
+		        'size' => 12,
+		        'name' => 'Trebuchet MS',
+		    ]
+		];
+		$sheet->getStyle('A1:E7')->applyFromArray($styleArray);
+
+		$sheet->setCellValue('A9', 'TANGGAL');
+		$sheet->setCellValue('B9', 'AWAL');
+		$sheet->setCellValue('C9', 'AKHIR');
+		$sheet->setCellValue('D9', 'URAIAN');
+		$sheet->setCellValue('E9', 'KETERANGAN');
+
+		$sheet->getStyle('A9')->getFont()->setBold( true );
+		$sheet->getStyle('B9')->getFont()->setBold( true );
+		$sheet->getStyle('C9')->getFont()->setBold( true );
+		$sheet->getStyle('D9')->getFont()->setBold( true );
+		$sheet->getStyle('E9')->getFont()->setBold( true );
+
+		$sheet->getStyle('A9')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('B9')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('C9')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('D9')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('E9')->getAlignment()->setHorizontal('center');
+
+		$nowdate = 0;
+		$nowrow = 10;
+		$rowstart = $nowrow - 1;
+		foreach ($laporans as $key => $laporan) {
+			if ($nowdate != $laporan['tgl_trans']) {
+				$nowdate = $laporan['tgl_trans'];
+
+				if ($now_valid == "= 1") {
+					$jns_hadir = $laporan['jns_hadir_app'];
+				} else {
+					$jns_hadir = $laporan['jns_hadir'];
+				}
+
+				if ($laporan['jns_hadir_app'] == 'Lainnya (sebutkan)' || $laporan['jns_hadir'] == 'Lainnya (sebutkan)') {
+					$lainnya = " --- " . $laporan['lainnya'];
+				} else {
+					$lainnya = "";
+				}
+
+				$sheet->mergeCells("A".$nowrow.":E".$nowrow);
+				$sheet->setCellValue("A".$nowrow, date('D, d-M-Y',strtotime($laporan['tgl_trans'])) . " --- " . $jns_hadir);
+				$sheet->getStyle('A'.$nowrow)->getFont()->setBold( true );
+
+				$nowrow++;
+			}
+
+			if ($now_valid == "= 1") {
+				if ($laporan['tipe_hadir_app'] != 2) {
+					$sheet->setCellValue('A'.$nowrow, date('d-M-Y',strtotime($laporan['tgl_trans'])));
+					$sheet->setCellValue('B'.$nowrow, date('H:i',strtotime($laporan['time1'])));
+					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
+					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
+					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
+				}
+			} else {
+				if ($laporan['tipe_hadir'] != 2) {
+					$sheet->setCellValue('A'.$nowrow, date('d-M-Y',strtotime($laporan['tgl_trans'])));
+					$sheet->setCellValue('B'.$nowrow, date('H:i',strtotime($laporan['time1'])));
+					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
+					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
+					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
+				}
+			}
+
+			$nowrow++;
+		}
+
+		$rowend = $nowrow - 1;
+
+		$sheet->getColumnDimension('A')->setWidth(10);
+		$sheet->getColumnDimension('B')->setWidth(8);
+		$sheet->getColumnDimension('C')->setWidth(8);
+		$sheet->getColumnDimension('D')->setWidth(55);
+		$sheet->getColumnDimension('E')->setWidth(30);
+
+		$styleArray = [
+		    'borders' => [
+		        'allBorders' => [
+		            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+		        ],
+		    ],
+		];
+
+		$sheet->getStyle('A'.$rowstart.':E'.$rowend)->applyFromArray($styleArray);
+
+		$nowrow++;
+		$sheet->setCellValue('E'.$nowrow, 'Jakarta, _________');
+
+		$nowrow++;
+		$rownext = $nowrow + 1;
+		$sheet->mergeCells('A'.$nowrow.':C'.$rownext);
+		$sheet->setCellValue('A'.$nowrow, strtoupper($now_es4['nm_unit']));
+		$sheet->getStyle('A'.$nowrow)->getAlignment()->setWrapText(true);
+		$sheet->getStyle('A'.$nowrow)->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('A'.$nowrow)->getAlignment()->setVertical('center');
+
+		$nowrow++;
+		$sheet->setCellValue('E'.$nowrow, 'TENAGA PENDAMPING');
+		$sheet->getStyle('E'.$nowrow)->getAlignment()->setHorizontal('center');
+
+		$nowrow = $nowrow + 4;
+		$sheet->setCellValue('D'.$nowrow, 'Mengetahui:');
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
+
+		$nowrow++;
+		$sheet->mergeCells('A'.$nowrow.':C'.$nowrow);
+		$sheet->setCellValue('A'.$nowrow, strtoupper($now_es4['nm_emp']));
+		$sheet->getStyle('A'.$nowrow)->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('A'.$nowrow)->getFont()->setBold( true );
+		//-----//
+		$rownext = $nowrow + 1;
+		$sheet->mergeCells('D'.$nowrow.':D'.$rownext);
+		$sheet->setCellValue('D'.$nowrow, strtoupper($now_es3['nm_unit']));
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setWrapText(true);
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setVertical('center');
+		//-----//
+		$sheet->setCellValue('E'.$nowrow, strtoupper($now_emp['nm_emp']));
+		$sheet->getStyle('E'.$nowrow)->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('E'.$nowrow)->getFont()->setBold( true );
+
+		$nowrow++;
+		$sheet->setCellValue('A'.$nowrow, 'NIP. '.$now_es4['nip_emp']);
+		$sheet->mergeCells('A'.$nowrow.':C'.$nowrow);
+		$sheet->getStyle('A'.$nowrow)->getAlignment()->setHorizontal('center');
+
+		$nowrow = $nowrow + 4;
+		$sheet->setCellValue('D'.$nowrow, strtoupper($now_es3['nm_emp']));
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setWrapText(true);
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setVertical('center');
+		
+		$nowrow++;
+		$sheet->setCellValue('D'.$nowrow, 'NIP. '.$now_es3['nip_emp']);
+		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
+
+		$styleArray = [
+		    'font' => [
+		        'size' => 12,
+		        'name' => 'Trebuchet MS',
+		    ]
+		];
+		$sheet->getStyle('A'.$rowend.':E'.$nowrow)->applyFromArray($styleArray);
+
+		$filename = 'EKinerja_'.$now_id.'_'.$monthName.$now_year.'.xlsx';
+
+		// Redirect output to a client's web browser (Xlsx)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="'.$filename.'"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+		 
+		// If you're serving to IE over SSL, then the following may be needed
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header('Pragma: public'); // HTTP/1.
+
+		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
 	}
 
 	public function laporankinerja(Request $request)

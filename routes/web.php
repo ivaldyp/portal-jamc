@@ -101,6 +101,7 @@ Route::group(['prefix' => 'internal'], function () {
 });
 
 Route::group(['prefix' => 'kepegawaian'], function () {
+	Route::get('/excel', 'KepegawaianController@printexcel');
 	Route::get('/data pegawai', 'KepegawaianController@pegawaiall');
 	Route::get('/tambah pegawai', 'KepegawaianController@pegawaitambah');
 	Route::get('/ubah pegawai', 'KepegawaianController@pegawaiubah');
