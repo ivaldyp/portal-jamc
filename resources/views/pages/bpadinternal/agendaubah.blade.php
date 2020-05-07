@@ -2,17 +2,17 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- Menu CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- page CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -64,7 +64,7 @@
 			<div class="row ">
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<form class="form-horizontal" method="POST" action="/bpadwebs/internal/form/ubahagenda" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/portal/internal/form/ubahagenda" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Ubah Agenda </div>
@@ -126,9 +126,9 @@
 							<div class="panel-footer">
                                 <button type="submit" class="btn btn-info pull-right">Simpan</button>
                                 @if($agenda['appr'] == 'N')
-                                <a href="/bpadwebs/internal/form/appragenda?ids={{ $agenda['ids'] }}&appr=Y"><button type="button" class="btn btn-success pull-right" style="margin-right: 10px">Setuju</button></a>
+                                <a href="/portal/internal/form/appragenda?ids={{ $agenda['ids'] }}&appr=Y"><button type="button" class="btn btn-success pull-right" style="margin-right: 10px">Setuju</button></a>
                                 @else
-                                <a href="/bpadwebs/internal/form/appragenda?ids={{ $agenda['ids'] }}&appr=N"><button type="button" class="btn btn-danger pull-right" style="margin-right: 10px">Batal Setuju</button></a>
+                                <a href="/portal/internal/form/appragenda?ids={{ $agenda['ids'] }}&appr=N"><button type="button" class="btn btn-danger pull-right" style="margin-right: 10px">Batal Setuju</button></a>
                                 @endif
                                 <button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
                                 <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
@@ -151,18 +151,18 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/custom.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/validator.js') }}"></script>
 
 	<script type="text/javascript">
 		function goBack() {

@@ -33,26 +33,21 @@ class HomeController extends Controller
 		if ($level == 0) {
 			$sao = "(sao = 0 or sao is null)";
 		} else {
-			$sao = "(sao = ".$level.")";
+			$sao = "(sao = ".$parent.")";
 		}
-
-		if (env('DB_HOST') == '127.0.0.1' && $parent == 0) {
-			$sao = 0;
-		} elseif (env('DB_HOST') != '127.0.0.1' && $parent == 0) {
-			$sao = '';
-		} else {
-			$sao = $parent;
-		}
-
-		$query = Sec_menu::
-					join('bpaddtfake.dbo.sec_access', 'bpaddtfake.dbo.sec_access.idtop', '=', 'bpaddtfake.dbo.Sec_menu.ids')
-					->where('bpaddtfake.dbo.sec_access.idgroup', $_SESSION['user_data']['idgroup'])
-					->where('bpaddtfake.dbo.sec_access.zviw', 'y')
-					->where('bpaddtfake.dbo.Sec_menu.sao', $sao)
-					->where('tampilnew', 1)
-					->orderBy('bpaddtfake.dbo.Sec_menu.urut')
-					->get();
 							
+		$query = DB::select( DB::raw("
+					SELECT *
+					FROM bpaddtfake.dbo.sec_menu
+					JOIN bpaddtfake.dbo.sec_access ON bpaddtfake.dbo.sec_access.idtop = bpaddtfake.dbo.sec_menu.ids
+					WHERE bpaddtfake.dbo.sec_access.idgroup = '$idgroup'
+					AND bpaddtfake.dbo.sec_access.zviw = 'y'
+					AND $sao
+					AND bpaddtfake.dbo.sec_menu.tampilnew = 1
+					ORDER BY bpaddtfake.dbo.sec_menu.urut
+					"));
+		$query = json_decode(json_encode($query), true);
+
 		$result = '';
 		$link = '';
 		$arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">'];

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ ('/bpadwebs/public/img/photo/bpad-logo-05.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ ('/portal/public/img/photo/bpad-logo-05.png') }}">
 
     <title>BPAD</title>
     @yield('css')
@@ -34,9 +34,9 @@
             <div class="navbar-header">
                 <div class="top-left-part">
                     <!-- Logo -->
-                    <a class="logo" href="/bpadwebs/home">
-                        <span class="hidden-sm hidden-md hidden-lg"><img width="50%" src="{{ ('/bpadwebs/public/img/photo/bpad-logo-05.png') }}"></span>
-                        <span class="hidden-xs"><img width="20%" src="{{ ('/bpadwebs/public/img/photo/bpad-logo-000.png') }}"><strong>BPAD</strong>
+                    <a class="logo" href="/portal/home">
+                        <span class="hidden-sm hidden-md hidden-lg"><img width="50%" src="{{ ('/portal/public/img/photo/bpad-logo-05.png') }}"></span>
+                        <span class="hidden-xs"><img width="20%" src="{{ ('/portal/public/img/photo/bpad-logo-000.png') }}"><strong>BPAD</strong>
                         </span>
                     </a>
                 </div>
