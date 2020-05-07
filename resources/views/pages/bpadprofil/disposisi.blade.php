@@ -2,19 +2,19 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/portal/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 		<!-- animation CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- Date picker plugins css -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -69,7 +69,7 @@
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
 								@if($access['zadd'] == 'y')
-								<a href="/bpadwebs/profil/tambah disposisi"><button class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
+								<a href="/portal/profil/tambah disposisi"><button class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
 								@endif
 								@if($isEmployee == 1)
 									<ul class="nav customtab nav-tabs" role="tablist">
@@ -175,7 +175,7 @@
 																	@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 																	<td style="vertical-align: middle;">
 																		@if ($access['zupd'] == 'y')
-																		<form method="POST" action="/bpadwebs/profil/lihat disposisi">
+																		<form method="POST" action="/portal/profil/lihat disposisi">
 																			@csrf
 																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
 																			<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
@@ -196,7 +196,7 @@
 																<div id="modal-delete-{{ $disp['ids'] }}" class="modal fade" role="dialog">
 																	<div class="modal-dialog">
 																		<div class="modal-content">
-																			<form method="POST" action="/bpadwebs/profil/form/hapusdisposisi" class="form-horizontal">
+																			<form method="POST" action="/portal/profil/form/hapusdisposisi" class="form-horizontal">
 																			@csrf
 																				<div class="modal-header">
 																					<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
@@ -304,7 +304,7 @@
 																	@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 																	<td style="vertical-align: middle;">
 																		@if ($access['zupd'] == 'y')
-																		<form method="POST" action="/bpadwebs/profil/lihat disposisi">
+																		<form method="POST" action="/portal/profil/lihat disposisi">
 																			@csrf
 																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
 																			<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
@@ -324,7 +324,7 @@
 																<div id="modal-delete-{{ $disp['ids'] }}" class="modal fade" role="dialog">
 																	<div class="modal-dialog">
 																		<div class="modal-content">
-																			<form method="POST" action="/bpadwebs/profil/form/hapusdisposisi" class="form-horizontal">
+																			<form method="POST" action="/portal/profil/form/hapusdisposisi" class="form-horizontal">
 																			@csrf
 																				<div class="modal-header">
 																					<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
@@ -386,7 +386,7 @@
 														@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td style="vertical-align: middle;">
 															@if ($access['zupd'] == 'y')
-															<form method="POST" action="/bpadwebs/profil/lihat disposisi">
+															<form method="POST" action="/portal/profil/lihat disposisi">
 																@csrf
 																<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
 																<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
@@ -403,7 +403,7 @@
 													<div id="modal-delete-{{ $disp['ids'] }}" class="modal fade" role="dialog">
 														<div class="modal-dialog">
 															<div class="modal-content">
-																<form method="POST" action="/bpadwebs/profil/form/hapusdisposisi" class="form-horizontal">
+																<form method="POST" action="/portal/profil/form/hapusdisposisi" class="form-horizontal">
 																@csrf
 																	<div class="modal-header">
 																		<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
@@ -443,21 +443,21 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/custom.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<!-- Date Picker Plugin JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
 	<script>
 		$(function () {

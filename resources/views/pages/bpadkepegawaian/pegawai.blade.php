@@ -2,18 +2,18 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/portal/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
-	<link rel="stylesheet" href="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.css') }}" />
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ ('/portal/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.css') }}" />
 	<!-- animation CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -70,11 +70,11 @@
                             	<div class="row " style="margin-bottom: 10px">
                             		@if ($access['zadd'] == 'y')
                             		<div class="col-md-1">
-				                      	<a href="/bpadwebs/kepegawaian/tambah pegawai"><button class="btn btn-info" type="button">Tambah</button></a>
+				                      	<a href="/portal/kepegawaian/tambah pegawai"><button class="btn btn-info" type="button">Tambah</button></a>
                             		</div>
                             		@endif
                             		<div class="col-md-6">
-                            			<form method="GET" action="/bpadwebs/kepegawaian/data pegawai">
+                            			<form method="GET" action="/portal/kepegawaian/data pegawai">
 					                      	<div class=" col-md-3">
 					                        	<select class="form-control" name="kednow" id="kednow" required>
 					                          	<?php foreach ($kedudukans as $key => $kedudukan) { ?>
@@ -134,7 +134,7 @@
 													<td>{{ $employee['status_emp'] }}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td>
-															<form method="GET" action="/bpadwebs/kepegawaian/ubah pegawai">
+															<form method="GET" action="/portal/kepegawaian/ubah pegawai">
 															@if($access['zupd'] == 'y')
 																<input type="hidden" name="id_emp" value="{{ $employee['id_emp'] }}">
 																<button type="submit" class="btn btn-info btn-update"><i class="fa fa-edit"></i></button>
@@ -147,7 +147,7 @@
 															<div id="modal-password-{{$key}}" class="modal fade" role="dialog">
 																<div class="modal-dialog">
 																	<div class="modal-content">
-																		<form method="POST" action="/bpadwebs/kepegawaian/form/ubahpassuser" class="form-horizontal">
+																		<form method="POST" action="/portal/kepegawaian/form/ubahpassuser" class="form-horizontal">
 																		@csrf
 																			<div class="modal-header">
 																				<h4 class="modal-title"><b>Ubah Password</b></h4>
@@ -192,7 +192,7 @@
 			<div id="modal-delete" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/bpadwebs/kepegawaian/form/hapuspegawai" class="form-horizontal">
+						<form method="POST" action="/portal/kepegawaian/form/hapuspegawai" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b>Hapus Pegawai</b></h4>
@@ -217,22 +217,22 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/custom.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/validator.js') }}"></script>
 	<!-- wysuhtml5 Plugin JavaScript -->
-    <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/wysihtml5-0.3.0.js') }}"></script>
-    <script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.js') }}"></script>
+    <script src="{{ ('/portal/public/ample/plugins/bower_components/html5-editor/wysihtml5-0.3.0.js') }}"></script>
+    <script src="{{ ('/portal/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('.textarea_editor').wysihtml5();
@@ -280,7 +280,7 @@
 				} else if (appr == 'N') {
 					$("#btn_update_href").html('Setuju');
 				}
-				$("#modal_update_href").attr("href", "/bpadwebs/cms/form/apprcontent?ids=" + ids + "&idkat=" + idkat + "&appr=" + appr + "&judul=" + judul );
+				$("#modal_update_href").attr("href", "/portal/cms/form/apprcontent?ids=" + ids + "&idkat=" + idkat + "&appr=" + appr + "&judul=" + judul );
 
 			});
 

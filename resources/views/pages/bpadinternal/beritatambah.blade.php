@@ -2,19 +2,19 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- summernotes CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/summernote/dist/summernote.css') }}" rel="stylesheet" />
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/summernote/dist/summernote.css') }}" rel="stylesheet" />
 	<!-- Menu CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/portal/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- page CSS -->
-	<link href="{{ ('/bpadwebs/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -66,7 +66,7 @@
 			<div class="row ">
 				<!-- <div class="col-md-1"></div> -->
 				<div class="col-md-12">
-					<form class="form-horizontal" method="POST" action="/bpadwebs/internal/form/tambahberita" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/portal/internal/form/tambahberita" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Buat Berita Internal </div>
@@ -129,19 +129,19 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/bpadwebs/public/ample/js/waves.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/bpadwebs/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/bpadwebs/public/ample/js/validator.js') }}"></script>
-	<script src="{{ ('/bpadwebs/public/ample/plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/custom.min.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
 	<script>
 		jQuery(document).ready(function () {
 			$('.summernote').summernote({
