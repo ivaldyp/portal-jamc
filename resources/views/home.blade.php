@@ -22,6 +22,11 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('content')
+	<style type="text/css">
+		#li_portal a.active {
+			background:white;
+		}
+	</style>
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<div class="row bg-title">

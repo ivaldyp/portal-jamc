@@ -49,12 +49,17 @@ class HomeController extends Controller
 		$query = json_decode(json_encode($query), true);
 
 		$result = '';
+
 		$link = '';
 		$arrLevel = ['<ul class="nav" id="side-menu">', '<ul class="nav nav-second-level">', '<ul class="nav nav-third-level">', '<ul class="nav nav-fourth-level">', '<ul class="nav nav-fourth-level">'];
 
 		if (count($query) > 0) {
 
 			$result .= $arrLevel[$level];
+
+			if ($level == 0) {
+				$result .= '<li id="li_portal"> <a href="/portal" class="waves-effect"> <i class="fa fa-globe fa-fw"></i> <span class="hide-menu">Portal BPAD</span></a></li>';
+			}
 		
 			foreach ($query as $menu) {
 				if (is_null($menu['urlnew'])) {

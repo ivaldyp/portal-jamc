@@ -63,6 +63,11 @@ body {
   color: #ffffff;
   font-weight: 500;
 }
+
+#side-menu > #li_portal > a.active {
+  background: #2f323e;
+}
+
 #side-menu ul > li > a:hover {
   color: #ffffff;
 }
