@@ -166,9 +166,9 @@
 						</form>
 						<ul class="footer-social text-center">
 							<!-- <li><a href="JavaScript:void(0);"><i class="fa fa-facebook"></i></a></li> -->
-							<li><a href="https://twitter.com/BPAD_Jakarta"><i class="fa fa-twitter"></i></a></li>
-							<li><a href="https://www.youtube.com/channel/UC_S1y4yWE7nngg66DfG_hxg/"><i class="fa fa-youtube"></i></a></li>
-							<li><a href="https://instagram.com/bpad_jakarta"><i class="fa fa-instagram"></i></a></li>
+							<li><a target="_blank" href="https://twitter.com/BPAD_Jakarta"><i class="fa fa-twitter"></i></a></li>
+							<li><a target="_blank" href="https://www.youtube.com/channel/UC_S1y4yWE7nngg66DfG_hxg/"><i class="fa fa-youtube"></i></a></li>
+							<li><a target="_blank" href="https://instagram.com/bpad_jakarta"><i class="fa fa-instagram"></i></a></li>
 						</ul>
 					</div>
 				</div>

@@ -36,11 +36,6 @@ class ProfilController extends Controller
 		$this->middleware('auth');
 	}
 
-	public function test(Request $request)
-	{
-		return $request->another;
-	}
-
 	public function pegawai(Request $request)
 	{
 		$this->checkSessionTime();
