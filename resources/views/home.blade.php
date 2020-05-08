@@ -87,7 +87,7 @@
 							</a>
 
 							<a href="/portal/cms/content">
-							<div class="col-md-4 col-sm-4 row-in-br">
+							<div class="col-md-4 col-sm-4">
 								<ul class="col-in">
 									<li>
 										<span class="circle circle-md bg-success"><i class="ti-comment"></i></span>
