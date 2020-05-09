@@ -1993,7 +1993,7 @@ class KepegawaianController extends Controller
 			$nowrow++;
 		}
 
-		$rowend = $nowrow;
+		$rowend = $nowrow - 1;
 
 		$sheet->getColumnDimension('A')->setWidth(10);
 		$sheet->getColumnDimension('B')->setWidth(8);
@@ -2009,7 +2009,7 @@ class KepegawaianController extends Controller
 		    ],
 		];
 
-		$sheet->getStyle('A'.$rowstart.':E'.$rowend)->applyFromArray($styleArray);
+		$sheet->getStyle('A'.$rowstart.':E'.($rowend-1))->applyFromArray($styleArray);
 
 		$nowrow++;
 		$sheet->setCellValue('E'.$nowrow, 'Jakarta, _________');
@@ -2068,7 +2068,7 @@ class KepegawaianController extends Controller
 		        'name' => 'Trebuchet MS',
 		    ]
 		];
-		$sheet->getStyle('A'.$rowend.':E'.$nowrow)->applyFromArray($styleArray);
+		$sheet->getStyle('A'.($rowend+1).':E'.$nowrow)->applyFromArray($styleArray);
 
 		$filename = 'EKinerja_'.$now_id.'_'.$monthName.$now_year.'.xlsx';
 
