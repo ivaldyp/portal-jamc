@@ -90,6 +90,8 @@ class SecurityController extends Controller
 					distinct('idgroup')
 					->get('idgroup');
 
+		echo "MAU UBAH DISINI";
+
 		$all_menu = [];
 
 		$menus = $this->display_roles($all_menu, $request->name, $access, 0);
