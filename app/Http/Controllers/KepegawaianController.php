@@ -1979,6 +1979,7 @@ class KepegawaianController extends Controller
 					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
 					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
 					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
+					$nowrow++;
 				}
 			} else {
 				if ($laporan['tipe_hadir'] != 2) {
@@ -1987,10 +1988,9 @@ class KepegawaianController extends Controller
 					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
 					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
 					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
+					$nowrow++;
 				}
 			}
-
-			$nowrow++;
 		}
 
 		$rowend = $nowrow - 1;
@@ -2009,7 +2009,7 @@ class KepegawaianController extends Controller
 		    ],
 		];
 
-		$sheet->getStyle('A'.$rowstart.':E'.($rowend-1))->applyFromArray($styleArray);
+		$sheet->getStyle('A'.$rowstart.':E'.$rowend)->applyFromArray($styleArray);
 
 		$nowrow++;
 		$sheet->setCellValue('E'.$nowrow, 'Jakarta, _________');
