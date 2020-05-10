@@ -177,7 +177,7 @@
 											<div class="col-md-8">
 												<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
 													@foreach($jabatans as $jabatan)
-														<option value="{{ $jabatan['jabatan'] }}"> {{ $jabatan['jabatan'] }} </option>
+														<option <?php if (isset(Auth::user()->usname)): ?> selected <?php endif ?> value="{{ $jabatan['jabatan'] }}"> {{ $jabatan['jabatan'] }} </option>
 													@endforeach
 												</select>
 											</div>

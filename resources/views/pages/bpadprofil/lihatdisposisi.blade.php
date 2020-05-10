@@ -237,7 +237,7 @@
 												<div class="col-md-8">
 													<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
 														@foreach($jabatans as $jabatan)
-															<option value="{{ $jabatan['jabatan'] }}||{{ $jabatan['noid'] }}" > {{ $jabatan['jabatan'] }} </option>
+															<option value="{{ $jabatan['notes'] }}||{{ $jabatan['id_emp'] }}" > {{ $jabatan['notes'] }} </option>
 														@endforeach
 													</select>
 												</div>
