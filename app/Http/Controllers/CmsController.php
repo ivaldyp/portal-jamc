@@ -699,10 +699,16 @@ class CmsController extends Controller
 				'judul'   => $request->judul,
 				'isi1'   => htmlentities($request->isi1),
 				'isi2'   => htmlentities($request->isi2),
-				'tfile'   => $file_name,
 				'url'       => $url,
 				'suspend' => $suspend,
 			]);
+
+		if ($file_name != '') {
+			Content_tb::where('ids', $request->ids)
+			->update([
+				'tfile' => $file_name,
+			]);
+		}
 
 		return redirect('/cms/content?katnow='.$request->idkat)
 					->with('message', 'Konten '.$request->judul.' berhasil diubah')
