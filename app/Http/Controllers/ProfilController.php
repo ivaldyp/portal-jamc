@@ -373,17 +373,17 @@ class ProfilController extends Controller
 
 	public function display_disposisi($no_form, $idtop, $level = 0)
 	{
-		$query = Fr_disposisi::
-					leftJoin('bpaddtfake.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddtfake.dbo.fr_disposisi.to_pm')
-					->where('no_form', $no_form)
-					->where('idtop', $idtop)
-					->orderBy('ids')
-					->get();
+
+		$query = DB::select( DB::raw("SELECT * 
+					from bpaddtfake.dbo.fr_disposisi
+					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
+					where no_form = '$no_form'
+					and ids = '$idtop'
+					order by ids
+					") );
+		$query = json_decode(json_encode($query), true);
 
 		$result = '';
-
-		// var_dump($query);
-		// die();
 
 		if (count($query) > 0) {
 			foreach ($query as $log) {
@@ -442,7 +442,7 @@ class ProfilController extends Controller
 		}
 
 		if (isset(Auth::user()->usname)) {
-			$id_now = $id_now = $request->ids;
+			$id_now = $request->ids;
 			$id_child = $request->ids;
 		}
 
