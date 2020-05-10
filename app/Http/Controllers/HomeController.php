@@ -30,7 +30,7 @@ class HomeController extends Controller
 
 	public function display_menus($query, $parent, $level = 0, $idgroup)
 	{
-		if ($level == 0) {
+		if ($parent == 0) {
 			$sao = "(sao = 0 or sao is null)";
 		} else {
 			$sao = "(sao = ".$parent.")";

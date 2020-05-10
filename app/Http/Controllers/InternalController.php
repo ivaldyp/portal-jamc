@@ -11,6 +11,7 @@ use App\Traits\SessionCheckTraits;
 
 use App\Agenda_tb;
 use App\Berita_tb;
+use App\Help;
 
 session_start();
 
@@ -339,4 +340,43 @@ class InternalController extends Controller
     }
 
     // ========== </BERITA> ========== //
+
+    // ========== <SARAN> ========== //
+    
+    public function saran()
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1376);
+
+		$sarans = Help::limit(100)
+					->orderBy('tanggal', 'desc')
+					->get();
+
+		return view('pages.bpadinternal.saran')
+				->with('access', $access)
+				->with('sarans', $sarans);
+    }
+
+    public function formapprsaran(Request $request)
+    {
+    	$this->checkSessionTime();
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1376);
+
+		if ($request->read == 1) {
+			$read = 0;
+		} else {
+			$read = 1;
+		}
+
+		Help::where('ids', $request->ids)
+					->update([
+						'read' => $read,
+					]);
+
+		return redirect('/internal/saran')
+				->with('message', 'Status berhasil diubah')
+				->with('msg_num', 1);
+    }
+
+    // ========== </SARAN> ========== //
 }

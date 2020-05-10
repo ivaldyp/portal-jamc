@@ -97,6 +97,9 @@ Route::group(['prefix' => 'internal'], function () {
 	Route::post('/form/tambahberita', 'InternalController@forminsertberita');
 	Route::post('/form/ubahberita', 'InternalController@formupdateberita');
 	Route::post('/form/hapusberita', 'InternalController@formdeleteberita');
+
+	Route::get('/saran', 'InternalController@saran');
+	Route::post('/form/apprsaran', 'InternalController@formapprsaran');
 });
 
 Route::group(['prefix' => 'kepegawaian'], function () {
