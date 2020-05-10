@@ -207,7 +207,6 @@
 											<label for="tgl_join" class="col-md-2 control-label"> Penanganan </label>
 											<div class="col-md-8">
 												<select class="select2 form-control" name="penanganan" id="penanganan">
-													<option value="<?php echo NULL; ?>">---</option>
 													@foreach($penanganans as $penanganan)
 														<option value="{{ $penanganan['nm_penanganan'] }}"> {{ $penanganan['nm_penanganan'] }} </option>
 													@endforeach
