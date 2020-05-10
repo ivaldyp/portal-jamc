@@ -912,7 +912,7 @@ class ProfilController extends Controller
 							and tbjab.idjab like '".$request->jabatans[0]."' and ked_emp = 'aktif' order by nm_emp") )[0];
 			$findidemp = json_decode(json_encode($findidemp), true);
 
-			$idnew = DB::getPdo()->lastInsertId();
+			$idnew = Fr_disposisi::max('ids');
 			$insertsurat = [
 				'sts' => 1,
 				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
