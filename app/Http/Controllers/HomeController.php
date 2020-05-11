@@ -148,7 +148,7 @@ class HomeController extends Controller
 
 		$countdisp = DB::select( DB::raw("SELECT count (ids) as total
 							from bpaddtfake.dbo.fr_disposisi
-							where to_pm = '$iduser'"))[0];
+							where to_pm = '$iduser' and (rd = 'N' or rd = 'Y')"))[0];
 		$countdisp = json_decode(json_encode($countdisp), true);
 
 		$countcontent = DB::select(DB::raw("SELECT count(ids) as total
