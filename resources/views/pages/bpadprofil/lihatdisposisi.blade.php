@@ -281,8 +281,8 @@
 										<div class="form-group">
 											<label for="catatan" class="col-md-2 control-label"> Catatan </label>
 											<div class="col-md-8">
-												<textarea name="catatan" class="form-control" rows="3">{{ $catatan_final }}
-												</textarea>
+												<!-- <textarea name="-catatan-" class="form-control" rows="3">{{ $catatan_final }}</textarea> -->
+												<textarea name="catatan" class="form-control" rows="3"></textarea>
 											</div>
 										</div>
 
