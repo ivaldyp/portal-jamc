@@ -157,7 +157,7 @@
 					<div class="footer">
 						<h3 class="footer-title">Bantuan dan Saran</h3>
 						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p> -->
-						<form class="footer-newsletter" action="mail" method="post">
+						<form class="footer-newsletter" action="{{ url('mail') }}" method="post">
 							@csrf
 							<!-- <input class="input" type="email" placeholder="Enter your email"> -->
 							<textarea class="input" placeholder="Ketik saran dan masukkan" name="isi" id="isi" required></textarea>

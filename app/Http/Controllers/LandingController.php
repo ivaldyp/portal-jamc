@@ -21,6 +21,8 @@ class LandingController extends Controller
 {
 	public function feedback(Request $request)
 	{    
+
+		$link = explode("portal", $_SERVER['HTTP_REFERER']);
 		$insert_help = [
 				// GOLONGAN
 				'tanggal' => date('Y-m-d H:i:s'),
@@ -31,7 +33,7 @@ class LandingController extends Controller
 
 		Help::insert($insert_help);
 
-		return redirect('/');
+		return redirect($link[1]);
 
 		// $subject = 'Saran dan Masukan';
 		// $body = 'Pengirim: ' . $request->sender . '<br><br>';
