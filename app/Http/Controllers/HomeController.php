@@ -148,12 +148,14 @@ class HomeController extends Controller
 
 		$countdisp = DB::select( DB::raw("SELECT count (ids) as total
 							from bpaddtfake.dbo.fr_disposisi
-							where to_pm = '1.20.512.19395' and rd = 'N'"))[0];
+							where to_pm = '$iduser' and rd = 'N'"))[0];
 		$countdisp = json_decode(json_encode($countdisp), true);
 
 		$countcontent = DB::select(DB::raw("SELECT count(ids) as total
-								  FROM [bpadcmsfake].[dbo].[content_tb]
-								  where appr = 'N' and suspend = 'N'"))[0];
+							FROM [bpadcmsfake].[dbo].[content_tb]
+							where appr = 'N' and sts = '1'
+							and (idkat != 11 and idkat != 16)
+							"))[0];
 		$countcontent = json_decode(json_encode($countcontent), true);
 
 		if (isset(Auth::user()->id_emp)) {
