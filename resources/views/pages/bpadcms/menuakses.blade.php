@@ -3,8 +3,6 @@
 @section('css')
 	<!-- Bootstrap Core CSS -->
 	<link href="{{ ('/portal/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/portal/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
 	<link href="{{ ('/portal/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
@@ -70,6 +68,7 @@
                             	@csrf
                             		<div class="row">
                             			<div class="col-md-12">
+                            				<button class="m-r-10 btn btn-info pull-right" onclick="goBack()">Kembali</button>
                             				<button class="btn btn-info pull-right">Simpan</button>
                             			</div>
                             		</div>
@@ -106,6 +105,7 @@
                             		</div>
                             		<div class="row">
                             			<div class="col-md-12">
+                            				<button class="m-r-10 btn btn-info pull-right" onclick="goBack()">Kembali</button>
                             				<button class="btn btn-info pull-right">Simpan</button>
                             			</div>
                             		</div>
@@ -143,43 +143,8 @@
 
 
 	<script>
-		$(function () {
-			$('.btn-insert').on('click', function () {
-				var $el = $(this);
-
-				$("#modal_insert_sao").val("("+$el.data('ids')+") - "+$el.data('desk'));
-				$("#modal_insert_sao_real").val($el.data('ids'));
-			});
-
-			$('.btn-update').on('click', function () {
-				var $el = $(this);
-
-				$("#modal_update_ids").val($el.data('ids'));
-				$("#modal_update_desk").val($el.data('desk'));
-				$("#modal_update_zket").val($el.data('zket'));
-				$("#modal_update_urut").val($el.data('urut'));
-				$("#modal_update_iconnew").val($el.data('iconnew'));
-				$("#modal_update_urlnew").val($el.data('urlnew'));
-
-				if ($el.data('tampilnew') == 1) {
-					$("#update_tampil1").attr('checked', true);
-				} else {
-					$("#update_tampil2").attr('checked', true);
-				}
-			});
-
-			$('.btn-delete').on('click', function () {
-				var $el = $(this);
-
-				$("#label_delete").append('Apakah anda yakin ingin menghapus menu <b>' + $el.data('desk') + '</b>?');
-				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_sao").val($el.data('sao'));
-				$("#modal_delete_desk").val($el.data('desk'));
-			});
-
-			$("#modal-delete").on("hidden.bs.modal", function () {
-				$("#label_delete").empty();
-			});
-		});
+		function goBack() {
+		  window.history.back();
+		}
 	</script>
 @endsection
