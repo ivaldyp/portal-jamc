@@ -61,6 +61,8 @@ Route::group(['prefix' => 'cms'], function () {
 	Route::post('/form/tambahmenu', 'CmsController@forminsertmenu');
 	Route::post('/form/ubahmenu', 'CmsController@formupdatemenu');
 	Route::post('/form/hapusmenu', 'CmsController@formdeletemenu');
+	Route::get('/menuakses', 'CmsController@menuakses');
+	Route::post('/form/ubahaccess', 'CmsController@formupdateaccess');
 
 	Route::get('/kategori', 'CmsController@kategoriall');
 	Route::post('/form/tambahkategori', 'CmsController@forminsertkategori');
@@ -97,6 +99,9 @@ Route::group(['prefix' => 'internal'], function () {
 	Route::post('/form/tambahberita', 'InternalController@forminsertberita');
 	Route::post('/form/ubahberita', 'InternalController@formupdateberita');
 	Route::post('/form/hapusberita', 'InternalController@formdeleteberita');
+
+	Route::get('/saran', 'InternalController@saran');
+	Route::post('/form/apprsaran', 'InternalController@formapprsaran');
 });
 
 Route::group(['prefix' => 'kepegawaian'], function () {

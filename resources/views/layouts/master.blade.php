@@ -133,7 +133,7 @@
 							<span style="font-weight: bold;">Gedung Dinas Teknis</span><br>
 							Jl. Abdul Muis No. 66 (Lt. 5)<br>
 							Tanah Abang-Jakarta Pusat
-				 		</address>
+						</address>
 						<ul class="footer-contact" style="list-style: none; padding: 0;">
 							<!-- <li><i class="fa fa-map-marker"></i> 2736 Hinkle Deegan Lake Road </li> -->
 							<li><i class="fa fa-phone"></i> (021) 3865745 - (021) 3865745</li>
@@ -157,12 +157,12 @@
 					<div class="footer">
 						<h3 class="footer-title">Bantuan dan Saran</h3>
 						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p> -->
-						<form class="footer-newsletter" action="mail" method="post">
+						<form class="footer-newsletter" action="{{ url('mail') }}" method="post">
 							@csrf
 							<!-- <input class="input" type="email" placeholder="Enter your email"> -->
-							<textarea class="input" placeholder="Ketik saran dan masukkan" name="body"></textarea>
-							<input class="input" type="email" name="sender" placeholder="Masukkan email" autocomplete="off">
-							<button class="primary-button" type="submit">Kirim</button>
+							<textarea class="input" placeholder="Ketik saran dan masukkan" name="isi" id="isi" required></textarea>
+							<input class="input" type="email" name="sender" placeholder="Masukkan email" autocomplete="off" required id="sender">
+							<button class="primary-button" type="submit" id="mail_submit">Kirim</button>
 						</form>
 						<ul class="footer-social text-center">
 							<!-- <li><a href="JavaScript:void(0);"><i class="fa fa-facebook"></i></a></li> -->
@@ -263,6 +263,18 @@
 			})
 		}
 		$(document).ready(main);
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#mail_submit").click(function(){
+				var isi = $("#isi").val();
+				var sender = $("#sender").val();
+
+				if (isi != '' && sender != '') {
+					alert("Saran berhasil tersimpan");
+				}
+			});
+		});
 	</script>
 </body>
 

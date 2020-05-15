@@ -1859,7 +1859,7 @@ class KepegawaianController extends Controller
 		$monthName = date('F', mktime(0, 0, 0, $now_month, 10)); // March
 
 		$now_emp = DB::select( DB::raw("  
-				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao from bpaddtfake.dbo.emp_data as a
+				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao, tbunit.notes from bpaddtfake.dbo.emp_data as a
 				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja_2020 WHERE glo_org_unitkerja_2020.kd_unit = tbjab.idunit) tbunit
 				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja_2020 as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
@@ -1868,7 +1868,7 @@ class KepegawaianController extends Controller
 
 		$sao_es4 = $now_emp['sao'];
 		$now_es4 = DB::select( DB::raw("  
-				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao from bpaddtfake.dbo.emp_data as a
+				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao, tbunit.notes from bpaddtfake.dbo.emp_data as a
 				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja_2020 WHERE glo_org_unitkerja_2020.kd_unit = tbjab.idunit) tbunit
 				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja_2020 as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
@@ -1877,7 +1877,7 @@ class KepegawaianController extends Controller
 
 		$sao_es3 = $now_es4['sao'];
 		$now_es3 = DB::select( DB::raw("  
-				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao from bpaddtfake.dbo.emp_data as a
+				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao, tbunit.notes from bpaddtfake.dbo.emp_data as a
 				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja_2020 WHERE glo_org_unitkerja_2020.kd_unit = tbjab.idunit) tbunit
 				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja_2020 as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
@@ -1979,6 +1979,7 @@ class KepegawaianController extends Controller
 					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
 					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
 					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
+					$nowrow++;
 				}
 			} else {
 				if ($laporan['tipe_hadir'] != 2) {
@@ -1987,10 +1988,9 @@ class KepegawaianController extends Controller
 					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
 					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
 					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
+					$nowrow++;
 				}
 			}
-
-			$nowrow++;
 		}
 
 		$rowend = $nowrow - 1;
@@ -2017,7 +2017,7 @@ class KepegawaianController extends Controller
 		$nowrow++;
 		$rownext = $nowrow + 1;
 		$sheet->mergeCells('A'.$nowrow.':C'.$rownext);
-		$sheet->setCellValue('A'.$nowrow, strtoupper($now_es4['nm_unit']));
+		$sheet->setCellValue('A'.$nowrow, strtoupper($now_es4['notes']));
 		$sheet->getStyle('A'.$nowrow)->getAlignment()->setWrapText(true);
 		$sheet->getStyle('A'.$nowrow)->getAlignment()->setHorizontal('center');
 		$sheet->getStyle('A'.$nowrow)->getAlignment()->setVertical('center');
@@ -2038,7 +2038,7 @@ class KepegawaianController extends Controller
 		//-----//
 		$rownext = $nowrow + 1;
 		$sheet->mergeCells('D'.$nowrow.':D'.$rownext);
-		$sheet->setCellValue('D'.$nowrow, strtoupper($now_es3['nm_unit']));
+		$sheet->setCellValue('D'.$nowrow, strtoupper($now_es3['notes']));
 		$sheet->getStyle('D'.$nowrow)->getAlignment()->setWrapText(true);
 		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
 		$sheet->getStyle('D'.$nowrow)->getAlignment()->setVertical('center');
@@ -2068,7 +2068,7 @@ class KepegawaianController extends Controller
 		        'name' => 'Trebuchet MS',
 		    ]
 		];
-		$sheet->getStyle('A'.$rowend.':E'.$nowrow)->applyFromArray($styleArray);
+		$sheet->getStyle('A'.($rowend+1).':E'.$nowrow)->applyFromArray($styleArray);
 
 		$filename = 'EKinerja_'.$now_id.'_'.$monthName.$now_year.'.xlsx';
 

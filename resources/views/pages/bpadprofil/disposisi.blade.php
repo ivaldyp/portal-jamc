@@ -68,7 +68,7 @@
 						<div class="panel-heading">Disposisi</div>
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
-								@if($access['zadd'] == 'y')
+								@if($access['zadd'] == 'y' && isset(Auth::user()->usname))
 								<a href="/portal/profil/tambah disposisi"><button class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
 								@endif
 								@if($isEmployee == 1)

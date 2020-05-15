@@ -352,7 +352,7 @@ class ProfilController extends Controller
 			$disposisis = DB::select( DB::raw("SELECT TOP 500 *
 										  from bpaddtfake.dbo.fr_disposisi
 										  where (kode_disposisi is not null 
-										  or kode_disposisi != '')
+										  and kode_disposisi != '')
 										  and sts = 1
 										  order by no_form DESC") );
 			$isEmployee = 0;
@@ -373,17 +373,23 @@ class ProfilController extends Controller
 
 	public function display_disposisi($no_form, $idtop, $level = 0)
 	{
-		$query = Fr_disposisi::
-					leftJoin('bpaddtfake.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddtfake.dbo.fr_disposisi.to_pm')
-					->where('no_form', $no_form)
-					->where('idtop', $idtop)
-					->orderBy('ids')
-					->get();
+		// $query = Fr_disposisi::
+		// 			leftJoin('bpaddtfake.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddtfake.dbo.fr_disposisi.to_pm')
+		// 			->where('no_form', $no_form)
+		// 			->where('idtop', $idtop)
+		// 			->orderBy('ids')
+		// 			->get();
+
+		$query = DB::select( DB::raw("SELECT * 
+					from bpaddtfake.dbo.fr_disposisi
+					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
+					where no_form = '$no_form'
+					and idtop = '$idtop'
+					order by ids
+					") );
+		$query = json_decode(json_encode($query), true);
 
 		$result = '';
-
-		// var_dump($query);
-		// die();
 
 		if (count($query) > 0) {
 			foreach ($query as $log) {
@@ -441,6 +447,11 @@ class ProfilController extends Controller
 			$id_child = $request->ids;
 		}
 
+		if (isset(Auth::user()->usname)) {
+			$id_now = $request->ids;
+			$id_child = $request->ids;
+		}
+
 		$openpenanganannow = Fr_disposisi::
 							where('ids', $id_now)
 							->first();
@@ -485,12 +496,16 @@ class ProfilController extends Controller
 					where('jabatan',  'like', '%Kepala Badan%')
 					->get();
 		} else {
+			$idunit = $_SESSION['user_data']['idunit'];
 			$jabatans = DB::select( DB::raw("
-						SELECT *
-						from bpaddtfake.dbo.glo_org_jabatan_2020 org
-						cross apply (select top 1 * from bpaddtfake.dbo.emp_jab as jab where org.jabatan = jab.idjab order by jab.tmt_jab desc) resjab 
-						where (LEFT(org.jabatan, 6) = 'kepala' or LEFT(jabatan, 5) = 'sekre')
-						order by tmt_jab desc, resjab.idjab asc
+						SELECT id_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.notes from bpaddtfake.dbo.emp_data as a
+						CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+						CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+						CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja_2020 WHERE glo_org_unitkerja_2020.kd_unit = tbjab.idunit) tbunit
+						,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja_2020 as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+						and tbunit.sao like '$idunit%' AND LEN(idunit) < 10 AND ked_emp = 'AKTIF'
+						ORDER BY idunit ASC, idjab ASC
 						"));
 			$jabatans = json_decode(json_encode($jabatans), true);
 		}
@@ -607,6 +622,18 @@ class ProfilController extends Controller
 			// 	$filetambahan = null;
 			// }
 
+			if ($request->sifat1_surat == null) {
+				$sifat1 = '';
+			} else {
+				$sifat1 = $request->sifat1_surat;
+			}
+
+			if ($request->sifat2_surat == null) {
+				$sifat2 = '';
+			} else {
+				$sifat2 = $request->sifat2_surat;
+			}
+
 			Fr_disposisi::where('ids', $request->ids)
 				->update([
 					'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
@@ -619,8 +646,8 @@ class ProfilController extends Controller
 					'no_surat' => $request->no_surat,
 					'asal_surat' => $request->asal_surat,
 					'kepada_surat' => $request->kepada_surat,
-					'sifat1_surat' => $request->sifat1_surat,
-					'sifat2_surat' => $request->sifat2_surat,
+					'sifat1_surat' => $sifat1,
+					'sifat2_surat' => $sifat2,
 					'ket_lain' => $request->ket_lain,
 				]);
 
@@ -854,8 +881,8 @@ class ProfilController extends Controller
 			'no_surat' => $request->no_surat,
 			'asal_surat' => $request->asal_surat,
 			'kepada_surat' => $request->kepada_surat,
-			'sifat1_surat' => $request->sifat1_surat,
-			'sifat2_surat' => $request->sifat2_surat,
+			'sifat1_surat' => ($request->sifat1_surat == null ? '' : $request->sifat1_surat ),
+			'sifat2_surat' => ($request->sifat2_surat == null ? '' : $request->sifat2_surat ),
 			'ket_lain' => $request->ket_lain,
 			'nm_file' => $filedispo,
 			'kepada' => 'Kepala Badan Pengelola Aset Daerah',
@@ -885,7 +912,7 @@ class ProfilController extends Controller
 							and tbjab.idjab like '".$request->jabatans[0]."' and ked_emp = 'aktif' order by nm_emp") )[0];
 			$findidemp = json_decode(json_encode($findidemp), true);
 
-			$idnew = DB::getPdo()->lastInsertId();
+			$idnew = Fr_disposisi::max('ids');
 			$insertsurat = [
 				'sts' => 1,
 				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),

@@ -1,7 +1,7 @@
 <li class="dropdown">
-    <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i class="mdi mdi-bell"></i>
+    <!-- <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i class="mdi mdi-bell"></i>
         <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-    </a>
+    </a> -->
     <ul class="dropdown-menu mailbox animated bounceInDown">
         <li>
             <div class="drop-title">You have 4 new messages</div>
@@ -34,5 +34,4 @@
             <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a>
         </li>
     </ul>
-    <!-- /.dropdown-messages -->
 </li>

@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use App\Content_tb;
+use App\Help;
 use App\Produk_aset;
 use App\Setup_tb;
 
@@ -19,59 +20,73 @@ session_start();
 class LandingController extends Controller
 {
 	public function feedback(Request $request)
-	{     
-		$subject = 'Saran dan Masukan';
-		$body = 'Pengirim: ' . $request->sender . '<br><br>';
-		$body = $body . $request->body;
+	{    
 
-		var_dump($request->sender);
-		var_dump($request->body);
-		// Import PHPMailer classes into the global namespace
-		// These must be at the top of your script, not inside a function
+		$link = explode("portal", $_SERVER['HTTP_REFERER']);
+		$insert_help = [
+				// GOLONGAN
+				'tanggal' => date('Y-m-d H:i:s'),
+				'isi' => $request->isi,
+				'sender' => $request->sender,
+				'read' => 0,
+			];
 
-		// Load Composer's autoloader
-		// require 'vendor/autoload.php';
+		Help::insert($insert_help);
 
-		// Instantiation and passing `true` enables exceptions
-		$mail = new PHPMailer(true);
+		return redirect($link[1]);
 
-		try {
-			//Server settings
-			$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-			$mail->isSMTP();                                            // Send using SMTP
-			$mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
-			$mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-			$mail->Username   = 'bpad.masukan@gmail.com';                     // SMTP username
-			$mail->Password   = 'bpad_dia';                               // SMTP password
-			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-			$mail->Port       = 587;
-			// $mail->SMTPSecure = 'ssl';         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-			// $mail->Port       = '465';                                    // TCP port to connect to
+		// $subject = 'Saran dan Masukan';
+		// $body = 'Pengirim: ' . $request->sender . '<br><br>';
+		// $body = $body . $request->body;
 
-			//Recipients
-			$mail->setFrom('info@example.com', 'Pengunjung BPAD');
-			// $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-			$mail->addAddress('Asetbpad@gmail.com');               // Name is optional
-			// $mail->addReplyTo('info@example.com', 'Information');
-			// $mail->addCC('cc@example.com');
-			// $mail->addBCC('bcc@example.com');
+		// var_dump($request->sender);
+		// var_dump($request->body);
+		// // Import PHPMailer classes into the global namespace
+		// // These must be at the top of your script, not inside a function
 
-			// Attachments
-			// $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-			// $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+		// // Load Composer's autoloader
+		// // require 'vendor/autoload.php';
 
-			// Content
-			$mail->isHTML(true);                                  // Set email format to HTML
-			$mail->Subject = $subject;
-			$mail->Body    = $body;
-			// $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+		// // Instantiation and passing `true` enables exceptions
+		// $mail = new PHPMailer(true);
 
-			$mail->send();
-			return redirect()->action('HomeController@index');
-			// echo 'Message has been sent';
-		} catch (Exception $e) {
-			echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-		}
+		// try {
+		// 	//Server settings
+		// 	$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+		// 	$mail->isSMTP();                                            // Send using SMTP
+		// 	$mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+		// 	$mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+		// 	$mail->Username   = 'bpad.masukan@gmail.com';                     // SMTP username
+		// 	$mail->Password   = 'bpad_dia';                               // SMTP password
+		// 	$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+		// 	$mail->Port       = 587;
+		// 	// $mail->SMTPSecure = 'ssl';         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+		// 	// $mail->Port       = '465';                                    // TCP port to connect to
+
+		// 	//Recipients
+		// 	$mail->setFrom('info@example.com', 'Pengunjung BPAD');
+		// 	// $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+		// 	$mail->addAddress('Asetbpad@gmail.com');               // Name is optional
+		// 	// $mail->addReplyTo('info@example.com', 'Information');
+		// 	// $mail->addCC('cc@example.com');
+		// 	// $mail->addBCC('bcc@example.com');
+
+		// 	// Attachments
+		// 	// $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+		// 	// $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+		// 	// Content
+		// 	$mail->isHTML(true);                                  // Set email format to HTML
+		// 	$mail->Subject = $subject;
+		// 	$mail->Body    = $body;
+		// 	// $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+		// 	$mail->send();
+		// 	return redirect()->action('HomeController@index');
+		// 	// echo 'Message has been sent';
+		// } catch (Exception $e) {
+		// 	echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+		// }
 	}
 	/**
 	 * Display a listing of the resource.

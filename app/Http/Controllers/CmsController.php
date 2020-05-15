@@ -30,11 +30,20 @@ class CmsController extends Controller
 
 	public function display_roles($query, $idgroup, $access, $parent, $level = 0)
 	{
-		$query = Sec_menu::
-				where('sao', $parent)
-				->orderBy('urut')
-				->orderBy('ids')
-				->get();
+
+		if ($parent == 0) {
+			$sao = "(sao = 0 or sao is null)";
+		} else {
+			$sao = "(sao = ".$parent.")";
+		}
+
+		$query = DB::select( DB::raw("
+					SELECT *
+					FROM bpaddtfake.dbo.sec_menu
+					WHERE $sao
+					ORDER BY urut, ids
+				"));
+		$query = json_decode(json_encode($query), true);
 
 		$result = '';
 
@@ -60,7 +69,9 @@ class CmsController extends Controller
 								'.(($access['zupd'] == 'y' || $access['zdel'] == 'y') ? 
 									'<td class="col-md-2">
 										'.(($access['zupd'] == 'y') ? 
-											'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" data-tampilnew="'.$menu['tampilnew'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>'
+											'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" data-tampilnew="'.$menu['tampilnew'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>
+											<a href="/portal/cms/menuakses?menu='.$menu['ids'].'&nama='.$menu['desk'].'"><button type="button" class="btn btn-warning"><i class="fa fa-key"></i></button></a>
+											'
 										: '').'
 										'.(($access['zdel'] == 'y') ? 
 											'<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="'.$menu['ids'].'" data-sao="'.$menu['sao'].'" data-desk="'.$menu['desk'].'"><i class="fa fa-trash"></i></button>'
@@ -254,6 +265,87 @@ class CmsController extends Controller
 
 		return redirect('/cms/menu')
 					->with('message', 'Menu '.$request->desk.' berhasil dihapus')
+					->with('msg_num', 1);
+	}
+
+	public function menuakses(Request $request)
+	{
+		$this->checkSessionTime();
+
+		$idtop = $request->menu;
+		$desk = $request->nama;
+		$accesses = Sec_access::
+					where('idtop', $idtop)
+					->orderBy('idgroup')
+					->get();
+
+		return view('pages.bpadcms.menuakses')
+				->with('now_idtop', $idtop)
+				->with('now_desk', $desk)
+				->with('accesses', $accesses);
+	}
+
+	public function formupdateaccess(Request $request)
+	{
+		$this->checkSessionTime();
+
+		$idtop = $request->idtop;
+		$desk = $request->desk;
+
+		Sec_access::where('idtop', $idtop)
+					->update([
+						'zviw' => null,
+						'zadd' => null,
+						'zupd' => null,
+						'zdel' => null,
+					]);
+
+		if ($request->zviw) {
+			foreach ($request->zviw as $zviw) {
+				Sec_access::
+					where('idtop', $idtop)
+					->where('idgroup', $zviw)
+					->update([
+						'zviw' => 'y',
+					]);
+			}
+		}
+
+		if ($request->zadd) {
+			foreach ($request->zadd as $zadd) {
+				Sec_access::
+					where('idtop', $idtop)
+					->where('idgroup', $zadd)
+					->update([
+						'zadd' => 'y',
+					]);
+			}
+		}
+
+		if ($request->zupd) {
+			foreach ($request->zupd as $zupd) {
+				Sec_access::
+					where('idtop', $idtop)
+					->where('idgroup', $zupd)
+					->update([
+						'zupd' => 'y',
+					]);
+			}
+		}
+
+		if ($request->zdel) {
+			foreach ($request->zdel as $zdel) {
+				Sec_access::
+					where('idtop', $idtop)
+					->where('idgroup', $zdel)
+					->update([
+						'zdel' => 'y',
+					]);
+			}
+		}
+
+		return redirect('/cms/menuakses?menu='.$idtop.'&nama='.$desk)
+					->with('message', 'Hak akses '.$desk.' berhasil diubah')
 					->with('msg_num', 1);
 	}
 
@@ -690,10 +782,16 @@ class CmsController extends Controller
 				'judul'   => $request->judul,
 				'isi1'   => htmlentities($request->isi1),
 				'isi2'   => htmlentities($request->isi2),
-				'tfile'   => $file_name,
 				'url'       => $url,
 				'suspend' => $suspend,
 			]);
+
+		if ($file_name != '') {
+			Content_tb::where('ids', $request->ids)
+			->update([
+				'tfile' => $file_name,
+			]);
+		}
 
 		return redirect('/cms/content?katnow='.$request->idkat)
 					->with('message', 'Konten '.$request->judul.' berhasil diubah')

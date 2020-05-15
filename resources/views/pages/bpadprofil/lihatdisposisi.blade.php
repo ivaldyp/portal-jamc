@@ -237,7 +237,7 @@
 												<div class="col-md-8">
 													<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
 														@foreach($jabatans as $jabatan)
-															<option value="{{ $jabatan['jabatan'] }}||{{ $jabatan['noid'] }}" > {{ $jabatan['jabatan'] }} </option>
+															<option value="{{ $jabatan['notes'] }}||{{ $jabatan['id_emp'] }}" > {{ $jabatan['notes'] }} </option>
 														@endforeach
 													</select>
 												</div>
@@ -281,8 +281,8 @@
 										<div class="form-group">
 											<label for="catatan" class="col-md-2 control-label"> Catatan </label>
 											<div class="col-md-8">
-												<textarea name="catatan" class="form-control" rows="3">{{ $catatan_final }}
-												</textarea>
+												<!-- <textarea name="-catatan-" class="form-control" rows="3">{{ $catatan_final }}</textarea> -->
+												<textarea name="catatan" class="form-control" rows="3"></textarea>
 											</div>
 										</div>
 
