@@ -10,7 +10,7 @@
 	<ul class="dropdown-menu dropdown-user animated flipInY">
 		<li>
 			<div class="dw-user-box">                
-				<div class="u-text"><h4><?php echo isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : $_SESSION['user_data']['nama_user']; ?></h4><p class="text-muted"><?php echo isset($_SESSION['user_data']['email_emp']) ? $_SESSION['user_data']['email_emp'] : $_SESSION['user_data']['email_user']; ?></p><h4><?php echo $_SESSION['user_data']['idgroup']; ?></h4></div>
+				<div class="u-text"><h4><?php echo isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : $_SESSION['user_data']['nama_user']; ?></h4><p class="text-muted"><?php echo isset($_SESSION['user_data']['email_emp']) ? $_SESSION['user_data']['email_emp'] : '-'; ?></p><h4><?php echo $_SESSION['user_data']['idgroup']; ?></h4></div>
 			</div>
 		</li>
 		<li role="separator" class="divider"></li>
