@@ -786,6 +786,13 @@ class CmsController extends Controller
 			$headline = '';
 		}
 
+		if (isset($request->btnAppr)) {
+			Content_tb::where('ids', $request->ids)
+			->update([
+				'appr' => $request->appr,
+			]);
+		}
+
 		Content_tb::
 			where('ids', $request->ids)
 			->update([

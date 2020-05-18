@@ -194,13 +194,19 @@
 											<div class="help-block with-errors"></div>  
 										</div>
 									</div>
+									@if($content['appr'] == 'N')
+									<input type="hidden" name="appr" value="Y">
+									@else 
+									<input type="hidden" name="appr" value="N">
+									@endif
 								</div>
 								<div class="panel-footer">
-									<button type="submit" class="btn btn-info pull-right">Simpan</button>
+									<input type="submit" name="btnSimpan" class="btn btn-info pull-right m-r-10" value="Simpan">
+									
 									@if($content['appr'] == 'N')
-									<a href="/portal/cms/form/apprcontent?ids={{ $content['ids'] }}&idkat={{ $content['idkat'] }}&appr=Y&judul={{ $content['judul'] }}"><button type="button" class="btn btn-success pull-right" style="margin-right: 10px">Setuju</button></a>
+									<input type="submit" name="btnAppr" class="btn btn-success pull-right m-r-10" value="Setuju">
 									@else
-									<a href="/portal/cms/form/apprcontent?ids={{ $content['ids'] }}&idkat={{ $content['idkat'] }}&appr=N&judul={{ $content['judul'] }}"><button type="button" class="btn btn-danger pull-right" style="margin-right: 10px">Batal Setuju</button></a>
+									<input type="submit" name="btnAppr" class="btn btn-danger pull-right m-r-10" value="Batal Setuju">
 									@endif
 									<button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
 									<div class="clearfix"></div>
