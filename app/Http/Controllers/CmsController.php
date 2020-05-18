@@ -822,54 +822,10 @@ class CmsController extends Controller
 	{
 		$this->checkSessionTime();
 
-		if (!(isset($request->subkat))) {
-			$subkat = '';
-		} else {
-			$subkat = $request->subkat;
-		}
-
-		if (!(isset($request->url))) {
-			$url = '';
-		} else {
-			$url = $request->url;
-		}
-
-		if (!(isset($request->isi1))) {
-			$isi1 = '';
-		} else {
-			$isi1 = $request->isi1;
-		}
-
-		if (!(isset($request->isi2))) {
-			$isi2 = '';
-		} else {
-			$isi2 = $request->isi2;
-		}
-
-		if ($request->suspend == 'Y') {
-			$suspend = 'Y';
-		} else {
-			$suspend = '';
-		}
-
-		if ($request->headline == 'H,' ) {
-			$headline = 'H,';
-		} else {
-			$headline = '';
-		}
-
 		Content_tb::
 			where('ids', $request->ids)
 			->update([
 				'appr' => $request->appr,
-				'subkat'     => $subkat,
-				'tipe'		=> $headline,
-				'tanggal'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
-				'judul'   => $request->judul,
-				'isi1'   => htmlentities($request->isi1),
-				'isi2'   => htmlentities($request->isi2),
-				'url'       => $url,
-				'suspend' => $suspend,
 			]);
 
 		return redirect('/cms/content?katnow='.$request->idkat)
