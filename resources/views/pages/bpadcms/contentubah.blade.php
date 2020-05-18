@@ -77,25 +77,6 @@
 									<input type="hidden" name="ids" value="{{ $ids }}">
 									<input type="hidden" name="idkat" value="{{ $idkat }}"> 
 
-									<div class="form-group">
-										<label class="col-md-2 control-label"> Headline? </label>
-										<div class="radio-list col-md-8">
-											<label class="radio-inline">
-												<div class="radio radio-info">
-													<input type="radio" name="headline" id="headline1" value="H," data-error="Pilih salah satu" <?php if ($content['tipe'] == 'H,' ): ?> checked <?php endif ?> >
-													<label for="headline1">Ya</label> 
-												</div>
-											</label>
-											<label class="radio-inline">
-												<div class="radio radio-info">
-													<input type="radio" name="headline" id="headline2" value="" <?php if ($content['tipe'] == '' ||  $content['tipe'] == null): ?> checked <?php endif ?> >
-													<label for="headline2">Tidak</label>
-												</div>
-											</label>
-											<div class="help-block with-errors"></div>  
-										</div>
-									</div>
-
 									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
 									<div class="form-group">
 										<label for="subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
@@ -121,6 +102,25 @@
 										<div class="col-md-8">
 											<input type="text" class="form-control" id="judul" name="judul" autocomplete="off" data-error="Masukkan judul" required value="{{ $content['judul'] }}">
 											<div class="help-block with-errors"></div>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-md-2 control-label"> Jadikan headline? </label>
+										<div class="radio-list col-md-8">
+											<label class="radio-inline">
+												<div class="radio radio-info">
+													<input type="radio" name="headline" id="headline1" value="H," data-error="Pilih salah satu">
+													<label for="headline1">Ya</label> 
+												</div>
+											</label>
+											<label class="radio-inline">
+												<div class="radio radio-info">
+													<input type="radio" name="headline" id="headline2" value="" checked>
+													<label for="headline2">Tidak</label>
+												</div>
+											</label>
+											<div class="help-block with-errors"></div>  
 										</div>
 									</div>
 
