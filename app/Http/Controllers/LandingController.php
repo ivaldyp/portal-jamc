@@ -117,7 +117,6 @@ class LandingController extends Controller
 					->where('sts', 1)
 					->where('tipe', '!=', 'H,')
 					->orderBy('tanggal', 'desc')
-					->skip(4)
 					->take(4)
 					->get();
 
