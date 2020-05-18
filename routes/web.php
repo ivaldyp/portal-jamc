@@ -33,6 +33,7 @@ Route::get('/profil', function () {
 Route::group(['prefix' => 'content'], function () {
 	Route::get('/berita', 'ContentController@berita_all');
 	Route::get('/berita/{id}', 'ContentController@berita_read');
+	Route::get('/lelang', 'ContentController@lelang');
 	Route::get('/foto', 'ContentController@foto_all');
 	Route::get('/foto/{id}', 'ContentController@foto_open');
 	Route::get('/video', 'ContentController@video_all');

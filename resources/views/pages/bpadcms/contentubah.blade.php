@@ -96,7 +96,7 @@
 										</div>
 									</div>
 
-									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
+									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11 && $idkat != 23)
 									<div class="form-group">
 										<label for="subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
 										<div class="col-md-8">

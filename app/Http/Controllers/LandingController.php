@@ -98,8 +98,10 @@ class LandingController extends Controller
 		// if (PHP_SESSION_ACTIVE) {
 		//     session_destroy();
 		// }
-		$lelang = Setup_tb::
-					where('ids', 17)
+		$lelang = Content_tb::
+					where('idkat', 23)
+					->where('appr', 'Y')
+					->where('sts', 1)
 					->first();
 
 		$hot_content = Content_tb::

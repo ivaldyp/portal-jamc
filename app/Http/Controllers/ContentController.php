@@ -78,6 +78,27 @@ class ContentController extends Controller
                 ->with('aside_recent', $aside_recent);
     }
 
+    public function lelang()
+    {
+        $lelang = Content_tb::
+                    where('idkat', 23)
+                    ->where('appr', 'Y')
+                    ->where('sts', 1)
+                    ->first();
+
+        $thits = Content_tb::
+                    where('ids', $lelang['ids'])
+                    ->first(['thits']);
+
+        Content_tb::where('ids', $lelang['ids'])
+            ->update([
+                'thits' => $thits['thits'] + 1,
+            ]);
+
+        return view('pages.berita.lelang')
+                ->with('berita', $lelang);
+    }
+
     public function foto_all(Request $request)
     {
         $subkat = $request->subkategori;

@@ -74,7 +74,7 @@
 									<table id="myTable" class="table table-hover">
 										<thead>
 											<tr>
-												<th>No</th>
+												<th>ID</th>
 												<th>Nama</th>
 												<th>Suspend?</th>
 												@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
@@ -85,7 +85,7 @@
 										<tbody>
 										@foreach($kategoris as $key => $kategori)
 											<tr>
-												<td>{{ $key+1 }}</td>
+												<td>{{ $kategori['ids'] }}</td>
 												<td>{{ ucwords(strtolower($kategori['nmkat'])) }}</td>
 												<td>{!! ($kategori['sts']) == 0 ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
 												@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
