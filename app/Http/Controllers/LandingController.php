@@ -101,6 +101,7 @@ class LandingController extends Controller
 		$lelang = Content_tb::
 					where('idkat', 23)
 					->where('appr', 'Y')
+					->where('tipe', 'H,')
 					->where('sts', 1)
 					->first();
 
