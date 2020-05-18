@@ -90,6 +90,7 @@ class ContentController extends Controller
 					where('idkat', $lelang_id['ids'])
 					->where('appr', 'Y')
 					->where('sts', 1)
+					->orderBy('tanggal', 'desc')
 					->first();
 
 		if ($lelang != null) {

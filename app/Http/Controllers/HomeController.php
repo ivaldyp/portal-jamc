@@ -153,7 +153,7 @@ class HomeController extends Controller
 
 		$countcontent = DB::select(DB::raw("SELECT count(ids) as total
 							FROM [bpadcmsfake].[dbo].[content_tb]
-							where appr = 'N' and sts = '1'
+							where appr = 'N' and sts = 1 and suspend = ''
 							and (idkat != 11 and idkat != 16)
 							"))[0];
 		$countcontent = json_decode(json_encode($countcontent), true);

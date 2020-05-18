@@ -76,7 +76,7 @@
 									</div>
 									<div class="col-md-6">
 										<form method="GET" action="/portal/cms/content">
-											<div class=" col-md-3">
+											<div class=" col-md-6">
 												<label for="katnow" class="control-label"> Tipe </label>
 												<select class="form-control" name="katnow" id="katnow" required onchange="this.form.submit()">
 												<?php foreach ($kategoris as $key => $kategori) { ?>
@@ -86,7 +86,7 @@
 															echo "selected";
 														}
 													?>
-													>{{ $kategori['nmkat'] }}</option>
+													>{{ $kategori['nmkat'] }} ({{ $kategori['total'] }})</option>
 												<?php } ?>
 												</select>
 											</div>
@@ -129,8 +129,8 @@
 													<td>{!! ($content['sts']) == 0 ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
 													<td>
 														{{ date('d/M/Y', strtotime(str_replace('/', '-', $content['tanggal']))) }}
-														<br>
-														<span class="text-muted">{{ date('H:i:s', strtotime($content['tanggal'])) }}</span>
+														<!-- <br>
+														<span class="text-muted">{{ date('H:i:s', strtotime($content['tanggal'])) }}</span> -->
 													</td>
 													<td>{{ $content['subkat'] }}</td>
 													<td>{{ $content['judul'] }}</td>
@@ -400,7 +400,9 @@
 				$("#label_delete").empty();
 			});
 
-			$('.myTable').DataTable();
+			$('.myTable').DataTable({
+				"aaSorting": [ [6,'asc']],
+			});
 		});
 	</script>
 @endsection

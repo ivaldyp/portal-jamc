@@ -79,99 +79,127 @@
 									<input type="hidden" name="appr" value="N">
 									<input type="hidden" name="usrinput" value="{{ isset(Auth::user()->id_emp) ? Auth::user()->id_emp : Auth::user()->usname }}">
 
-									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
-									<div class="form-group">
-										<label for="subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
-										<div class="col-md-8">
-											<select class="form-control" name="subkat" id="subkat">
-												@foreach($subkats as $subkat)
-													<option value="{{ $subkat['subkat'] }}"> {{ $subkat['subkat'] }} </option>
-												@endforeach
-											</select>
+									@if(strtolower($kat['nmkat']) == 'infografik')
+
+										<div class="form-group">
+											<label for="tanggal" class="col-md-2 control-label"> Waktu </label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
+											</div>
 										</div>
-									</div>
+
+										<div class="form-group">
+											<label for="judul" class="col-md-2 control-label"><span style="color: red">*</span> Judul </label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" id="judul" name="judul" autocomplete="off" data-error="Masukkan judul" required>
+												<div class="help-block with-errors"></div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="tfile" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
+											<div class="col-lg-8">
+												<input type="file" class="form-control" id="tfile" name="tfile">
+											</div>
+										</div>
+
+									@else
+
+										@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
+										<div class="form-group">
+											<label for="subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
+											<div class="col-md-8">
+												<select class="form-control" name="subkat" id="subkat">
+													@foreach($subkats as $subkat)
+														<option value="{{ $subkat['subkat'] }}"> {{ $subkat['subkat'] }} </option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+										@endif
+
+										<div class="form-group">
+											<label for="tanggal" class="col-md-2 control-label"> Waktu </label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="judul" class="col-md-2 control-label"><span style="color: red">*</span> Judul </label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" id="judul" name="judul" autocomplete="off" data-error="Masukkan judul" required>
+												<div class="help-block with-errors"></div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-md-2 control-label"> Jadikan headline? </label>
+											<div class="radio-list col-md-8">
+												<label class="radio-inline">
+													<div class="radio radio-info">
+														<input type="radio" name="headline" id="headline1" value="H," data-error="Pilih salah satu">
+														<label for="headline1">Ya</label> 
+													</div>
+												</label>
+												<label class="radio-inline">
+													<div class="radio radio-info">
+														<input type="radio" name="headline" id="headline2" value="" checked>
+														<label for="headline2">Tidak</label>
+													</div>
+												</label>
+												<div class="help-block with-errors"></div>  
+											</div>
+										</div>
+
+										@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
+										<div class="form-group">
+											<label for="tfile" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
+											<div class="col-lg-8">
+												<input type="file" class="form-control" id="tfile" name="tfile">
+											</div>
+										</div>
+										@endif
+
+										@if($idkat == 6)
+										<div class="form-group">
+											<label for="tfiledownload" class="col-lg-2 control-label"> Upload File <br> <span style="font-size: 10px">Berupa .pdf, .xls, .doc, .xlxs, .docx, .zip, .rar, .txt, .csv</span> </label>
+											<div class="col-lg-8">
+												<input type="file" class="form-control" id="tfiledownload" name="tfiledownload">
+											</div>
+										</div>
+										@endif
+
+										@if($idkat == 4)
+										<div class="form-group">
+											<label for="url" class="col-md-2 control-label"> URL </label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" id="url" name="url" autocomplete="off">
+												<div class="help-block with-errors"></div>
+											</div>
+										</div>
+										@endif
+
+										@if($idkat != 6 && $idkat != 4)
+										<div class="form-group">
+											<label for="isi1" class="col-md-2 control-label"> Ringkasan </label>
+											<div class="col-md-8">
+												<textarea class="summernote form-control" rows="15" placeholder="Enter text ..." name="isi1"></textarea>
+											</div>
+										</div>
+										@endif
+
+										@if($idkat != 6 && $idkat != 5 && $idkat != 19 && $idkat != 4 && $idkat != 11)
+										<div class="form-group">
+											<label for="isi2" class="col-md-2 control-label"> Isi </label>
+											<div class="col-md-8">
+												<textarea class="summernote form-control" rows="15" placeholder="Enter text ..." name="isi2"></textarea>
+											</div>
+										</div>
+										@endif
+
 									@endif
 
-									<div class="form-group">
-										<label for="tanggal" class="col-md-2 control-label"> Waktu </label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="judul" class="col-md-2 control-label"><span style="color: red">*</span> Judul </label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="judul" name="judul" autocomplete="off" data-error="Masukkan judul" required>
-											<div class="help-block with-errors"></div>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-2 control-label"> Jadikan headline? </label>
-										<div class="radio-list col-md-8">
-											<label class="radio-inline">
-												<div class="radio radio-info">
-													<input type="radio" name="headline" id="headline1" value="H," data-error="Pilih salah satu">
-													<label for="headline1">Ya</label> 
-												</div>
-											</label>
-											<label class="radio-inline">
-												<div class="radio radio-info">
-													<input type="radio" name="headline" id="headline2" value="" checked>
-													<label for="headline2">Tidak</label>
-												</div>
-											</label>
-											<div class="help-block with-errors"></div>  
-										</div>
-									</div>
-
-									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
-									<div class="form-group">
-										<label for="tfile" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
-										<div class="col-lg-8">
-											<input type="file" class="form-control" id="tfile" name="tfile">
-										</div>
-									</div>
-									@endif
-
-									@if($idkat == 6)
-									<div class="form-group">
-										<label for="tfiledownload" class="col-lg-2 control-label"> Upload File <br> <span style="font-size: 10px">Berupa .pdf, .xls, .doc, .xlxs, .docx, .zip, .rar, .txt, .csv</span> </label>
-										<div class="col-lg-8">
-											<input type="file" class="form-control" id="tfiledownload" name="tfiledownload">
-										</div>
-									</div>
-									@endif
-
-									@if($idkat == 4)
-									<div class="form-group">
-										<label for="url" class="col-md-2 control-label"> URL </label>
-										<div class="col-md-8">
-											<input type="text" class="form-control" id="url" name="url" autocomplete="off">
-											<div class="help-block with-errors"></div>
-										</div>
-									</div>
-									@endif
-
-									@if($idkat != 6 && $idkat != 4)
-									<div class="form-group">
-										<label for="isi1" class="col-md-2 control-label"> Ringkasan </label>
-										<div class="col-md-8">
-											<textarea class="summernote form-control" rows="15" placeholder="Enter text ..." name="isi1"></textarea>
-										</div>
-									</div>
-									@endif
-
-									@if($idkat != 6 && $idkat != 5 && $idkat != 19 && $idkat != 4 && $idkat != 11)
-									<div class="form-group">
-										<label for="isi2" class="col-md-2 control-label"> Isi </label>
-										<div class="col-md-8">
-											<textarea class="summernote form-control" rows="15" placeholder="Enter text ..." name="isi2"></textarea>
-										</div>
-									</div>
-									@endif
-									
 									<div class="form-group">
 										<label for="editor" class="col-md-2 control-label"> Editor </label>
 										<div class="col-md-8">
@@ -179,6 +207,7 @@
 											<input type="hidden" class="form-control" id="editor" name="editor" autocomplete="off" value="{{ isset($_SESSION['user_data']['nm_emp']) ? $_SESSION['user_data']['nm_emp'] : (isset($_SESSION['user_data']['nama_user']) ? $_SESSION['user_data']['nama_user'] : $_SESSION['user_data']['usname']) }}">
 										</div>
 									</div>
+
 									<div class="form-group">
 										<label class="col-md-2 control-label"> Suspend? </label>
 										<div class="radio-list col-md-8">
@@ -197,6 +226,8 @@
 											<div class="help-block with-errors"></div>  
 										</div>
 									</div>
+
+										
 								</div>
 								<div class="panel-footer">
 									<button type="submit" class="btn btn-success pull-right">Simpan</button>

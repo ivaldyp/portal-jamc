@@ -263,20 +263,21 @@
 </div>
 <!-- /container -->
 <div id="home-owl" class="owl-carousel owl-theme">
+	
+	@foreach($infos as $info)
+
+	<?php
+		$fullpath = config('app.openfileimginfografik') . $info['tfile'];
+	?>
+
 	<!-- home item -->
 	<div class="home-item"  style="overflow: hidden; height: 500px">
 		<!-- section background -->
-		<div class="section-bg" style="background-image: url('{{ ('/portal/public/img/slides/bg-2-2.jpg') }}'); background-size: contain; background-repeat: no-repeat;"></div>
+		<div class="section-bg" style="background-image: url('{{ $fullpath }}'); background-size: contain; background-repeat: no-repeat;"></div>
 		<!-- /section background -->
 	</div>
 	<!-- /home item -->
-	<!-- home item -->
-	<div class="home-item"  style="overflow: hidden; height: 500px">
-		<!-- section background -->
-		<div class="section-bg" style="background-image: url('{{ ('/portal/public/img/slides/bg-3-2.jpg') }}'); background-size: contain; background-repeat: no-repeat;"></div>
-		<!-- /section background -->
-	</div>
-	<!-- /home item -->	
+	@endforeach
 </div>
 <!-- /HOME OWL -->
 

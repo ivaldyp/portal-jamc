@@ -100,6 +100,19 @@ class LandingController extends Controller
 		//     session_destroy();
 		// }
 
+		$info_id = Glo_kategori::
+						where('nmkat', 'infografik')
+						->where('sts', 1)
+						->first();
+
+		$infos = Content_tb::
+					where('idkat', $info_id['ids'])
+					->where('appr', 'Y')
+					->where('sts', 1)
+					->orderBy('tanggal', 'desc')
+					->take(5)
+					->get();
+
 		$lelang_id = Glo_kategori::
 						where('nmkat', 'lelang')
 						->where('sts', 1)
@@ -110,6 +123,7 @@ class LandingController extends Controller
 					->where('appr', 'Y')
 					->where('tipe', 'H,')
 					->where('sts', 1)
+					->orderBy('tanggal', 'desc')
 					->first();
 
 		$hot_content = Content_tb::
@@ -147,7 +161,8 @@ class LandingController extends Controller
 				->with('normal_content', $normal_content)
 				->with('photo_content', $photo_content)
 				->with('produk_content', $produk_content)
-				->with('lelang', $lelang);
+				->with('lelang', $lelang)
+				->with('infos', $infos);
 	}
 
 	public function logout()

@@ -535,11 +535,13 @@ class CmsController extends Controller
 		//     $apprnow = 'N';
 		// } 
 
-		$kategoris = Glo_kategori::
-						where('sts', 1)
-						->where('privacy', 'like', 'C%')
-						->orderBy('nmkat')
-						->get();
+		$kategoris = DB::select( DB::raw("
+				  	SELECT *, (select count (ids) from bpadcmsfake.dbo.content_tb as con where appr = 'N' and sts = 1 and suspend = '' and idkat = kat.ids) as total
+					FROM bpadcmsfake.dbo.glo_kategori as kat
+					WHERE sts = 1
+					ORDER BY nmkat
+				"));
+		$kategoris = json_decode(json_encode($kategoris), true);
 
 		$subkats = Glo_subkategori::
 					get();
@@ -549,7 +551,6 @@ class CmsController extends Controller
 					->where('idkat', $katnow)
 					->where('suspend', $suspnow)
 					->where('sts', 1)
-					// ->where('appr', $apprnow)
 					->orderBy('tanggal', 'desc')
 					->get();
 
@@ -571,9 +572,14 @@ class CmsController extends Controller
 					where('idkat', $request->kat)
 					->get();
 
+		$kat = Glo_kategori::
+					where('ids', $request->kat)
+					->first();
+
 		return view('pages.bpadcms.contenttambah')
 				->with('access', $access)
 				->with('subkats', $subkats)
+				->with('kat', $kat)
 				->with('idkat', $request->kat);
 	}
 
@@ -593,10 +599,15 @@ class CmsController extends Controller
 					where('ids', $ids)
 					->first();
 
+		$kat = Glo_kategori::
+					where('ids', $idkat)
+					->first();
+
 		return view('pages.bpadcms.contentubah')
 				->with('access', $access)
 				->with('ids', $ids)
 				->with('idkat', $idkat)
+				->with('kat', $kat)
 				->with('subkats', $subkats)
 				->with('content', $content);
 	}
@@ -605,29 +616,45 @@ class CmsController extends Controller
 	{
 		$this->checkSessionTime();
 
+		$kat = Glo_kategori::
+					where('ids', $request->idkat)
+					->first();
+
 		if (isset($request->tfile)) {
 			$file = $request->tfile;
 
-			if ($file->getSize() > 2222222) {
-				return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			if ($file->getSize() > 33000000) {
+				return redirect('/cms/content?katnow='.$request->idkat)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 			} 
 			if ($file->getClientOriginalExtension() != "png" && $file->getClientOriginalExtension() != "jpg" && $file->getClientOriginalExtension() != "jpeg") {
-				return redirect('/cms/content')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
+				return redirect('/cms/content?katnow='.$request->idkat)->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
 			} 
 
 			$file_name = "cms" . preg_replace("/[^0-9]/", "", $request->tanggal);
 			$file_name .= $_SESSION['user_data']['nrk_emp'];
 			$file_name .= ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileimgberita');
+			if ($request->idkat == 1) {
+				$tujuan_upload = config('app.savefileimgberita');
+			} elseif ($request->idkat == 5) {
+				$tujuan_upload = config('app.savefileimggambar');
+			}
+
+			if (strtolower($kat['nmkat']) == 'lelang') {
+				$tujuan_upload = config('app.savefileimglelang');
+			} elseif (strtolower($kat['nmkat']) == 'infografik') {
+				$tujuan_upload = config('app.savefileimginfografik');
+			}
+
+			
 			$file->move($tujuan_upload, $file_name);
 		}
 
 		if (isset($request->tfiledownload)) {
 			$file = $request->tfiledownload;
 
-			if ($file->getSize() > 5555000) {
-				return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
+			if ($file->getSize() > 33000000) {
+				return redirect('/cms/content?katnow='.$request->idkat)->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
 			} 
 
 			$file_name = $file->getClientOriginalName();
@@ -707,7 +734,7 @@ class CmsController extends Controller
 
 		Content_tb::insert($insert);
 		return redirect('/cms/content?katnow='.$request->idkat)
-					->with('message', 'Konten '.$request->desk.' berhasil ditambah')
+					->with('message', 'Konten berhasil ditambah')
 					->with('msg_num', 1);
 	}
 
@@ -715,21 +742,36 @@ class CmsController extends Controller
 	{
 		$this->checkSessionTime();
 
+		$kat = Glo_kategori::
+					where('ids', $request->idkat)
+					->first();
+
 		if (isset($request->tfile)) {
 			$file = $request->tfile;
 
 			if ($file->getSize() > 2222222) {
-				return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+				return redirect('/cms/content?katnow='.$request->idkat)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 			} 
 			if ($file->getClientOriginalExtension() != "png" && $file->getClientOriginalExtension() != "jpg" && $file->getClientOriginalExtension() != "jpeg") {
-				return redirect('/cms/content')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
+				return redirect('/cms/content?katnow='.$request->idkat)->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
 			} 
 
 			$file_name = "cms" . preg_replace("/[^0-9]/", "", $request->tanggal);
 			$file_name .= $_SESSION['user_data']['nrk_emp'];
 			$file_name .= ".". $file->getClientOriginalExtension();
 
-			$tujuan_upload = config('app.savefileimgberita');
+			if ($request->idkat == 1) {
+				$tujuan_upload = config('app.savefileimgberita');
+			} elseif ($request->idkat == 5) {
+				$tujuan_upload = config('app.savefileimggambar');
+			}
+
+			if (strtolower($kat['nmkat']) == 'lelang') {
+				$tujuan_upload = config('app.savefileimglelang');
+			} elseif (strtolower($kat['nmkat']) == 'infografik') {
+				$tujuan_upload = config('app.savefileimginfografik');
+			}
+
 			$file->move($tujuan_upload, $file_name);
 		}
 
@@ -737,7 +779,7 @@ class CmsController extends Controller
 			$file = $request->tfiledownload;
 
 			if ($file->getSize() > 5555000) {
-				return redirect('/cms/content')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
+				return redirect('/cms/content?katnow='.$request->idkat)->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
 			} 
 
 			$file_name = $file->getClientOriginalName();
@@ -814,7 +856,7 @@ class CmsController extends Controller
 		}
 
 		return redirect('/cms/content?katnow='.$request->idkat)
-					->with('message', 'Konten '.$request->judul.' berhasil diubah')
+					->with('message', 'Konten berhasil diubah')
 					->with('msg_num', 1);
 	}
 
@@ -829,7 +871,7 @@ class CmsController extends Controller
 			]);
 
 		return redirect('/cms/content?katnow='.$request->idkat)
-					->with('message', 'Konten '.$request->judul.' berhasil diubah')
+					->with('message', 'Konten berhasil diubah')
 					->with('msg_num', 1);
 	}
 
@@ -845,7 +887,7 @@ class CmsController extends Controller
 					]);
 
 		return redirect('/cms/content?katnow='.$request->idkat)
-					->with('message', 'Konten '.$request->judul.' berhasil dihapus')
+					->with('message', 'Konten berhasil dihapus')
 					->with('msg_num', 1);
 	}
 }
