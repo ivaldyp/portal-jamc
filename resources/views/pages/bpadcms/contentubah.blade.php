@@ -82,13 +82,13 @@
 										<div class="radio-list col-md-8">
 											<label class="radio-inline">
 												<div class="radio radio-info">
-													<input type="radio" name="headline" id="headline1" value="H," data-error="Pilih salah satu">
+													<input type="radio" name="headline" id="headline1" value="H," data-error="Pilih salah satu" <?php if ($content['tipe'] == 'H,' ): ?> checked <?php endif ?> >
 													<label for="headline1">Ya</label> 
 												</div>
 											</label>
 											<label class="radio-inline">
 												<div class="radio radio-info">
-													<input type="radio" name="headline" id="headline2" value="" checked>
+													<input type="radio" name="headline" id="headline2" value="" <?php if ($content['tipe'] == '' ||  $content['tipe'] == null): ?> checked <?php endif ?> >
 													<label for="headline2">Tidak</label>
 												</div>
 											</label>
