@@ -96,11 +96,11 @@
 										</div>
 									</div>
 
-									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11 && $idkat != 23)
+									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
 									<div class="form-group">
 										<label for="subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
 										<div class="col-md-8">
-											<select class="form-control" name="subkat" id="subkat" required>
+											<select class="form-control" name="subkat" id="subkat">
 												@foreach($subkats as $subkat)
 													<option value="{{ $subkat['subkat'] }}" <?php if ($subkat['subkat'] == $content['subkat'] ): ?> selected <?php endif ?> > {{ $subkat['subkat'] }} </option>
 												@endforeach

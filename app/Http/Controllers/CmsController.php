@@ -436,12 +436,12 @@ class CmsController extends Controller
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 28);
 
 		$subkats = Glo_subkategori::
-					join('bpaddtfake.dbo.glo_kategori', 'bpaddtfake.dbo.glo_kategori.ids', '=', 'bpaddtfake.dbo.glo_subkategori.idkat')
+					join('bpadcmsfake.dbo.glo_kategori', 'bpadcmsfake.dbo.glo_kategori.ids', '=', 'bpadcmsfake.dbo.glo_subkategori.idkat')
 					->get();
 
 		$subkatsid =    Glo_subkategori::
-						join('bpaddtfake.dbo.glo_kategori', 'bpaddtfake.dbo.glo_kategori.ids', '=', 'bpaddtfake.dbo.glo_subkategori.idkat')
-						->distinct('idkat', 'bpaddtfake.dbo.glo_kategori.nmkat')
+						join('bpadcmsfake.dbo.glo_kategori', 'bpadcmsfake.dbo.glo_kategori.ids', '=', 'bpadcmsfake.dbo.glo_subkategori.idkat')
+						->distinct('idkat', 'bpadcmsfake.dbo.glo_kategori.nmkat')
 						->get(['idkat', 'nmkat']);
 		
 		return view('pages.bpadcms.subkategori')
