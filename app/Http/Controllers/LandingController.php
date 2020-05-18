@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use App\Content_tb;
+use App\Glo_kategori;
 use App\Help;
 use App\Produk_aset;
 use App\Setup_tb;
@@ -98,8 +99,14 @@ class LandingController extends Controller
 		// if (PHP_SESSION_ACTIVE) {
 		//     session_destroy();
 		// }
+
+		$lelang_id = Glo_kategori::
+						where('nmkat', 'lelang')
+						->where('sts', 1)
+						->first();
+
 		$lelang = Content_tb::
-					where('idkat', 23)
+					where('idkat', $lelang_id['ids'])
 					->where('appr', 'Y')
 					->where('tipe', 'H,')
 					->where('sts', 1)

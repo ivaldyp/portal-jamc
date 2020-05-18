@@ -80,8 +80,13 @@ class ContentController extends Controller
 
 	public function lelang()
 	{
+		$lelang_id = Glo_kategori::
+						where('nmkat', 'lelang')
+						->where('sts', 1)
+						->first();
+
 		$lelang = Content_tb::
-					where('idkat', 23)
+					where('idkat', $lelang_id['ids'])
 					->where('appr', 'Y')
 					->where('sts', 1)
 					->first();
