@@ -2,10 +2,14 @@
 
 @section('content')
 
+@php
+	$webname = config('app.webname');
+@endphp
+
 @if($lelang['suspend'] == 'Y')
 <div id="ads" class="bottom pull-right">
 	<a href="">
-		<img src="{{ ('/portal/public/img/photo/lelang-bpad.jpeg') }}">
+		<img src="{{ ('/$webname/public/img/photo/lelang-bpad.jpeg') }}">
 		<h1 class="text-center" id="lelang-text">LELANG</h1>
 		<!-- <a href="#">Home</a> -->
 	</a>

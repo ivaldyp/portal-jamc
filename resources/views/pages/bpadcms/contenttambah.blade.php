@@ -79,6 +79,25 @@
 									<input type="hidden" name="appr" value="N">
 									<input type="hidden" name="usrinput" value="{{ isset(Auth::user()->id_emp) ? Auth::user()->id_emp : Auth::user()->usname }}">
 
+									<div class="form-group">
+										<label class="col-md-2 control-label"> Headline? </label>
+										<div class="radio-list col-md-8">
+											<label class="radio-inline">
+												<div class="radio radio-info">
+													<input type="radio" name="headline" id="headline1" value="H," data-error="Pilih salah satu">
+													<label for="headline1">Ya</label> 
+												</div>
+											</label>
+											<label class="radio-inline">
+												<div class="radio radio-info">
+													<input type="radio" name="headline" id="headline2" value="" checked>
+													<label for="headline2">Tidak</label>
+												</div>
+											</label>
+											<div class="help-block with-errors"></div>  
+										</div>
+									</div>
+
 									@if($idkat != 14 && $idkat != 6 && $idkat != 19 && $idkat != 4 && $idkat != 11)
 									<div class="form-group">
 										<label for="subkat" class="col-md-2 control-label"><span style="color: red">*</span> Subkategori </label>
@@ -182,6 +201,7 @@
 								<div class="panel-footer">
 									<button type="submit" class="btn btn-success pull-right">Simpan</button>
 									<!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
+									<button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>			
 									<div class="clearfix"></div>
 								</div>
 							</div>
@@ -221,8 +241,12 @@
 	</script>
 
 	<script>
-		$(document).ready(function() {
+		function goBack() {
+		  window.history.back();
+		}
 
+		$(document).ready(function() {
+			
 			$( "#idgroup" ).click(function() {
 				var idkat = $( this ).val();
 				$(".subkat-"+idkat).attr('display', 'none');

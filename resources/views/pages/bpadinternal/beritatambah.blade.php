@@ -110,6 +110,7 @@
 							<div class="panel-footer">
                                 <button type="submit" class="btn btn-success pull-right">Simpan</button>
                                 <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
+                                <button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
                                 <div class="clearfix"></div>
                             </div>
 						</div>	
@@ -143,6 +144,9 @@
 	<script src="{{ ('/portal/public/ample/js/validator.js') }}"></script>
 	<script src="{{ ('/portal/public/ample/plugins/bower_components/summernote/dist/summernote.min.js') }}"></script>
 	<script>
+		function goBack() {
+		  window.history.back();
+		}
 		jQuery(document).ready(function () {
 			$('.summernote').summernote({
 				height: 350, // set editor height

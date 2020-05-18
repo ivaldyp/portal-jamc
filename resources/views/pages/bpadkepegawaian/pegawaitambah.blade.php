@@ -518,6 +518,7 @@
 												</div> -->
 												<button type="submit" class="btn btn-success pull-right"> Simpan </button>
 												<!-- <button type="submit" class="btn btn-default pull-right m-r-10"> Kembali </button> -->
+												<button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
 											</section>
 										</div>
 									</div>
@@ -564,6 +565,10 @@
 	<!-- Date Picker Plugin JavaScript -->
 	<script src="{{ ('/portal/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 	<script>
+
+		function goBack() {
+		  window.history.back();
+		}
 
 		$(".select2").select2();
 

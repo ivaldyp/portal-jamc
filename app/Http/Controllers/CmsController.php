@@ -679,7 +679,7 @@ class CmsController extends Controller
 				'suspend' => $suspend,
 				'idkat'     => $request->idkat,
 				'subkat'     => $subkat,
-				'tipe'		=> '',
+				'tipe'		=> ($request->headline ? $request->headline : ''),
 				'tanggal'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
 				'judul'   => $request->judul,
 				'isi1'   => htmlentities($isi1),
@@ -778,6 +778,7 @@ class CmsController extends Controller
 			where('ids', $request->ids)
 			->update([
 				'subkat'     => $subkat,
+				'tipe'		=> ($request->headline ? $request->headline : ''),
 				'tanggal'   => date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))),
 				'judul'   => $request->judul,
 				'isi1'   => htmlentities($request->isi1),
