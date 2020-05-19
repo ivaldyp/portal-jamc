@@ -140,10 +140,14 @@
 														@if(strtolower($content['nmkat']) == 'berita')
 															<?php if (file_exists(config('app.openfileimgberita') . $content['tfile'])) { ?>
 															<a target="_blank" href="{{ config('app.openfileimgberitafull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+															<?php } elseif (file_exists("http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/" . $content['tfile'])) { ?>
+																<a target="_blank" href="http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
 															<?php } ?>
 														@elseif(strtolower($content['nmkat']) == 'galeri foto')
 															<?php if (file_exists(config('app.openfileimggambar') . $content['tfile'])) { ?>
 															<a target="_blank" href="{{ config('app.openfileimggambarfull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+														<?php } elseif (file_exists("http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/" . $content['tfile'])) { ?>
+																<a target="_blank" href="http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
 															<?php } ?>
 														@elseif(strtolower($content['nmkat']) == 'lelang')
 															<?php if (file_exists(config('app.openfileimglelang') . $content['tfile'])) { ?>
