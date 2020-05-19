@@ -82,7 +82,7 @@
 										<div class="form-group">
 											<label for="tanggal" class="col-md-2 control-label"> Waktu </label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', $content['tanggal']))) }}">
+												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', $content['tanggalc']))) }}">
 											</div>
 										</div>
 
@@ -98,6 +98,11 @@
 											<label for="tfile" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 											<div class="col-lg-8">
 												<input type="file" class="form-control" id="tfile" name="tfile">
+												@if(strtolower($content['nmkat']) == 'infografik')
+													<?php if (file_exists(config('app.openfileimginfografik') . $content['tfile'])) { ?>
+													<a target="_blank" href="{{ config('app.openfileimginfografikfull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>	
+													<?php } ?>
+												@endif
 											</div>
 										</div>
 
@@ -119,7 +124,7 @@
 										<div class="form-group">
 											<label for="tanggal" class="col-md-2 control-label"> Waktu </label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', $content['tanggal']))) }}">
+												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', $content['tanggalc']))) }}">
 											</div>
 										</div>
 
@@ -155,6 +160,19 @@
 											<label for="tfile" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 											<div class="col-lg-8">
 												<input type="file" class="form-control" id="tfile" name="tfile">
+												@if(strtolower($content['nmkat']) == 'berita')
+													<?php if (file_exists(config('app.openfileimgberita') . $content['tfile'])) { ?>
+													<a target="_blank" href="{{ config('app.openfileimgberitafull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+													<?php } ?>
+												@elseif(strtolower($content['nmkat']) == 'galeri foto')
+													<?php if (file_exists(config('app.openfileimggambar') . $content['tfile'])) { ?>
+													<a target="_blank" href="{{ config('app.openfileimggambarfull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+													<?php } ?>
+												@elseif(strtolower($content['nmkat']) == 'lelang')
+													<?php if (file_exists(config('app.openfileimglelang') . $content['tfile'])) { ?>
+													<a target="_blank" href="{{ config('app.openfileimglelangfull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+													<?php } ?>
+												@endif
 											</div>
 										</div>
 										@endif

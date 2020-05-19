@@ -546,13 +546,15 @@ class CmsController extends Controller
 		$subkats = Glo_subkategori::
 					get();
 
-		$contents = Content_tb::
-					limit(100)
-					->where('idkat', $katnow)
-					->where('suspend', $suspnow)
-					->where('sts', 1)
-					->orderBy('tanggal', 'desc')
-					->get();
+		$contents = DB::select( DB::raw("
+				  	SELECT top 100 con.*, kat.nmkat from bpadcmsfake.dbo.content_tb con
+					  join bpadcmsfake.dbo.glo_kategori kat on kat.ids = con.idkat
+					  where idkat = $katnow
+					  and suspend = ''
+					  and con.sts = 1
+					  order by con.tanggal desc
+				"));
+		$contents = json_decode(json_encode($contents), true);
 
 		return view('pages.bpadcms.content')
 				->with('access', $access)
@@ -595,9 +597,13 @@ class CmsController extends Controller
 					where('idkat', $idkat)
 					->get();
 
-		$content = Content_tb::
-					where('ids', $ids)
-					->first();
+		$content = DB::select( DB::raw("
+				  	SELECT con.tanggal as tanggalc, con.*, kat.nmkat from bpadcmsfake.dbo.content_tb con
+					  join bpadcmsfake.dbo.glo_kategori kat on kat.ids = con.idkat
+					  where con.ids = $ids
+					  order by con.tanggal desc
+				"))[0];
+		$content = json_decode(json_encode($content), true);
 
 		$kat = Glo_kategori::
 					where('ids', $idkat)

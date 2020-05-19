@@ -116,6 +116,7 @@
 													<th>Kategori</th>
 													<th>Judul</th>
 													<th>Editor</th>
+													<th>File</th>
 													<th>Approved</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-1">Action</th>
@@ -136,10 +137,29 @@
 													<td>{{ $content['judul'] }}</td>
 													<td>{{ $content['editor'] }}</td>
 													<td>
+														@if(strtolower($content['nmkat']) == 'berita')
+															<?php if (file_exists(config('app.openfileimgberita') . $content['tfile'])) { ?>
+															<a target="_blank" href="{{ config('app.openfileimgberitafull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+															<?php } ?>
+														@elseif(strtolower($content['nmkat']) == 'galeri foto')
+															<?php if (file_exists(config('app.openfileimggambar') . $content['tfile'])) { ?>
+															<a target="_blank" href="{{ config('app.openfileimggambarfull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+															<?php } ?>
+														@elseif(strtolower($content['nmkat']) == 'lelang')
+															<?php if (file_exists(config('app.openfileimglelang') . $content['tfile'])) { ?>
+															<a target="_blank" href="{{ config('app.openfileimglelangfull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
+															<?php } ?>
+														@elseif(strtolower($content['nmkat']) == 'infografik')
+															<?php if (file_exists(config('app.openfileimginfografik') . $content['tfile'])) { ?>
+															<a target="_blank" href="{{ config('app.openfileimginfografikfull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>	
+															<?php } ?>
+														@endif
+													</td>
+													<td>
 														{!! ($content['appr']) == 'Y' ? 
 															'<i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>' : 
 															'<i style="color:red;" class="fa fa-times"></i><br><span style="color: white;">0</span>' !!}
-														</td>
+													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td>
 															@if($access['zupd'] == 'y')
