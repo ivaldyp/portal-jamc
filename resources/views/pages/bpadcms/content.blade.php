@@ -201,7 +201,7 @@
 									<div class="col-md-8">
 										<select class="form-control select2" name="kat" id="kat" required>
 											@foreach($kategoris as $kategori)
-												<option value="{{ $kategori['ids'] }}">{{ $kategori['nmkat'] }}</option>
+												<option <?php if ($kategori['ids'] == $katnow ): ?> selected <?php endif ?> value="{{ $kategori['ids'] }}">{{ $kategori['nmkat'] }}</option>
 											@endforeach
 										</select>
 									</div>
