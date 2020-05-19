@@ -421,7 +421,8 @@
 			});
 
 			$('.myTable').DataTable({
-				"aaSorting": [ [6,'asc']],
+				"columnDefs" : [{"targets":2, "type":"date-euro"}],
+				"aaSorting": [ ],
 			});
 		});
 	</script>

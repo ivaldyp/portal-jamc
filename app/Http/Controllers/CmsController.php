@@ -552,7 +552,7 @@ class CmsController extends Controller
 					  where idkat = $katnow
 					  and suspend = ''
 					  and con.sts = 1
-					  order by con.tanggal desc
+					  order by con.appr asc, con.tanggal desc
 				"));
 		$contents = json_decode(json_encode($contents), true);
 
