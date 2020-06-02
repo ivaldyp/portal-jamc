@@ -29,10 +29,18 @@
 					@foreach($foto_list as $foto)
 
 						<?php 
-							if (file_exists(config('app.openfileimggambar') . $foto['tfile'])) {
+							// if (file_exists(config('app.openfileimggambar') . $foto['tfile'])) {
+							// 	$fullpath = config('app.openfileimggambarfull') . $foto['tfile'];
+							// } else {
+							// 	$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $foto['tfile'];
+							// }
+
+							if (file_exists(config('app.openfileimggambar') . $foto['tfile']) && $foto['tfile'] && $foto['tfile'] != '') {
 								$fullpath = config('app.openfileimggambarfull') . $foto['tfile'];
-							} else {
+							} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $foto['tfile'])) {
 								$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $foto['tfile'];
+							} else {
+								$fullpath = config('app.openfileimgcontentdefault');
 							}
 							
 							$originalDate = explode(" ", $foto['tanggal']);
@@ -98,11 +106,19 @@
 					@foreach($aside_recent as $aside)
 
 						<?php 
-							if (file_exists(config('app.openfileimggambar') . $aside['tfile'])) {
+							// if (file_exists(config('app.openfileimggambar') . $aside['tfile'])) {
+							// 	$asidePath = config('app.openfileimggambarfull') . $aside['tfile'];
+							// } else {
+							// 	$asidePath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $aside['tfile'];
+							// } 
+
+							if (file_exists(config('app.openfileimggambar') . $aside['tfile']) && $aside['tfile'] && $aside['tfile'] != '') {
 								$asidePath = config('app.openfileimggambarfull') . $aside['tfile'];
-							} else {
+							} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $aside['tfile'])) {
 								$asidePath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $aside['tfile'];
-							} 
+							} else {
+								$asidePath = config('app.openfileimgcontentdefault');
+							}
 							
 							$originalDate = explode(" ", $aside['tanggal']);
 							$asideDate = date("d F Y", strtotime($originalDate[0]));

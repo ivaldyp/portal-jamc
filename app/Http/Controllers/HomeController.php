@@ -151,10 +151,12 @@ class HomeController extends Controller
 							where to_pm = '$iduser' and (rd = 'N' or rd = 'Y')"))[0];
 		$countdisp = json_decode(json_encode($countdisp), true);
 
-		$countcontent = DB::select(DB::raw("SELECT count(ids) as total
-							FROM [bpadcmsfake].[dbo].[content_tb]
-							where appr = 'N' and sts = 1 and suspend = ''
-							and (idkat != 11 and idkat != 16)
+		$countcontent = DB::select(DB::raw("SELECT count(con.ids) as total
+							FROM [bpadcmsfake].[dbo].[content_tb] con
+							join bpadcmsfake.dbo.glo_kategori kat on kat.ids = con.idkat
+							where con.appr = 'N' and con.sts = 1 and con.suspend = ''
+							and (con.idkat != 11 and con.idkat != 16)
+							and (kat.nmkat != 'lelang' and kat.nmkat != 'infografik')
 							"))[0];
 		$countcontent = json_decode(json_encode($countcontent), true);
 

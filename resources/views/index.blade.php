@@ -15,7 +15,7 @@
 	</a>
 </div>
 @endif
-	 	
+		
 
 <!-- <div id="about"></div> -->
 <div class="row">
@@ -30,7 +30,7 @@
 			</div> -->
 
 			<!-- <h1 class=" chrome">BERITA</h1> -->
-  			<!-- <h3 class=" dreams">TERKINI</h3> -->
+			<!-- <h3 class=" dreams">TERKINI</h3> -->
 			<!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
 		<!-- </div> -->
 	</div>
@@ -52,10 +52,18 @@
 					@foreach($hot_content as $hot)
 
 						<?php
-							if (file_exists(config('app.openfileimgberita') . $hot['tfile'])) {
-								$fullpath = config('app.openfileimgberita') . $hot['tfile'];
-							} else {
+							// if (file_exists(config('app.openfileimgberita') . $hot['tfile'])) {
+							// 	$fullpath = config('app.openfileimgberita') . $hot['tfile'];
+							// } else {
+							// 	$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $hot['tfile'];
+							// }
+
+							if (file_exists(config('app.openfileimgberita') . $hot['tfile']) && $hot['tfile'] && $hot['tfile'] != '') {
+								$fullpath = config('app.openfileimgberitafull') . $hot['tfile'];
+							} elseif (file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $hot['tfile'])) {
 								$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $hot['tfile'];
+							} else {
+								$fullpath = config('app.openfileimgcontentdefault');
 							}
 						?>
 
@@ -104,10 +112,12 @@
 			@foreach($normal_content as $normal)
 
 				<?php 
-					if (file_exists(config('app.openfileimgberita') . $normal['tfile'])) {
-						$fullpath = config('app.openfileimgberita') . $normal['tfile'];
-					} else {
+					if (file_exists(config('app.openfileimgberita') . $normal['tfile']) && $normal['tfile'] && $normal['tfile'] != '') {
+						$fullpath = config('app.openfileimgberitafull') . $normal['tfile'];
+					} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $normal['tfile'])) {
 						$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $normal['tfile'];
+					} else {
+						$fullpath = config('app.openfileimgcontentdefault');
 					}
 
 					$originalDate = explode(" ", $normal['tanggal']);
@@ -193,10 +203,12 @@
 			<?php $count = 1 ?>
 			@foreach($photo_content as $photo)
 				<?php
-					if (file_exists(config('app.openfileimggambar') . $photo['tfile'])) {
-						$fullpath = config('app.openfileimggambar') . $photo['tfile'];
-					} else {
+					if (file_exists(config('app.openfileimggambar') . $photo['tfile']) && $photo['tfile'] && $photo['tfile'] != '') {
+						$fullpath = config('app.openfileimggambarfull') . $photo['tfile'];
+					} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $photo['tfile'])) {
 						$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $photo['tfile'];
+					} else {
+						$fullpath = config('app.openfileimgcontentdefault');
 					}
 				?>
 
@@ -205,10 +217,10 @@
 						<div class="article-img">
 							<a href="JavaScript:void(0);">
 								<span class="text-test" style="">
-							        <img style="width: 50px" src="{{ ('/portal/public/img/photo/bpad-logo-00.png') }}">
-							        <hr>
-							        <h4 style="color: white">{{ $photo['judul'] }}</h4>
-							    </span>
+									<img style="width: 50px" src="{{ ('/portal/public/img/photo/bpad-logo-00.png') }}">
+									<hr>
+									<h4 style="color: white">{{ $photo['judul'] }}</h4>
+								</span>
 								<img src="{{ $fullpath }}" alt="" >
 							</a>
 						</div>
@@ -248,36 +260,54 @@
 
 <!-- container -->
 <div class="container">
-    <!-- row -->
-    <div class="row">
-        <!-- section title -->
-        <div class="col-md-12">
-            <div class="section-title">
-                <h2 class="title" style="font-family: 'Century Gothic';"><span style="color: #006cb8; font-weight: bold;">INFO</span>GRAFIK</h2>
-                <!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
-            </div>
-        </div>
-        <!-- /section title -->
-    </div>
-    <!-- /row -->
+	<!-- row -->
+	<div class="row">
+		<!-- section title -->
+		<div class="col-md-12">
+			<div class="section-title">
+				<h2 class="title" style="font-family: 'Century Gothic';"><span style="color: #006cb8; font-weight: bold;">INFO</span>GRAFIK</h2>
+				<!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
+			</div>
+		</div>
+		<!-- /section title -->
+	</div>
+	<!-- /row -->
 </div>
 <!-- /container -->
 <div id="home-owl" class="owl-carousel owl-theme">
+
+	@if($infos == null)
+		<!-- home item -->
+		<div class="home-item"  style="overflow: hidden; height: 500px">
+			<!-- section background -->
+			<div class="section-bg" style="background-image: url('{{ config('app.openfileimgcontentdefault') }}'); background-size: contain; background-repeat: no-repeat;"></div>
+			<!-- /section background -->
+		</div>
+		<!-- /home item -->
+	@else
+		@foreach($infos as $info)
+
+		<?php
+			// $fullpath = config('app.openfileimginfografik') . $info['tfile'];
+
+			if ($info['tfile'] && $info['tfile'] != '') {
+				$fullpath = config('app.openfileimginfografik') . $info['tfile'];
+			} else {
+				$fullpath = config('app.openfileimgcontentdefault');
+			}
+		?>
+
+		<!-- home item -->
+		<div class="home-item"  style="overflow: hidden; height: 500px">
+			<!-- section background -->
+			<div class="section-bg" style="background-image: url('{{ $fullpath }}'); background-size: contain; background-repeat: no-repeat;"></div>
+			<!-- /section background -->
+		</div>
+		<!-- /home item -->
+		@endforeach
+	@endif
 	
-	@foreach($infos as $info)
-
-	<?php
-		$fullpath = config('app.openfileimginfografik') . $info['tfile'];
-	?>
-
-	<!-- home item -->
-	<div class="home-item"  style="overflow: hidden; height: 500px">
-		<!-- section background -->
-		<div class="section-bg" style="background-image: url('{{ $fullpath }}'); background-size: contain; background-repeat: no-repeat;"></div>
-		<!-- /section background -->
-	</div>
-	<!-- /home item -->
-	@endforeach
+		
 </div>
 <!-- /HOME OWL -->
 
@@ -344,16 +374,16 @@
 	  // Page is loaded
 	  const objects = document.getElementsByClassName('asyncImage');
 	  Array.from(objects).map((item) => {
-	    // Start loading image
-	    const img = new Image();
-	    img.src = item.dataset.src;
-	    // Once image is loaded replace the src of the HTML element
-	    img.onload = () => {
-	      item.classList.remove('asyncImage');
-	      return item.nodeName === 'IMG' ? 
-	        item.src = item.dataset.src :        
-	        item.style.backgroundImage = `url(${item.dataset.src})`;
-	    };
+		// Start loading image
+		const img = new Image();
+		img.src = item.dataset.src;
+		// Once image is loaded replace the src of the HTML element
+		img.onload = () => {
+		  item.classList.remove('asyncImage');
+		  return item.nodeName === 'IMG' ? 
+			item.src = item.dataset.src :        
+			item.style.backgroundImage = `url(${item.dataset.src})`;
+		};
 	  });
 	})();
 </script>

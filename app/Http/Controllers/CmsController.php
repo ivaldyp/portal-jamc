@@ -550,7 +550,7 @@ class CmsController extends Controller
 				  	SELECT top 100 con.*, kat.nmkat from bpadcmsfake.dbo.content_tb con
 					  join bpadcmsfake.dbo.glo_kategori kat on kat.ids = con.idkat
 					  where idkat = $katnow
-					  and suspend = ''
+					  and suspend = '$suspnow'
 					  and con.sts = 1
 					  order by con.appr asc, con.tanggal desc
 				"));
@@ -709,6 +709,13 @@ class CmsController extends Controller
 			$headline = '';
 		}
 
+		if (strtolower($kat['nmkat']) == 'lelang' && $headline == 'H,') {
+			Content_tb::where('idkat', $request->idkat)
+			->update([
+				'tipe' => '',
+			]);
+		}
+
 		$insert = [
 				'sts'       => 1,
 				'uname'		=> (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
@@ -739,6 +746,7 @@ class CmsController extends Controller
 			];
 
 		Content_tb::insert($insert);
+
 		return redirect('/cms/content?katnow='.$request->idkat)
 					->with('message', 'Konten berhasil ditambah')
 					->with('msg_num', 1);
@@ -834,7 +842,22 @@ class CmsController extends Controller
 			$headline = '';
 		}
 
+		if (strtolower($kat['nmkat']) == 'lelang' && $headline == 'H,') {
+			Content_tb::where('idkat', $request->idkat)
+			->update([
+				'tipe' => '',
+			]);
+		}
+
 		if (isset($request->btnAppr)) {
+
+			if (strtolower($kat['nmkat']) == 'lelang' && $request->appr == 'Y') {
+				Content_tb::where('idkat', $request->idkat)
+				->update([
+					'appr' => 'N',
+				]);
+			}
+
 			Content_tb::where('ids', $request->ids)
 			->update([
 				'appr' => $request->appr,

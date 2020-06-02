@@ -36,10 +36,18 @@
 					@foreach($berita_list as $berita)
 
 						<?php 
-							if (file_exists(config('app.openfileimgberita') . $berita['tfile'])) {
+							// if (file_exists(config('app.openfileimgberita') . $berita['tfile'])) {
+							// 	$fullpath = config('app.openfileimgberitafull') . $berita['tfile'];
+							// } else {
+							// 	$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $berita['tfile'];
+							// }
+
+							if (file_exists(config('app.openfileimgberita') . $berita['tfile']) && $berita['tfile'] && $berita['tfile'] != '') {
 								$fullpath = config('app.openfileimgberitafull') . $berita['tfile'];
-							} else {
+							} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $berita['tfile'])) {
 								$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $berita['tfile'];
+							} else {
+								$fullpath = config('app.openfileimgcontentdefault');
 							}
 							
 							$originalDate = explode(" ", $berita['tanggal']);
@@ -91,11 +99,19 @@
 					@foreach($aside_recent as $aside)
 
 						<?php
-							if (file_exists(config('app.openfileimgberita') . $aside['tfile'])) {
+							// if (file_exists(config('app.openfileimgberita') . $aside['tfile'])) {
+							// 	$asidePath = config('app.openfileimgberitafull') . $aside['tfile'];
+							// } else {
+							// 	$asidePath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $aside['tfile'];
+							// }
+
+							if (file_exists(config('app.openfileimgberita') . $aside['tfile']) && $aside['tfile'] && $aside['tfile'] != '') {
 								$asidePath = config('app.openfileimgberitafull') . $aside['tfile'];
-							} else {
+							} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $aside['tfile'])) {
 								$asidePath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $aside['tfile'];
-							} 
+							} else {
+								$asidePath = config('app.openfileimgcontentdefault');
+							}
 							
 							$originalDate = explode(" ", $aside['tanggal']);
 							$asideDate = date("d F Y", strtotime($originalDate[0]));
@@ -132,11 +148,13 @@
 					@foreach($aside_top_view as $aside)
 
 						<?php
-							if (file_exists(config('app.openfileimgberita') . $aside['tfile'])) {
+							if (file_exists(config('app.openfileimgberita') . $aside['tfile']) && $aside['tfile'] && $aside['tfile'] != '') {
 								$asidePath = config('app.openfileimgberitafull') . $aside['tfile'];
-							} else {
+							} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $aside['tfile'])) {
 								$asidePath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $aside['tfile'];
-							} 
+							} else {
+								$asidePath = config('app.openfileimgcontentdefault');
+							}
 							
 							$originalDate = explode(" ", $aside['tanggal']);
 							$asideDate = date("d F Y", strtotime($originalDate[0]));

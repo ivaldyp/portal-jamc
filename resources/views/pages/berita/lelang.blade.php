@@ -4,10 +4,16 @@
 
 <?php 
 	if ($berita != null) {
-		if (file_exists(config('app.openfileimgberita') . $berita['tfile'])) {
-			$fullpath = config('app.openfileimgberitafull') . $berita['tfile'];
+		// if (file_exists(config('app.openfileimgberita') . $berita['tfile'])) {
+		// 	$fullpath = config('app.openfileimgberitafull') . $berita['tfile'];
+		// } else {
+		// 	$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $berita['tfile'];
+		// }
+
+		if (file_exists(config('app.openfileimglelang') . $berita['tfile']) && $berita['tfile'] && $berita['tfile'] != '') {
+			$fullpath = config('app.openfileimglelangfull') . $berita['tfile'];
 		} else {
-			$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $berita['tfile'];
+			$fullpath = config('app.openfileimgcontentdefault');
 		}
 		
 		$originalDate = explode(" ", $berita['tanggal']);

@@ -117,6 +117,9 @@
 													<th>Judul</th>
 													<th>Editor</th>
 													<th>File</th>
+													@if($contents[0]['nmkat'] == 'berita' || $contents[0]['nmkat'] == 'lelang' )
+													<th>Headline</th>
+													@endif
 													<th>Approved</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-1">Action</th>
@@ -155,6 +158,15 @@
 															<?php } ?>
 														@endif
 													</td>
+													@if($contents[0]['nmkat'] == 'berita' || $contents[0]['nmkat'] == 'lelang' )
+													<td>
+														@if($content['tipe'] == 'H,')
+														<i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>
+														@else
+														<i style="color:red;" class="fa fa-times"></i><br><span style="color: white;">0</span>
+														@endif
+													</td>
+													@endif
 													<td>
 														{!! ($content['appr']) == 'Y' ? 
 															'<i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>' : 
@@ -421,7 +433,7 @@
 			});
 
 			$('.myTable').DataTable({
-				"ordering": false,
+				"ordering": true,
 			});
 		});
 	</script>
