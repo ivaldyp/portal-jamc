@@ -7,7 +7,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- <title>{{ config('app.name', 'Laravel') }}</title> -->
+    <title>BPAD DKI Jakarta</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ ('/portal/public/img/photo/bpad-logo-00.png') }}" />
 
     <!-- Scripts -->
     <script src="{{ ('/portal/public/js/app.js') }}" defer></script>
