@@ -547,7 +547,7 @@ class CmsController extends Controller
 					get();
 
 		$contents = DB::select( DB::raw("
-				  	SELECT top 100 con.*, kat.nmkat from bpadcmsfake.dbo.content_tb con
+				  	SELECT top 100 con.*, lower(kat.nmkat) as nmkat from bpadcmsfake.dbo.content_tb con
 					  join bpadcmsfake.dbo.glo_kategori kat on kat.ids = con.idkat
 					  where idkat = $katnow
 					  and suspend = '$suspnow'
@@ -598,7 +598,7 @@ class CmsController extends Controller
 					->get();
 
 		$content = DB::select( DB::raw("
-				  	SELECT con.tanggal as tanggalc, con.*, kat.nmkat from bpadcmsfake.dbo.content_tb con
+				  	SELECT con.tanggal as tanggalc, con.*, lower(kat.nmkat) as nmkat from bpadcmsfake.dbo.content_tb con
 					  join bpadcmsfake.dbo.glo_kategori kat on kat.ids = con.idkat
 					  where con.ids = $ids
 					  order by con.tanggal desc
