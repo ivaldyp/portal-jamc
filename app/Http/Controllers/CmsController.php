@@ -543,6 +543,13 @@ class CmsController extends Controller
 				"));
 		$kategoris = json_decode(json_encode($kategoris), true);
 
+		$katnowdetail = DB::select( DB::raw("
+				  	SELECT *, lower(nama)
+					FROM bpadcmsfake.dbo.glo_kategori kat
+					WHERE idkat = $katnow
+				"))[0];
+		$katnowdetail = json_decode(json_encode($katnowdetail), true);
+
 		$subkats = Glo_subkategori::
 					get();
 
@@ -562,6 +569,7 @@ class CmsController extends Controller
 				->with('subkats', $subkats)
 				->with('contents', $contents)
 				->with('katnow', $katnow)
+				->with('katnowdetail', $katnowdetail)
 				->with('suspnow', $suspnow);
 	}
 

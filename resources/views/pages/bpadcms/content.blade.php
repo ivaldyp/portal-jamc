@@ -117,7 +117,7 @@
 													<th>Judul</th>
 													<th>Editor</th>
 													<th>File</th>
-													@if($contents[0]['nmkat'] == 'berita' || $contents[0]['nmkat'] == 'lelang' )
+													@if($katnowdetail['nama'] == 'berita' || $katnowdetail['nama'] == 'lelang' )
 													<th>Headline</th>
 													@endif
 													<th>Approved</th>
@@ -158,7 +158,7 @@
 															<?php } ?>
 														@endif
 													</td>
-													@if($contents[0]['nmkat'] == 'berita' || $contents[0]['nmkat'] == 'lelang' )
+													@if($katnowdetail['nama'] == 'berita' || $katnowdetail['nama'] == 'lelang' )
 													<td>
 														@if($content['tipe'] == 'H,')
 														<i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>
