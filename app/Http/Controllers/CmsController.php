@@ -546,7 +546,7 @@ class CmsController extends Controller
 		$katnowdetail = DB::select( DB::raw("
 				  	SELECT *, lower(nama)
 					FROM bpadcmsfake.dbo.glo_kategori kat
-					WHERE idkat = $katnow
+					WHERE ids = $katnow
 				"))[0];
 		$katnowdetail = json_decode(json_encode($katnowdetail), true);
 
