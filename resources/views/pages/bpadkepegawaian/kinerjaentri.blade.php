@@ -93,10 +93,9 @@
 												$nowdate = ''
 												@endphp
 
-												@foreach($laporans as $key => $laporan)
-													@if($nowdate != $laporan['tgl_trans'])
-														@php $nowdate = $laporan['tgl_trans'] @endphp
-													
+												@if($laporans != null)
+
+													@foreach($laporans as $key => $laporan)
 														<?php 
 															if ($laporan['tipe_hadir'] == 1) {
 																$tipe_hadir = 'Hadir';
@@ -139,10 +138,10 @@
 																
 															</td>
 														</tr>
+													
+													@endforeach
 
-													@endif
-												
-												@endforeach
+												@endif
 											</tbody>
 										</table>
 									</div>
@@ -175,11 +174,6 @@
 	<!-- start - This is for export functionality only -->
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <!-- end - This is for export functionality only -->
 
 	<script>
