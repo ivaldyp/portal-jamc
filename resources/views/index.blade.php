@@ -8,6 +8,7 @@
 
 @if($lelang['sts'] == 1)
 <div id="ads" class="bottom pull-right">
+	<button class="btn btnads" id="adsbutton">X</button>
 	<a href="{{ url('/content/lelang') }}">
 		<img src="{{ ('/portal/public/img/photo/lelang-bpad.jpeg') }}">
 		<h1 class="text-center" id="lelang-text">LELANG</h1>

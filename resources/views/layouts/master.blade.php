@@ -266,6 +266,9 @@
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			$("#adsbutton").click(function(){
+				$("#ads").hide();
+			});
 			$("#mail_submit").click(function(){
 				var isi = $("#isi").val();
 				var sender = $("#sender").val();
