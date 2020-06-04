@@ -24,6 +24,10 @@ class SecurityController extends Controller
 
 	public function display_roles($query, $idgroup, $access, $parent, $level = 0)
 	{
+		if ($parent==0) {
+			$parent = null;
+		}
+
 		$query = Sec_menu::
 				join('bpaddtfake.dbo.sec_access', 'bpaddtfake.dbo.sec_access.idtop', '=', 'bpaddtfake.dbo.Sec_menu.ids')
                 ->where('bpaddtfake.dbo.sec_access.idgroup', $idgroup)
@@ -69,7 +73,10 @@ class SecurityController extends Controller
 	public function grupall()
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$groups = Sec_access::
 					distinct('idgroup')
@@ -84,7 +91,6 @@ class SecurityController extends Controller
 	public function grupubah(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 4);
 
 		$groups = Sec_access::
 					distinct('idgroup')
@@ -93,7 +99,6 @@ class SecurityController extends Controller
 		$all_menu = [];
 
 		$menus = $this->display_roles($all_menu, $request->name, $access, 0);
-
 
 		$pagename = $request->name;
 
@@ -212,7 +217,10 @@ class SecurityController extends Controller
 	public function tambahuser()
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 5);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$idgroup = Sec_access::
 					distinct('idgroup')
@@ -279,7 +287,10 @@ class SecurityController extends Controller
 	public function manageuser()
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 6);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$users = Sec_logins::
 					orderBy('idgroup')

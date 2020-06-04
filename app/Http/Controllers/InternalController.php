@@ -12,6 +12,7 @@ use App\Traits\SessionCheckTraits;
 use App\Agenda_tb;
 use App\Berita_tb;
 use App\Help;
+use App\Sec_menu;
 
 session_start();
 
@@ -29,7 +30,10 @@ class InternalController extends Controller
     public function agenda()
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$agendas = Agenda_tb::limit(200)
 					->orderBy('ids', 'desc')
@@ -43,7 +47,6 @@ class InternalController extends Controller
     public function agendatambah()
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
 
 		return view('pages.bpadinternal.agendatambah')
 				->with('access', $access);
@@ -52,7 +55,6 @@ class InternalController extends Controller
     public function agendaubah(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
 
 		$agenda = Agenda_tb::
 					where('ids', $request->ids)
@@ -67,7 +69,6 @@ class InternalController extends Controller
     public function formappragenda(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
 
 		Agenda_tb::where('ids', $request->ids)
 			->update([
@@ -88,7 +89,6 @@ class InternalController extends Controller
     public function forminsertagenda(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
 
 		$fileagenda = '';
 
@@ -143,7 +143,6 @@ class InternalController extends Controller
     public function formupdateagenda(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
 
 		$fileagenda = '';
 
@@ -193,7 +192,6 @@ class InternalController extends Controller
     public function formdeleteagenda(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 57);
 
 		Agenda_tb::
 				where('ids', $request->ids)
@@ -219,7 +217,10 @@ class InternalController extends Controller
     public function berita()
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$beritas = Berita_tb::limit(200)
 					->orderBy('ids', 'desc')
@@ -233,7 +234,6 @@ class InternalController extends Controller
     public function beritatambah()
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
 		return view('pages.bpadinternal.beritatambah')
 				->with('access', $access);
@@ -242,7 +242,6 @@ class InternalController extends Controller
     public function beritaubah(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
 		$berita = Berita_tb::
 					where('ids', $request->ids)
@@ -257,7 +256,6 @@ class InternalController extends Controller
     public function formapprberita(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
 		Berita_tb::where('ids', $request->ids)
 			->update([
@@ -278,7 +276,6 @@ class InternalController extends Controller
     public function forminsertberita(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
 		if (is_null($request->isi)) {
 			$isi = '';
@@ -311,7 +308,6 @@ class InternalController extends Controller
     public function formupdateberita(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
 		Berita_tb::where('ids', $request->ids)
 					->update([
@@ -328,7 +324,6 @@ class InternalController extends Controller
     public function formdeleteberita(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 39);
 
 		Berita_tb::
 				where('ids', $request->ids)
@@ -346,7 +341,10 @@ class InternalController extends Controller
     public function saran()
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1376);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$sarans = Help::limit(100)
 					->orderBy('tanggal', 'desc')
@@ -360,7 +358,6 @@ class InternalController extends Controller
     public function formapprsaran(Request $request)
     {
     	$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1376);
 
 		if ($request->read == 1) {
 			$read = 0;

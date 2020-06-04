@@ -31,6 +31,7 @@ use App\glo_org_unitkerja;
 use App\Kinerja_data;
 use App\Kinerja_detail;
 use App\Sec_access;
+use App\Sec_menu;
 use App\V_disposisi;
 
 session_start();
@@ -50,7 +51,10 @@ class KepegawaianController extends Controller
 	public function pegawaiall(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		if (!(isset($request->kednow))) {
 			$kednow = 'AKTIF';
@@ -96,7 +100,6 @@ class KepegawaianController extends Controller
 	public function pegawaitambah()
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$id_emp = explode(".", Emp_data::max('id_emp'));
 
@@ -143,7 +146,6 @@ class KepegawaianController extends Controller
 	public function pegawaiubah(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$id_emp = $request->id_emp;
 
@@ -219,7 +221,6 @@ class KepegawaianController extends Controller
 	public function forminsertpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$id_emp = explode(".", Emp_data::max('id_emp'));
 		$new_id_emp = $id_emp[0] . "." . $id_emp[1] . "." . $id_emp[2] . "." . ($id_emp[3] + 1);
@@ -448,7 +449,6 @@ class KepegawaianController extends Controller
 	public function formupdatepegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$id_emp = $request->id_emp;
 		
@@ -742,7 +742,6 @@ class KepegawaianController extends Controller
 	public function formupdatestatuspegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		if ($request->ked_emp == 'AKTIF') {
 			$tgl_end = null;
@@ -764,7 +763,6 @@ class KepegawaianController extends Controller
 	public function forminsertdikpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$insert_emp_dik = [
 				// PENDIDIKAN
@@ -795,7 +793,6 @@ class KepegawaianController extends Controller
 	public function formupdatedikpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		Emp_dik::where('noid', $request->noid)
 			->where('ids', $request->ids)
@@ -817,7 +814,6 @@ class KepegawaianController extends Controller
 	public function formdeletedikpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		Emp_dik::where('noid', $request->noid)
 			->where('ids', $request->ids)
@@ -835,7 +831,6 @@ class KepegawaianController extends Controller
 	public function forminsertgolpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$insert_emp_gol = [
 				// GOLONGAN
@@ -865,7 +860,6 @@ class KepegawaianController extends Controller
 	public function formupdategolpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		Emp_gol::where('noid', $request->noid)
 			->where('ids', $request->ids)
@@ -887,7 +881,6 @@ class KepegawaianController extends Controller
 	public function formdeletegolpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		Emp_gol::where('noid', $request->noid)
 			->where('ids', $request->ids)
@@ -905,7 +898,6 @@ class KepegawaianController extends Controller
 	public function forminsertjabpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$jabatan = explode("||", $request->jabatan);
 		$jns_jab = $jabatan[0];
@@ -940,7 +932,6 @@ class KepegawaianController extends Controller
 	public function formupdatejabpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		$jabatan = explode("||", $request->jabatan);
 		$jns_jab = $jabatan[0];
@@ -968,7 +959,6 @@ class KepegawaianController extends Controller
 	public function formdeletejabpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 13);
 
 		Emp_jab::where('noid', $request->noid)
 			->where('ids', $request->ids)
@@ -999,17 +989,32 @@ class KepegawaianController extends Controller
 	public function statusdisposisi()
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 373);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$ids = Auth::user()->id_emp;
 
-		$data_self = DB::select( DB::raw("  
-							SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddtfake.dbo.emp_data as a
-							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-							CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-							,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
-							and id_emp like '$ids'") )[0];
-		$data_self = json_decode(json_encode($data_self), true);
+		if ($ids) {
+			$data_self = DB::select( DB::raw("  
+								SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddtfake.dbo.emp_data as a
+								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+								and id_emp like '$ids'") )[0];
+			$data_self = json_decode(json_encode($data_self), true);
+		} else {
+			$data_self = DB::select( DB::raw("  
+								SELECT top 1 id_emp, nrk_emp, nip_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddtfake.dbo.emp_data as a
+								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+								and idunit like '01'") )[0];
+			$data_self = json_decode(json_encode($data_self), true);
+		}
+			
+			
 
 		if (strlen($data_self['idunit']) == 10) {
 			// kalo dia staf
@@ -1050,8 +1055,91 @@ class KepegawaianController extends Controller
 								<td><b>'.$total.'</b></td>
 							</tr>';
 
+		} elseif (strlen($data_self['idunit']) == 2) {
+			// kalo dia atasan biasa
+			$result = '<tr>
+							<td>'.(is_null($data_self['nrk_emp']) || $data_self['nrk_emp'] == '' ? '-' : $data_self['nrk_emp'] ).'</td>
+							<td>'.ucwords(strtolower($data_self['nm_emp'])).'</td>
+							<td>'.ucwords(strtolower($data_self['idjab'])).'</td>
+						';
+
+			$belum = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as belum
+						FROM bpaddtfake.dbo.v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'N'
+					"))[0]), true);
+
+			$baca = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as baca
+						FROM bpaddtfake.dbo.v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'Y'
+					"))[0]), true);
+
+			$balas = json_decode(json_encode(DB::select( DB::raw("
+						SELECT Count(id_emp) as balas
+						FROM bpaddtfake.dbo.v_disposisi
+						where id_emp like '".$ids."'
+						and rd = 'S'
+					"))[0]), true);
+
+			$total = $belum['belum'] + $baca['baca'] + $balas['balas'];
+
+			$result .= '	<td '. ($belum['belum'] > 0 ? 'class="text-danger"' : '') .'>'.$belum['belum'].'</td>
+								<td>'.$baca['baca'].'</td>
+								<td>'.$balas['balas'].'</td>
+								<td><b>'.$total.'</b></td>
+							</tr>';
+
+			$idunit = $data_self['idunit'];
+			$querys = DB::select( DB::raw("  
+						SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child from bpaddtfake.dbo.emp_data as a
+						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+						CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+						,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+						and tbunit.sao like '$idunit%' AND LEN(idunit) < 10 and ked_emp = 'aktif'
+						order by tbunit.kd_unit") );
+			$querys = json_decode(json_encode($querys), true);
+
+			foreach ($querys as $key => $query) {
+				$result .= '<tr>
+								<td>'.(is_null($query['nrk_emp']) || $query['nrk_emp'] == '' ? '-' : $query['nrk_emp'] ).'</td>
+								<td>'.ucwords(strtolower($query['nm_emp'])).'</td>
+								<td>'.ucwords(strtolower($query['idjab'])).'</td>
+							';
+
+				$belum = json_decode(json_encode(DB::select( DB::raw("
+							SELECT Count(id_emp) as belum
+							FROM bpaddtfake.dbo.v_disposisi
+							where id_emp like '".$query['id_emp']."'
+							and rd = 'N'
+						"))[0]), true);
+
+				$baca = json_decode(json_encode(DB::select( DB::raw("
+							SELECT Count(id_emp) as baca
+							FROM bpaddtfake.dbo.v_disposisi
+							where id_emp like '".$query['id_emp']."'
+							and rd = 'Y'
+						"))[0]), true);
+
+				$balas = json_decode(json_encode(DB::select( DB::raw("
+							SELECT Count(id_emp) as balas
+							FROM bpaddtfake.dbo.v_disposisi
+							where id_emp like '".$query['id_emp']."'
+							and rd = 'S'
+						"))[0]), true);
+
+				$total = $belum['belum'] + $baca['baca'] + $balas['balas'];
+				
+				$result .= '	<td '. ($belum['belum'] > 0 ? 'class="text-danger"' : '') .'>'.$belum['belum'].'</td>
+								<td>'.$baca['baca'].'</td>
+								<td>'.$balas['balas'].'</td>
+								<td><b>'.$total.'</b></td>
+							</tr>';
+			}
 		} else {
-			// kalo dia atasan
+			// kalo dia atasan biasa
 			$result = '<tr>
 							<td>'.(is_null($data_self['nrk_emp']) || $data_self['nrk_emp'] == '' ? '-' : $data_self['nrk_emp'] ).'</td>
 							<td>'.ucwords(strtolower($data_self['nm_emp'])).'</td>
@@ -1144,7 +1232,10 @@ class KepegawaianController extends Controller
 	public function suratkeluar()
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$surats = Fr_suratkeluar::
 					orderBy('tgl_input', 'desc')
@@ -1158,7 +1249,6 @@ class KepegawaianController extends Controller
 	public function suratkeluartambah()
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
 
 		$disposisis = Fr_disposisi::
 						limit(200)
@@ -1178,7 +1268,6 @@ class KepegawaianController extends Controller
 	public function suratkeluarubah(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
 
 		$surat = Fr_suratkeluar::
 					where('ids', $request->ids)
@@ -1265,7 +1354,6 @@ class KepegawaianController extends Controller
 	public function formupdatesuratkeluar(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
 
 		$filesuratkeluar = '';
 
@@ -1314,7 +1402,6 @@ class KepegawaianController extends Controller
 	public function formdeletesuratkeluar(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 1375);
 		$filepath = '';
 		$filepath .= config('app.savefilesuratkeluar');
 		$filepath .= '/' . $request->nm_file;
@@ -1340,7 +1427,10 @@ class KepegawaianController extends Controller
 	public function entrikinerja(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 335);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$idemp = Auth::user()->id_emp;
 
@@ -1370,7 +1460,6 @@ class KepegawaianController extends Controller
 	public function kinerjatambah(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 335);
 
 		if ($request->now_tgl_trans) {
 			$now_tgl_trans = date('d/m/Y', strtotime(str_replace('/', '-', $request->now_tgl_trans)));
@@ -1432,7 +1521,6 @@ class KepegawaianController extends Controller
 	public function forminsertkinerja(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 335);
 
 		$idemp = Auth::user()->id_emp;
 		$splittgltrans = explode("/", $request->tgl_trans);
@@ -1498,7 +1586,6 @@ class KepegawaianController extends Controller
 	public function formdeletekinerja(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 335);
 
 		Kinerja_data::	
 			where('idemp', $request->idemp)
@@ -1701,7 +1788,10 @@ class KepegawaianController extends Controller
 	public function approvekinerja(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 336);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		if ($_SESSION['user_data']['idunit']) {
 			$idunit = $_SESSION['user_data']['idunit'];
@@ -1761,7 +1851,6 @@ class KepegawaianController extends Controller
 	public function formapprovekinerja(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 336);
 
 		foreach ($request->laporan as $key => $data) {
 			$idemp = $request->{'idemp_'.$data};
@@ -1810,7 +1899,6 @@ class KepegawaianController extends Controller
 	public function formapprovekinerjasingle(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 336);
 
 		$tgl_trans = date('Y-m-d',strtotime($request->tgl_trans));
 
@@ -2092,7 +2180,10 @@ class KepegawaianController extends Controller
 	public function laporankinerja(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 337);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		if ($_SESSION['user_data']['idunit']) {
 			$idunit = $_SESSION['user_data']['idunit'];

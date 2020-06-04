@@ -93,7 +93,10 @@ class CmsController extends Controller
 	public function menuall(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 25);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$all_menu = [];
 
@@ -359,7 +362,10 @@ class CmsController extends Controller
 	public function kategoriall(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 28);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$kategoris = Glo_kategori::
 						orderBy('ids')
@@ -434,7 +440,10 @@ class CmsController extends Controller
 	public function subkategoriall(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 28);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$subkats = Glo_subkategori::
 					join('bpadcmsfake.dbo.glo_kategori', 'bpadcmsfake.dbo.glo_kategori.ids', '=', 'bpadcmsfake.dbo.glo_subkategori.idkat')
@@ -516,7 +525,10 @@ class CmsController extends Controller
 	public function contentall(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 31);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		if (!(is_null($request->katnow))) {
 			$katnow = $request->katnow;
@@ -577,7 +589,6 @@ class CmsController extends Controller
 	public function contenttambah(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 31);
 
 		$subkats = Glo_subkategori::
 					where('idkat', $request->kat)
@@ -588,7 +599,6 @@ class CmsController extends Controller
 					->first();
 
 		return view('pages.bpadcms.contenttambah')
-				->with('access', $access)
 				->with('subkats', $subkats)
 				->with('kat', $kat)
 				->with('idkat', $request->kat);
@@ -597,7 +607,6 @@ class CmsController extends Controller
 	public function contentubah(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 31);
 
 		$ids = $request->ids;
 		$idkat = $request->idkat;
@@ -619,7 +628,6 @@ class CmsController extends Controller
 					->first();
 
 		return view('pages.bpadcms.contentubah')
-				->with('access', $access)
 				->with('ids', $ids)
 				->with('idkat', $idkat)
 				->with('kat', $kat)
@@ -938,7 +946,8 @@ class CmsController extends Controller
 	public function produkall(Request $request)
 	{
 		$this->checkSessionTime();
-		$currentpath = $_SERVER['REQUEST_URI'];
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 

@@ -39,7 +39,10 @@ class ProfilController extends Controller
 	public function pegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 369);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 37);
 		$accessdik = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
@@ -412,7 +415,10 @@ class ProfilController extends Controller
 	public function disposisilihat (Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		if (Auth::user()->id_emp == $request->to_id) {
 			$rd_status = Fr_disposisi::
