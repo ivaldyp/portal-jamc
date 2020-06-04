@@ -82,6 +82,11 @@ Route::group(['prefix' => 'cms'], function () {
 	Route::post('/form/tambahcontent', 'CmsController@forminsertcontent');
 	Route::post('/form/ubahcontent', 'CmsController@formupdatecontent');
 	Route::post('/form/hapuscontent', 'CmsController@formdeletecontent');
+
+	Route::get('/produk', 'CmsController@produkall');
+	Route::post('/form/tambahproduk', 'CmsController@forminsertproduk');
+	Route::post('/form/ubahproduk', 'CmsController@formupdateproduk');
+	Route::post('/form/hapusproduk', 'CmsController@formdeleteproduk');
 });
 
 Route::group(['prefix' => 'internal'], function () {

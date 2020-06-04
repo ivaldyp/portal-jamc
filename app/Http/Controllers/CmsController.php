@@ -12,6 +12,7 @@ use App\Traits\SessionCheckTraits;
 use App\Content_tb;
 use App\Glo_kategori;
 use App\Glo_subkategori;
+use App\New_icon_produk;
 use App\Sec_access;
 use App\Sec_menu;
 
@@ -927,4 +928,211 @@ class CmsController extends Controller
 					->with('message', 'Konten berhasil dihapus')
 					->with('msg_num', 1);
 	}
+
+	// ---------------- CONTENT ------------------ //
+
+	// ------------------------------------------- //
+
+	// ---------------- PRODUK ------------------- //
+
+	public function produkall(Request $request)
+	{
+		$this->checkSessionTime();
+		$currentpath = $_SERVER['REQUEST_URI'];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
+
+		$produks = New_icon_produk::
+						where('type', 'static')
+						->orderBy('ids')
+						->get();
+		
+		return view('pages.bpadcms.produk')
+				->with('access', $access)
+				->with('produks', $produks);
+	}
+
+	public function forminsertproduk(Request $request)
+	{
+		$this->checkSessionTime();
+
+		$cekexists = New_icon_produk::where('name', $request->name)->count();
+		if ($cekexists > 0) {
+			return redirect('/cms/produk')->with('message', 'Produk tersebut sudah ada');
+		}
+
+		if (isset($request->imgstatic)) {
+			$file = $request->imgstatic;
+
+			if ($file->getSize() > 33000000) {
+				return redirect('/cms/produk')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+			if ($file->getClientOriginalExtension() != "png" && $file->getClientOriginalExtension() != "jpg" && $file->getClientOriginalExtension() != "jpeg") {
+				return redirect('/cms/produk')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
+			} 
+
+			$file_name = "ico-" . $request->name;
+			$file_name .= ".". $file->getClientOriginalExtension();
+			$tujuan_upload = config('app.savefileimgproduk');
+			
+			$file->move($tujuan_upload, $file_name);
+		}
+
+		if (!(isset($file_name))) {
+			$pathhref = '';
+		} else {
+			$pathhref = "/" . explode("/", $_SERVER['REQUEST_URI'])[1];
+			$pathhref .= "/public/img/icon-aset/";
+			$pathhref .= $file_name;
+		}
+
+		$result1 = [
+				'href'      => $request->href,
+				'name'		=> $request->name,
+				'source'	=> $pathhref,
+				'type'		=> 'static',
+			];
+		New_icon_produk::insert($result1);
+
+		if (isset($request->imgactive)) {
+			$file = $request->imgactive;
+
+			if ($file->getSize() > 33000000) {
+				return redirect('/cms/produk')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+			if ($file->getClientOriginalExtension() != "gif") {
+				return redirect('/cms/produk')->with('message', 'File yang diunggah harus berbentuk GIF');     
+			} 
+
+			$file_name = "ico-" . $request->name;
+			$file_name .= ".". $file->getClientOriginalExtension();
+			$tujuan_upload = config('app.savefileimgproduk');
+			
+			$file->move($tujuan_upload, $file_name);
+		}
+
+		if (!(isset($file_name))) {
+			$pathhref = '';
+		} else {
+			$pathhref = "/" . explode("/", $_SERVER['REQUEST_URI'])[1];
+			$pathhref .= "/public/img/icon-aset/";
+			$pathhref .= $file_name;
+		}
+
+		$result2 = [
+				'href'      => $request->href,
+				'name'		=> $request->name,
+				'source'	=> $pathhref,
+				'type'		=> 'active',
+			];
+		New_icon_produk::insert($result2);
+
+		return redirect('/cms/produk')
+					->with('message', 'produk '.$request->name.' berhasil ditambah')
+					->with('msg_num', 1);
+	}
+
+	public function formupdateproduk(Request $request)
+	{
+		$this->checkSessionTime();
+
+		if (isset($request->imgstatic)) {
+			$file = $request->imgstatic;
+
+			if ($file->getSize() > 33000000) {
+				return redirect('/cms/produk')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+			if ($file->getClientOriginalExtension() != "png" && $file->getClientOriginalExtension() != "jpg" && $file->getClientOriginalExtension() != "jpeg") {
+				return redirect('/cms/produk')->with('message', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
+			} 
+
+			$file_name = "ico-" . $request->name;
+			$file_name .= ".". $file->getClientOriginalExtension();
+			$tujuan_upload = config('app.savefileimgproduk');
+			
+			$file->move($tujuan_upload, $file_name);
+		}
+
+		if (!(isset($file_name))) {
+			$pathhref = '';
+		} else {
+			$pathhref = "/" . explode("/", $_SERVER['REQUEST_URI'])[1];
+			$pathhref .= "/public/img/icon-aset/";
+			$pathhref .= $file_name;
+
+			New_icon_produk::
+				where('name', $request->name)
+				->where('type', 'static')
+				->update([
+					'source' => $pathhref,
+				]);
+		}
+
+		/////////////
+
+		if (isset($request->imgactive)) {
+			$file = $request->imgactive;
+
+			if ($file->getSize() > 33000000) {
+				return redirect('/cms/produk')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+			} 
+			if ($file->getClientOriginalExtension() != "gif") {
+				return redirect('/cms/produk')->with('message', 'File yang diunggah harus berbentuk GIF');     
+			} 
+
+			$file_name2 = "ico-" . $request->name;
+			$file_name2 .= ".". $file->getClientOriginalExtension();
+			$tujuan_upload = config('app.savefileimgproduk');
+			
+			$file->move($tujuan_upload, $file_name2);
+		}
+
+		if (!(isset($file_name2))) {
+			$pathhref = '';
+		} else {
+			$pathhref = "/" . explode("/", $_SERVER['REQUEST_URI'])[1];
+			$pathhref .= "/public/img/icon-aset/";
+			$pathhref .= $file_name2;
+
+			New_icon_produk::
+				where('name', $request->name)
+				->where('type', 'active')
+				->update([
+					'source' => $pathhref,
+				]);
+		}
+
+		//////////
+
+		New_icon_produk::
+			where('name', $request->name)
+			->update([
+				'href'      => $request->href,
+				'name'		=> $request->name,
+			]);
+
+		return redirect('/cms/produk')
+					->with('message', 'Produk '.$request->name.' berhasil diubah')
+					->with('msg_num', 1);
+	}
+
+	public function formdeleteproduk(Request $request)
+	{
+		$this->checkSessionTime();
+
+		// hapus produk
+
+		$delete = New_icon_produk::
+					where('name', $request->name)
+					->delete();
+
+		return redirect('/cms/produk')
+					->with('message', 'Produk '.$request->name.' berhasil dihapus')
+					->with('msg_num', 1);
+	}
+
+	// ---------------- PRODUK ------------------- //
+
 }
+
+	

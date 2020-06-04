@@ -68,8 +68,8 @@
                             	@csrf
                             		<div class="row">
                             			<div class="col-md-12">
-                            				<button class="m-r-10 btn btn-info pull-right" onclick="goBack()">Kembali</button>
                             				<button class="btn btn-info pull-right">Simpan</button>
+                            				<a href="{{ url('/cms/menu') }}"><button type="button" class="m-r-10 btn btn-default pull-right">Kembali</button></a>
                             			</div>
                             		</div>
                             		<div class="row">
@@ -105,8 +105,8 @@
                             		</div>
                             		<div class="row">
                             			<div class="col-md-12">
-                            				<button class="m-r-10 btn btn-info pull-right" onclick="goBack()">Kembali</button>
                             				<button class="btn btn-info pull-right">Simpan</button>
+                            				<a href="{{ url('/cms/menu') }}"><button type="button" class="m-r-10 btn btn-default pull-right">Kembali</button></a>
                             			</div>
                             		</div>
                             	</form>
