@@ -212,7 +212,7 @@
 												<div class="form-group">
 													<label for="email_emp" class="col-md-2 control-label"> Email </label>
 													<div class="col-md-8">
-														<input autocomplete="off" type="email" name="email_emp" class="form-control" id="email_emp" data-error="Masukkan alamat email yang valid" value="{{ $emp_data['tlp_emp'] }}">
+														<input autocomplete="off" type="email" name="email_emp" class="form-control" id="email_emp" data-error="Masukkan alamat email yang valid" value="{{ $emp_data['email_emp'] }}">
 														<div class="help-block with-errors"></div>
 													</div>
 												</div>
