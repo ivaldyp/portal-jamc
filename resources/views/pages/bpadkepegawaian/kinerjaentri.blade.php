@@ -96,48 +96,53 @@
 												@if($laporans != null)
 
 													@foreach($laporans as $key => $laporan)
-														<?php 
-															if ($laporan['tipe_hadir'] == 1) {
-																$tipe_hadir = 'Hadir';
-															} elseif ($laporan['tipe_hadir'] == 2) {
-																$tipe_hadir = 'Tidak Hadir';
-															} elseif ($laporan['tipe_hadir'] == 3) {
-																$tipe_hadir = 'DL Full';
-															}
-														?>
+														@if ($nowdate != $laporan['tgl_trans'])
+															@php
+															$nowdate = $laporan['tgl_trans']
+															@endphp
+															<?php 
+																if ($laporan['tipe_hadir'] == 1) {
+																	$tipe_hadir = 'Hadir';
+																} elseif ($laporan['tipe_hadir'] == 2) {
+																	$tipe_hadir = 'Tidak Hadir';
+																} elseif ($laporan['tipe_hadir'] == 3) {
+																	$tipe_hadir = 'DL Full';
+																}
+															?>
 
-														<tr>
-															<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
-															<td>{{ $tipe_hadir }} --- {{ $laporan['jns_hadir'] }}
-																@if($laporan['keterangan'] == null && $laporan['uraian'] == null)
-																<br><span style="color: red">Tidak ada kinerja</span>
-																@endif
-															</td>
-															<td>{{ ($laporan['lainnya'] ? $laporan['lainnya'] : '-') }}</td>
-															<td>
-																<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-																	<form method="POST" action="/portal/kepegawaian/kinerja tambah">
-																		@csrf
-																		<input type="hidden" name="now_tgl_trans" value="{{ $laporan['tgl_trans'] }}">
-																		<input type="hidden" name="now_tipe_hadir" value="{{ $laporan['tipe_hadir'] }}">
-																		<input type="hidden" name="now_jns_hadir" value="{{ $laporan['jns_hadir'] }}">
-																		<input type="hidden" name="now_lainnya" value="{{ $laporan['lainnya'] }}">
-																		<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn_update_kinerja"><i class='fa fa-edit'></i></button>
-																	</form>
-																</div>
-																<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-																	@if($laporan['stat'] != 1)
-																	<form method="POST" action="/portal/kepegawaian/form/hapuskinerja">
-																		@csrf
-																		<input type="hidden" name="idemp" value="{{ $laporan['idemp'] }}">
-																		<input type="hidden" name="tgl_trans" value="{{ $laporan['tgl_trans'] }}">
-																		<button type="submit" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_kinerja" ><i class='fa fa-trash'></i></button>
-																	</form>
+															<tr>
+																<td>{{ date('d-M-Y',strtotime($laporan['tgl_trans'])) }}</td>
+																<td>{{ $tipe_hadir }} --- {{ $laporan['jns_hadir'] }}
+																	@if($laporan['keterangan'] == null && $laporan['uraian'] == null)
+																	<br><span style="color: red">Tidak ada kinerja</span>
 																	@endif
-																</div>
-																
-															</td>
-														</tr>
+																</td>
+																<td>{{ ($laporan['lainnya'] ? $laporan['lainnya'] : '-') }}</td>
+																<td>
+																	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+																		<form method="POST" action="/portal/kepegawaian/kinerja tambah">
+																			@csrf
+																			<input type="hidden" name="now_tgl_trans" value="{{ $laporan['tgl_trans'] }}">
+																			<input type="hidden" name="now_tipe_hadir" value="{{ $laporan['tipe_hadir'] }}">
+																			<input type="hidden" name="now_jns_hadir" value="{{ $laporan['jns_hadir'] }}">
+																			<input type="hidden" name="now_lainnya" value="{{ $laporan['lainnya'] }}">
+																			<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn_update_kinerja"><i class='fa fa-edit'></i></button>
+																		</form>
+																	</div>
+																	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+																		@if($laporan['stat'] != 1)
+																		<form method="POST" action="/portal/kepegawaian/form/hapuskinerja">
+																			@csrf
+																			<input type="hidden" name="idemp" value="{{ $laporan['idemp'] }}">
+																			<input type="hidden" name="tgl_trans" value="{{ $laporan['tgl_trans'] }}">
+																			<button type="submit" class="btn btn-danger btn-outline btn-circle m-r-5 btn_delete_kinerja" ><i class='fa fa-trash'></i></button>
+																		</form>
+																		@endif
+																	</div>
+																	
+																</td>
+															</tr>
+														@endif
 													
 													@endforeach
 
