@@ -24,6 +24,7 @@ use App\Glo_org_lokasi;
 use App\Glo_org_statusemp;
 use App\glo_org_unitkerja;
 use App\Sec_access;
+use App\Sec_menu;
 
 session_start();
 
