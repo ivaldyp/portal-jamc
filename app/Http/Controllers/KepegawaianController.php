@@ -591,7 +591,6 @@ class KepegawaianController extends Controller
 			->update([
 				'tgl_join' => (isset($request->tgl_join) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_join))) : null),
 				'status_emp' => $request->status_emp,
-				'ked_emp' => $request->ked_emp,
 				'nip_emp' => ($request->nip_emp ? $request->nip_emp : ''),
 				'nrk_emp' => ($request->nrk_emp ? $request->nrk_emp : ''),
 				'nm_emp' => ($request->nm_emp ? strtoupper($request->nm_emp) : ''),
