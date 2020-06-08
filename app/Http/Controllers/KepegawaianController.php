@@ -1460,10 +1460,6 @@ class KepegawaianController extends Controller
 	public function kinerjatambah(Request $request)
 	{
 		$this->checkSessionTime();
-		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
-		$currentpath = explode("?", $currentpath)[0];
-		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		if ($request->now_tgl_trans) {
 			$now_tgl_trans = date('d/m/Y', strtotime(str_replace('/', '-', $request->now_tgl_trans)));
@@ -1490,7 +1486,6 @@ class KepegawaianController extends Controller
 		}
 
 		return view('pages.bpadkepegawaian.kinerjatambah')
-				->with('access', $access)
 				->with('now_tgl_trans', $now_tgl_trans)
 				->with('now_tipe_hadir', $now_tipe_hadir)
 				->with('now_jns_hadir', $now_jns_hadir)
