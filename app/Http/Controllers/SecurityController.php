@@ -103,7 +103,6 @@ class SecurityController extends Controller
 		$pagename = $request->name;
 
 		return view('pages.bpadsecurity.ubahgrup')
-				->with('access', $access)
 				->with('pagename', $pagename)
 				->with('menus', $menus)
 				->with('groups', $groups);

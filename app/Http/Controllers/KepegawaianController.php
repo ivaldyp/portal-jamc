@@ -202,7 +202,6 @@ class KepegawaianController extends Controller
 		$units = glo_org_unitkerja::get();
 
 		return view('pages.bpadkepegawaian.pegawaiubah')
-				->with('access', $access)
 				->with('id_emp', $id_emp)
 				->with('emp_data', $emp_data)
 				->with('emp_dik', $emp_dik)
@@ -1260,7 +1259,6 @@ class KepegawaianController extends Controller
 		$dispkodes = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
 		return view('pages.bpadkepegawaian.suratkeluartambah')
-				->with('access', $access)
 				->with('disposisis', $disposisis)
 				->with('dispkodes', $dispkodes);
 	}
@@ -1283,7 +1281,6 @@ class KepegawaianController extends Controller
 		$dispkodes = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
 		return view('pages.bpadkepegawaian.suratkeluarubah')
-				->with('access', $access)
 				->with('surat', $surat)
 				->with('disposisis', $disposisis)
 				->with('dispkodes', $dispkodes);

@@ -48,8 +48,7 @@ class InternalController extends Controller
     {
     	$this->checkSessionTime();
 
-		return view('pages.bpadinternal.agendatambah')
-				->with('access', $access);
+		return view('pages.bpadinternal.agendatambah');
     }
 
     public function agendaubah(Request $request)
@@ -61,7 +60,6 @@ class InternalController extends Controller
 					->first();
 
 		return view('pages.bpadinternal.agendaubah')
-				->with('access', $access)
 				->with('ids', $request->ids)
 				->with('agenda', $agenda);
     }
@@ -235,8 +233,7 @@ class InternalController extends Controller
     {
     	$this->checkSessionTime();
 
-		return view('pages.bpadinternal.beritatambah')
-				->with('access', $access);
+		return view('pages.bpadinternal.beritatambah');
     }
 
     public function beritaubah(Request $request)
@@ -248,7 +245,6 @@ class InternalController extends Controller
 					->first();
 
 		return view('pages.bpadinternal.beritaubah')
-				->with('access', $access)
 				->with('ids', $request->ids)
 				->with('berita', $berita);
     }

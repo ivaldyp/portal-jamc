@@ -95,7 +95,6 @@ class ProfilController extends Controller
 	public function formupdateidpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 37);
 
 		$id_emp = $request->id_emp;
 		$filefoto = '';
@@ -173,7 +172,6 @@ class ProfilController extends Controller
 	public function forminsertdikpegawai (Request $request)
 	{
 		$this->checkSessionTime();
-		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
 
 		$id_emp = $_SESSION['user_data']['id_emp'];
 		$fileijazah = '';
@@ -228,7 +226,6 @@ class ProfilController extends Controller
 	public function formupdatedikpegawai (Request $request)
 	{
 		$this->checkSessionTime();
-		$accessdik = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
 
 		$id_emp = $_SESSION['user_data']['id_emp'];
 		$fileijazah = '';
@@ -291,7 +288,6 @@ class ProfilController extends Controller
 	public function formdeletedikpegawai(Request $request)
 	{
 		$this->checkSessionTime();
-		$accessdik = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
 
 		$id_emp = $_SESSION['user_data']['id_emp'];
 
@@ -309,7 +305,10 @@ class ProfilController extends Controller
 	public function disposisi(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		$idgroup = $_SESSION['user_data']['idgroup'];
 		if (substr($idgroup, 0, 8) == 'EMPLOYEE' || $idgroup == 'ADMIN DIA' || $idgroup == 'TYPIST') {
@@ -416,10 +415,6 @@ class ProfilController extends Controller
 	public function disposisilihat (Request $request)
 	{
 		$this->checkSessionTime();
-		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
-		$currentpath = explode("?", $currentpath)[0];
-		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
 		if (Auth::user()->id_emp == $request->to_id) {
 			$rd_status = Fr_disposisi::
@@ -529,7 +524,6 @@ class ProfilController extends Controller
 		}	
 
 		return view('pages.bpadprofil.lihatdisposisi')
-				->with('access', $access)
 				->with('opendisposisi', $opendisposisi)
 				->with('openpenanganannow', $openpenanganannow)
 				->with('openpenangananchild', $openpenangananchild)
@@ -549,7 +543,6 @@ class ProfilController extends Controller
 	public function disposisitambah (Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
 		$maxnoform = Fr_disposisi::max('no_form');
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
@@ -595,7 +588,6 @@ class ProfilController extends Controller
 						->get();
 
 		return view('pages.bpadprofil.tambahdisposisi')
-				->with('access', $access)
 				->with('maxnoform', $maxnoform)
 				->with('kddispos', $kddispos)
 				->with('stafs', $stafs)
@@ -606,8 +598,6 @@ class ProfilController extends Controller
 	public function formviewdisposisi(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
-
 		//kalo dia orang TU brarti ngubah form doang
 		if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
 			$filedispo = '';
@@ -837,7 +827,6 @@ class ProfilController extends Controller
 	public function forminsertdisposisi(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
 
 		$filedispo = '';
 
@@ -988,8 +977,6 @@ class ProfilController extends Controller
 	public function formdeletedisposisi(Request $request)
 	{
 		$this->checkSessionTime();
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], 35);
-
 
 		$this->deleteLoopDisposisi($request->ids);
 
