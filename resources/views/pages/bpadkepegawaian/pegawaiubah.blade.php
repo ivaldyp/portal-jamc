@@ -359,7 +359,7 @@
 																<span class="text-muted">{{$dik['th_sek']}}</span>
 															</td>
 															<td>
-																@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																
 																	<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update-dik" data-toggle="modal" data-target="#modal-update-dik-{{$key}}" ><i class="ti-pencil-alt"></i></button>
 																	<button type="button" class="btn btn-danger btn-delete-dik btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-dik-{{$key}}"><i class="ti-trash"></i></button>
 																	<div id="modal-delete-dik-{{$key}}" class="modal fade" role="dialog">
@@ -384,7 +384,7 @@
 																			</div>
 																		</div>
 																	</div>
-																@endif
+																
 															</td>
 															<div id="modal-update-dik-{{$key}}" class="modal fade" role="dialog">
 																<div class="modal-dialog">
@@ -550,7 +550,7 @@
 															<td>{{ $gol['idgol'] }}
 															</td>
 															<td>
-																@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																
 																	<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update-gol" data-toggle="modal" data-target="#modal-update-gol-{{$key}}" ><i class="ti-pencil-alt"></i></button>
 																	<button type="button" class="btn btn-danger btn-delete-gol btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-gol-{{$key}}"><i class="ti-trash"></i></button>
 																	<div id="modal-delete-gol-{{$key}}" class="modal fade" role="dialog">
@@ -575,7 +575,7 @@
 																			</div>
 																		</div>
 																	</div>
-																@endif
+																
 															</td>
 															<div id="modal-update-gol-{{$key}}" class="modal fade" role="dialog">
 																<div class="modal-dialog">
@@ -760,7 +760,7 @@
 															<td>{{ $jab['idjab'] }}</td>
 															</td>
 															<td>
-																@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+																
 																	<button type="button" class="btn btn-info btn-outline btn-circle m-r-5 btn-update-jab" data-toggle="modal" data-target="#modal-update-jab-{{$key}}" ><i class="ti-pencil-alt"></i></button>
 																	<button type="button" class="btn btn-danger btn-delete-jab btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-jab-{{$key}}"><i class="ti-trash"></i></button>
 																	<div id="modal-delete-jab-{{$key}}" class="modal fade" role="dialog">
@@ -785,7 +785,7 @@
 																			</div>
 																		</div>
 																	</div>
-																@endif
+																
 															</td>
 															<div id="modal-update-jab-{{$key}}" class="modal fade" role="dialog">
 																<div class="modal-dialog">
