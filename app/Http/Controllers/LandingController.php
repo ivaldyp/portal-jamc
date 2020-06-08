@@ -135,14 +135,24 @@ class LandingController extends Controller
 					->take(4)
 					->get();
 
-		$normal_content = Content_tb::
-					where('idkat', 1)
-					->where('appr', 'Y')
-					->where('sts', 1)
-					->where('tipe', '!=', 'H,')
-					->orderBy('tanggal', 'desc')
-					->take(4)
-					->get();
+		$excludeid = "(";
+		for ($i=0; $i < count($hot_content); $i++) { 
+		 	$excludeid .= $hot_content[$i]['ids'];
+			if ($i != (count($hot_content) - 1)){
+				$excludeid .= ",";
+			}
+		} 
+		$excludeid .= ")";
+
+		$normal_content = DB::select( DB::raw("  
+					SELECT TOP (4) * 
+					From bpadcmsfake.dbo.Content_tb
+					where idkat = 1
+					and appr = 'Y'
+					and sts = 1
+					and ids not in $excludeid
+					order by tanggal desc") );
+		$normal_content = json_decode(json_encode($normal_content), true);
 
 		$photo_content = Content_tb::
 					where('idkat', 5)
