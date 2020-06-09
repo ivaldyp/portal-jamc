@@ -74,7 +74,7 @@
 								@if($isEmployee == 1)
 									<ul class="nav customtab nav-tabs" role="tablist">
 										<li role="presentation" class="active"><a href="#inbox" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Inbox</span></a></li>
-										<li role="presentation" class=""><a href="#sent" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs"> Sent</span></a></li>
+										<li role="presentation" class=""><a href="#sent" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs"> Sudah Ditindaklanjuti</span></a></li>
 									</ul>
 									<div class="tab-content">
 										<div role="tabpanel" class="tab-pane fade active in" id="inbox">
