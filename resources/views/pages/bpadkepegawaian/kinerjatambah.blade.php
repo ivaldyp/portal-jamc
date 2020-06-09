@@ -353,6 +353,18 @@
 				var vartime2 = $('#time2').val();
 				var varuraian = $('#uraian').val();
 				var varketerangan = $('#keterangan').val();
+
+				var regexp = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    			var correct = regexp.test(vartime1);
+    			if (correct == false) {
+    				alert("Masukkan format waktu HH:MM yang benar");
+    				flag = 1;
+    			}
+    			var correct2 = regexp.test(vartime2);
+    			if (correct2 == false) {
+    				alert("Masukkan format waktu HH:MM yang benar");
+    				flag = 1;
+    			}
 				
 				if (vartime1 == '00:00' && vartime2 == '00:00' && varuraian == '') {
 					alert("Mohon isi detail kegiatan");
