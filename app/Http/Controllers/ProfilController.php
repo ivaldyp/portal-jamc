@@ -834,7 +834,7 @@ class ProfilController extends Controller
 		if (isset($request->nm_file)) {
 			$file = $request->nm_file;
 
-			if ($file->getSize() > 2222222) {
+			if ($file->getSize() > 52222222) {
 				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 			} 
 
