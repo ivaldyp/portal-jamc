@@ -362,6 +362,7 @@
 													<th>No. Surat</th>
 													<th>Perihal</th>
 													<th>Asal</th>
+													<th>File</th>
 													<th>Sifat</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-1">Action</th>
@@ -377,6 +378,7 @@
 														<td>{{ $disp['no_surat'] ?? '-' }}</td>
 														<td>{{ $disp['perihal'] ?? '-' }}</td>
 														<td>{{ $disp['asal_surat'] ?? '-' }}</td>
+														<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td>
 														<td>
 															<span class="label label-info">{{ $disp['sifat1_surat'] ?? '-' }}</span>
 															<br>
