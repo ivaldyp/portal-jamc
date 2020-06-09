@@ -148,7 +148,7 @@
 				<div class="col-md-4">
 					<div class="footer">
 						<h3 class="footer-title">Lokasi</h3>
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13246.003047911674!2d106.82764239905804!3d-6.184647288073016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f42a97a0358d%3A0x907e5135edab49ff!2sBADAN%20PAJAK%20DAN%20RETRIBUSI%20DAERAH!5e0!3m2!1sen!2sid!4v1577342271846!5m2!1sen!2sid" frameborder="0" style=" height: 200px;" allowfullscreen="true"></iframe>
+						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d991.6618577592792!2d106.81810288811926!3d-6.17792776640271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x19ca3e98a96811ee!2sBPAD%20Provinsi%20DKI%20Jakarta!5e0!3m2!1sen!2sid!4v1591692810287!5m2!1sen!2sid" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 					</div>
 				</div>
 				<!-- /footer galery -->
