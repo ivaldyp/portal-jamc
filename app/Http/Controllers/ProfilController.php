@@ -828,7 +828,7 @@ class ProfilController extends Controller
 	{
 		$this->checkSessionTime();
 
-		$filedispo = '';
+		$filedispo = 'disp';
 
 		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
 		if (isset($request->nm_file)) {
@@ -838,7 +838,8 @@ class ProfilController extends Controller
 				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 			} 
 
-			$filedispo .= $file->getClientOriginalName();
+			$filedispo .= date('dmYHis');
+			$filedispo .= ".". $file->getClientOriginalExtension();
 
 			$tujuan_upload = config('app.savefiledisposisi');
 			$file->move($tujuan_upload, $filedispo);
