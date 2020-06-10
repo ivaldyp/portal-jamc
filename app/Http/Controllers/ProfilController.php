@@ -310,6 +310,18 @@ class ProfilController extends Controller
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
+		if ($request->yearnow) {
+			$yearnow = (int)$request->yearnow;
+		} else {
+			$yearnow = (int)date('Y');
+		}
+
+		if ($request->signnow) {
+			$signnow = $request->signnow;
+		} else {
+			$signnow = "=";
+		}
+
 		$idgroup = $_SESSION['user_data']['idgroup'];
 		if (substr($idgroup, 0, 8) == 'EMPLOYEE' || $idgroup == 'ADMIN DIA' || $idgroup == 'TYPIST') {
 			$disposisiinboxs = DB::select( DB::raw("SELECT top 500 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
@@ -320,6 +332,7 @@ class ProfilController extends Controller
 										  FROM [bpaddtfake].[dbo].[fr_disposisi]
 										  where to_pm = '".$_SESSION['user_data']['id_emp'] ."')
 										  and disp.sts = 1
+										  and year(tgl_masuk) $signnow $yearnow
 										  order by disp.no_form DESC, disp.ids ASC") );
 
 			if (strlen($_SESSION['user_data']['idunit']) == 10) {
@@ -331,6 +344,7 @@ class ProfilController extends Controller
 										  FROM [bpaddtfake].[dbo].[fr_disposisi]
 										  where to_pm = '".$_SESSION['user_data']['id_emp'] ."')
 										  and disp.sts = 1
+										  and year(tgl_masuk) $signnow $yearnow
 										  order by disp.no_form DESC, disp.ids ASC") );
 				$disposisisents = 0;
 			} else {
@@ -342,6 +356,7 @@ class ProfilController extends Controller
 										  FROM [bpaddtfake].[dbo].[fr_disposisi]
 										  where from_pm = '".$_SESSION['user_data']['id_emp'] ."')
 										  and disp.sts = 1
+										  and year(tgl_masuk) $signnow $yearnow
 										  order by disp.no_form DESC, disp.ids ASC") );
 				$disposisiends = 0;
 			}
@@ -352,11 +367,12 @@ class ProfilController extends Controller
 			$disposisiends = json_decode(json_encode($disposisiends), true);
 			$disposisis = 0;
 		} else {
-			$disposisis = DB::select( DB::raw("SELECT TOP 500 *
+			$disposisis = DB::select( DB::raw("SELECT TOP 1000 *
 										  from bpaddtfake.dbo.fr_disposisi
 										  where (kode_disposisi is not null 
 										  and kode_disposisi != '')
 										  and sts = 1
+										  and year(tgl_masuk) $signnow $yearnow
 										  order by no_form DESC") );
 			$isEmployee = 0;
 			$disposisis = json_decode(json_encode($disposisis), true);
@@ -371,6 +387,8 @@ class ProfilController extends Controller
 				->with('disposisiinboxs', $disposisiinboxs)
 				->with('disposisisents', $disposisisents)
 				->with('disposisiends', $disposisiends)
+				->with('signnow', $signnow)
+				->with('yearnow', $yearnow)
 				->with('isEmployee', $isEmployee);
 	}
 
@@ -840,6 +858,9 @@ class ProfilController extends Controller
 
 			$filedispo .= date('dmYHis');
 			$filedispo .= ".". $file->getClientOriginalExtension();
+
+			var_dump($filedispo);
+			die();
 
 			$tujuan_upload = config('app.savefiledisposisi');
 			$file->move($tujuan_upload, $filedispo);
