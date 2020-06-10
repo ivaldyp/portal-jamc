@@ -367,7 +367,7 @@ class ProfilController extends Controller
 			$disposisiends = json_decode(json_encode($disposisiends), true);
 			$disposisis = 0;
 		} else {
-			$disposisis = DB::select( DB::raw("SELECT TOP 1000 *
+			$disposisis = DB::select( DB::raw("SELECT TOP 500 *
 										  from bpaddtfake.dbo.fr_disposisi
 										  where (kode_disposisi is not null 
 										  and kode_disposisi != '')
@@ -618,7 +618,7 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		//kalo dia orang TU brarti ngubah form doang
 		if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
-			$filedispo = '';
+			$filedispo = 'disp';
 
 			if (isset($request->nm_file)) {
 				$file = $request->nm_file;
@@ -627,7 +627,8 @@ class ProfilController extends Controller
 					return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 				} 
 
-				$filedispo .= $file->getClientOriginalName();
+				$filedispo .= date('dmYHis');
+				$filedispo .= ".". $file->getClientOriginalExtension();
 
 				$tujuan_upload = config('app.savefiledisposisi');
 				$file->move($tujuan_upload, $filedispo);
