@@ -49,6 +49,7 @@ Route::group(['prefix' => 'profil'], function () {
 	Route::post('form/lihatdisposisi', 'ProfilController@formviewdisposisi');
 	Route::post('form/tambahdisposisi', 'ProfilController@forminsertdisposisi');
 	Route::post('form/hapusdisposisi', 'ProfilController@formdeletedisposisi');
+	Route::get('/ceknoform', 'ProfilController@ceknoform');
 
 	Route::get('/pegawai', 'ProfilController@pegawai');
 	Route::post('/form/ubahidpegawai', 'ProfilController@formupdateidpegawai');

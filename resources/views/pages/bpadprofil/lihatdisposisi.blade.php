@@ -439,6 +439,23 @@
 				, format: 'dd/mm/yyyy'
 			});
 
+			$("#no_form").on('change', function(){
+
+				var varnoform = $("#no_form").val();
+
+				$.ajax({ 
+				type: "GET", 
+				url: "/portal/profil/ceknoform",
+				data: { noform : varnoform },
+				dataType: "JSON",
+				}).done(function( data ) { 
+					console.log(data[0].total);
+					if (data[0].total > 0) {
+						alert("Nomor surat sudah terpakai");
+					}
+				}); 
+			});
+
 		});
 	</script>
 @endsection

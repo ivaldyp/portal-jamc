@@ -306,6 +306,23 @@
 		$(function () {
 			$(".select2").select2();
 
+			$("#newnoform").on('change', function(){
+
+				var varnoform = $("#newnoform").val();
+
+				$.ajax({ 
+				type: "GET", 
+				url: "/portal/profil/ceknoform",
+				data: { noform : varnoform },
+				dataType: "JSON",
+				}).done(function( data ) { 
+					console.log(data[0].total);
+					if (data[0].total > 0) {
+						alert("Nomor surat sudah terpakai");
+					}
+				}); 
+			});
+
 			jQuery('#datepicker-autoclose').datepicker({
 				autoclose: true
 				, todayHighlight: true

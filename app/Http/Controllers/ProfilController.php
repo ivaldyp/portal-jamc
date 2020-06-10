@@ -1152,4 +1152,17 @@ class ProfilController extends Controller
 					->with('message', 'Disposisi berhasil dihapus')
 					->with('msg_num', 1);
 	}
+
+	public function ceknoform(Request $request)
+	{
+		$no_form = $request->noform;
+		$query = DB::select( DB::raw("
+					SELECT count(ids) as total
+					from bpaddtfake.dbo.fr_disposisi
+					where no_form = '$no_form'
+					"));
+		$query = json_decode(json_encode($query), true);
+
+		return $query;
+	}
 }
