@@ -82,7 +82,11 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>
 											<div class="col-md-8">
+												<?php if (is_null($_SESSION['user_data']['id_emp'])) : ?>
 												<input autocomplete="off" type="text" name="no_form" class="form-control" id="no_form" value="{{ $opendisposisi[0]['no_form'] }}">
+												<?php else : ?>
+												<p>{{ $opendisposisi[0]['no_form'] }}</p>
+												<?php endif ?>
 											</div>
 										</div>
 
