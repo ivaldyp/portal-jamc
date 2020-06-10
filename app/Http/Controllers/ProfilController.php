@@ -941,7 +941,7 @@ class ProfilController extends Controller
 				'kd_surat' => '',
 				'status_surat' => '',
 				'idtop' => $idnew,
-				'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : null),
+				'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : date('Y-m-d')),
 				'usr_input' => '',
 				'tgl_input' => null,
 				'no_index' => '',
