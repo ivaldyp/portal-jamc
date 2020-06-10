@@ -125,6 +125,12 @@
 																$thissifat1 = $disp['sifat1_surat'];
 																$thissifat2 = $disp['sifat2_surat'];
 																$thisfile = $disp['nm_file'];
+
+																if (file_exists('public/publicfile/disp/'.$thisfile)) {
+																	$namafolder = '';
+																} else {
+																	$namafolder = '/' . $thisnoform;
+																}
 															}
 
 															if ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && ($disp['rd'] == 'N' || $disp['rd'] == 'Y')) { ?>
@@ -162,7 +168,7 @@
 																						</tr>
 																						<tr>
 																							<td><strong>Download</strong></td>
-																							<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $thisfile }}">{{ $thisfile }}</a></td>
+																							<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $thisfile }}">{{ $thisfile }}</a></td>
 																						</tr>
 																					</tbody>
 																				</table> 
@@ -268,6 +274,13 @@
 																$thisasal = $disp['asal_surat'];
 																$thissifat1 = $disp['sifat1_surat'];
 																$thissifat2 = $disp['sifat2_surat'];
+																$thisfile = $disp['nm_file'];
+
+																if (file_exists('public/publicfile/disp/'.$thisfile)) {
+																	$namafolder = '';
+																} else {
+																	$namafolder = '/' . $thisnoform;
+																}
 															}
 
 															if ($disp['from_id'] == $_SESSION['user_data']['id_emp'] || ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['selesai'] == 'Y' && $disp['rd'] == 'S')) { ?>
@@ -302,6 +315,10 @@
 																						<tr>
 																							<td><strong>Asal Surat</strong></td>
 																							<td>{{ $thisasal ?? '-' }}</td>
+																						</tr>
+																						<tr>
+																							<td><strong>Download</strong></td>
+																							<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $thisfile }}">{{ $thisfile }}</a></td>
 																						</tr>
 																					</tbody>
 																				</table> 
@@ -394,7 +411,8 @@
 													</tr>
 												</thead>
 												<tbody>
-													<?php foreach ($disposisis as $key => $disp) { ?>
+													<?php 
+														foreach ($disposisis as $key => $disp) { ?>
 														<tr>
 															<td>{{ $disp['no_form'] ?? '-' }}</td>
 															<td>{{ date('d-M-Y',strtotime($disp['tgl_masuk'] ?? '-')) }}</td>
@@ -402,7 +420,14 @@
 															<td>{{ $disp['no_surat'] ?? '-' }}</td>
 															<td>{{ $disp['perihal'] ?? '-' }}</td>
 															<td>{{ $disp['asal_surat'] ?? '-' }}</td>
-															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td>
+															<?php 
+																if (file_exists('public/publicfile/disp/'.$disp['nm_file'])) {
+																	$namafolder = '';
+																} else {
+																	$namafolder = '/' . $thisnoform;
+																}
+															?>
+															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td>
 															<td>
 																<span class="label label-info">{{ $disp['sifat1_surat'] ?? '-' }}</span>
 																<br>
@@ -482,7 +507,14 @@
 															<td>{{ $draft['no_surat'] ?? '-' }}</td>
 															<td>{{ $draft['perihal'] ?? '-' }}</td>
 															<td>{{ $draft['asal_surat'] ?? '-' }}</td>
-															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $draft['nm_file'] }}">{{ $draft['nm_file'] }}</a></td>
+															<?php 
+																if (file_exists('public/publicfile/disp/'.$draft['nm_file'])) {
+																	$namafolder = '';
+																} else {
+																	$namafolder = '/' . $thisnoform;
+																}
+															?>
+															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $draft['nm_file'] }}">{{ $draft['nm_file'] }}</a></td>
 															<td>
 																<span class="label label-info">{{ $draft['sifat1_surat'] ?? '-' }}</span>
 																<br>

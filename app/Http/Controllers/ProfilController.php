@@ -504,9 +504,9 @@ class ProfilController extends Controller
 
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
-		if ($_SESSION['user_data']['child'] == 1 || $_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+		if ($_SESSION['user_data']['child'] == 1 || is_null($_SESSION['user_data']['id_emp'])) {
 
-			if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+			if (is_null($_SESSION['user_data']['id_emp'])) {
 				$idunits = '%';
 			} else {
 				$idunits = $_SESSION['user_data']['idunit'];
@@ -523,7 +523,7 @@ class ProfilController extends Controller
 			$stafs = 0;
 		}
 
-		if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+		if (is_null($_SESSION['user_data']['id_emp'])) {
 			$jabatans = Glo_org_jabatan::
 					where('jabatan',  'like', '%Kepala Badan%')
 					->get();
@@ -577,9 +577,9 @@ class ProfilController extends Controller
 		$maxnoform = Fr_disposisi::max('no_form');
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
-		if ($_SESSION['user_data']['child'] == 1 || $_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+		if ($_SESSION['user_data']['child'] == 1 || is_null($_SESSION['user_data']['id_emp'])) {
 
-			if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+			if (is_null($_SESSION['user_data']['id_emp'])) {
 				$idunits = '%';
 			} else {
 				$idunits = $_SESSION['user_data']['idunit'];
@@ -598,7 +598,7 @@ class ProfilController extends Controller
 			$stafs = 0;
 		}
 
-		if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
+		if (is_null($_SESSION['user_data']['id_emp'])) {
 			$jabatans = Glo_org_jabatan::
 					where('jabatan',  'like', '%Kepala Badan%')
 					->get();
