@@ -74,7 +74,6 @@
 									<div class="col-md-6">
 
 										<input type="hidden" name="ids" value="{{ $ids }}">
-										<input type="hidden" name="no_form" value="{{ $no_form }}">
 										<input type="hidden" name="cekidtop" value="{{ $idtop }}">
 										<input type="hidden" name="cekto_id" value="{{ $to_id }}">
 										<input type="hidden" name="cekasal" value="{{ $asal_form }}">
@@ -83,7 +82,7 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>
 											<div class="col-md-8">
-												<p class="form-control-static">{{ $opendisposisi[0]['no_form'] }}</p>
+												<input autocomplete="off" type="text" name="no_form" class="form-control" id="no_form" value="{{ $opendisposisi[0]['no_form'] }}">
 											</div>
 										</div>
 
@@ -231,15 +230,25 @@
 									</div>
 
 									<div class="col-md-6">
-										<?php if ($_SESSION['user_data']['child'] == 1 || $_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL'): ?>
+										<?php if ($_SESSION['user_data']['child'] == 1 || is_null($_SESSION['user_data']['id_emp'])): ?>
 											<div class="form-group">
 												<label class="col-md-2 control-label"> Disposisi Ke </label>
 												<div class="col-md-8">
 													<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
-														@foreach($jabatans as $jabatan)
-															<option value="{{ $jabatan['notes'] }}||{{ $jabatan['id_emp'] }}" > {{ $jabatan['notes'] }} </option>
-														@endforeach
+														<?php if (isset(Auth::user()->usname)): ?> 
+															<option  value="Kepala Badan Pengelolaan Aset Daerah" selected=""> Kepala Badan Pengelolaan Aset Daerah </option> 
+														<?php else : ?>
+															@foreach($jabatans as $jabatan)
+																<option value="{{ $jabatan['notes'] }}||{{ $jabatan['id_emp'] }}" > {{ $jabatan['notes'] }} </option>
+															@endforeach
+														<?php endif ?>
+														
 													</select>
+													@if(is_null($_SESSION['user_data']['id_emp']))
+													<span style="color: red">
+														*disposisi yang baru dibuat otomatis ditujukan kepada Kepala Badan 
+													</span>
+													@endif
 												</div>
 											</div>
 
@@ -352,7 +361,14 @@
 								</div>
 							</div>
 							<div class="panel-footer">
-								<button type="submit" class="btn btn-success pull-right">Simpan</button>
+								<?php if (is_null($_SESSION['user_data']['id_emp']) && $opendisposisi[0]['status_surat'] == 'd'): ?>
+									<input type="submit" name="btnKirim" class="btn btn-info pull-right m-r-10" value="Kirim">
+									<input type="submit" name="btnDraft" class="btn btn-warning pull-right m-r-10" value="Draft">
+
+								<?php else : ?>
+									<button type="submit" class="btn btn-success pull-right">Simpan</button>
+								<?php endif ?>
+								
 								<button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
 								<!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
 								<div class="clearfix"></div>

@@ -366,6 +366,7 @@ class ProfilController extends Controller
 			$disposisisents = json_decode(json_encode($disposisisents), true);
 			$disposisiends = json_decode(json_encode($disposisiends), true);
 			$disposisis = 0;
+			$disposisisdraft = 0;
 		} else {
 			$disposisis = DB::select( DB::raw("SELECT TOP 500 *
 										  from bpaddtfake.dbo.fr_disposisi
@@ -373,17 +374,28 @@ class ProfilController extends Controller
 										  and kode_disposisi != '')
 										  and sts = 1
 										  and year(tgl_masuk) $signnow $yearnow
+										  and status_surat = 's'
 										  order by no_form DESC") );
 			$isEmployee = 0;
 			$disposisis = json_decode(json_encode($disposisis), true);
 			$disposisiinboxs = 0;
 			$disposisisents = 0;
 			$disposisiends = 0;
+
+			$disposisisdraft = DB::select( DB::raw("SELECT TOP 500 *
+										  from bpaddtfake.dbo.fr_disposisi
+										  where (kode_disposisi is not null 
+										  and kode_disposisi != '')
+										  and sts = 1
+										  and status_surat = 'd'
+										  order by no_form DESC") );
+			$disposisisdraft = json_decode(json_encode($disposisisdraft), true);
 		}
 
 		return view('pages.bpadprofil.disposisi')
 				->with('access', $access)
 				->with('disposisis', $disposisis)
+				->with('disposisisdraft', $disposisisdraft)
 				->with('disposisiinboxs', $disposisiinboxs)
 				->with('disposisisents', $disposisisents)
 				->with('disposisiends', $disposisiends)
@@ -617,10 +629,10 @@ class ProfilController extends Controller
 	{
 		$this->checkSessionTime();
 		//kalo dia orang TU brarti ngubah form doang
-		if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL') {
-			$filedispo = 'disp';
+		if (is_null($_SESSION['user_data']['id_emp'])) {
 
 			if (isset($request->nm_file)) {
+				$filedispo = 'disp';
 				$file = $request->nm_file;
 
 				if ($file->getSize() > 2222222) {
@@ -650,33 +662,151 @@ class ProfilController extends Controller
 				$sifat2 = $request->sifat2_surat;
 			}
 
-			Fr_disposisi::where('ids', $request->ids)
-				->update([
-					'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
-					'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
-					'tgl_input' => date('Y-m-d H:i:s'),
-					'no_index' => $request->no_index,
-					'kode_disposisi' => $request->kode_disposisi,
-					'perihal' => $request->perihal,
-					'tgl_surat' => $request->tgl_surat,
-					'no_surat' => $request->no_surat,
-					'asal_surat' => $request->asal_surat,
-					'kepada_surat' => $request->kepada_surat,
-					'sifat1_surat' => $sifat1,
-					'sifat2_surat' => $sifat2,
-					'ket_lain' => $request->ket_lain,
-				]);
-
-			if ($filedispo != '') {
+			if (isset($request->btnDraft)) {
 				Fr_disposisi::where('ids', $request->ids)
-				->update([
-					'nm_file' => $filedispo,
-				]);
+					->update([
+						'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+						'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+						'tgl_input' => date('Y-m-d H:i:s'),
+						'no_index' => $request->no_index,
+						'kode_disposisi' => $request->kode_disposisi,
+						'perihal' => $request->perihal,
+						'tgl_surat' => $request->tgl_surat,
+						'no_surat' => $request->no_surat,
+						'asal_surat' => $request->asal_surat,
+						'kepada_surat' => $request->kepada_surat,
+						'sifat1_surat' => $sifat1,
+						'sifat2_surat' => $sifat2,
+						'ket_lain' => $request->ket_lain,
+						'status_surat' => 'd',
+						'no_form' => $request->no_form,
+					]);
+
+				if (isset($filedispo)) {
+					Fr_disposisi::where('ids', $request->ids)
+					->update([
+						'nm_file' => $filedispo,
+					]);
+				}
+
+				return redirect('/profil/disposisi')
+						->with('message', 'Disposisi berhasil diubah')
+						->with('msg_num', 1);
+
+			} elseif (isset($request->btnKirim)) {
+				Fr_disposisi::where('ids', $request->ids)
+					->update([
+						'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+						'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+						'tgl_input' => date('Y-m-d H:i:s'),
+						'no_index' => $request->no_index,
+						'kode_disposisi' => $request->kode_disposisi,
+						'perihal' => $request->perihal,
+						'tgl_surat' => $request->tgl_surat,
+						'no_surat' => $request->no_surat,
+						'asal_surat' => $request->asal_surat,
+						'kepada_surat' => $request->kepada_surat,
+						'sifat1_surat' => $sifat1,
+						'sifat2_surat' => $sifat2,
+						'ket_lain' => $request->ket_lain,
+						'status_surat' => 's',
+						'no_form' => $request->no_form,
+					]);
+
+				if (isset($filedispo)) {
+					Fr_disposisi::where('ids', $request->ids)
+					->update([
+						'nm_file' => $filedispo,
+					]);
+				}
+
+				$findidemp = DB::select( DB::raw("
+						SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM bpaddtfake.dbo.emp_data as a
+							CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+							CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+							CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+							,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+							and tbunit.kd_unit like '01' and ked_emp = 'aktif' order by nm_emp") )[0];
+				$findidemp = json_decode(json_encode($findidemp), true);
+
+				$insertsurat = [
+					'sts' => 1,
+					'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+					'tgl'       => date('Y-m-d H:i:s'),
+					'ip'        => '',
+					'logbuat'   => '',
+					'kd_skpd'	=> '1.20.512',
+					'kd_unit'	=> '01',
+					'no_form' => $request->no_form,
+					'kd_surat' => '',
+					'status_surat' => '',
+					'idtop' => $request->ids,
+					'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : date('Y-m-d')),
+					'usr_input' => '',
+					'tgl_input' => null,
+					'no_index' => '',
+					'kode_disposisi' => '',
+					'perihal' => '',
+					'tgl_surat' => '',
+					'no_surat' => '',
+					'asal_surat' => '',
+					'kepada_surat' => '',
+					'sifat1_surat' => '',
+					'sifat2_surat' => '',
+					'ket_lain' => '',
+					'nm_file' => '',
+					'kepada' => ($findidemp['idjab'] ? $findidemp['idjab'] : ''),
+					'noid' => '',
+					'penanganan' => ($request->penanganan ? $request->penanganan : ''),
+					'catatan' => ($request->catatan ? $request->catatan : ''),
+					'from_user' => '',
+					'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+					'to_user' => '',
+					'to_pm' => $findidemp['id_emp'],
+					'rd' => 'N',
+					'usr_rd' => '',
+					'tgl_rd' => null,
+					'selesai' => 'Y',
+					'child' => 0,
+				];
+				Fr_disposisi::insert($insertsurat);
+
+				return redirect('/profil/disposisi')
+						->with('message', 'Disposisi berhasil diubah')
+						->with('msg_num', 1);
+
+			} else {
+				Fr_disposisi::where('ids', $request->ids)
+					->update([
+						'tgl_masuk' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))),
+						'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+						'tgl_input' => date('Y-m-d H:i:s'),
+						'no_index' => $request->no_index,
+						'kode_disposisi' => $request->kode_disposisi,
+						'perihal' => $request->perihal,
+						'tgl_surat' => $request->tgl_surat,
+						'no_surat' => $request->no_surat,
+						'asal_surat' => $request->asal_surat,
+						'kepada_surat' => $request->kepada_surat,
+						'sifat1_surat' => $sifat1,
+						'sifat2_surat' => $sifat2,
+						'ket_lain' => $request->ket_lain,
+					]);
+
+				if (isset($filedispo)) {
+					Fr_disposisi::where('ids', $request->ids)
+					->update([
+						'nm_file' => $filedispo,
+					]);
+				}
+
+				return redirect('/profil/disposisi')
+						->with('message', 'Disposisi berhasil diubah')
+						->with('msg_num', 1);
 			}
 
-			return redirect('/profil/disposisi')
-					->with('message', 'Disposisi berhasil diubah')
-					->with('msg_num', 1);
+			
 		} else {
 			//kalo dia pegawai brarti lanjutin disposisi
 			if (is_null($request->jabatans) && is_null($request->stafs)) {
@@ -847,11 +977,10 @@ class ProfilController extends Controller
 	{
 		$this->checkSessionTime();
 
-		$filedispo = 'disp';
-
 		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
 		if (isset($request->nm_file)) {
 			$file = $request->nm_file;
+			$filedispo = 'disp';
 
 			if ($file->getSize() > 52222222) {
 				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
@@ -868,12 +997,18 @@ class ProfilController extends Controller
 			$filedispo = null;
 		}
 
-		$maxnoform = Fr_disposisi::max('no_form');
-		if (is_null($maxnoform)) {
-			$maxnoform = '1.20.512.20100001';
+		// $maxnoform = Fr_disposisi::max('no_form');
+		// if (is_null($maxnoform)) {
+		// 	$maxnoform = '1.20.512.20100001';
+		// }
+		// $splitnoform = explode(".", $maxnoform); 
+		$newnoform = $request->newnoform;
+
+		if (isset($request->btnDraft)) {
+			$status_surat = 'd';
+		} else {
+			$status_surat = 's';
 		}
-		$splitnoform = explode(".", $maxnoform); 
-		$newnoform = $splitnoform[0] . "." . $splitnoform[1] . "." . $splitnoform[2] . "." . ($splitnoform[3]+1);
 
 		$insertsuratmaster = [
 			'sts' => 1,
@@ -885,7 +1020,7 @@ class ProfilController extends Controller
 			'kd_unit'	=> '01',
 			'no_form' => $newnoform,
 			'kd_surat' => '',
-			'status_surat' => '',
+			'status_surat' => $status_surat,
 			'idtop' => 0,
 			'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : date('Y-m-d')),
 			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
@@ -916,7 +1051,7 @@ class ProfilController extends Controller
 			'child' => 0,
 		];
 
-		if (Fr_disposisi::insert($insertsuratmaster)) {
+		if (Fr_disposisi::insert($insertsuratmaster) && $request->btnKirim) {
 
 			$findidemp = DB::select( DB::raw("
 						SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM bpaddtfake.dbo.emp_data as a
@@ -969,13 +1104,12 @@ class ProfilController extends Controller
 				'selesai' => 'Y',
 				'child' => 0,
 			];
+			Fr_disposisi::insert($insertsurat);
+		}
 
-			if (Fr_disposisi::insert($insertsurat)) {
-				return redirect('/profil/disposisi')
+		return redirect('/profil/disposisi')
 					->with('message', 'Disposisi berhasil dibuat')
 					->with('msg_num', 1);
-			}
-		}
 	}
 
 	public function deleteLoopDisposisi($ids)

@@ -76,11 +76,10 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>
 											<div class="col-md-8">
-												<p class="form-control-static"><?php 
-																					$newnoform = explode(".", $maxnoform); 
-																					echo $newnoform[0] . "." . $newnoform[1] . "." . $newnoform[2] . "." . ($newnoform[3]+1); 
-																				?>
-												</p>
+												<?php 
+													$newnoform = explode(".", $maxnoform); 
+												?>
+												<input autocomplete="off" type="text" name="newnoform" class="form-control" id="newnoform" value="{{ $newnoform[0] . '.' . $newnoform[1] . '.' . $newnoform[2] . '.' . ($newnoform[3]+1) }}">
 											</div>
 										</div>
 
@@ -171,15 +170,20 @@
 									</div>
 
 									<div class="col-md-6">
-										<?php if ($_SESSION['user_data']['child'] == 1 || $_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL'): ?>
+										<?php if ($_SESSION['user_data']['child'] == 1 || is_null($_SESSION['user_data']['id_emp'])): ?>
 										<div class="form-group">
-											<label class="col-md-2 control-label"> Disposisi Ke </label>
+											<label class="col-md-2 control-label"> Disposisi Ke  </label>
 											<div class="col-md-8">
 												<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
 													@foreach($jabatans as $jabatan)
 														<option <?php if (isset(Auth::user()->usname)): ?> selected <?php endif ?> value="{{ $jabatan['jabatan'] }}"> {{ $jabatan['jabatan'] }} </option>
 													@endforeach
 												</select>
+												@if(is_null($_SESSION['user_data']['id_emp']))
+												<span style="color: red">
+													*disposisi yang baru dibuat otomatis ditujukan kepada Kepala Badan 
+												</span>
+												@endif
 											</div>
 										</div>
 
@@ -246,7 +250,9 @@
 								</div>
 							</div>
 							<div class="panel-footer">
-                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                                <!-- <button type="submit" class="btn btn-success pull-right">Simpan</button> -->
+                                <input type="submit" name="btnKirim" class="btn btn-info pull-right m-r-10" value="Kirim">
+                                <input type="submit" name="btnDraft" class="btn btn-warning pull-right m-r-10" value="Draft">
                                 <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
                                 <button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
                                 <div class="clearfix"></div>

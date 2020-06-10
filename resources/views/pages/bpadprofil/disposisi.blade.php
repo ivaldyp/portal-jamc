@@ -370,84 +370,172 @@
 									</div>
 								@endif
 								@if($isEmployee == 0)
-									<div class="table-responsive">
-										<table id="myTable3" class="table table-hover table-striped">
-											<thead>
-												<tr>
-													<th>No. Form</th>
-													<th class="col-md-1">Tanggal</th>
-													<th>Kode</th>
-													<th>No. Surat</th>
-													<th>Perihal</th>
-													<th>Asal</th>
-													<th>File</th>
-													<th>Sifat</th>
-													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th class="col-md-1">Action</th>
-													@endif
-												</tr>
-											</thead>
-											<tbody>
-												<?php foreach ($disposisis as $key => $disp) { ?>
+								<ul class="nav customtab nav-tabs" role="tablist">
+									<li role="presentation" class="active"><a href="#inbox" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Terkirim</span></a></li>
+									<li role="presentation" class=""><a href="#sent" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs"> Draft</span></a></li>
+								</ul>
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane fade active in" id="inbox">
+										<div class="table-responsive">
+											<table id="myTable3" class="table table-hover table-striped">
+												<thead>
 													<tr>
-														<td>{{ $disp['no_form'] ?? '-' }}</td>
-														<td>{{ date('d-M-Y',strtotime($disp['tgl_masuk'] ?? '-')) }}</td>
-														<td>{{ $disp['kode_disposisi'] ?? '-' }}</td>
-														<td>{{ $disp['no_surat'] ?? '-' }}</td>
-														<td>{{ $disp['perihal'] ?? '-' }}</td>
-														<td>{{ $disp['asal_surat'] ?? '-' }}</td>
-														<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td>
-														<td>
-															<span class="label label-info">{{ $disp['sifat1_surat'] ?? '-' }}</span>
-															<br>
-															<span class="label label-warning">{{ $disp['sifat2_surat'] ?? '-' }}</span>
-														</td>
-
-														@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
-														<td style="vertical-align: middle;">
-															@if ($access['zupd'] == 'y')
-															<form method="POST" action="/portal/profil/lihat disposisi">
-																@csrf
-																<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
-																<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
-																<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
-															</form>
-															@endif
-															@if ($access['zdel'] == 'y')
-															<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $disp['ids'] }}"
-															><i class="ti-trash" data-ids="{{ $disp['ids'] }}" data-no_form="{{ $disp['no_form'] }}"></i></button>
-															@endif
-														</td>
+														<th>No. Form</th>
+														<th class="col-md-1">Tanggal</th>
+														<th>Kode</th>
+														<th>No. Surat</th>
+														<th>Perihal</th>
+														<th>Asal</th>
+														<th>File</th>
+														<th>Sifat</th>
+														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+														<th class="col-md-1">Action</th>
 														@endif
 													</tr>
-													<div id="modal-delete-{{ $disp['ids'] }}" class="modal fade" role="dialog">
-														<div class="modal-dialog">
-															<div class="modal-content">
-																<form method="POST" action="/portal/profil/form/hapusdisposisi" class="form-horizontal">
-																@csrf
-																	<div class="modal-header">
-																		<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
-																	</div>
-																	<div class="modal-body">
-																		<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
-																		<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
-																		<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
-																		<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
-																		
-																	</div>
-																	<div class="modal-footer">
-																		<button type="submit" class="btn btn-danger pull-right">Hapus</button>
-																		<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
-																	</div>
+												</thead>
+												<tbody>
+													<?php foreach ($disposisis as $key => $disp) { ?>
+														<tr>
+															<td>{{ $disp['no_form'] ?? '-' }}</td>
+															<td>{{ date('d-M-Y',strtotime($disp['tgl_masuk'] ?? '-')) }}</td>
+															<td>{{ $disp['kode_disposisi'] ?? '-' }}</td>
+															<td>{{ $disp['no_surat'] ?? '-' }}</td>
+															<td>{{ $disp['perihal'] ?? '-' }}</td>
+															<td>{{ $disp['asal_surat'] ?? '-' }}</td>
+															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td>
+															<td>
+																<span class="label label-info">{{ $disp['sifat1_surat'] ?? '-' }}</span>
+																<br>
+																<span class="label label-warning">{{ $disp['sifat2_surat'] ?? '-' }}</span>
+															</td>
+
+															@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
+															<td style="vertical-align: middle;">
+																@if ($access['zupd'] == 'y')
+																<form method="POST" action="/portal/profil/lihat disposisi">
+																	@csrf
+																	<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																	<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
+																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																</form>
+																@endif
+																@if ($access['zdel'] == 'y')
+																<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $disp['ids'] }}"
+																><i class="ti-trash" data-ids="{{ $disp['ids'] }}" data-no_form="{{ $disp['no_form'] }}"></i></button>
+																@endif
+															</td>
+															@endif
+														</tr>
+														<div id="modal-delete-{{ $disp['ids'] }}" class="modal fade" role="dialog">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<form method="POST" action="/portal/profil/form/hapusdisposisi" class="form-horizontal">
+																	@csrf
+																		<div class="modal-header">
+																			<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
+																		</div>
+																		<div class="modal-body">
+																			<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $disp['no_form'] }}</b>?</h4>
+																			<input type="hidden" name="ids" value="{{ $disp['ids'] }}">
+																			<input type="hidden" name="idtop" value="{{ $disp['idtop'] }}">
+																			<input type="hidden" name="no_form" value="{{ $disp['no_form'] }}">
+																			
+																		</div>
+																		<div class="modal-footer">
+																			<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+																			<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																		</div>
+																	</form>
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="clearfix"></div>
-												<?php } ?>
-											</tbody>
-										</table>
+														<div class="clearfix"></div>
+													<?php } ?>
+												</tbody>
+											</table>
+										</div>
 									</div>
+									<div role="tabpanel" class="tab-pane fade active in" id="sent">
+										<div class="table-responsive">
+											<table id="myTable3" class="table table-hover table-striped">
+												<thead>
+													<tr>
+														<th>No. Form</th>
+														<th class="col-md-1">Tanggal</th>
+														<th>Kode</th>
+														<th>No. Surat</th>
+														<th>Perihal</th>
+														<th>Asal</th>
+														<th>File</th>
+														<th>Sifat</th>
+														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+														<th class="col-md-1">Action</th>
+														@endif
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach ($disposisisdraft as $key => $draft) { ?>
+														<tr>
+															<td>{{ $draft['no_form'] ?? '-' }}</td>
+															<td>{{ date('d-M-Y',strtotime($draft['tgl_masuk'] ?? '-')) }}</td>
+															<td>{{ $draft['kode_disposisi'] ?? '-' }}</td>
+															<td>{{ $draft['no_surat'] ?? '-' }}</td>
+															<td>{{ $draft['perihal'] ?? '-' }}</td>
+															<td>{{ $draft['asal_surat'] ?? '-' }}</td>
+															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $draft['nm_file'] }}">{{ $draft['nm_file'] }}</a></td>
+															<td>
+																<span class="label label-info">{{ $draft['sifat1_surat'] ?? '-' }}</span>
+																<br>
+																<span class="label label-warning">{{ $draft['sifat2_surat'] ?? '-' }}</span>
+															</td>
+
+															@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
+															<td style="vertical-align: middle;">
+																@if ($access['zupd'] == 'y')
+																<form method="POST" action="/portal/profil/lihat disposisi">
+																	@csrf
+																	<input type="hidden" name="ids" value="{{ $draft['ids'] }}">
+																	<input type="hidden" name="no_form" value="{{ $draft['no_form'] }}">
+																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+																</form>
+																@endif
+																@if ($access['zdel'] == 'y')
+																<button type="button" class="btn btn-danger btn-delete btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $draft['ids'] }}"
+																><i class="ti-trash" data-ids="{{ $draft['ids'] }}" data-no_form="{{ $draft['no_form'] }}"></i></button>
+																@endif
+															</td>
+															@endif
+														</tr>
+														<div id="modal-delete-{{ $draft['ids'] }}" class="modal fade" role="dialog">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<form method="POST" action="/portal/profil/form/hapusdisposisi" class="form-horizontal">
+																	@csrf
+																		<div class="modal-header">
+																			<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
+																		</div>
+																		<div class="modal-body">
+																			<h4 id="">Apakah anda yakin ingin menghapus form nomor <b>{{ $draft['no_form'] }}</b>?</h4>
+																			<input type="hidden" name="ids" value="{{ $draft['ids'] }}">
+																			<input type="hidden" name="idtop" value="{{ $draft['idtop'] }}">
+																			<input type="hidden" name="no_form" value="{{ $draft['no_form'] }}">
+																			
+																		</div>
+																		<div class="modal-footer">
+																			<button type="submit" class="btn btn-danger pull-right">Hapus</button>
+																			<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div>
+														<div class="clearfix"></div>
+													<?php } ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 								@endif
 							</div>
 						</div>
