@@ -71,17 +71,17 @@
 								<div class="row" style="margin-bottom: 10px">
 									<form method="GET" action="/portal/profil/disposisi">
 										<div class=" col-md-2">
-											<select class="form-control" name="yearnow" id="yearnow" onchange="this.form.submit()">
-												<option <?php if ($yearnow == (int)date('Y')): ?> selected <?php endif ?> value="{{ (int)date('Y') }}">{{ (int)date('Y') }}</option>
-												<option <?php if ($yearnow == (int)date('Y') - 1): ?> selected <?php endif ?> value="{{ (int)date('Y') - 1 }}">{{ (int)date('Y') - 1 }}</option>
-												<option <?php if ($yearnow == (int)date('Y') - 2): ?> selected <?php endif ?> value="{{ (int)date('Y') - 2 }}">{{ (int)date('Y') - 2 }}</option>
-											</select>
-										</div>
-										<div class=" col-md-2">
 											<select class="form-control" name="signnow" id="signnow" onchange="this.form.submit()">
 												<option <?php if ($signnow == "="): ?> selected <?php endif ?> value="=">=</option>
 												<option <?php if ($signnow == ">="): ?> selected <?php endif ?> value=">=">>=</option>
 												<option <?php if ($signnow == "<="): ?> selected <?php endif ?> value="<="><=</option>
+											</select>
+										</div>
+										<div class=" col-md-2">
+											<select class="form-control" name="yearnow" id="yearnow" onchange="this.form.submit()">
+												<option <?php if ($yearnow == (int)date('Y')): ?> selected <?php endif ?> value="{{ (int)date('Y') }}">{{ (int)date('Y') }}</option>
+												<option <?php if ($yearnow == (int)date('Y') - 1): ?> selected <?php endif ?> value="{{ (int)date('Y') - 1 }}">{{ (int)date('Y') - 1 }}</option>
+												<option <?php if ($yearnow == (int)date('Y') - 2): ?> selected <?php endif ?> value="{{ (int)date('Y') - 2 }}">{{ (int)date('Y') - 2 }}</option>
 											</select>
 										</div>
 									</form>
