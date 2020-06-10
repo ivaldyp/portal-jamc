@@ -129,7 +129,7 @@
 																if (file_exists('public/publicfile/disp/'.$thisfile)) {
 																	$namafolder = '';
 																} else {
-																	$namafolder = '/' . date('Y') . '/' . $thisnoform;
+																	$namafolder = '/' . $thisnoform;
 																}
 															}
 
@@ -279,7 +279,7 @@
 																if (file_exists('public/publicfile/disp/'.$thisfile)) {
 																	$namafolder = '';
 																} else {
-																	$namafolder = '/' . date('Y') . '/' . $thisnoform;
+																	$namafolder = '/' . $thisnoform;
 																}
 															}
 
@@ -424,7 +424,7 @@
 																if (file_exists('public/publicfile/disp/'.$disp['nm_file'])) {
 																	$namafolder = '';
 																} else {
-																	$namafolder = '/' . date('Y') . '/' . $disp['no_form'];
+																	$namafolder = '/' . $disp['no_form'];
 																}
 															?>
 															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td>
@@ -511,7 +511,7 @@
 																if (file_exists('public/publicfile/disp/'.$draft['nm_file'])) {
 																	$namafolder = '';
 																} else {
-																	$namafolder = '/' . date('Y') . '/' . $disp['no_form'];
+																	$namafolder = '/' . $disp['no_form'];
 																}
 															?>
 															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $draft['nm_file'] }}">{{ $draft['nm_file'] }}</a></td>
