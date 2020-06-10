@@ -859,9 +859,6 @@ class ProfilController extends Controller
 			$filedispo .= date('dmYHis');
 			$filedispo .= ".". $file->getClientOriginalExtension();
 
-			var_dump($filedispo);
-			die();
-
 			$tujuan_upload = config('app.savefiledisposisi');
 			$file->move($tujuan_upload, $filedispo);
 		}
