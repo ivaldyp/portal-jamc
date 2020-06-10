@@ -77,6 +77,7 @@
 										<input type="hidden" name="cekidtop" value="{{ $idtop }}">
 										<input type="hidden" name="cekto_id" value="{{ $to_id }}">
 										<input type="hidden" name="cekasal" value="{{ $asal_form }}">
+										<input type="hidden" name="prevnoform" value="{{ $opendisposisi[0]['no_form'] }}">
 										<input type="hidden" id="isEmployeeFlag" value="{{ $isEmployee }}">
 
 										<div class="form-group">

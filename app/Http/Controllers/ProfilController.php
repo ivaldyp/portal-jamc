@@ -794,6 +794,20 @@ class ProfilController extends Controller
 						'ket_lain' => $request->ket_lain,
 					]);
 
+				// var_dump($request->no_form);
+				// die();
+
+				// Fr_disposisi::where('no_form', $request->prevnoform)
+				// ->update([
+				// 	'no_form' => $request->no_form,
+				// ]);
+
+				$update = DB::update( DB::raw("
+					UPDATE fr_disposisi
+					set	no_form = '$request->no_form'
+					where no_form = '$request->prevnoform'					
+				") );
+
 				if (isset($filedispo)) {
 					Fr_disposisi::where('ids', $request->ids)
 					->update([
