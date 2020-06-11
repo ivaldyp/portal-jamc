@@ -242,7 +242,7 @@
 												</p>
 												<?php if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL'): ?>
 												<span style="color: red">*untuk mengubah file, upload ulang semua file</span>
-												<input type="file" class="form-control formDisp" id="nm_file" name="nm_file">
+												<input type="file" class="form-control formDisp" id="nm_file" name="nm_file[]" multiple>
 												<?php endif ?>
 											</div>
 										</div>
