@@ -225,9 +225,23 @@
 											<label for="ket_lain" class="col-md-2 control-label"> File Disposisi </label>
 											<div class="col-md-8">
 												<p class="form-control-static">
-													<a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $opendisposisi[0]['nm_file'] }}">{{ $opendisposisi[0]['nm_file'] }}</a>
+													<?php 
+														$splitfile = explode("::", $opendisposisi[0]['nm_file']);
+														foreach ($splitfile as $key => $file) { 
+															if (file_exists('public/publicfile/disp/'.$file)) {
+																$namafolder = '';
+															} else {
+																$namafolder = '/' . $opendisposisi[0]['no_form'];
+															}
+															?>
+														 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+														 	<br>
+														<?php } 
+													?>
+													<!-- <a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $opendisposisi[0]['nm_file'] }}">{{ $opendisposisi[0]['nm_file'] }}</a> -->
 												</p>
 												<?php if ($_SESSION['user_data']['idgroup'] == 'SKPD INTERNAL'): ?>
+												<span style="color: red">*untuk mengubah file, upload ulang semua file</span>
 												<input type="file" class="form-control formDisp" id="nm_file" name="nm_file">
 												<?php endif ?>
 											</div>

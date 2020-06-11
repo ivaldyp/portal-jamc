@@ -125,12 +125,6 @@
 																$thissifat1 = $disp['sifat1_surat'];
 																$thissifat2 = $disp['sifat2_surat'];
 																$thisfile = $disp['nm_file'];
-
-																if (file_exists('public/publicfile/disp/'.$thisfile)) {
-																	$namafolder = '';
-																} else {
-																	$namafolder = '/' . $thisnoform;
-																}
 															}
 
 															if ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && ($disp['rd'] == 'N' || $disp['rd'] == 'Y')) { ?>
@@ -168,7 +162,21 @@
 																						</tr>
 																						<tr>
 																							<td><strong>Download</strong></td>
-																							<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $thisfile }}">{{ $thisfile }}</a></td>
+																							<td>
+																							<?php 
+																								$splitfile = explode("::", $thisfile);
+																								foreach ($splitfile as $key => $file) { 
+																									if (file_exists('public/publicfile/disp/'.$file)) {
+																										$namafolder = '';
+																									} else {
+																										$namafolder = '/' . $thisnoform;
+																									}
+																									?>
+																								 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																								 	<br>
+																								<?php } 
+																							?>
+																							</td>
 																						</tr>
 																					</tbody>
 																				</table> 
@@ -275,12 +283,6 @@
 																$thissifat1 = $disp['sifat1_surat'];
 																$thissifat2 = $disp['sifat2_surat'];
 																$thisfile = $disp['nm_file'];
-
-																if (file_exists('public/publicfile/disp/'.$thisfile)) {
-																	$namafolder = '';
-																} else {
-																	$namafolder = '/' . $thisnoform;
-																}
 															}
 
 															if ($disp['from_id'] == $_SESSION['user_data']['id_emp'] || ($disp['to_id'] == $_SESSION['user_data']['id_emp'] && $disp['selesai'] == 'Y' && $disp['rd'] == 'S')) { ?>
@@ -318,7 +320,22 @@
 																						</tr>
 																						<tr>
 																							<td><strong>Download</strong></td>
-																							<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $thisfile }}">{{ $thisfile }}</a></td>
+																							<td>
+																							<?php 
+																								$splitfile = explode("::", $thisfile);
+																								foreach ($splitfile as $key => $file) { 
+																									if (file_exists('public/publicfile/disp/'.$file)) {
+																										$namafolder = '';
+																									} else {
+																										$namafolder = '/' . $thisnoform;
+																									}
+																									?>
+																								 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																								 	<br>
+																								<?php } 
+																							?>
+																							</td>
+																							<!-- <td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $thisfile }}">{{ $thisfile }}</a></td> -->
 																						</tr>
 																					</tbody>
 																				</table> 
@@ -388,11 +405,11 @@
 								@endif
 								@if($isEmployee == 0)
 								<ul class="nav customtab nav-tabs" role="tablist">
-									<li role="presentation" class="active"><a href="#inbox" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Terkirim</span></a></li>
-									<li role="presentation" class=""><a href="#sent" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs"> Draft</span></a></li>
+									<li role="presentation" class="active"><a href="#inbox2" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Terkirim</span></a></li>
+									<li role="presentation" class=""><a href="#sent2" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs"> Draft</span></a></li>
 								</ul>
 								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane fade active in" id="inbox">
+									<div role="tabpanel" class="tab-pane fade active in" id="inbox2">
 										<div class="table-responsive">
 											<table id="myTable3" class="table table-hover table-striped">
 												<thead>
@@ -411,8 +428,7 @@
 													</tr>
 												</thead>
 												<tbody>
-													<?php 
-														foreach ($disposisis as $key => $disp) { ?>
+													<?php foreach ($disposisis as $key => $disp) { ?>
 														<tr>
 															<td>{{ $disp['no_form'] ?? '-' }}</td>
 															<td>{{ date('d-M-Y',strtotime($disp['tgl_masuk'] ?? '-')) }}</td>
@@ -420,14 +436,22 @@
 															<td>{{ $disp['no_surat'] ?? '-' }}</td>
 															<td>{{ $disp['perihal'] ?? '-' }}</td>
 															<td>{{ $disp['asal_surat'] ?? '-' }}</td>
-															<?php 
-																if (file_exists('public/publicfile/disp/'.$disp['nm_file'])) {
-																	$namafolder = '';
-																} else {
-																	$namafolder = '/' . $disp['no_form'];
-																}
-															?>
-															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td>
+															<td>
+																<?php 
+																	$splitfile = explode("::", $disp['nm_file']);
+																	foreach ($splitfile as $key => $file) { 
+																		if (file_exists('public/publicfile/disp/'.$file)) {
+																			$namafolder = '';
+																		} else {
+																			$namafolder = '/' . $disp['no_form'];
+																		}
+																		?>
+																	 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																	 	<br>
+																	<?php } 
+																?>
+															</td>
+															<!-- <td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $disp['nm_file'] }}">{{ $disp['nm_file'] }}</a></td> -->
 															<td>
 																<span class="label label-info">{{ $disp['sifat1_surat'] ?? '-' }}</span>
 																<br>
@@ -480,9 +504,9 @@
 											</table>
 										</div>
 									</div>
-									<div role="tabpanel" class="tab-pane fade active in" id="sent">
+									<div role="tabpanel" class="tab-pane fade active in" id="sent2">
 										<div class="table-responsive">
-											<table id="myTable3" class="table table-hover table-striped">
+											<table id="myTable4" class="table table-hover table-striped">
 												<thead>
 													<tr>
 														<th>No. Form</th>
@@ -507,14 +531,22 @@
 															<td>{{ $draft['no_surat'] ?? '-' }}</td>
 															<td>{{ $draft['perihal'] ?? '-' }}</td>
 															<td>{{ $draft['asal_surat'] ?? '-' }}</td>
-															<?php 
-																if (file_exists('public/publicfile/disp/'.$draft['nm_file'])) {
-																	$namafolder = '';
-																} else {
-																	$namafolder = '/' . $disp['no_form'];
-																}
-															?>
-															<td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $draft['nm_file'] }}">{{ $draft['nm_file'] }}</a></td>
+															<td>
+																<?php 
+																	$splitfile = explode("::", $draft['nm_file']);
+																	foreach ($splitfile as $key => $file) { 
+																		if (file_exists('public/publicfile/disp/'.$file)) {
+																			$namafolder = '';
+																		} else {
+																			$namafolder = '/' . $draft['no_form'];
+																		}
+																		?>
+																	 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																	 	<br>
+																	<?php } 
+																?>
+															</td>
+															<!-- <td><a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $draft['nm_file'] }}">{{ $draft['nm_file'] }}</a></td> -->
 															<td>
 																<span class="label label-info">{{ $draft['sifat1_surat'] ?? '-' }}</span>
 																<br>
@@ -662,6 +694,10 @@
 			});
 
 			$('#myTable3').DataTable({
+				"order": [ 0, "desc" ]
+			});
+
+			$('#myTable4').DataTable({
 				"order": [ 0, "desc" ]
 			});
 		});

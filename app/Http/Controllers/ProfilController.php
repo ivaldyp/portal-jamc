@@ -882,6 +882,7 @@ class ProfilController extends Controller
 				$id_emp_array = [];
 
 				if ($request->jabatans) {
+
 					foreach ($request->jabatans as $jabatan) {
 						$kepada = explode("||", $jabatan)[0];
 						$to_pm = explode("||", $jabatan)[1];
@@ -894,7 +895,7 @@ class ProfilController extends Controller
 							'logbuat'   => '',
 							'kd_skpd'	=> '1.20.512',
 							'kd_unit'	=> '01',
-							'no_form' => $request->no_form,
+							'no_form' => $request->prevnoform,
 							'kd_surat' => '',
 							'status_surat' => '',
 							'idtop' => $idtop,
@@ -992,20 +993,45 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 
 		// (IDENTITAS) cek dan set variabel untuk file foto pegawai
-		if (isset($request->nm_file)) {
-			$file = $request->nm_file;
-			$filedispo = 'disp';
+		$file = $request->nm_file;
 
-			if ($file->getSize() > 52222222) {
-				return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
-			} 
+		if (count($file) <= 1) {
+			if (isset($file)) {
+				$filedispo = 'disp';
 
-			$filedispo .= date('dmYHis');
-			$filedispo .= ".". $file->getClientOriginalExtension();
+				if ($file->getSize() > 52222222) {
+					return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+				} 
 
-			$tujuan_upload = config('app.savefiledisposisi');
-			$file->move($tujuan_upload, $filedispo);
-		}
+				$filedispo .= date('dmYHis');
+				$filedispo .= ".". $file->getClientOriginalExtension();
+
+				$tujuan_upload = config('app.savefiledisposisi');
+				$file->move($tujuan_upload, $filedispo);
+			}
+		} else {
+			$filedispo = '';
+			foreach ($file as $key => $data) {
+				$filenow = 'disp';
+
+				if ($data->getSize() > 52222222) {
+					return redirect('/profil/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+				} 
+
+				$filenow .= $key;
+				$filenow .= date('dmYHis');
+				$filenow .= ".". $data->getClientOriginalExtension();
+
+				$tujuan_upload = config('app.savefiledisposisi');
+				$data->move($tujuan_upload, $filenow);
+
+				if ($key != count($file) - 1) {
+					$filedispo .= $filenow . "::";
+				} else {
+					$filedispo .= $filenow;
+				}
+			}
+		}	
 			
 		if (!(isset($filedispo))) {
 			$filedispo = null;

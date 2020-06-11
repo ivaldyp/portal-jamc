@@ -228,7 +228,7 @@
 										<div class="form-group">
 	                                        <label for="nm_file" class="col-lg-2 control-label"> File <br> </label>
 	                                        <div class="col-lg-8">
-	                                            <input type="file" class="form-control" id="nm_file" name="nm_file">
+	                                            <input type="file" class="form-control" id="nm_file" name="nm_file[]" multiple>
 	                                        </div>
 	                                    </div>
 									</div>
