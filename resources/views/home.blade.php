@@ -71,7 +71,7 @@
 									
 								</ul>
 							</div>
-							<a href="/portal/profil/disposisi">
+							<a href="/disposisi">
 							<div class="col-md-4 col-sm-4 row-in-br">
 								<ul class="col-in">
 									<li>

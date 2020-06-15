@@ -85,7 +85,7 @@
 							<!-- <li><a href="{{ url('content/Infografis') }}">Infografis</a></li> -->
 						</ul>
 					</li>
-					<li><a href="http://bpad.jakarta.go.id/disposisi" target="_blank">Disposisi</a>
+					<li><a href="http://bpad.jakarta.go.id/disposisi" target="_blank" style="animation: color-change 1s infinite;">Disposisi</a>
 					<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a>
 					<li><a href="https://ppid.jakarta.go.id/" target="_blank">PPID</a></li>
 					<!-- <li>
