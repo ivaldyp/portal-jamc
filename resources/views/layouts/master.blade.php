@@ -90,16 +90,16 @@
 					<li class="has-dropdown"><a href="#" style="animation: color-change 1s infinite;">Surat</a>
 						<ul class="dropdown" style="list-style: none; padding: 0;">
 							<li><a href="http://bpad.jakarta.go.id/disposisi" style="animation: color-change 1s infinite;" target="_blank">Disposisi</a></li>
-							<li><a href="https://webmail.bpadjakarta.id/">Webmail</a></li>
-							<li><a href="http://simaster.jakarta.go.id/ceksurat">Cek Surat</a></li>
+							<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a></li>
+							<li><a href="http://bpad.jakarta.go.id/ceksurat" target="_blank">Cek Surat</a></li>
 						</ul>
 					</li>	
 					<!-- <li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a> -->
 					<li><a href="https://ppid.jakarta.go.id/" target="_blank">PPID</a></li>
 					<li class="has-dropdown"><a href="#">SI-Gang</a>
 						<ul class="dropdown" style="list-style: none; padding: 0;">
-							<li><a href="http://aset.jakarta.go.id/brandgang/brandgang/permohonan/index.boge">Permohonan</a></li>
-							<li><a href="http://aset.jakarta.go.id/brandgang/brandgang/monitoring/index.boge">Monitoring</a></li>
+							<li><a href="http://bpad.jakarta.go.id/brandgangpermohonan" target="_blank">Permohonan</a></li>
+							<li><a href="http://bpad.jakarta.go.id/brandgangmonitoring" target="_blank">Monitoring</a></li>
 						</ul>
 					</li>
 					<!-- <li>
