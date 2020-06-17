@@ -15,6 +15,7 @@ use App\Glo_kategori;
 use App\Help;
 use App\Produk_aset;
 use App\Setup_tb;
+use App\Fr_disposisi;
 
 session_start();
 
@@ -184,8 +185,76 @@ class LandingController extends Controller
 
 	public function Ceksurat(Request $request)
 	{
-		var_dump("tes");
-		die;
-		return view('ceksurat');
+		$idsurat = $request->ceksurat;
+		$query = null;
+		$treedisp = null;
+		if(isset($idsurat)){
+			$query = DB::select( DB::raw("SELECT *
+											from bpaddt.dbo.fr_disposisi
+											join bpaddt.dbo.glo_disposisi_kode on bpaddt.dbo.glo_disposisi_kode.kd_jnssurat = bpaddt.dbo.fr_disposisi.kode_disposisi
+											where kd_surat like '$idsurat' 
+											or no_form like '$idsurat'
+											order by ids") );
+			$query = json_decode(json_encode($query), true);
+
+			if(count($query) >= 1){
+				$treedisp = '<tr>
+								<td>
+									<i class="fa fa-book"></i> <span>'.$query[0]['no_form'].'</span> <br>
+									<span class="text-muted">Kode: '.$query[0]['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$query[0]['no_surat'].'</span><br>
+								</td>
+							</tr>';
+
+				$treedisp .= $this->display_disposisi($query[0]['no_form'], $query[0]['ids']);
+			}
+			
+		}
+		
+		return view('ceksurat')
+				->with('idsurat', $idsurat)
+				->with('treedisp', $treedisp)
+				->with('query', $query);
+	}
+
+	public function display_disposisi($no_form, $idtop, $level = 0)
+	{
+		// $query = Fr_disposisi::
+		// 			leftJoin('bpaddt.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddt.dbo.fr_disposisi.to_pm')
+		// 			->where('no_form', $no_form)
+		// 			->where('idtop', $idtop)
+		// 			->orderBy('ids')
+		// 			->get();
+
+		$query = DB::select( DB::raw("SELECT * 
+					from bpaddt.dbo.fr_disposisi
+					left join bpaddt.dbo.emp_data on bpaddt.dbo.emp_data.id_emp = bpaddt.dbo.fr_disposisi.to_pm
+					where no_form = '$no_form'
+					and idtop = '$idtop'
+					order by ids
+					") );
+		$query = json_decode(json_encode($query), true);
+
+		$result = '';
+
+		if (count($query) > 0) {
+			foreach ($query as $log) {
+				$padding = ($level * 20);
+				$result .= '<tr >
+								<td style="padding-left:'.$padding.'px; padding-top:10px">
+									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> 
+									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i class='fa fa-check'></i>" : '').'
+									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i class='fa fa-close'></i>" : '').'
+									<br> 
+									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan'] ? $log['penanganan'] : '-' ) )) .'</b></span>
+									<br>
+								</td>
+							</tr>';
+
+				if ($log['child'] == 1) {
+					$result .= $this->display_disposisi($no_form, $log['ids'], $level+1);
+				}
+			}
+		}
+		return $result;
 	}
 }

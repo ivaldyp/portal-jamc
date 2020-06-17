@@ -91,7 +91,7 @@
 						<ul class="dropdown" style="list-style: none; padding: 0;">
 							<li><a href="http://bpad.jakarta.go.id/disposisi" style="animation: color-change 1s infinite;" target="_blank">Disposisi</a></li>
 							<li><a href="https://webmail.bpadjakarta.id/">Webmail</a></li>
-							<li><a href="{{ url('ceksurat') }}">Cek Surat</a></li>
+							<li><a href="http://simaster.jakarta.go.id/ceksurat">Cek Surat</a></li>
 						</ul>
 					</li>	
 					<!-- <li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a> -->
