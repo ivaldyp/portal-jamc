@@ -82,7 +82,7 @@
 							<li><a href="{{ url('content/berita') }}">Berita</a></li>
 							<li><a href="{{ url('content/foto') }}">Foto</a></li>
 							<li><a href="{{ url('content/video') }}">Video</a></li>
-							<li><a href="http://simaster.jakarta.go.id/internal.download/index.php" target="_blank">Download</a></li>
+							<li><a href="http://simaster.jakarta.go.id/internal.download/index.php?x=Moderator&y=B5B320392109ABC1986FDBF67DB15E71" target="_blank">Download</a></li>
 							<!-- <li><a href="{{ url('content/Infografis') }}">Infografis</a></li> -->
 						</ul>
 					</li>

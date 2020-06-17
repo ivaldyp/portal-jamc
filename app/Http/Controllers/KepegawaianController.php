@@ -1008,7 +1008,7 @@ class KepegawaianController extends Controller
 								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
-								and idunit like '01'") )[0];
+								and idunit like '01' and ked_emp = 'aktif'") )[0];
 			$data_self = json_decode(json_encode($data_self), true);
 		}
 			
@@ -1054,7 +1054,7 @@ class KepegawaianController extends Controller
 							</tr>';
 
 		} elseif (strlen($data_self['idunit']) == 2) {
-			// kalo dia atasan biasa
+			// kalo dia kepala badan
 			$result = '<tr>
 							<td>'.(is_null($data_self['nrk_emp']) || $data_self['nrk_emp'] == '' ? '-' : $data_self['nrk_emp'] ).'</td>
 							<td>'.ucwords(strtolower($data_self['nm_emp'])).'</td>
@@ -1064,21 +1064,21 @@ class KepegawaianController extends Controller
 			$belum = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as belum
 						FROM bpaddtfake.dbo.v_disposisi
-						where id_emp like '".$ids."'
+						where id_emp like '".$data_self['id_emp']."'
 						and rd = 'N'
 					"))[0]), true);
 
 			$baca = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as baca
 						FROM bpaddtfake.dbo.v_disposisi
-						where id_emp like '".$ids."'
+						where id_emp like '".$data_self['id_emp']."'
 						and rd = 'Y'
 					"))[0]), true);
 
 			$balas = json_decode(json_encode(DB::select( DB::raw("
 						SELECT Count(id_emp) as balas
 						FROM bpaddtfake.dbo.v_disposisi
-						where id_emp like '".$ids."'
+						where id_emp like '".$data_self['id_emp']."'
 						and rd = 'S'
 					"))[0]), true);
 
@@ -1096,7 +1096,7 @@ class KepegawaianController extends Controller
 						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 						CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 						,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
-						and tbunit.sao like '$idunit%' AND LEN(idunit) < 10 and ked_emp = 'aktif'
+						and tbunit.sao like '$idunit%' and ked_emp = 'aktif'
 						order by tbunit.kd_unit") );
 			$querys = json_decode(json_encode($querys), true);
 
