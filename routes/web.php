@@ -21,6 +21,7 @@
 
 Route::get('/', 'LandingController@index');
 Route::get('/home', 'HomeController@index');
+Route::get('/ceksurat', 'LandingController@ceksurat');
 Route::post('/mail', 'LandingController@feedback');
 Route::get('/logout', 'LandingController@logout');
 

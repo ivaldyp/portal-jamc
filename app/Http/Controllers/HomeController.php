@@ -15,6 +15,7 @@ use App\Emp_data;
 use App\Sec_access;
 use App\Sec_logins;
 use App\Sec_menu;
+use App\Fr_disposisi;
 
 session_start();
 
