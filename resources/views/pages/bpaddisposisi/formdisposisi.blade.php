@@ -204,7 +204,7 @@
 															<td>{{ $thisusrinput }}<br><span class="text-muted">{{ date('d-M-Y',strtotime($thistglinput)) }}</span></td>
 															<td style="vertical-align: middle;">
 																
-																<form method="POST" action="/portal/disposisi/ubah disposisi">
+																<form method="GET" action="/portal/disposisi/ubah disposisi">
 																	@csrf
 																	@if ($access['zupd'] == 'y')
 																	<input type="hidden" name="ids" value="{{ $sent['ids'] }}">
@@ -316,7 +316,7 @@
 															<td>{{ $thisusrinput }}<br><span class="text-muted">{{ date('d-M-Y',strtotime($thistglinput)) }}</span></td>
 															<td style="vertical-align: middle;">
 																
-																<form method="POST" action="/portal/disposisi/ubah disposisi">
+																<form method="GET" action="/portal/disposisi/ubah disposisi">
 																	@csrf
 																	@if ($access['zupd'] == 'y')
 																	<input type="hidden" name="ids" value="{{ $draft['ids'] }}">

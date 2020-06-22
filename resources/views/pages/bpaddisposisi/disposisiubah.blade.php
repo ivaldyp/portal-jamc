@@ -79,7 +79,8 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>
 											<div class="col-md-8">
-												<input autocomplete="off" type="text" name="newnoform" class="form-control" id="newnoform" value="{{ $dispmaster['no_form'] }}" disabled>
+												<input autocomplete="off" type="text" class="form-control" id="newnoform" value="{{ $dispmaster['no_form'] }}" disabled>
+												<input autocomplete="off" type="hidden" name="no_form" class="form-control" value="{{ $dispmaster['no_form'] }}">
 											</div>
 										</div>
 

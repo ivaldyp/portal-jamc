@@ -810,7 +810,7 @@ class DisposisiController extends Controller
 		$this->checkSessionTime();
 
 		if (isset($request->jabatans) && isset($request->stafs)) {
-			return redirect('/disposisi/tambah disposisi')
+			return redirect('/disposisi/ubah disposisi')
 					->with('message', 'Tidak boleh memilih jabatan & staf bersamaan')
 					->with('msg_num', 2);
 		}
@@ -833,68 +833,78 @@ class DisposisiController extends Controller
 			}
 		}
 
-		$ceknoform = Fr_disposisi::where('no_form', $request->newnoform)->count();
-		if ($ceknoform != 0) {
-			$maxnoform = Fr_disposisi::max('no_form');
-			if (is_null($maxnoform)) {
-				$maxnoform = '1.20.512.'.substr(date('Y'), -2).'100001';
-			} else {
-				$splitmaxform = explode(".", $maxnoform);
-				$maxnoform = $splitmaxform[0] . '.' . $splitmaxform[1] . '.' . $splitmaxform[2] . '.' . substr(date('Y'), -2) . substr(($splitmaxform[3] + 1), -6);
-			}
-		} else {
-			$maxnoform = $request->newnoform;
-			$splitmaxform = explode(".", $maxnoform);
-			$maxnoform = $splitmaxform[0] . '.' . $splitmaxform[1] . '.' . $splitmaxform[2] . '.' . substr(date('Y'), -2) . substr(($splitmaxform[3]), -6);
-		}
-		
+		$splitmaxform = explode(".", $request->no_form);
+
+		$nowdisposisi = Fr_disposisi::where('ids', $request->ids)->first();
+		$filedispo = $nowdisposisi['nm_file'];
 
 		if (isset($request->nm_file)) {
 			$file = $request->nm_file;
 			if (count($file) == 1) {
-				$filedispo = 'disp';
-
+				
 				if ($file[0]->getSize() > 52222222) {
-					return redirect('/disposisi/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+					return redirect('/disposisi/ubah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 				} 
 
-				$filedispo .= ($splitmaxform[3]);
-				$filedispo .= ".". $file[0]->getClientOriginalExtension();
+				if ($filedispo != '') {
+					$filedispo .= '::';
+				}
+
+				$filenow = 'disp';
+				$filenow .= (int) date('HIs');
+				$filenow .= ($splitmaxform[3]);
+				$filenow .= ".". $file[0]->getClientOriginalExtension();
 
 				$tujuan_upload = config('app.savefiledisposisi');
-				$tujuan_upload .= "\\" . $maxnoform;
-				$file[0]->move($tujuan_upload, $filedispo);
+				$tujuan_upload .= "\\" . $request->no_form;
+
+				$filedispo .= $filenow;
+
+				$file[0]->move($tujuan_upload, $filenow);
 			} else {
-				$filedispo = '';
+				if ($filedispo != '') {
+					$filedispo .= '::';
+				}
+
 				foreach ($file as $key => $data) {
-					$filenow = 'disp';
 
 					if ($data->getSize() > 52222222) {
-						return redirect('/disposisi/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+						return redirect('/disposisi/ubah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 					} 
 
-					$filenow .= $key;
+					$filenow = 'disp';
+					$filenow .= (int) date('HIs') + $key;
 					$filenow .= ($splitmaxform[3]);
 					$filenow .= ".". $data->getClientOriginalExtension();
 
 					$tujuan_upload = config('app.savefiledisposisi');
-					$tujuan_upload .= "\\" . $maxnoform;
+					$tujuan_upload .= "\\" . $request->no_form;
 					$data->move($tujuan_upload, $filenow);
 
-					if ($key != count($file) - 1) {
-						$filedispo .= $filenow . "::";
-					} else {
-						$filedispo .= $filenow;
-					}
+					// if ($key != count($file) - 1) {
+					// 	$filedispo .= $filenow . "::";
+					// } else {
+					// 	$filedispo .= $filenow;
+					// }
+				
+					if ($key != 0) {
+						$filedispo .= "::";
+					} 
+					$filedispo .= $filenow;
+
 				}
-			}	
-		} else {
-			$filedispo = '';
+			}
+			Fr_disposisi::where('ids', $request->ids)
+			->update([
+				'nm_file' => $filedispo,
+			]);	
 		}
 
+		
 
-		// var_dump($request->all());
-		// die();
+		return redirect('/disposisi/ubah disposisi?no_form='.$request->no_form);
+
+		die();
 
 		$kepada = '';
 		if (isset($request->jabatans)) {
