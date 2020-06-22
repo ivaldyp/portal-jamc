@@ -43,6 +43,15 @@ Route::group(['prefix' => 'content'], function () {
 
 // ------------- BPAD DT --------------
 
+Route::group(['prefix' => 'disposisi'], function () {
+	Route::get('/formdisposisi', 'DisposisiController@formdisposisi');
+	Route::get('/hapusfiledisposisi', 'DisposisiController@disposisihapusfile');
+	Route::get('/tambah disposisi', 'DisposisiController@disposisitambah');
+	Route::post('/ubah disposisi', 'DisposisiController@disposisiubah');
+	Route::post('form/tambahdisposisi', 'DisposisiController@forminsertdisposisi');
+	Route::post('form/ubahdisposisi', 'DisposisiController@formupdatedisposisi');
+});
+
 Route::group(['prefix' => 'profil'], function () {
 	Route::get('/disposisi', 'ProfilController@disposisi');
 	Route::get('/tambah disposisi', 'ProfilController@disposisitambah');

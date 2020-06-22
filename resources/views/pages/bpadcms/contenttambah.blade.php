@@ -81,10 +81,16 @@
 
 									@if(strtolower($kat['nmkat']) == 'infografik')
 
+										<?php 
+
+										date_default_timezone_set('Asia/Jakarta');
+										$datetanggal = date('d-m-Y H:i:s');
+										?>
+
 										<div class="form-group">
 											<label for="tanggal" class="col-md-2 control-label"> Waktu </label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
+												<input type="text" class="form-control" id="tanggal" name="tanggal" autocomplete="off" data-error="Masukkan tanggal" value="{{ $datetanggal }}">
 											</div>
 										</div>
 
