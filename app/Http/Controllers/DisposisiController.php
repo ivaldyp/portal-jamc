@@ -652,7 +652,7 @@ class DisposisiController extends Controller
 			'no_index' => (isset($request->no_index) ? $request->no_index : '' ),
 			'kode_disposisi' => $request->kode_disposisi,
 			'perihal' => (isset($request->perihal) ? $request->perihal : '' ),
-			'tgl_surat' => (isset($request->tgl_surat) ? date('m-d-Y',strtotime($request->tgl_surat)) : null ),
+			'tgl_surat' => (isset($request->tgl_surat) ? date('m/d/Y', strtotime(strtr($request->tgl_surat, '/', '-'))) : null ),
 			'no_surat' => (isset($request->no_surat) ? $request->no_surat : '' ),
 			'asal_surat' => (isset($request->asal_surat) ? $request->asal_surat : '' ),
 			'kepada_surat' => (isset($request->kepada_surat) ? $request->kepada_surat : '' ),
@@ -900,12 +900,6 @@ class DisposisiController extends Controller
 			]);	
 		}
 
-		
-
-		return redirect('/disposisi/ubah disposisi?no_form='.$request->no_form);
-
-		die();
-
 		$kepada = '';
 		if (isset($request->jabatans)) {
 			for ($i=0; $i < count($request->jabatans); $i++) { 
@@ -916,53 +910,32 @@ class DisposisiController extends Controller
 			}
 		}
 
-		$insertsuratmaster = [
-			'sts' => 1,
-			'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
-			'tgl'       => date('Y-m-d H:i:s'),
-			'ip'        => '',
-			'logbuat'   => '',
-			'kd_skpd'	=> '1.20.512',
+		Fr_disposisi::where('ids', $request->ids)
+			->update([
 			'kd_unit'	=> $request->kd_unit,
-			'no_form' => $maxnoform,
-			'kd_surat' => $request->kd_surat,
 			'status_surat' => $status_surat,
-			'idtop' => 0,
 			'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : date('Y-m-d')),
-			'usr_input' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
-			'tgl_input' => date('Y-m-d H:i:s'),
 			'no_index' => (isset($request->no_index) ? $request->no_index : '' ),
 			'kode_disposisi' => $request->kode_disposisi,
 			'perihal' => (isset($request->perihal) ? $request->perihal : '' ),
-			'tgl_surat' => (isset($request->tgl_surat) ? date('m-d-Y',strtotime($request->tgl_surat)) : null ),
+			'tgl_surat' => (isset($request->tgl_surat) ? date('m/d/Y', strtotime(strtr($request->tgl_surat, '/', '-'))) : null ),
 			'no_surat' => (isset($request->no_surat) ? $request->no_surat : '' ),
 			'asal_surat' => (isset($request->asal_surat) ? $request->asal_surat : '' ),
 			'kepada_surat' => (isset($request->kepada_surat) ? $request->kepada_surat : '' ),
 			'sifat1_surat' => (isset($request->sifat1_surat) ? $request->sifat1_surat : '' ),
 			'sifat2_surat' => (isset($request->sifat2_surat) ? $request->sifat2_surat : '' ),
 			'ket_lain' => (isset($request->ket_lain) ? $request->ket_lain : '' ),
-			'nm_file' => $filedispo,
 			'kepada' => $kepada,
-			'noid' => '',
 			'penanganan' => (isset($request->penanganan) ? $request->penanganan : '' ),
 			'catatan' => (isset($request->catatan) ? $request->catatan : '' ),
-			'from_user' => '',
-			'from_pm' => '',
-			'to_user' => '',
-			'to_pm' => '',
-			'rd' => '',
-			'usr_rd' => null,
-			'tgl_rd' => null,
 			'selesai' => $selesai,
 			'child' => $child,
-		];
-
-		Fr_disposisi::insert($insertsuratmaster);
-		$idnew = Fr_disposisi::max('ids');
+		]);
+		$idnew = $request->ids;
 
 		if ($request->btnDraft) {
 			return redirect('/disposisi/formdisposisi')
-					->with('message', 'Disposisi berhasil dibuat')
+					->with('message', 'Disposisi berhasil diubah')
 					->with('msg_num', 1);
 		}
 
