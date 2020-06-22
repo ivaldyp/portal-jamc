@@ -243,12 +243,14 @@
 	                                            <br>
 	                                            <?php 
 													$splitfile = explode("::", $dispmaster['nm_file']);
-													foreach ($splitfile as $key => $file) { 
-														$namafolder = '/' . $dispmaster['no_form'];
-														?>
-													 	<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
-													 	<br>
-													<?php } 
+													if ($dispmaster['nm_file'] != '') {
+														foreach ($splitfile as $key => $file) { 
+															$namafolder = '/' . $dispmaster['no_form'];
+															?>
+														 	<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
+														 	<br>
+														<?php }
+													}	 
 												?>
 	                                        </div>
 	                                    </div>
@@ -348,8 +350,14 @@
 					data: { nm_file : nm_file, ids : ids, no_form : no_form },
 					dataType: "JSON",
 					}).done(function( data ) { 
-						alert("File berhasil dihapus");
-						location.reload();
+						console.log(data);
+						if (data == 0) {
+							alert("File berhasil dihapus");
+							location.reload();
+						} else {
+							alert("File tidak ditemukan");
+						}
+						
 					}); 
 
 				}
