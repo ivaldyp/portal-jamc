@@ -1144,6 +1144,115 @@ class DisposisiController extends Controller
 		} else {
 			$qsearchnow = "";
 		}
+
+		$idgroup = $_SESSION['user_data']['id_emp'];
+		if (is_null($idgroup)) {
+			$qinbox = '';
+			$qdraft = '';
+		} else {
+			$qinbox = "and to_pm = '".$idgroup."'";
+			$qdraft = "and to_pm = '".$idgroup."'";
+		}
+
+		$dispinbox = DB::select( DB::raw("SELECT TOP (50) [ids]
+												  ,[sts]
+												  ,[uname]
+												  ,[tgl]
+												  ,[ip]
+												  ,[logbuat]
+												  ,[kd_skpd]
+												  ,[kd_unit]
+												  ,[no_form]
+												  ,[kd_surat]
+												  ,[status_surat]
+												  ,[idtop]
+												  ,[tgl_masuk]
+												  ,[usr_input]
+												  ,[tgl_input]
+												  ,[no_index]
+												  ,[kode_disposisi]
+												  ,[perihal]
+												  ,[tgl_surat]
+												  ,[no_surat]
+												  ,[asal_surat]
+												  ,[kepada_surat]
+												  ,[sifat1_surat]
+												  ,[sifat2_surat]
+												  ,[ket_lain]
+												  ,[nm_file]
+												  ,[kepada]
+												  ,[noid]
+												  ,[penanganan]
+												  ,[catatan]
+												  ,[from_user]
+												  ,[from_pm]
+												  ,[to_user]
+												  ,[to_pm]
+												  ,[rd]
+												  ,[usr_rd]
+												  ,[tgl_rd]
+												  ,[selesai]
+												  ,[child]
+												  ,[penanganan_final]
+												  ,[catatan_final]
+												  FROM [bpaddtfake].[dbo].[fr_disposisi]
+												  where (rd like 'Y' or rd like 'N')
+												  $qinbox
+												  and month(tgl_masuk) $signnow $monthnow
+												  and year(tgl_masuk) = $yearnow
+												  and sts = 1
+												  order by tgl_masuk desc, no_form desc"));
+		$dispinbox = json_decode(json_encode($dispinbox), true);
+
+		$dispdraft = DB::select( DB::raw("SELECT TOP (50) [ids]
+												  ,[sts]
+												  ,[uname]
+												  ,[tgl]
+												  ,[ip]
+												  ,[logbuat]
+												  ,[kd_skpd]
+												  ,[kd_unit]
+												  ,[no_form]
+												  ,[kd_surat]
+												  ,[status_surat]
+												  ,[idtop]
+												  ,[tgl_masuk]
+												  ,[usr_input]
+												  ,[tgl_input]
+												  ,[no_index]
+												  ,[kode_disposisi]
+												  ,[perihal]
+												  ,[tgl_surat]
+												  ,[no_surat]
+												  ,[asal_surat]
+												  ,[kepada_surat]
+												  ,[sifat1_surat]
+												  ,[sifat2_surat]
+												  ,[ket_lain]
+												  ,[nm_file]
+												  ,[kepada]
+												  ,[noid]
+												  ,[penanganan]
+												  ,[catatan]
+												  ,[from_user]
+												  ,[from_pm]
+												  ,[to_user]
+												  ,[to_pm]
+												  ,[rd]
+												  ,[usr_rd]
+												  ,[tgl_rd]
+												  ,[selesai]
+												  ,[child]
+												  ,[penanganan_final]
+												  ,[catatan_final]
+												  FROM [bpaddtfake].[dbo].[fr_disposisi]
+												  where (rd like 'D')
+												  $qdraft
+												  and month(tgl_masuk) $signnow $monthnow
+												  and year(tgl_masuk) = $yearnow
+												  and sts = 1
+												  order by tgl_masuk desc, no_form desc"));
+		$dispdraft = json_decode(json_encode($dispdraft), true);
 	}
 
 	// ---------/EMPLOYEE----------- //
