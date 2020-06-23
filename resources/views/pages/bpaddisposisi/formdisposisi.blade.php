@@ -420,6 +420,30 @@
 				}
 			});
 
+			$('.btn-delete-draft').on('click', function () {
+				var $el = $(this);
+				if (confirm("Apa anda yakin menghapus form dengan nomor "+$el.data('no_form')+" ?")) {
+					var ids = $el.data('ids');
+					var no_form = $el.data('no_form');
+
+					$.ajax({ 
+					type: "GET", 
+					url: "/portal/disposisi/form/hapusdisposisi",
+					data: { ids : ids, no_form : no_form },
+					dataType: "JSON",
+					}).done(function( data ) { 
+						if (data == 0) {
+							alert("Disposisi berhasil dihapus");
+							location.reload();
+						} else {
+							alert("Tidak dapat menghapus");
+							location.reload();
+						}
+						
+					}); 
+				}
+			});
+
 			$('#myTable').DataTable({
 				"ordering" : false,
 				"searching": false,
