@@ -71,7 +71,7 @@ class DisposisiController extends Controller
 
 		$idgroup = $_SESSION['user_data']['id_emp'];
 		if (is_null($idgroup)) {
-			$disposisisents = DB::select( DB::raw("SELECT TOP (500) [ids]
+			$disposisisents = DB::select( DB::raw("SELECT TOP (100) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -119,7 +119,7 @@ class DisposisiController extends Controller
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisidrafts = DB::select( DB::raw("SELECT TOP (500) [ids]
+			$disposisidrafts = DB::select( DB::raw("SELECT TOP (100) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -322,7 +322,7 @@ class DisposisiController extends Controller
 						and tbunit.kd_unit like '01%' and ked_emp = 'aktif' order by nm_emp") );
 		$stafs = json_decode(json_encode($stafs), true);
 
-		$jabatans = DB::select( DB::raw("SELECT TOP (1000) [sts]
+		$jabatans = DB::select( DB::raw("SELECT [sts]
 													      ,[uname]
 													      ,[tgl]
 													      ,[ip]
@@ -394,7 +394,7 @@ class DisposisiController extends Controller
 												  ,[penanganan_final]
 												  ,[catatan_final]
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
-												  where no_form like '$request->no_form'
+												  where ids like '$request->ids'
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"))[0];
 		$dispmaster = json_decode(json_encode($dispmaster), true);
@@ -456,11 +456,22 @@ class DisposisiController extends Controller
 						orderBy('urut')
 						->get();
 
+		$treedisp = '<tr>
+						<td>
+							<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].'</span> <br>
+							<span class="text-muted">Kode: '.$dispmaster['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$dispmaster['no_surat'].'</span><br>
+
+						</td>
+					</tr>';
+
+		$treedisp .= $this->display_disposisi($dispmaster['no_form'], $dispmaster['ids']);
+
 		return view('pages.bpaddisposisi.disposisiubah')
 				->with('dispmaster', $dispmaster)
 				->with('treedisp', $treedisp)
 				->with('kepada', $dispmaster['kepada'])
 				->with('kddispos', $kddispos)
+				->with('treedisp', $treedisp)
 				// ->with('stafs', $stafs)
 				->with('unitkerjas', $unitkerjas)
 				->with('jabatans', $jabatans)
@@ -490,10 +501,15 @@ class DisposisiController extends Controller
 		if (count($query) > 0) {
 			foreach ($query as $log) {
 				$padding = ($level * 20);
+
 				$result .= '<tr >
 								<td style="padding-left:'.$padding.'px; padding-top:10px">
-									<span class="fa fa-user"></span> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> <br> 
-									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan_final'] ? $log['penanganan_final'] : $log['penanganan'] )) .'</b></span><br>
+									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> 
+									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i data-toggle='tooltip' title='Sudah ditindaklanjut!' class='fa fa-check' style='color: blue'></i>" : '').'
+									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i data-toggle='tooltip' title='Belum ditindaklanjut!' class='fa fa-close' style='color: red'></i>" : '').'
+									<br> 
+									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan'] ? $log['penanganan'] : '-' ) )) .'</b></span>
+									<br>
 								</td>
 							</tr>';
 
@@ -544,11 +560,17 @@ class DisposisiController extends Controller
 					->with('msg_num', 2);
 		}
 
+
 		if (isset($request->btnDraft)) {
 			$status_surat = 'd';
 			$selesai = 'Y';
 			$child = 0;
 		} else {
+			if (count($request->jabatans) > 1 || strpos(strtolower($request->jabatans[0]),"kepala badan") === false ) {
+				return redirect('/disposisi/tambah disposisi')
+						->with('message', 'Hanya boleh memilh Kepala Badan untuk memulai alur disposisi')
+						->with('msg_num', 2);
+			}
 			$status_surat = 's';
 			if (isset($request->jabatans)) {
 				$selesai = '';
@@ -560,6 +582,12 @@ class DisposisiController extends Controller
 				$selesai = 'Y';
 				$child = 0;
 			}
+		}
+
+		if ($status_surat == 's' && is_null($request->jabatans) && is_null($request->stafs)) {
+			return redirect('/disposisi/tambah disposisi')
+					->with('message', 'Harus memilih untuk melanjutkan disposisi')
+					->with('msg_num', 2);
 		}
 
 		$ceknoform = Fr_disposisi::where('no_form', $request->newnoform)->count();
@@ -810,7 +838,7 @@ class DisposisiController extends Controller
 		$this->checkSessionTime();
 
 		if (isset($request->jabatans) && isset($request->stafs)) {
-			return redirect('/disposisi/ubah disposisi')
+			return redirect('/disposisi/ubah disposisi?ids='.$request->ids)
 					->with('message', 'Tidak boleh memilih jabatan & staf bersamaan')
 					->with('msg_num', 2);
 		}
@@ -820,6 +848,11 @@ class DisposisiController extends Controller
 			$selesai = 'Y';
 			$child = 0;
 		} else {
+			if (count($request->jabatans) > 1 || strpos(strtolower($request->jabatans[0]),"kepala badan") === false ) {
+				return redirect('/disposisi/ubah disposisi?ids='.$request->ids)
+						->with('message', 'Hanya boleh memilh Kepala Badan untuk memulai alur disposisi')
+						->with('msg_num', 2);
+			}
 			$status_surat = 's';
 			if (isset($request->jabatans)) {
 				$selesai = '';
@@ -833,6 +866,12 @@ class DisposisiController extends Controller
 			}
 		}
 
+		if ($status_surat == 's' && is_null($request->jabatans) && is_null($request->stafs)) {
+			return redirect('/disposisi/ubah disposisi?ids='.$request->ids)
+					->with('message', 'Harus memilih untuk melanjutkan disposisi')
+					->with('msg_num', 2);
+		}
+
 		$splitmaxform = explode(".", $request->no_form);
 
 		$nowdisposisi = Fr_disposisi::where('ids', $request->ids)->first();
@@ -843,7 +882,7 @@ class DisposisiController extends Controller
 			if (count($file) == 1) {
 				
 				if ($file[0]->getSize() > 52222222) {
-					return redirect('/disposisi/ubah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+					return redirect('/disposisi/ubah disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 				} 
 
 				if ($filedispo != '') {
@@ -869,7 +908,7 @@ class DisposisiController extends Controller
 				foreach ($file as $key => $data) {
 
 					if ($data->getSize() > 52222222) {
-						return redirect('/disposisi/ubah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+						return redirect('/disposisi/ubah disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
 					} 
 
 					$filenow = 'disp';
@@ -961,7 +1000,7 @@ class DisposisiController extends Controller
 						'logbuat'   => '',
 						'kd_skpd'	=> '1.20.512',
 						'kd_unit'	=> $request->kd_unit,
-						'no_form' => $maxnoform,
+						'no_form' => $request->no_form,
 						'kd_surat' => null,
 						'status_surat' => null,
 						'idtop' => $idnew,
@@ -998,65 +1037,75 @@ class DisposisiController extends Controller
 					
 			}
 
-			if (isset($request->stafs)) {
-				for ($i=0; $i < count($request->stafs); $i++) { 
-					$findidemp = DB::select( DB::raw("
-							SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM bpaddtfake.dbo.emp_data as a
-								CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
-								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-								CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
-								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
-								and id_emp like '".$request->stafs[$i]."' and ked_emp = 'aktif'") )[0];
-					$findidemp = json_decode(json_encode($findidemp), true);
+			// if (isset($request->stafs)) {
+			// 	for ($i=0; $i < count($request->stafs); $i++) { 
+			// 		$findidemp = DB::select( DB::raw("
+			// 				SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM bpaddtfake.dbo.emp_data as a
+			// 					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+			// 					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+			// 					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+			// 					CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+			// 					,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+			// 					and id_emp like '".$request->stafs[$i]."' and ked_emp = 'aktif'") )[0];
+			// 		$findidemp = json_decode(json_encode($findidemp), true);
 
-					$insertsurat = [
-						'sts' => 1,
-						'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
-						'tgl'       => date('Y-m-d H:i:s'),
-						'ip'        => '',
-						'logbuat'   => '',
-						'kd_skpd'	=> '1.20.512',
-						'kd_unit'	=> $request->kd_unit,
-						'no_form' => $maxnoform,
-						'kd_surat' => null,
-						'status_surat' => null,
-						'idtop' => $idnew,
-						'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : date('Y-m-d')),
-						'usr_input' => '',
-						'tgl_input' => null,
-						'no_index' => '',
-						'kode_disposisi' => '',
-						'perihal' => '',
-						'tgl_surat' => null,
-						'no_surat' => '',
-						'asal_surat' => '',
-						'kepada_surat' => '',
-						'sifat1_surat' => '',
-						'sifat2_surat' => '',
-						'ket_lain' => '',
-						'nm_file' => '',
-						'kepada' => ($request->jabatans[0] ? $request->jabatans[0] : ''),
-						'noid' => '',
-						'penanganan' => '',
-						'catatan' => '',
-						'from_user' => (Auth::user()->usname ? 'A' : 'E'),
-						'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
-						'to_user' => 'E',
-						'to_pm' => $findidemp['id_emp'],
-						'rd' => 'N',
-						'usr_rd' => null,
-						'tgl_rd' => null,
-						'selesai' => '',
-						'child' => 0,
-					];
-					Fr_disposisi::insert($insertsurat);
-				}
-			}
+			// 		$insertsurat = [
+			// 			'sts' => 1,
+			// 			'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+			// 			'tgl'       => date('Y-m-d H:i:s'),
+			// 			'ip'        => '',
+			// 			'logbuat'   => '',
+			// 			'kd_skpd'	=> '1.20.512',
+			// 			'kd_unit'	=> $request->kd_unit,
+			// 			'no_form' => $maxnoform,
+			// 			'kd_surat' => null,
+			// 			'status_surat' => null,
+			// 			'idtop' => $idnew,
+			// 			'tgl_masuk' => (isset($request->tgl_masuk) ? date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_masuk))) : date('Y-m-d')),
+			// 			'usr_input' => '',
+			// 			'tgl_input' => null,
+			// 			'no_index' => '',
+			// 			'kode_disposisi' => '',
+			// 			'perihal' => '',
+			// 			'tgl_surat' => null,
+			// 			'no_surat' => '',
+			// 			'asal_surat' => '',
+			// 			'kepada_surat' => '',
+			// 			'sifat1_surat' => '',
+			// 			'sifat2_surat' => '',
+			// 			'ket_lain' => '',
+			// 			'nm_file' => '',
+			// 			'kepada' => ($request->jabatans[0] ? $request->jabatans[0] : ''),
+			// 			'noid' => '',
+			// 			'penanganan' => '',
+			// 			'catatan' => '',
+			// 			'from_user' => (Auth::user()->usname ? 'A' : 'E'),
+			// 			'from_pm' => (isset(Auth::user()->usname) ? Auth::user()->usname : Auth::user()->id_emp),
+			// 			'to_user' => 'E',
+			// 			'to_pm' => $findidemp['id_emp'],
+			// 			'rd' => 'N',
+			// 			'usr_rd' => null,
+			// 			'tgl_rd' => null,
+			// 			'selesai' => '',
+			// 			'child' => 0,
+			// 		];
+			// 		Fr_disposisi::insert($insertsurat);
+			// 	}
+			// }
 		}
 
 		return redirect('/disposisi/formdisposisi')
-					->with('message', 'Disposisi berhasil dibuat')
+					->with('message', 'Disposisi berhasil dikirim')
 					->with('msg_num', 1);
+	}
+
+	public function formdeletedisposisi(Request $request)
+	{
+		Fr_disposisi::where('no_form', $request->no_form)
+			->update([
+				'sts' => 0,
+			]);
+
+		return 0;
 	}
 }

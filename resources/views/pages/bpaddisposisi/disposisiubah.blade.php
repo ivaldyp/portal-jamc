@@ -248,13 +248,30 @@
 														foreach ($splitfile as $key => $file) { 
 															$namafolder = '/' . $dispmaster['no_form'];
 															?>
-														 	<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
+														 	<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i data-toggle="tooltip" title="Hapus?" class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
 														 	<br>
 														<?php }
 													}	 
 												?>
 	                                        </div>
 	                                    </div>
+
+	                                    <hr>
+
+	                                    <div class="form-group">
+											<label for="nm_file" class="col-md-2 control-label"> Log <br> </label>
+											<div class="col-md-10">
+												
+												<!-- <label > Log <br> </label> -->
+												<div class="table-responsive">
+													<table>
+														<tbody>
+															{!! $treedisp !!}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
 									</div>
 									<!-- <div class="sttabs tabs-style-underline">
 										<nav>
@@ -281,7 +298,7 @@
                                 <input type="submit" name="btnDraft" class="btn btn-warning pull-right m-r-10" value="Draft">
                                 @endif
                                 <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
-                                <button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
+                                <a href="/portal/disposisi/formdisposisi"><button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button></a>
                                 <div class="clearfix"></div>
                             </div>
 						</div>	

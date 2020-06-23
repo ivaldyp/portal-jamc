@@ -242,8 +242,8 @@ class LandingController extends Controller
 				$result .= '<tr >
 								<td style="padding-left:'.$padding.'px; padding-top:10px">
 									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> 
-									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i class='fa fa-check'></i>" : '').'
-									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i class='fa fa-close'></i>" : '').'
+									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i data-toggle='tooltip' title='Sudah ditindaklanjut!' class='fa fa-check' style='color: blue'></i>" : '').'
+									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i data-toggle='tooltip' title='Belum ditindaklanjut!' class='fa fa-close' style='color: red'></i>" : '').'
 									<br> 
 									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan_final'] ? $log['penanganan_final'] : ($log['penanganan'] ? $log['penanganan'] : '-' ) )) .'</b></span>
 									<br>

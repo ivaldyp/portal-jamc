@@ -50,6 +50,7 @@ Route::group(['prefix' => 'disposisi'], function () {
 	Route::get('/ubah disposisi', 'DisposisiController@disposisiubah');
 	Route::post('form/tambahdisposisi', 'DisposisiController@forminsertdisposisi');
 	Route::post('form/ubahdisposisi', 'DisposisiController@formupdatedisposisi');
+	Route::get('form/hapusdisposisi', 'DisposisiController@formdeletedisposisi');
 });
 
 Route::group(['prefix' => 'profil'], function () {

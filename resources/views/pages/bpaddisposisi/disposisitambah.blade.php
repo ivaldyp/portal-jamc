@@ -269,7 +269,7 @@
                                 <input type="submit" name="btnKirim" class="btn btn-info pull-right m-r-10" value="Kirim">
                                 <input type="submit" name="btnDraft" class="btn btn-warning pull-right m-r-10" value="Draft">
                                 <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
-                                <button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
+                                <a href="/portal/disposisi/formdisposisi"><button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button></a>
                                 <div class="clearfix"></div>
                             </div>
 						</div>	
