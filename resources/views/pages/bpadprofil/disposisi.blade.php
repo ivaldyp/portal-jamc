@@ -172,8 +172,8 @@
 																										$namafolder = '/' . $thisnoform;
 																									}
 																									?>
-																								 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
-																								 	<br>
+																									<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																									<br>
 																								<?php } 
 																							?>
 																							</td>
@@ -330,8 +330,8 @@
 																										$namafolder = '/' . $thisnoform;
 																									}
 																									?>
-																								 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
-																								 	<br>
+																									<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																									<br>
 																								<?php } 
 																							?>
 																							</td>
@@ -446,8 +446,8 @@
 																			$namafolder = '/' . $disp['no_form'];
 																		}
 																		?>
-																	 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
-																	 	<br>
+																		<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																		<br>
 																	<?php } 
 																?>
 															</td>
@@ -541,8 +541,8 @@
 																			$namafolder = '/' . $draft['no_form'];
 																		}
 																		?>
-																	 	<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
-																	 	<br>
+																		<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																		<br>
 																	<?php } 
 																?>
 															</td>

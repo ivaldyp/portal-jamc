@@ -37,6 +37,8 @@ class DisposisiController extends Controller
 		$this->middleware('auth');
 	}
 
+	// ---------ADMIN----------- //
+
 	public function formdisposisi(Request $request)
 	{
 		$this->checkSessionTime();
@@ -216,7 +218,6 @@ class DisposisiController extends Controller
 												  $qsearchnow
 												  and month(tgl_masuk) $signnow $monthnow
 												  and year(tgl_masuk) = $yearnow
-												  and usr_input like '$idgroup'
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisidrafts = DB::select( DB::raw("SELECT TOP (100) [ids]
@@ -265,7 +266,6 @@ class DisposisiController extends Controller
 												  $qsearchnow
 												  and month(tgl_masuk) $signnow $monthnow
 												  and year(tgl_masuk) = $yearnow
-												  and usr_input like '$idgroup'
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisisents = json_decode(json_encode($disposisisents), true);
@@ -323,14 +323,14 @@ class DisposisiController extends Controller
 		$stafs = json_decode(json_encode($stafs), true);
 
 		$jabatans = DB::select( DB::raw("SELECT [sts]
-													      ,[uname]
-													      ,[tgl]
-													      ,[ip]
-													      ,[logbuat]
-													      ,[kd_skpd]
-													      ,[jns_jab]
-													      ,[jabatan]
-													      ,[disposisi]
+														  ,[uname]
+														  ,[tgl]
+														  ,[ip]
+														  ,[logbuat]
+														  ,[kd_skpd]
+														  ,[jns_jab]
+														  ,[jabatan]
+														  ,[disposisi]
 													  FROM [bpaddtfake].[dbo].[glo_org_jabatan]
 													  where disposisi = 'Y'
 													  order by jabatan asc") );
@@ -439,14 +439,14 @@ class DisposisiController extends Controller
 		// $stafs = json_decode(json_encode($stafs), true);
 
 		$jabatans = DB::select( DB::raw("SELECT TOP (1000) [sts]
-													      ,[uname]
-													      ,[tgl]
-													      ,[ip]
-													      ,[logbuat]
-													      ,[kd_skpd]
-													      ,[jns_jab]
-													      ,[jabatan]
-													      ,[disposisi]
+														  ,[uname]
+														  ,[tgl]
+														  ,[ip]
+														  ,[logbuat]
+														  ,[kd_skpd]
+														  ,[jns_jab]
+														  ,[jabatan]
+														  ,[disposisi]
 													  FROM [bpaddtfake].[dbo].[glo_org_jabatan]
 													  where disposisi = 'Y'
 													  order by jabatan asc") );
@@ -1102,10 +1102,49 @@ class DisposisiController extends Controller
 	public function formdeletedisposisi(Request $request)
 	{
 		Fr_disposisi::where('no_form', $request->no_form)
-			->update([
-				'sts' => 0,
-			]);
+		->update([
+			'sts' => 0,
+		]);
 
 		return 0;
 	}
+
+	// ---------/ADMIN----------- //
+
+	// ---------EMPLOYEE----------- //
+
+	public function disposisi(Request $request)
+	{
+		$this->checkSessionTime();
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
+
+		if ($request->yearnow) {
+			$yearnow = (int)$request->yearnow;
+		} else {
+			$yearnow = (int)date('Y');
+		}
+
+		if ($request->monthnow) {
+			$monthnow = (int)$request->monthnow;
+		} else {
+			$monthnow = (int)date('m');
+		}
+
+		if ($request->signnow) {
+			$signnow = $request->signnow;
+		} else {
+			$signnow = "=";
+		}
+
+		if ($request->searchnow) {
+			$qsearchnow = "and (kd_surat = '".$request->searchnow."' or no_form = '".$request->searchnow."')";
+		} else {
+			$qsearchnow = "";
+		}
+	}
+
+	// ---------/EMPLOYEE----------- //
 }
