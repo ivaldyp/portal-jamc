@@ -15,12 +15,18 @@ session_start();
 
 class ContentController extends Controller
 {
-	public function berita_all()
+	public function berita_all(Request $request)
 	{
+		if (isset($request->cari)) {
+			$cari = $request->cari;
+		} else {
+			$cari = '';
+		}
 		$berita_list = Content_tb::
 					where('idkat', 1)
 					->where('appr', 'Y')
 					->where('sts', 1)
+					->whereRaw("judul like '%".$cari."%'")
 					->orderBy('tanggal', 'desc')
 					->paginate(10);
 
@@ -40,6 +46,7 @@ class ContentController extends Controller
 
 		return view('pages.berita.berita')
 				->with('berita_list', $berita_list)
+				->with('cari', $cari)
 				->with('aside_top_view', $aside_top_view)
 				->with('aside_recent', $aside_recent);
 	}
@@ -110,12 +117,20 @@ class ContentController extends Controller
 
 	public function foto_all(Request $request)
 	{
+		if (isset($request->cari)) {
+			$cari = $request->cari;
+		} else {
+			$cari = '';
+		}
+
 		$subkat = $request->subkategori;
+		
 		if (is_null($subkat)) {
 			$foto_list = Content_tb::
 					where('idkat', 5)
 					->where('appr', 'Y')
 					->where('sts', 1)
+					->whereRaw("judul like '%".$cari."%'")
 					->orderBy('tanggal', 'desc')
 					->paginate(10);
 		} else {
@@ -124,6 +139,7 @@ class ContentController extends Controller
 					->where('sts', 1)
 					->where('subkat', $subkat)
 					->where('appr', 'Y')
+					->whereRaw("judul like '%".$cari."%'")
 					->orderBy('tanggal', 'desc')
 					->paginate(10);
 		}
@@ -144,7 +160,8 @@ class ContentController extends Controller
 				->with('foto_list', $foto_list)
 				->with('foto_kategori', $foto_kategori)
 				->with('aside_recent', $aside_recent)
-				->with('subkat', $subkat);
+				->with('subkat', $subkat)
+				->with('cari', $cari);
 	}
 
 	public function foto_open($id)

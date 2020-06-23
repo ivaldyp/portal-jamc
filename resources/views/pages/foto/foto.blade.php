@@ -15,6 +15,16 @@
 	<!-- container -->
 	<div class="container">
 		<!-- row -->
+		<div class="row" style="padding-bottom: 30px">
+			<form method="GET" action="/portal/content/foto">
+				<div class="col-xs-6 col-sm-4">
+					<input type="text" name="cari" autocomplete="off" class="form-control" <?php if ($cari != '' && !(is_null($cari))) : ?> value="{{ $cari }}" <?php endif ?> >
+				</div>
+				<div class="col-xs-1">
+					<button class="btn btn-info">Cari</button>
+				</div>
+			</form>
+		</div>
 		<div class="row">
 			<!-- MAIN -->
 			<main id="main" class="col-md-9" style="border-right: 2px solid #eee;">
