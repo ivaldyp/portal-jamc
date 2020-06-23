@@ -29,6 +29,7 @@ class ContentController extends Controller
 					->whereRaw("judul like '%".$cari."%'")
 					->orderBy('tanggal', 'desc')
 					->paginate(10);
+		$berita_list->appends($request->only('cari'));
 
 		$aside_top_view = Content_tb::take(3)
 							->where('appr', 'Y')
@@ -143,6 +144,7 @@ class ContentController extends Controller
 					->orderBy('tanggal', 'desc')
 					->paginate(10);
 		}
+		$foto_list->appends($request->only('cari'));
 		
 		$foto_kategori = Glo_subkategori::
 						where('idkat', 5)
