@@ -73,7 +73,7 @@ class DisposisiController extends Controller
 
 		$idgroup = $_SESSION['user_data']['id_emp'];
 		if (is_null($idgroup)) {
-			$disposisisents = DB::select( DB::raw("SELECT TOP (100) [ids]
+			$disposisisents = DB::select( DB::raw("SELECT TOP (50) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -121,7 +121,7 @@ class DisposisiController extends Controller
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisidrafts = DB::select( DB::raw("SELECT TOP (100) [ids]
+			$disposisidrafts = DB::select( DB::raw("SELECT TOP (50) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -172,7 +172,7 @@ class DisposisiController extends Controller
 			$disposisisents = json_decode(json_encode($disposisisents), true);
 			$disposisidrafts = json_decode(json_encode($disposisidrafts), true);
 		} else {
-			$disposisisents = DB::select( DB::raw("SELECT TOP 100 [ids]
+			$disposisisents = DB::select( DB::raw("SELECT TOP 50 [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -220,7 +220,7 @@ class DisposisiController extends Controller
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisidrafts = DB::select( DB::raw("SELECT TOP (100) [ids]
+			$disposisidrafts = DB::select( DB::raw("SELECT TOP (50) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
