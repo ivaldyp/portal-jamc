@@ -523,31 +523,26 @@ class DisposisiController extends Controller
 
 	public function disposisihapusfile(Request $request)
 	{
-
-		if (file_exists("C:/xampp/htdocs/portal/public/publicfile/disp/" . $request->no_form . "/" . $request->nm_file )) {
-			unlink(config('app.savefiledisposisi') . "/" . $request->no_form . "/" . $request->nm_file );
-			$nmfilebefore = Fr_disposisi::where('ids', $request->ids)->get();
-			$nmfilenew = '';
-			
-			$splitnmfile = explode("::", $nmfilebefore[0]['nm_file']);
-			foreach ($splitnmfile as $key => $nm_file) {
-				if ($nm_file != $request->nm_file) {
-					if ($key != 0 && $nm_file != $request->nm_file) {
-						$nmfilenew .= "::";
-					}
-					$nmfilenew .= $nm_file;
+		unlink(config('app.savefiledisposisi') . "/" . $request->no_form . "/" . $request->nm_file );
+		$nmfilebefore = Fr_disposisi::where('ids', $request->ids)->get();
+		$nmfilenew = '';
+		
+		$splitnmfile = explode("::", $nmfilebefore[0]['nm_file']);
+		foreach ($splitnmfile as $key => $nm_file) {
+			if ($nm_file != $request->nm_file) {
+				if ($key != 0 && $nm_file != $request->nm_file) {
+					$nmfilenew .= "::";
 				}
+				$nmfilenew .= $nm_file;
 			}
-
-			Fr_disposisi::where('ids', $request->ids)
-				->update([
-					'nm_file' => $nmfilenew,
-				]);
-
-			return 0;
-		} else {
-			return 1;
 		}
+
+		Fr_disposisi::where('ids', $request->ids)
+			->update([
+				'nm_file' => $nmfilenew,
+			]);
+
+		return 0;
 	}
 
 	public function forminsertdisposisi(Request $request)

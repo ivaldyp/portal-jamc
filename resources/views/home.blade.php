@@ -71,7 +71,7 @@
 									
 								</ul>
 							</div>
-							<a href="/disposisi">
+							<!-- <a href="/disposisi">
 							<div class="col-md-4 col-sm-4 row-in-br">
 								<ul class="col-in">
 									<li>
@@ -84,7 +84,7 @@
 									
 								</ul>
 							</div>
-							</a>
+							</a> -->
 
 							<a href="/portal/cms/content">
 							<div class="col-md-4 col-sm-4">
