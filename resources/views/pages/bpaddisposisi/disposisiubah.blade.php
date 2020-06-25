@@ -75,6 +75,7 @@
 
 										<input type="hidden" name="ids" value="{{ $dispmaster['ids'] }}">
 										<input type="hidden" name="kepada" value="{{ $kepada }}" id="kepada">
+										<input type="hidden" name="tgl" value="{{ $dispmaster['tgl'] }}">
 
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>
@@ -246,7 +247,7 @@
 													$splitfile = explode("::", $dispmaster['nm_file']);
 													if ($dispmaster['nm_file'] != '') {
 														foreach ($splitfile as $key => $file) { 
-															$namafolder = '/' . $dispmaster['no_form'];
+															$namafolder = '/' . date('Y',strtotime($dispmaster['tgl'])) . '/' . $dispmaster['no_form'];
 															?>
 															<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i data-toggle="tooltip" title="Hapus?" class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
 															<br>
