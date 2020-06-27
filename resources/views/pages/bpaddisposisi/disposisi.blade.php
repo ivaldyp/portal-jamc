@@ -118,13 +118,13 @@
 											<table id="myTable" class="table table-hover table-striped" style="z-index: 99999;">
 												<thead>
 													<tr>
-														<th>No. Form</th>
-														<th>Kode Surat</th>
-														<th>Tanggal masuk</th>
-														<th>Isi</th>
-														<th>Sifat</th>
-														<th>Dari</th>
-														<th>Ke</th>
+														<th class="col-sm-1">No. Form</th>
+														<th class="col-sm-1">Kode Surat</th>
+														<th class="col-sm-1">Tanggal masuk</th>
+														<th class="col-sm-1">Isi</th>
+														<th class="col-sm-1">Sifat</th>
+														<th class="col-sm-1">Dari</th>
+														<th class="col-sm-1">Ke</th>
 														<th class="col-sm-1">Penanganan</th>
 														<th class="col-sm-1">Catatan</th>
 														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
@@ -153,7 +153,14 @@
 														?>
 
 														<tr>
-															<td>{{ $thisnoform }}</td>
+															<td>
+																@if(strtolower($inbox['rd']) == 'n')
+																	<u>{{ $thisnoform }}</u>
+																@else 
+																	{{ $thisnoform }}
+																@endif
+																
+															</td>
 															<td>{{ $thiskdsurat }}</td>
 															<td class="col-md-2">{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
 															<td>
@@ -184,7 +191,7 @@
 																					<?php 
 																						$splitfile = explode("::", $thisfile);
 																						foreach ($splitfile as $key => $file) { 
-																							$namafolder = '/' . date('Y',strtotime($inbox['tgl'])) . '/' . $thisnoform;
+																							$namafolder = '/' . date('Y',strtotime($inbox['tglmaster'])) . '/' . $thisnoform;
 																							?>
 																							<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
 																							<br>
@@ -213,7 +220,7 @@
 															<td style="vertical-align: middle;">
 																
 																<form method="GET" action="/portal/disposisi/lihat disposisi">
-																	@csrf
+																	
 																	@if ($access['zupd'] == 'y')
 																	<input type="hidden" name="ids" value="{{ $inbox['ids'] }}">
 																	<input type="hidden" name="no_form" value="{{ $inbox['no_form'] }}">
@@ -240,13 +247,13 @@
 											<table id="myTable2" class="table table-hover table-striped" style="z-index: 99999;">
 												<thead>
 													<tr>
-														<th>No. Form</th>
-														<th>Kode Surat</th>
-														<th>Tanggal masuk</th>
-														<th>Isi</th>
-														<th>Sifat</th>
-														<th>Dari</th>
-														<th>Ke</th>
+														<th class="col-sm-1">No. Form</th>
+														<th class="col-sm-1">Kode Surat</th>
+														<th class="col-sm-1">Tanggal masuk</th>
+														<th class="col-sm-1">Isi</th>
+														<th class="col-sm-1">Sifat</th>
+														<th class="col-sm-1">Dari</th>
+														<th class="col-sm-1">Ke</th>
 														<th class="col-sm-1">Penanganan</th>
 														<th class="col-sm-1">Catatan</th>
 														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
@@ -306,7 +313,7 @@
 																					<?php 
 																						$splitfile = explode("::", $thisfile);
 																						foreach ($splitfile as $key => $file) { 
-																							$namafolder = '/' . date('Y',strtotime($draft['tgl'])) . '/' . $thisnoform;
+																							$namafolder = '/' . date('Y',strtotime($draft['tglmaster'])) . '/' . $thisnoform;
 																							?>
 																							<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
 																							<br>
@@ -335,7 +342,7 @@
 															<td style="vertical-align: middle;">
 																
 																<form method="GET" action="/portal/disposisi/lihat disposisi">
-																	@csrf
+																	
 																	@if ($access['zupd'] == 'y')
 																	<input type="hidden" name="ids" value="{{ $draft['ids'] }}">
 																	<input type="hidden" name="no_form" value="{{ $draft['no_form'] }}">
@@ -362,13 +369,13 @@
 											<table id="myTable2" class="table table-hover table-striped" style="z-index: 99999;">
 												<thead>
 													<tr>
-														<th>No. Form</th>
-														<th>Kode Surat</th>
-														<th>Tanggal masuk</th>
-														<th>Isi</th>
-														<th>Sifat</th>
-														<th>Dari</th>
-														<th class="col-sm-2">Ke</th>
+														<th class="col-sm-1">No. Form</th>
+														<th class="col-sm-1">Kode Surat</th>
+														<th class="col-sm-1">Tanggal masuk</th>
+														<th class="col-sm-1">Isi</th>
+														<th class="col-sm-1">Sifat</th>
+														<th class="col-sm-1">Dari</th>
+														<th class="col-sm-1">Ke</th>
 														<th class="col-sm-1">Penanganan</th>
 														<th class="col-sm-1">Catatan</th>
 														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
@@ -390,9 +397,17 @@
 														$thisfile = $sent['nm_file'];
 														$thisusrinput = $sent['usr_input'];
 														$thistglinput = $sent['tgl_input'];
-														$thisdari = $sent['from_pm'];
-														$thiske = $sent['to_pm'];
-														$thisdarinama = $sent['to_nm'];
+
+														if (isset($_SESSION['user_data']['idunit'])) {
+															if (strlen($_SESSION['user_data']['idunit']) == 8) {
+																$thisdari = $sent['from_nm'];
+																$thiske = $sent['to_nm'];
+															} 
+														} else {
+															$thisdari = $sent['to_nm'];
+															$thiske = $sent['kepada'];
+														}
+															
 														$thiskepada = str_replace("::", "; ", $sent['kepada']);
 														$thispenanganan = $sent['penanganan'];
 														$thiscatatan = $sent['catatan'];
@@ -430,7 +445,7 @@
 																					<?php 
 																						$splitfile = explode("::", $thisfile);
 																						foreach ($splitfile as $key => $file) { 
-																							$namafolder = '/' . date('Y',strtotime($sent['tgl'])) . '/' . $thisnoform;
+																							$namafolder = '/' . date('Y',strtotime($sent['tglmaster'])) . '/' . $thisnoform;
 																							?>
 																							<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
 																							<br>
@@ -452,14 +467,14 @@
 																<span class="label label-warning">{{ $thissifat2 }}</span>
 																@endif
 															</td>
-															<td>{{ $thisdarinama }}</td>
-															<td>{{ $thiskepada }}</td>
+															<td>{{ $thisdari }}</td>
+															<td>{{ $thiske }}</td>
 															<td>{{ $thispenanganan }}</td>
 															<td>{{ $thiscatatan }}</td>
 															<td style="vertical-align: middle;">
 																
 																<form method="GET" action="/portal/disposisi/lihat disposisi">
-																	@csrf
+																	
 																	@if ($access['zupd'] == 'y')
 																	<input type="hidden" name="ids" value="{{ $sent['ids'] }}">
 																	<input type="hidden" name="no_form" value="{{ $sent['no_form'] }}">

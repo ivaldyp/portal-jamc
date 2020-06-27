@@ -65,202 +65,203 @@
 			</div>
 			<div class="row ">
 				<div class="col-md-12">
-					<form class="form-horizontal" method="POST" action="/portal/disposisi/form/ubahdisposisi" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/portal/disposisi/form/lihatdisposisi" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Disposisi </div>
 							<div class="panel-wrapper collapse in" aria-expanded="true">
 								<div class="panel-body">
-									<div class="col-md-6">
+									<div class="col-md-12">
 
-										<h2>Nomor Form: {{ $dispmaster['no_form'] }}</h2>
+										<h3>Nomor Form: {{ $dispmaster['no_form'] }}</h3>
 
 										<div class="panel-group" id="exampleAccordionDefault" aria-multiselectable="true" role="tablist">
 											<div class="panel">
 												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultOne" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultOne" data-parent="#exampleAccordionDefault" aria-expanded="true" aria-controls="exampleCollapseDefaultOne"> Surat </a> </div>
-												<div class="panel-collapse collapse in" id="exampleCollapseDefaultOne" aria-labelledby="exampleHeadingDefaultOne" role="tabpanel">
-													<div class="form-group">
-														<label class="col-md-2 control-label"> No Form </label>
-														<div class="col-md-8">
-															<input autocomplete="off" type="text" class="form-control" id="newnoform" value="{{ $dispmaster['no_form'] }}" disabled>
-															<!-- <input autocomplete="off" type="hidden" name="no_form" class="form-control" value="{{ $dispmaster['no_form'] }}"> -->
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label class="col-md-2 control-label"> Kode Surat </label>
-														<div class="col-md-8">
-															<input type="text" autocomplete="off" class="form-control" value="{{ $dispmaster['kd_surat'] }}" disabled>
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="kd_unit" class="col-md-2 control-label"> Unit </label>
-														<div class="col-md-8">
-															<input type="text" autocomplete="off" class="form-control" value="[{{ $dispmaster['kd_unit'] }}] - [{{ $dispmaster['nm_unit'] }}]" disabled>
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk </label>
-														<div class="col-md-8">
-															<input type="text" disabled class="form-control" autocomplete="off" value="{{ date('d/m/Y',strtotime($dispmaster['tgl_masuk'])) }}">
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="no_index" class="col-md-2 control-label"> No Index </label>
-														<div class="col-md-8">
-															<input autocomplete="off" type="text" disabled class="form-control" value="{{ $dispmaster['no_index'] }}">
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="kode_disposisi" class="col-md-2 control-label"> Kode Disposisi </label>
-														<div class="col-md-8">
-															<input autocomplete="off" type="text" disabled class="form-control" value="[{{ $dispmaster['kode_disposisi'] }}] - [{{ $dispmaster['nm_jnssurat'] }}]">
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="gelar" class="col-md-2 control-label"> Nomor & Tgl Surat </label>
-														<div class="col-md-4">
-															<input disabled="" autocomplete="off" type="text" class="form-control" placeholder="Nomor" value="{{ $dispmaster['no_surat'] }}">
-														</div>
-														<div class="col-md-4">
-															<input disabled="" type="text" class="form-control" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y',strtotime($dispmaster['tgl_surat'])) }}">
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="perihal" class="col-md-2 control-label"> Perihal </label>
-														<div class="col-md-8">
-															<textarea name="perihal" class="form-control" rows="3" disabled>{{ $dispmaster['perihal'] }}</textarea>
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="asal_surat" class="col-md-2 control-label"> Dari </label>
-														<div class="col-md-8">
-															<input disabled="" autocomplete="off" type="text" class="form-control" value="{{ $dispmaster['asal_surat'] }}">
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="kepada_surat" class="col-md-2 control-label"> Kepada </label>
-														<div class="col-md-8">
-															<input disabled="" autocomplete="off" type="text" name="kepada_surat" class="form-control" id="kepada_surat" value="{{ $dispmaster['kepada_surat'] }}">
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label class="col-md-2 control-label"> Sifat Surat </label>
-														<div class="col-md-4">
-															<input disabled="" autocomplete="off" type="text" class="form-control" value="{{ $dispmaster['sifat1_surat'] }}">
-														</div>
-														<div class="col-md-4">
-															<input disabled="" autocomplete="off" type="text" class="form-control" value="{{ $dispmaster['sifat2_surat'] }}">
-														</div>
-													</div>
-
-													<div class="form-group">
-														<label for="ket_lain" class="col-md-2 control-label"> Keterangan </label>
-														<div class="col-md-8">
-															<textarea name="ket_lain" class="form-control" rows="3" disabled="">{{ $dispmaster['ket_lain'] }}</textarea>
-														</div>
+												<div class="panel-collapse collapse" id="exampleCollapseDefaultOne" aria-labelledby="exampleHeadingDefaultOne" role="tabpanel">
+													<div class="table-responsive">
+														<table class="table table-hover">
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>No Form</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ $dispmaster['no_form'] }}</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>Kode Surat</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ $dispmaster['kd_surat'] }}</h4></td>
+																
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>Unit</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">[{{ $dispmaster['kd_unit'] }}] - [{{ $dispmaster['nm_unit'] }}]</h4></td>
+																
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>Tgl Masuk</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ date('d/m/Y',strtotime($dispmaster['tgl_masuk'])) }}</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> No Index</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ $dispmaster['no_index'] }}</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> Kode Disposisi</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">[{{ $dispmaster['kode_disposisi'] }}] - [{{ $dispmaster['nm_jnssurat'] }}]</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> Nomor & Tgl Surat</h4></td>
+																<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
+																	[{{ $dispmaster['no_surat'] }}] - [{{ date('d/m/Y',strtotime($dispmaster['tgl_surat'])) }}]
+																</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> Perihal</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ $dispmaster['perihal'] }}</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> Dari</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ $dispmaster['asal_surat'] }}</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> Kepada</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ $dispmaster['kepada_surat'] }}</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> Sifat Surat</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">
+																	<span class="label label-info">{{ $dispmaster['sifat1_surat'] }}</span>
+																	 - 
+																	<span class="label label-warning">{{ $dispmaster['sifat2_surat'] }}</span>
+																</h4></td>
+															</tr>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4> Keterangan</h4></td>
+																<td class="col-md-6" style="vertical-align: middle;">
+																<h4 class="text-muted">{{ $dispmaster['ket_lain'] }}</h4></td>
+															</tr>
+														</table>
 													</div>
 												</div>
 											</div>
 											<div class="panel">
 												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultTwo" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultTwo" data-parent="#exampleAccordionDefault" aria-expanded="false" aria-controls="exampleCollapseDefaultTwo"> Lanjutan </a> </div>
 												<div class="panel-collapse collapse" id="exampleCollapseDefaultTwo" aria-labelledby="exampleHeadingDefaultTwo" role="tabpanel">
-													<div class="form-group">
-														<label class="col-md-2 control-label"> Disposisi Ke  </label>
-														<div class="col-md-8">
-															<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
-																@foreach($jabatans as $key => $jabatan)
-																	<option value="{{ $jabatan['jabatan'] }}"> {{ $jabatan['jabatan'] }} </option>
-																@endforeach
-															</select>
-														</div>
-													</div>
+													<div class="table-responsive">
+														<table class="table table-hover">
+															@if($jabatans != 0)
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>Disposisi ke</h4></td>
+																<td class="col-md-6 data-input">
+																	<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="jabatans[]" id="jabatans">
+																		@foreach($jabatans as $key => $jabatan)
+																			<option value="{{ $jabatan['jabatan'] }}"> {{ $jabatan['jabatan'] }} </option>
+																		@endforeach
+																	</select>
+																</td>
+															</tr>
+															@endif
 
-													@if(isset($stafs))
-													<div class="form-group">
-														<label for="nip_emp" class="col-md-2 control-label"> Staf </label>
-														<div class="col-md-8">
-															<select class="select2 m-b-10 select2" multiple="multiple" name="stafs[]" id="stafs" required>
-																@foreach($stafs as $staf)
-																	<option value="{{ $staf['id_emp'] }}"> 
-																		{{ ucwords(strtolower($staf['nm_emp'])) }}
-																		<?php if ($staf['nrk_emp']): ?>
-																			- [{{ $staf['nrk_emp'] }}]
-																		<?php endif ?>
-																	</option>
-																@endforeach
-															</select>
-														</div>
-													</div>
-													@endif
-													
-													<div class="form-group">
-														<label for="penanganan" class="col-md-2 control-label"> Penanganan </label>
-														<div class="col-md-8">
-															<select class="select2 form-control" name="penanganan" id="penanganan">
-																<option value="{{NULL}}">-</option>
-																@foreach($penanganans as $penanganan)
-																	<option <?php if ($dispmaster['penanganan'] == $penanganan['nm_penanganan']): ?> selected <?php endif ?> value="{{ $penanganan['nm_penanganan'] }}"> {{ $penanganan['nm_penanganan'] }} </option>
-																@endforeach
-															</select>
-														</div>
-													</div>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>Staf</h4></td>
+																<td class="col-md-6 data-input">
+																	<select class="select2 m-b-10 select2-multiple" multiple="multiple" name="stafs[]" id="stafs" required>
+																		@foreach($stafs as $staf)
+																			<option value="{{ $staf['id_emp'] }}"> 
+																				{{ ucwords(strtolower($staf['nm_emp'])) }}
+																				<?php if ($staf['nrk_emp']): ?>
+																					- [{{ $staf['nrk_emp'] }}]
+																				<?php endif ?>
+																			</option>
+																		@endforeach
+																	</select>
+																</td>
+															</tr>
 
-													<div class="form-group">
-														<label for="catatan" class="col-md-2 control-label"> Catatan </label>
-														<div class="col-md-8">
-															<textarea name="catatan" class="form-control" rows="3">{{ $dispmaster['catatan'] }}</textarea>
-														</div>
-													</div>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>Penanganan</h4></td>
+																<td class="col-md-6 data-input">
+																	<select class="select2 form-control" name="penanganan" id="penanganan">
+																		<option value="{{NULL}}">-</option>
+																		@foreach($penanganans as $penanganan)
+																			<option <?php if ($dispmaster['penanganan'] == $penanganan['nm_penanganan']): ?> selected <?php endif ?> value="{{ $penanganan['nm_penanganan'] }}"> {{ $penanganan['nm_penanganan'] }} </option>
+																		@endforeach
+																	</select>
+																</td>
+															</tr>
 
-													<div class="form-group">
-														<label for="nm_file" class="col-lg-2 control-label"> File <br> </label>
-														<div class="col-lg-8">
-															<input type="file" class="form-control" id="nm_file" name="nm_file[]" multiple>
-															<br>
-															<?php 
-																$splitfile = explode("::", $dispmaster['nm_file']);
-																if ($dispmaster['nm_file'] != '') {
-																	foreach ($splitfile as $key => $file) { 
-																		$namafolder = '/' . date('Y',strtotime($dispmaster['tgl'])) . '/' . $dispmaster['no_form'];
-																		?>
-																		<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i data-toggle="tooltip" title="Hapus?" class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
-																		<br>
-																	<?php }
-																}	 
-															?>
-														</div>
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>Catatan</h4></td>
+																<td class="col-md-6 data-input">
+																	<textarea name="catatan" class="form-control" rows="3">{{ $dispmaster['catatan'] }}</textarea>
+																</td>
+															</tr>
+														</table>
 													</div>
 												</div>
 											</div>
 											<div class="panel">
 												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultThree" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultThree" data-parent="#exampleAccordionDefault" aria-expanded="false" aria-controls="exampleCollapseDefaultThree"> File </a> </div>
 												<div class="panel-collapse collapse" id="exampleCollapseDefaultThree" aria-labelledby="exampleHeadingDefaultThree" role="tabpanel">
-													
+													<div class="table-responsive">
+														<table class="table table-hover">
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>File</h4></td>
+																<td class="col-md-6 data-input">
+																	<input type="file" class="form-control" id="nm_file" name="nm_file[]" multiple>
+																	<br>
+																	<?php 
+																		$splitfile = explode("::", $dispmaster['nm_file']);
+																		if ($dispmaster['nm_file'] != '') {
+																			foreach ($splitfile as $key => $file) { 
+																				$namafolder = '/' . date('Y',strtotime($dispmaster['tglmaster'])) . '/' . $dispmaster['no_form'];
+																				?>
+																				<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i data-toggle="tooltip" title="Hapus?" class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
+																				<br>
+																			<?php }
+																		}	 
+																	?>
+																</td>
+															</tr>
+														</table>
+													</div>
 												</div>
 											</div>
 											<div class="panel">
 												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultFour" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultFour" data-parent="#exampleAccordionDefault" aria-expanded="false" aria-controls="exampleCollapseDefaultFour"> Log </a> </div>
 												<div class="panel-collapse collapse" id="exampleCollapseDefaultFour" aria-labelledby="exampleHeadingDefaultFour" role="tabpanel">
-													
+													<div class="table-responsive p-l-30">
+														<table class="table">
+															<tbody>
+																{!! $treedisp !!}
+															</tbody>
+														</table>
+													</div>
+															
 												</div>
 											</div>
 										</div>
 
 										<input type="hidden" name="ids" value="{{ $dispmaster['ids'] }}">
-										<input type="hidden" name="kepada" value="{{ $kepada }}" id="kepada">
-										<input type="hidden" name="tgl" value="{{ $dispmaster['tgl'] }}">
+										<input type="hidden" name="idmaster" value="{{ $dispmaster['idmaster'] }}">
+										<input type="hidden" name="kd_unit" value="{{ $dispmaster['kd_unit'] }}">
+										<input type="hidden" name="tgl_masuk" value="{{ $dispmaster['tgl_masuk'] }}">
+										<input type="hidden" name="no_form" value="{{ $dispmaster['no_form'] }}">
+										<input type="hidden" name="kepada" value="{{ $dispmaster['kepada'] }}" id="kepada">
+										<input type="hidden" name="tujuanidunit" value="{{ $tujuan['idunit'] }}" id="tujuanidunit">
+										<input type="hidden" name="tujuanidemp" value="{{ $tujuan['id_emp'] }}" id="tujuanidemp">
+										<input type="hidden" name="tglmaster" value="{{ $dispmaster['tglmaster'] }}">
+										<input type="hidden" name="nm_file" value="{{ $dispmaster['nm_file'] }}">
+										<input type="hidden" name="from_pm_new" value="{{ $dispmaster['to_pm'] }}">
 
-													
 									</div>
 
 									<div class="col-md-6">
@@ -268,20 +269,7 @@
 
 										<hr>
 
-										<div class="form-group">
-											<label for="nm_file" class="col-md-2 control-label"> Log <br> </label>
-											<div class="col-md-10">
-												
-												<!-- <label > Log <br> </label> -->
-												<div class="table-responsive">
-													<table>
-														<tbody>
-															{!! $treedisp !!}
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
+										
 									</div>
 									<!-- <div class="sttabs tabs-style-underline">
 										<nav>
@@ -302,13 +290,13 @@
 							</div>
 							<div class="panel-footer">
 								<!-- <button type="submit" class="btn btn-success pull-right">Simpan</button> -->
-								@if($dispmaster['status_surat'] == 'd' && isset($_SESSION['user_data']['usname']))
+								@if(strtolower($dispmaster['rd']) == 'd' || strtolower($dispmaster['rd']) == 'n' || strtolower($dispmaster['rd']) == 'y')
 								<input type="submit" name="btnKirim" class="btn btn-info pull-right m-r-10" value="Kirim">
 								
 								<input type="submit" name="btnDraft" class="btn btn-warning pull-right m-r-10" value="Draft">
 								@endif
 								<!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
-								<a href="/portal/disposisi/formdisposisi"><button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button></a>
+								<a href="/portal/disposisi/disposisi"><button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button></a>
 								<div class="clearfix"></div>
 							</div>
 						</div>	
@@ -364,6 +352,14 @@
 
 			var kepada = $("#kepada").val();
 			$('#jabatans').select2('val', kepada.split("::"));
+
+			var tujuanidunit = $("#tujuanidunit").val();
+			var tujuanidemp = $("#tujuanidemp").val();
+			console.log(tujuanidunit);
+			console.log(tujuanidemp);
+			if (tujuanidunit.length == 10) {
+				$('#stafs').select2('val', tujuanidemp);
+			}
 
 			$('.delete-file').on('click', function () {
 				var $el = $(this);
