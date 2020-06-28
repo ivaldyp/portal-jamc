@@ -170,6 +170,7 @@
 															</tr>
 															@endif
 
+															@if($stafs != 0)
 															<tr>
 																<td class="col-md-6 p-l-30"><h4>Staf</h4></td>
 																<td class="col-md-6 data-input">
@@ -185,6 +186,7 @@
 																	</select>
 																</td>
 															</tr>
+															@endif
 
 															<tr>
 																<td class="col-md-6 p-l-30"><h4>Penanganan</h4></td>
@@ -256,10 +258,11 @@
 										<input type="hidden" name="tgl_masuk" value="{{ $dispmaster['tgl_masuk'] }}">
 										<input type="hidden" name="no_form" value="{{ $dispmaster['no_form'] }}">
 										<input type="hidden" name="kepada" value="{{ $dispmaster['kepada'] }}" id="kepada">
+										<input type="hidden" name="noid" value="{{ $dispmaster['noid'] }}" id="noid">
 										<input type="hidden" name="tujuanidunit" value="{{ $tujuan['idunit'] }}" id="tujuanidunit">
 										<input type="hidden" name="tujuanidemp" value="{{ $tujuan['id_emp'] }}" id="tujuanidemp">
 										<input type="hidden" name="tglmaster" value="{{ $dispmaster['tglmaster'] }}">
-										<input type="hidden" name="nm_file" value="{{ $dispmaster['nm_file'] }}">
+										<input type="hidden" name="nm_file_master" value="{{ $dispmaster['nm_file'] }}">
 										<input type="hidden" name="from_pm_new" value="{{ $dispmaster['to_pm'] }}">
 
 									</div>
@@ -352,6 +355,9 @@
 
 			var kepada = $("#kepada").val();
 			$('#jabatans').select2('val', kepada.split("::"));
+
+			var noid = $("#noid").val();
+			$('#stafs').select2('val', noid.split("::"));
 
 			var tujuanidunit = $("#tujuanidunit").val();
 			var tujuanidemp = $("#tujuanidemp").val();

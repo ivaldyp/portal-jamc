@@ -37,6 +37,50 @@ class DisposisiController extends Controller
 		$this->middleware('auth');
 	}
 
+
+public function display_disposisi($no_form, $idtop, $level = 0)
+	{
+		// $query = Fr_disposisi::
+		// 			leftJoin('bpaddtfake.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddtfake.dbo.fr_disposisi.to_pm')
+		// 			->where('no_form', $no_form)
+		// 			->where('idtop', $idtop)
+		// 			->orderBy('ids')
+		// 			->get();
+
+		$query = DB::select( DB::raw("SELECT * 
+					from bpaddtfake.dbo.fr_disposisi
+					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
+					where no_form = '$no_form'
+					and idtop = '$idtop'
+					order by ids
+					") );
+		$query = json_decode(json_encode($query), true);
+
+		$result = '';
+
+		if (count($query) > 0) {
+			foreach ($query as $log) {
+				$padding = ($level * 20);
+
+				$result .= '<tr >
+								<td style="padding-left:'.$padding.'px; padding-top:10px">
+									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> 
+									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i data-toggle='tooltip' title='Sudah ditindaklanjut!' class='fa fa-check' style='color: blue'></i>" : '').'
+									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i data-toggle='tooltip' title='Belum ditindaklanjut!' class='fa fa-close' style='color: red'></i>" : '').'
+									<br> 
+									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan'] ? $log['penanganan'] : '-' ) .'</b> 
+																				'.($log['catatan'] ? '('.$log['catatan'].')' : '' ).'</span>
+									<br>
+								</td>
+							</tr>';
+
+				if ($log['child'] == 1) {
+					$result .= $this->display_disposisi($no_form, $log['ids'], $level+1);
+				}
+			}
+		}
+		return $result;
+	}
 	// ---------ADMIN----------- //
 
 	public function formdisposisi(Request $request)
@@ -476,50 +520,6 @@ class DisposisiController extends Controller
 				->with('unitkerjas', $unitkerjas)
 				->with('jabatans', $jabatans)
 				->with('penanganans', $penanganans);
-	}
-
-	public function display_disposisi($no_form, $idtop, $level = 0)
-	{
-		// $query = Fr_disposisi::
-		// 			leftJoin('bpaddtfake.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddtfake.dbo.fr_disposisi.to_pm')
-		// 			->where('no_form', $no_form)
-		// 			->where('idtop', $idtop)
-		// 			->orderBy('ids')
-		// 			->get();
-
-		$query = DB::select( DB::raw("SELECT * 
-					from bpaddtfake.dbo.fr_disposisi
-					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
-					where no_form = '$no_form'
-					and idtop = '$idtop'
-					order by ids
-					") );
-		$query = json_decode(json_encode($query), true);
-
-		$result = '';
-
-		if (count($query) > 0) {
-			foreach ($query as $log) {
-				$padding = ($level * 20);
-
-				$result .= '<tr >
-								<td style="padding-left:'.$padding.'px; padding-top:10px">
-									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> 
-									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i data-toggle='tooltip' title='Sudah ditindaklanjut!' class='fa fa-check' style='color: blue'></i>" : '').'
-									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i data-toggle='tooltip' title='Belum ditindaklanjut!' class='fa fa-close' style='color: red'></i>" : '').'
-									<br> 
-									<span class="text-muted"> Penanganan: <b>'. ($log['penanganan'] ? $log['penanganan'] : '-' ) .'</b> 
-																				'.($log['catatan'] ? '('.$log['catatan'].')' : '' ).'</span>
-									<br>
-								</td>
-							</tr>';
-
-				if ($log['child'] == 1) {
-					$result .= $this->display_disposisi($no_form, $log['ids'], $level+1);
-				}
-			}
-		}
-		return $result;
 	}
 
 	public function disposisihapusfile(Request $request)
@@ -1269,6 +1269,9 @@ class DisposisiController extends Controller
 
 		if (strlen($_SESSION['user_data']['idunit']) == 8) {
 			$qid = "and d.from_pm = '".$idgroup."'";
+			$rd = "(d.rd like 'N' or d.rd like 'Y')";
+		} else {
+			$rd = "d.rd like 'S'";
 		}
 
 		$dispsent = DB::select( DB::raw("SELECT TOP (100) d.[ids]
@@ -1317,7 +1320,7 @@ class DisposisiController extends Controller
 												  left join bpaddtfake.dbo.emp_data as emp1 on emp1.id_emp = d.from_pm
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
-												  where d.rd like 'S'
+												  where $rd
 												  and month(d.tgl_masuk) $signnow $monthnow
 												  and year(d.tgl_masuk) $signnow $yearnow
 												  and d.sts = 1
@@ -1325,6 +1328,10 @@ class DisposisiController extends Controller
 												  $qsearchnow
 												  order by d.tgl_masuk desc, d.no_form desc, d.ids asc"));
 		$dispsent = json_decode(json_encode($dispsent), true);
+
+		// var_dump($dispsent);
+		// die();
+
 
 		return view('pages.bpaddisposisi.disposisi')
 				->with('access', $access)
@@ -1440,11 +1447,12 @@ class DisposisiController extends Controller
 						CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
 						CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 						,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
-						and tbunit.kd_unit like '$kd_unit%' and ked_emp = 'aktif' order by nm_emp") );
+						and tbunit.sao like '$kd_unit%' and ked_emp = 'aktif' order by nm_emp") );
 		$stafs = json_decode(json_encode($stafs), true);
 
 		if (strlen($_SESSION['user_data']['idunit']) == 10 && !(isset($_SESSION['user_data']['usname']))) {
 			$jabatans = 0;
+			$stafs = 0;
 		} else {
 			$jabatans = DB::select( DB::raw("SELECT [sts]
 												  ,[uname]
@@ -1485,6 +1493,9 @@ class DisposisiController extends Controller
 					->with('msg_num', 2);
 		}
 
+		// var_dump($request->all());
+		// die();
+
 		if (isset($request->btnDraft)) {
 			$rd = 'D';
 		} else {
@@ -1492,12 +1503,15 @@ class DisposisiController extends Controller
 			if (is_null($request->jabatans) && is_null($request->stafs)) {
 				$selesai = 'Y';
 				$child = 0;
+			} else {
+				$selesai = '';
+				$child = 1;
 			}
 		}
 
 		$splitmaxform = explode(".", $request->no_form);
 
-		$filedispo = $request->nm_file;
+		$filedispo = $request->nm_file_master;
 
 		$diryear = date('Y',strtotime($request->tglmaster));
 		if (isset($request->nm_file)) {
@@ -1574,6 +1588,13 @@ class DisposisiController extends Controller
 			}
 		}
 
+		$noid = '';
+		if (isset($request->stafs)) {
+			if (count($request->stafs) == 1) {
+				$noid = $request->stafs[0];
+			}
+		}
+
 		if (isset($request->btnDraft)) {
 			Fr_disposisi::where('ids', $request->ids)
 				->update([
@@ -1596,9 +1617,12 @@ class DisposisiController extends Controller
 				'usr_input' => (Auth::user()->id_emp ? Auth::user()->id_emp : $request->from_pm_new),
 				'tgl_input' => date('Y-m-d'),
 				'kepada' => $kepada,
+				'noid' => $noid,
 				'penanganan' => (isset($request->penanganan) ? $request->penanganan : '' ),
 				'catatan' => (isset($request->catatan) ? $request->catatan : '' ),
 				'rd' => 'S',
+				'selesai' => $selesai,
+				'child' => $child,
 			]);
 
 			if (isset($request->jabatans)) {
@@ -1647,7 +1671,7 @@ class DisposisiController extends Controller
 							'from_user' => 'E',
 							'from_pm' => (Auth::user()->id_emp ? Auth::user()->id_emp : $request->from_pm_new),
 							'to_user' => 'E',
-							'to_pm' => $findidemp['id_emp'],
+							'to_pm' => $findidemp[0]['id_emp'],
 							'rd' => 'N',
 							'usr_rd' => null,
 							'tgl_rd' => null,

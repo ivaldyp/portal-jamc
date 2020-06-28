@@ -366,7 +366,7 @@
 									</div>
 									<div role="tabpanel" class="tab-pane fade" id="sent">
 										<div class="table-responsive" style="overflow: visible;">
-											<table id="myTable2" class="table table-hover table-striped" style="z-index: 99999;">
+											<table id="myTable3" class="table table-hover table-striped" style="z-index: 99999;">
 												<thead>
 													<tr>
 														<th class="col-sm-1">No. Form</th>
@@ -400,12 +400,15 @@
 
 														if (isset($_SESSION['user_data']['idunit'])) {
 															if (strlen($_SESSION['user_data']['idunit']) == 8) {
-																$thisdari = $sent['from_nm'];
-																$thiske = $sent['to_nm'];
-															} 
+																$thisdarisent = $sent['from_nm'];
+																$thiskesent = $sent['to_nm'];
+															} else {
+																$thisdarisent = $sent['to_nm'];
+																$thiskesent = $sent['kepada'];
+															}
 														} else {
-															$thisdari = $sent['to_nm'];
-															$thiske = $sent['kepada'];
+															$thisdarisent = $sent['to_nm'];
+															$thiskesent = $sent['kepada'];
 														}
 															
 														$thiskepada = str_replace("::", "; ", $sent['kepada']);
@@ -467,8 +470,8 @@
 																<span class="label label-warning">{{ $thissifat2 }}</span>
 																@endif
 															</td>
-															<td>{{ $thisdari }}</td>
-															<td>{{ $thiske }}</td>
+															<td>{{ $thisdarisent }}</td>
+															<td>{{ $thiskesent }}</td>
 															<td>{{ $thispenanganan }}</td>
 															<td>{{ $thiscatatan }}</td>
 															<td style="vertical-align: middle;">
@@ -607,6 +610,11 @@
 			});
 
 			$('#myTable2').DataTable({
+				"ordering" : false,
+				"searching": false,
+			});
+
+			$('#myTable3').DataTable({
 				"ordering" : false,
 				"searching": false,
 			});
