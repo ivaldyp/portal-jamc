@@ -56,7 +56,7 @@ class KepegawaianController extends Controller
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
 		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
 
-		if (!(isset($request->kednow))) {
+		if (is_null($request->kednow)) {
 			$kednow = 'AKTIF';
 		} else {
 			$kednow = $request->kednow;
@@ -700,6 +700,7 @@ class KepegawaianController extends Controller
 		Emp_data::where('id_emp', $request->id_emp)
 					->update([
 						'sts' => 0,
+						'ked_emp' => "HAPUS",
 					]);
 
 		Emp_dik::where('noid', $request->id_emp)
