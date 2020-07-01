@@ -158,11 +158,6 @@
 
 								</div>	
 								<hr>
-								<div class="col-md-12 col-sm-12 col-xs-12">		
-									<button type="submit" class="btn btn-success m-b-20 m-l-20 pull-right simpan">Simpan Kinerja</button>
-									<button type="button" class="btn btn-default pull-right" onclick="goBack()">Kembali</button>
-								</div>
-								<br>
 								<div class="table-responsive" style="padding: 10px">
 									<span style="color: red">* Refresh dan hapus cache apabila detail kinerja tidak muncul</span>
 									<table class="color-table primary-table table table-hover">
@@ -179,6 +174,11 @@
 											
 										</tbody>
 									</table>
+								</div>
+								<br>
+								<div class="col-md-12 col-sm-12 col-xs-12 m-t-30">		
+									<button type="submit" class="btn btn-success m-b-20 m-l-20 pull-right simpan">Simpan Kinerja</button>
+									<button type="button" class="btn btn-default pull-right" onclick="goBack()">Kembali</button>
 								</div>
 							</div>
 							<div class="panel-footer">
