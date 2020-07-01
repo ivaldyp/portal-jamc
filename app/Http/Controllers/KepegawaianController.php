@@ -129,7 +129,7 @@ class KepegawaianController extends Controller
 
 		$kedudukans = Glo_org_kedemp::get();
 
-		$units = glo_org_unitkerja::get();
+		$units = glo_org_unitkerja::orderBy('kd_unit', 'asc')->get();
 
 		return view('pages.bpadkepegawaian.pegawaitambah')
 				->with('id_emp', $id_emp)
@@ -199,7 +199,7 @@ class KepegawaianController extends Controller
 
 		$kedudukans = Glo_org_kedemp::get();
 
-		$units = glo_org_unitkerja::get();
+		$units = glo_org_unitkerja::orderBy('kd_unit', 'asc')->get();
 
 		return view('pages.bpadkepegawaian.pegawaiubah')
 				->with('id_emp', $id_emp)
@@ -846,7 +846,7 @@ class KepegawaianController extends Controller
 				'jns_kp' => $request->jns_kp,
 				'mk_thn' => ($request->mk_thn ? $request->mk_thn : 0),
 				'mk_bln' => ($request->mk_bln ? $request->mk_bln : 0),
-				'tampilnew' => 1,
+				// 'tampilnew' => 1,
 			];
 
 		Emp_gol::insert($insert_emp_gol);
@@ -918,7 +918,7 @@ class KepegawaianController extends Controller
 				'jns_jab' => $jns_jab,
 				'idjab' => $idjab,
 				'eselon' => $request->eselon,
-				'tampilnew' => 1,
+				// 'tampilnew' => 1,
 			];
 
 		Emp_jab::insert($insert_emp_jab);
@@ -947,7 +947,7 @@ class KepegawaianController extends Controller
 				'jns_jab' => $jns_jab,
 				'idjab' => $idjab,
 				'eselon' => $request->eselon,
-				'tampilnew' => 1,
+				// 'tampilnew' => 1,
 			]);
 
 		return redirect('/kepegawaian/ubah pegawai?id_emp='.$request->noid)
