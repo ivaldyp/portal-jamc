@@ -124,9 +124,9 @@
 														<th class="col-sm-1">Isi</th>
 														<th class="col-sm-1">Sifat</th>
 														<th class="col-sm-1">Dari</th>
-														<th class="col-sm-1">Ke</th>
-														<th class="col-sm-1">Penanganan</th>
-														<th class="col-sm-1">Catatan</th>
+														<th class="">Ke</th>
+														<th class="">Penanganan</th>
+														<th class="">Catatan</th>
 														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<th>Action</th>
 														@endif
@@ -253,9 +253,9 @@
 														<th class="col-sm-1">Isi</th>
 														<th class="col-sm-1">Sifat</th>
 														<th class="col-sm-1">Dari</th>
-														<th class="col-sm-1">Ke</th>
-														<th class="col-sm-1">Penanganan</th>
-														<th class="col-sm-1">Catatan</th>
+														<th class="">Ke</th>
+														<th class="">Penanganan</th>
+														<th class="">Catatan</th>
 														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<th>Action</th>
 														@endif
@@ -375,9 +375,9 @@
 														<th class="col-sm-1">Isi</th>
 														<th class="col-sm-1">Sifat</th>
 														<th class="col-sm-1">Dari</th>
-														<th class="col-sm-1">Ke</th>
-														<th class="col-sm-1">Penanganan</th>
-														<th class="col-sm-1">Catatan</th>
+														<th class="">Ke</th>
+														<th class="">Penanganan</th>
+														<th class="">Catatan</th>
 														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<th>Action</th>
 														@endif

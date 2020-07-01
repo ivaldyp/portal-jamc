@@ -372,7 +372,7 @@ class KepegawaianController extends Controller
 				'ttd' => '',
 				'telegram_id' => '',
 				'passmd5' => md5($request->passmd5),
-				'tampilnew' => 1,
+				// 'tampilnew' => 1,
 			];
 
 		$insert_emp_dik = [
@@ -391,7 +391,7 @@ class KepegawaianController extends Controller
 				'gelar_dpn_sek' => ($request->gelar_dpn_sek ? $request->gelar_dpn_sek : ''),
 				'gelar_blk_sek' => ($request->gelar_blk_sek ? $request->gelar_blk_sek : ''),
 				'ijz_cpns' => 'T',
-				'tampilnew' => 1,
+				// 'tampilnew' => 1,
 			];
 
 		$insert_emp_gol = [
@@ -409,7 +409,7 @@ class KepegawaianController extends Controller
 				'jns_kp' => $request->jns_kp,
 				'mk_thn' => ($request->mk_thn ? $request->mk_thn : 0),
 				'mk_bln' => ($request->mk_bln ? $request->mk_bln : 0),
-				'tampilnew' => 1,
+				// 'tampilnew' => 1,
 			];
 
 		$jabatan = explode("||", $request->jabatan);
@@ -432,7 +432,7 @@ class KepegawaianController extends Controller
 				'jns_jab' => $jns_jab,
 				'idjab' => $idjab,
 				'eselon' => $request->eselon,
-				'tampilnew' => 1,
+				// 'tampilnew' => 1,
 			];
 
 		Emp_data::insert($insert_emp_data);
