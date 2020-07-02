@@ -73,6 +73,7 @@
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Waktu Input </label>
 										<div class="col-md-8">
+											<?php date_default_timezone_set('Asia/Jakarta'); ?>
 											<input type="text" class="form-control" id="dtanggal" name="dtanggal" autocomplete="off" value="{{ date('d/m/Y H:i:s', strtotime(str_replace('/', '-', now('Asia/Jakarta')))) }}">
 										</div>
 									</div>

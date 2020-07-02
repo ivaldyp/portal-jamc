@@ -89,6 +89,7 @@
 											</select>
 										</div>
 										<div class=" col-md-2">
+											<?php date_default_timezone_set('Asia/Jakarta'); ?>
 											<select class="form-control" name="now_year" id="now_year" onchange="this.form.submit()">
 												<option <?php if ($now_year == (int)date('Y')): ?> selected <?php endif ?> value="{{ (int)date('Y') }}">{{ (int)date('Y') }}</option>
 												<option <?php if ($now_year == (int)date('Y') - 1): ?> selected <?php endif ?> value="{{ (int)date('Y') - 1 }}">{{ (int)date('Y') - 1 }}</option>

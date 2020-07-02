@@ -1458,6 +1458,8 @@ class KepegawaianController extends Controller
 	{
 		$this->checkSessionTime();
 
+		date_default_timezone_set('Asia/Jakarta');
+
 		if ($request->now_tgl_trans) {
 			$now_tgl_trans = date('d/m/Y', strtotime(str_replace('/', '-', $request->now_tgl_trans)));
 		} else {

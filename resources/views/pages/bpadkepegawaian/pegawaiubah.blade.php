@@ -992,6 +992,7 @@
 													<div class="form-group">
 														<label for="tgl_end" class="col-md-2 control-label"> Tanggal </label>
 														<div class="col-md-8">
+															<?php date_default_timezone_set('Asia/Jakarta'); ?>
 															<input type="text" name="tgl_end" class="form-control" id="datepicker-autoclose7" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y') }}">
 														</div>
 													</div>

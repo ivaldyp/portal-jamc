@@ -71,6 +71,7 @@
 								<div class="row" style="margin-bottom: 10px">
 									<form method="GET" action="/portal/disposisi/formdisposisi">
 										<div class=" col-md-2">
+											<?php date_default_timezone_set('Asia/Jakarta'); ?>
 											<select class="form-control" name="yearnow" id="yearnow" onchange="this.form.submit()">
 												<option <?php if ($yearnow == (int)date('Y')): ?> selected <?php endif ?> value="{{ (int)date('Y') }}">{{ (int)date('Y') }}</option>
 												<option <?php if ($yearnow == (int)date('Y') - 1): ?> selected <?php endif ?> value="{{ (int)date('Y') - 1 }}">{{ (int)date('Y') - 1 }}</option>
