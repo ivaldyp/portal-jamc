@@ -144,7 +144,8 @@
 										<div class="form-group">
 											<label for="perihal" class="col-md-2 control-label"> Perihal </label>
 											<div class="col-md-8">
-												<textarea name="perihal" class="form-control" rows="3"></textarea>
+												<!-- <textarea name="perihal" class="form-control" rows="3"></textarea> -->
+												<input type="text" name="perihal" class="form-control" id="perihal">
 											</div>
 										</div>
 
