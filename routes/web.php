@@ -43,6 +43,15 @@ Route::group(['prefix' => 'content'], function () {
 
 // ------------- BPAD DT --------------
 
+Route::group(['prefix' => 'booking'], function () {
+	Route::get('/manageruang', 'BookingController@manageruang');
+	Route::post('form/tambahruang', 'BookingController@forminsertruang');
+	Route::post('form/ubahruang', 'BookingController@formupdateruang');
+	Route::post('form/hapusruang', 'BookingController@formdeleteruang');
+
+	Route::get('/', 'BookingController@manageruang');
+});
+
 Route::group(['prefix' => 'disposisi'], function () {
 	Route::get('/formdisposisi', 'DisposisiController@formdisposisi');
 	Route::get('/hapusfiledisposisi', 'DisposisiController@disposisihapusfile');
