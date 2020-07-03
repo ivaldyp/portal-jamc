@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Traits\SessionCheckTraits;
 
 use App\Book_ruang;
+use App\Book_transact;
 use App\Glo_org_lokasi;
 use App\GLo_org_unitkerja;
 use App\Sec_menu;
@@ -59,7 +60,6 @@ class BookingController extends Controller
 
 	public function forminsertruang(Request $request)
 	{
-		$this->checkSessionTime();
 
 		$splitunit = explode("::", $request->unit);
 		$kd_unit = $splitunit[0];
@@ -78,7 +78,8 @@ class BookingController extends Controller
 			'lokasi' => $lokasi,
 			'kd_unit' => $kd_unit,
 			'unit' => $unit,
-			'lantai' => $request->lantai,
+			'lantai' => ($request->lantai ? $request->lantai : ''),
+			'jumlah' => ($request->jumlah ? $request->jumlah : ''),
 		];
 
 		Book_ruang::insert($insertruang);
@@ -91,7 +92,6 @@ class BookingController extends Controller
 
 	public function formupdateruang(Request $request)
 	{
-		$this->checkSessionTime();
 
 		$splitunit = explode("::", $request->unit);
 		$kd_unit = $splitunit[0];
@@ -108,7 +108,8 @@ class BookingController extends Controller
 				'lokasi' => $lokasi,
 				'kd_unit' => $kd_unit,
 				'unit' => $unit,
-				'lantai' => $request->lantai,
+				'lantai' => ($request->lantai ? $request->lantai : ''),
+				'jumlah' => ($request->jumlah ? $request->jumlah : ''),
 			]);
 
 		return redirect('/booking/manageruang')
@@ -119,7 +120,6 @@ class BookingController extends Controller
 
 	public function formdeleteruang(Request $request)
 	{
-		$this->checkSessionTime();
 
 		Book_ruang::where('ids', $request->ids)
 			->update([
@@ -128,6 +128,80 @@ class BookingController extends Controller
 
 		return redirect('/booking/manageruang')
 				->with('message', 'Ruang berhasil dihapus')
+				->with('msg_num', 1);
+	}
+
+	public function formpinjam(Request $request)
+	{
+		$this->checkSessionTime();
+
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
+
+		$ruangs = Book_ruang::
+					where('sts', 1)
+					->orderBy('kd_unit')
+					->orderBy('nm_ruang')
+					->get();
+
+		$units = GLo_org_unitkerja::
+						whereRaw('LEN(kd_unit) = 6')
+						->orderBy('kd_unit')
+						->get();
+		
+		return view('pages.bpadbooking.formpinjam')
+				->with('access', $access)
+				->with('ruangs', $ruangs)
+				->with('units', $units);
+	}
+
+	public function forminsertpinjam(Request $request)
+	{
+		$file = '';
+
+		if (isset($request->nm_file)) {
+			$file = $request->nm_file;
+
+			if ($file->getSize() > 5500000) {
+				return redirect('/booking/pinjam')->with('message', 'Ukuran file terlalu besar (Maksimal 5MB)');     
+			} 
+
+			$file .= $file->getClientOriginalName();
+
+			$tujuan_upload = config('app.savefilebooking');
+			$file->move($tujuan_upload, $file);
+		}
+			
+		if (!(isset($request->nm_file))) {
+			$file = '';
+		}
+
+		$splitunit = explode("::", $request->unit);
+		$kd_unit = $splitunit[0];
+		$unit = $splitunit[1];
+
+		$insertpinjam = [
+			'sts' => 1,
+			'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+			'tgl'       => date('Y-m-d H:i:s'),
+			'nm_emp'	=> $request->nm_emp,
+			'id_emp'	=> $request->id_emp,
+			'unit_emp' => $kd_unit,
+			'nmunit_emp' => $unit,
+
+			'nm_ruang' => ($request->nm_ruang ? $request->nm_ruang : ''),
+			'kd_lokasi' => $kd_lokasi,
+			'lokasi' => $lokasi,
+			'lantai' => ($request->lantai ? $request->lantai : ''),
+			'jumlah' => ($request->jumlah ? $request->jumlah : ''),
+		];
+
+		Agenda_tb::insert($insertagenda);
+
+		return redirect('/internal/agenda')
+				->with('message', 'Agenda baru berhasil dibuat')
 				->with('msg_num', 1);
 	}
 }

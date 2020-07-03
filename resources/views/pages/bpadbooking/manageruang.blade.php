@@ -87,13 +87,13 @@
 										@foreach($ruangs as $key => $ruang)
 											<tr>
 												<td>{{ $ruang['ids'] }}</td>
-												<td>{{ ucwords(strtolower($ruang['nm_ruang'])) }}</td>
+												<td>{{ ucwords(strtolower($ruang['nm_ruang'])) }}<br><span class="text-muted">Maks {{ $ruang['jumlah'] ? ucwords(strtolower($ruang['jumlah'])) : 0 }} orang</span></td>
 												<td>{{ ucwords(strtolower($ruang['unit'])) }}</td>
 												<td>{{ ucwords(strtolower($ruang['lokasi'])) }}<br><span class="text-muted">Lantai {{ ucwords(strtolower($ruang['lantai'])) }}</span></td>
 												@if ($access['zupd'] == 'y' || $access['zdel'] == 'y')
 												<td>
 													@if($access['zupd'] == 'y')
-														<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $ruang['ids'] }}" data-nm_ruang="{{ $ruang['nm_ruang'] }}" data-kd_unit="{{ $ruang['kd_unit'] }}" data-unit="{{ $ruang['unit'] }}" data-kd_lokasi="{{ $ruang['kd_lokasi'] }}" data-lokasi="{{ $ruang['lokasi'] }}" data-lantai="{{ $ruang['lantai'] }}"><i class="fa fa-edit"></i></button>
+														<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $ruang['ids'] }}" data-nm_ruang="{{ $ruang['nm_ruang'] }}" data-kd_unit="{{ $ruang['kd_unit'] }}" data-unit="{{ $ruang['unit'] }}" data-kd_lokasi="{{ $ruang['kd_lokasi'] }}" data-lokasi="{{ $ruang['lokasi'] }}" data-lantai="{{ $ruang['lantai'] }}" data-jumlah="{{ $ruang['jumlah'] }}"><i class="fa fa-edit"></i></button>
 													@endif
 													@if($access['zdel'] == 'y')
 														<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $ruang['ids'] }}" data-nm_ruang="{{ $ruang['nm_ruang'] }}"><i class="fa fa-trash"></i></button>
@@ -153,6 +153,12 @@
 										<input type="text" name="lantai" id="modal_insert_lantai" class="form-control" autocomplete="off">
 									</div>
 								</div>
+								<div class="form-group">
+									<label for="jumlah" class="col-md-2 control-label"> Kapasitas </label>
+									<div class="col-md-4">
+										<input type="text" name="jumlah" id="modal_insert_jumlah" class="form-control" autocomplete="off">
+									</div>
+								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-success pull-right">Simpan</button>
@@ -203,6 +209,12 @@
 									<label for="lantai" class="col-md-2 control-label"> Lantai </label>
 									<div class="col-md-4">
 										<input type="text" name="lantai" id="modal_update_lantai" class="form-control" autocomplete="off">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="jumlah" class="col-md-2 control-label"> Kapasitas </label>
+									<div class="col-md-4">
+										<input type="text" name="jumlah" id="modal_update_jumlah" class="form-control" autocomplete="off">
 									</div>
 								</div>
 							</div>
@@ -269,6 +281,7 @@
 				$("#modal_update_lokasi").val($el.data('kd_lokasi') + "::" + $el.data('lokasi'));
 				$("#modal_update_unit").val($el.data('kd_unit') + "::" + $el.data('unit'));
 				$("#modal_update_nm_ruang").val($el.data('nm_ruang'));
+				$("#modal_update_jumlah").val($el.data('jumlah'));
 			});
 
 			$('.btn-delete').on('click', function () {
