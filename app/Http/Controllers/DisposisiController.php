@@ -1271,9 +1271,10 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		if (strlen($_SESSION['user_data']['idunit']) == 8) {
 			$qid = "and d.from_pm = '".$idgroup."'";
-			$rd = "(d.rd like 'N' or d.rd like 'Y')";
+			$rd = '';
+			// $rd = "(d.rd like 'N' or d.rd like 'Y')";
 		} else {
-			$rd = "d.rd like 'S'";
+			$rd = "d.rd like 'S' and";
 		}
 
 		$dispsent = DB::select( DB::raw("SELECT TOP (200) d.[ids]
@@ -1323,7 +1324,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where $rd
-												  and m.tgl_masuk $signnow '$tgllengkap'
+												  m.tgl_masuk $signnow '$tgllengkap'
 												  and d.sts = 1
 												  $qid
 												  $qsearchnow
