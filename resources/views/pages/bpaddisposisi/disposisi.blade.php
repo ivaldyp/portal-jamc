@@ -228,7 +228,7 @@
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																	@endif
 																	@if ($access['zdel'] == 'y')
-																	<button type="button" class="btn btn-danger btn-delete-inbox btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $inbox['ids'] }}" data-no_form="{{ $inbox['no_form'] }}"
+																	<button type="button" class="btn btn-danger btn-delete btn-delete-inbox btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $inbox['ids'] }}" data-no_form="{{ $inbox['no_form'] }}" data-idtop="{{ $inbox['idtop'] }}"
 																	><i class="ti-trash"></i></button>
 																	@endif
 																</form>
@@ -350,7 +350,7 @@
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																	@endif
 																	@if ($access['zdel'] == 'y')
-																	<button type="button" class="btn btn-danger btn-delete-draft btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $draft['ids'] }}" data-no_form="{{ $draft['no_form'] }}"
+																	<button type="button" class="btn btn-danger btn-delete btn-delete-draft btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $draft['ids'] }}" data-no_form="{{ $draft['no_form'] }}" data-idtop="{{ $draft['idtop'] }}"
 																	><i class="ti-trash"></i></button>
 																	@endif
 																</form>
@@ -506,28 +506,6 @@
 					</div>
 				</div>
 			</div>
-			<div id="modal-delete" class="modal fade" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form method="POST" action="/portal/disposisi/form/hapusdisposisiadmin" class="form-horizontal">
-						@csrf
-							<div class="modal-header">
-								<h4 class="modal-title"><b>Hapus Disposisi</b></h4>
-							</div>
-							<div class="modal-body">
-								<h4 id="label-delete"></h4>
-								<input type="hidden" name="ids" value="" id="modal_delete_ids">
-								<input type="hidden" name="no_form" value="" id="modal_delete_no_form">
-								
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
-								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -581,16 +559,18 @@
 				}
 			});
 
-			$('.btn-delete-draft').on('click', function () {
+			$('.btn-delete').on('click', function () {
 				var $el = $(this);
+				console.log($el.data('idtop'));
 				if (confirm("Apa anda yakin menghapus form dengan nomor "+$el.data('no_form')+" ?")) {
 					var ids = $el.data('ids');
 					var no_form = $el.data('no_form');
+					var idtop = $el.data('idtop');
 
 					$.ajax({ 
 					type: "GET", 
-					url: "/portal/disposisi/form/hapusdisposisi",
-					data: { ids : ids, no_form : no_form },
+					url: "/portal/disposisi/form/hapusdisposisiemp",
+					data: { ids : ids, no_form : no_form, idtop : idtop },
 					dataType: "JSON",
 					}).done(function( data ) { 
 						if (data == 0) {
@@ -603,19 +583,6 @@
 						
 					}); 
 				}
-			});
-
-			$('.btn-delete').on('click', function () {
-				var $el = $(this);
-
-				$("#label_delete").append('Apakah anda yakin ingin menghapus disposisi nomor <b>' + $el.data('no_form') + '</b>?');
-				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_judul").val($el.data('judul'));
-				$("#modal_delete_idkat").val($el.data('idkat'));
-			});
-
-			$("#modal-delete").on("hidden.bs.modal", function () {
-				$("#label_delete").empty();
 			});
 
 			$('#myTable').DataTable({

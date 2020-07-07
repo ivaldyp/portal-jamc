@@ -52,6 +52,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
 					where no_form = '$no_form'
 					and idtop = '$idtop'
+					and bpaddtfake.dbo.fr_disposisi.sts = 1
 					order by ids
 					") );
 		$query = json_decode(json_encode($query), true);
@@ -164,7 +165,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 's'
 												  $qsearchnow
-												  and tgl_masuk $signnow '$tgllengkap'
+												  and month(tgl_masuk) $signnow $monthnow
+												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisidrafts = DB::select( DB::raw("SELECT TOP (300) [ids]
@@ -211,7 +213,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 'd'
 												  $qsearchnow
-												  and tgl_masuk $signnow '$tgllengkap'
+												  and month(tgl_masuk) $signnow $monthnow
+												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisisents = json_decode(json_encode($disposisisents), true);
@@ -261,7 +264,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 's'
 												  $qsearchnow
-												  and tgl_masuk $signnow '$tgllengkap'
+												  and month(tgl_masuk) $signnow $monthnow
+												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisidrafts = DB::select( DB::raw("SELECT TOP (300) [ids]
@@ -308,7 +312,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 'd'
 												  $qsearchnow
-												  and tgl_masuk $signnow '$tgllengkap'
+												  and month(tgl_masuk) $signnow $monthnow
+												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisisents = json_decode(json_encode($disposisisents), true);
@@ -1157,7 +1162,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		$tglnow = (int)date('d');
 		$tgllengkap = $yearnow . "-" . $monthnow . "-" . $tglnow;
 
-		$dispinbox = DB::select( DB::raw("SELECT TOP (200) d.[ids]
+		$dispinbox = DB::select( DB::raw("SELECT TOP (300) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1206,7 +1211,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.fr_disposisi as t on t.ids = d.idtop
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where (d.rd like 'Y' or d.rd like 'N')
-												  and m.tgl_masuk $signnow '$tgllengkap'
+												  and month(m.tgl_masuk) $signnow $monthnow
+												  and year(m.tgl_masuk) = $yearnow
 												  and d.sts = 1
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1214,7 +1220,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  order by d.tgl_masuk desc, d.no_form desc, d.ids asc"));
 		$dispinbox = json_decode(json_encode($dispinbox), true);
 
-		$dispdraft = DB::select( DB::raw("SELECT TOP (200) d.[ids]
+		$dispdraft = DB::select( DB::raw("SELECT TOP (300) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1261,7 +1267,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where d.rd like 'D'
-												  and m.tgl_masuk $signnow '$tgllengkap'
+												  and month(m.tgl_masuk) $signnow $monthnow
+												  and year(m.tgl_masuk) = $yearnow
 												  and d.sts = 1
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1270,14 +1277,14 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		$dispdraft = json_decode(json_encode($dispdraft), true);
 
 		if (strlen($_SESSION['user_data']['idunit']) == 8) {
+			$rd = "";
 			$qid = "and d.from_pm = '".$idgroup."'";
-			$rd = '';
 			// $rd = "(d.rd like 'N' or d.rd like 'Y')";
 		} else {
 			$rd = "d.rd like 'S' and";
 		}
 
-		$dispsent = DB::select( DB::raw("SELECT TOP (200) d.[ids]
+		$dispsent = DB::select( DB::raw("SELECT TOP (300) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1324,7 +1331,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where $rd
-												  m.tgl_masuk $signnow '$tgllengkap'
+												  month(m.tgl_masuk) $signnow $monthnow
+												  and year(m.tgl_masuk) = $yearnow
 												  and d.sts = 1
 												  $qid
 												  $qsearchnow
@@ -1747,6 +1755,40 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 					->with('message', 'Disposisi berhasil')
 					->with('msg_num', 1);
 		}
+	}
+
+	public function formdeletedisposisiemp(Request $request)
+	{
+		Fr_disposisi::where('ids', $request->ids)
+		->update([
+			'sts' => 0,
+		]);
+
+		$idtop = $request->idtop;
+
+		$countchilddisp = Fr_disposisi::
+							where('idtop', $idtop)
+							->where('sts', 1)
+							->count();
+
+		// $countchilddisp = DB::select( DB::raw("
+		// 					SELECT count(ids)
+		// 					from bpaddtfake.dbo.fr_disposisi
+		// 					where idtop = '$idtop'
+		// 					and sts = 1
+		// 				") )[0];
+		// $countchilddisp = json_decode(json_encode($countchilddisp), true);
+
+		if ($countchilddisp == 0) {
+			Fr_disposisi::where('ids', $idtop)
+			->update([
+				'rd' 		=> 'N',
+				'selesai'   => '',
+				'child'		=> 0,
+			]);
+		}
+
+		return 0;
 	}
 
 	// ---------/EMPLOYEE----------- //
