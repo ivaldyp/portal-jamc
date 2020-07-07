@@ -115,9 +115,12 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 			$qsearchnow = "";
 		}
 
+		$tglnow = (int)date('d');
+		$tgllengkap = $yearnow . "-" . $monthnow . "-" . $tglnow;
+
 		$idgroup = $_SESSION['user_data']['id_emp'];
 		if (is_null($idgroup)) {
-			$disposisisents = DB::select( DB::raw("SELECT TOP (50) [ids]
+			$disposisisents = DB::select( DB::raw("SELECT TOP (300) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -161,11 +164,10 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 's'
 												  $qsearchnow
-												  and month(tgl_masuk) $signnow $monthnow
-												  and year(tgl_masuk) $signnow $yearnow
+												  and tgl_masuk $signnow '$tgllengkap'
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisidrafts = DB::select( DB::raw("SELECT TOP (50) [ids]
+			$disposisidrafts = DB::select( DB::raw("SELECT TOP (300) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -209,14 +211,13 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 'd'
 												  $qsearchnow
-												  and month(tgl_masuk) $signnow $monthnow
-												  and year(tgl_masuk) $signnow $yearnow
+												  and tgl_masuk $signnow '$tgllengkap'
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisisents = json_decode(json_encode($disposisisents), true);
 			$disposisidrafts = json_decode(json_encode($disposisidrafts), true);
 		} else {
-			$disposisisents = DB::select( DB::raw("SELECT TOP 50 [ids]
+			$disposisisents = DB::select( DB::raw("SELECT TOP (300) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -260,11 +261,10 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 's'
 												  $qsearchnow
-												  and month(tgl_masuk) $signnow $monthnow
-												  and year(tgl_masuk) $signnow $yearnow
+												  and tgl_masuk $signnow '$tgllengkap'
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisidrafts = DB::select( DB::raw("SELECT TOP (50) [ids]
+			$disposisidrafts = DB::select( DB::raw("SELECT TOP (300) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -308,8 +308,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi]
 												  where status_surat like 'd'
 												  $qsearchnow
-												  and month(tgl_masuk) $signnow $monthnow
-												  and year(tgl_masuk) $signnow $yearnow
+												  and tgl_masuk $signnow '$tgllengkap'
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisisents = json_decode(json_encode($disposisisents), true);
@@ -356,15 +355,15 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 										  order by kd_unit") );
 		$unitkerjas = json_decode(json_encode($unitkerjas), true);
 
-		$stafs = DB::select( DB::raw("
-					SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM bpaddtfake.dbo.emp_data as a
-						CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
-						CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-						CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
-						CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-						,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
-						and tbunit.kd_unit like '01%' and ked_emp = 'aktif' order by nm_emp") );
-		$stafs = json_decode(json_encode($stafs), true);
+		// $stafs = DB::select( DB::raw("
+		// 			SELECT id_emp,a.uname+'::'+convert(varchar,a.tgl)+'::'+a.ip,createdate,nip_emp,nrk_emp,nm_emp,nrk_emp+'-'+nm_emp as c2,gelar_dpn,gelar_blk,jnkel_emp,tempat_lahir,tgl_lahir,CONVERT(VARCHAR(10), tgl_lahir, 103) AS [DD/MM/YYYY],idagama,alamat_emp,tlp_emp,email_emp,status_emp,ked_emp,status_nikah,gol_darah,nm_bank,cb_bank,an_bank,nr_bank,no_taspen,npwp,no_askes,no_jamsos,tgl_join,CONVERT(VARCHAR(10), tgl_join, 103) AS [DD/MM/YYYY],tgl_end,reason,a.idgroup,pass_emp,foto,ttd,a.telegram_id,a.lastlogin,tbgol.tmt_gol,CONVERT(VARCHAR(10), tbgol.tmt_gol, 103) AS [DD/MM/YYYY],tbgol.tmt_sk_gol,CONVERT(VARCHAR(10), tbgol.tmt_sk_gol, 103) AS [DD/MM/YYYY],tbgol.no_sk_gol,tbgol.idgol,tbgol.jns_kp,tbgol.mk_thn,tbgol.mk_bln,tbgol.gambar,tbgol.nm_pangkat,tbjab.tmt_jab,CONVERT(VARCHAR(10), tbjab.tmt_jab, 103) AS [DD/MM/YYYY],tbjab.idskpd,tbjab.idunit,tbjab.idjab, tbunit.child, tbjab.idlok,tbjab.tmt_sk_jab,CONVERT(VARCHAR(10), tbjab.tmt_sk_jab, 103) AS [DD/MM/YYYY],tbjab.no_sk_jab,tbjab.jns_jab,tbjab.idjab,tbjab.eselon,tbjab.gambar,tbdik.iddik,tbdik.prog_sek,tbdik.no_sek,tbdik.th_sek,tbdik.nm_sek,tbdik.gelar_dpn_sek,tbdik.gelar_blk_sek,tbdik.ijz_cpns,tbdik.gambar,tbdik.nm_dik,b.nm_skpd,c.nm_unit,c.notes,d.nm_lok FROM bpaddtfake.dbo.emp_data as a
+		// 				CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+		// 				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+		// 				CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+		// 				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+		// 				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+		// 				and tbunit.kd_unit like '01%' and ked_emp = 'aktif' order by nm_emp") );
+		// $stafs = json_decode(json_encode($stafs), true);
 
 		$jabatans = DB::select( DB::raw("SELECT [sts]
 														  ,[uname]
@@ -377,6 +376,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 														  ,[disposisi]
 													  FROM [bpaddtfake].[dbo].[glo_org_jabatan]
 													  where disposisi = 'Y'
+													  and jabatan like '%kepala badan%'
 													  order by jabatan asc") );
 		$jabatans = json_decode(json_encode($jabatans), true);
 
@@ -387,7 +387,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		return view('pages.bpaddisposisi.disposisitambah')
 				->with('maxnoform', $maxnoform)
 				->with('kddispos', $kddispos)
-				->with('stafs', $stafs)
+				// ->with('stafs', $stafs)
 				->with('unitkerjas', $unitkerjas)
 				->with('jabatans', $jabatans)
 				->with('penanganans', $penanganans);
@@ -493,6 +493,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 														  ,[disposisi]
 													  FROM [bpaddtfake].[dbo].[glo_org_jabatan]
 													  where disposisi = 'Y'
+													  and jabatan like '%kepala badan%'
 													  order by jabatan asc") );
 		$jabatans = json_decode(json_encode($jabatans), true);
 
@@ -600,7 +601,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 			$maxnoform = $splitmaxform[0] . '.' . $splitmaxform[1] . '.' . $splitmaxform[2] . '.' . substr(date('Y'), -2) . substr(($splitmaxform[3]), -6);
 		}
 
-		$diryear = date('Y');
+		$diryear = (isset($request->tgl_masuk) ? date('Y',strtotime(str_replace('/', '-', $request->tgl_masuk))) : date('Y'));
 		if (isset($request->nm_file)) {
 			$file = $request->nm_file;
 			if (count($file) == 1) {
@@ -875,7 +876,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		$nowdisposisi = Fr_disposisi::where('ids', $request->ids)->first();
 		$filedispo = $nowdisposisi['nm_file'];
 
-		$diryear = date('Y',strtotime($request->tgl));
+		$diryear = date('Y',strtotime($request->tgl_masuk_master));
 		if (isset($request->nm_file)) {
 			$file = $request->nm_file;
 			if (count($file) == 1) {
@@ -1019,7 +1020,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 						'sifat2_surat' => '',
 						'ket_lain' => '',
 						'nm_file' => '',
-						'kepada' => ($request->jabatans[0] ? $request->jabatans[0] : ''),
+						'kepada' => '',
 						'noid' => '',
 						'penanganan' => '',
 						'catatan' => '',
@@ -1153,7 +1154,10 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 			$qid = "and d.to_pm = '".$idgroup."'";
 		}
 
-		$dispinbox = DB::select( DB::raw("SELECT TOP (100) d.[ids]
+		$tglnow = (int)date('d');
+		$tgllengkap = $yearnow . "-" . $monthnow . "-" . $tglnow;
+
+		$dispinbox = DB::select( DB::raw("SELECT TOP (200) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1202,8 +1206,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.fr_disposisi as t on t.ids = d.idtop
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where (d.rd like 'Y' or d.rd like 'N')
-												  and month(d.tgl_masuk) $signnow $monthnow
-												  and year(d.tgl_masuk) $signnow $yearnow
+												  and m.tgl_masuk $signnow '$tgllengkap'
 												  and d.sts = 1
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1211,7 +1214,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  order by d.tgl_masuk desc, d.no_form desc, d.ids asc"));
 		$dispinbox = json_decode(json_encode($dispinbox), true);
 
-		$dispdraft = DB::select( DB::raw("SELECT TOP (100) d.[ids]
+		$dispdraft = DB::select( DB::raw("SELECT TOP (200) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1258,8 +1261,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where d.rd like 'D'
-												  and month(d.tgl_masuk) $signnow $monthnow
-												  and year(d.tgl_masuk) $signnow $yearnow
+												  and m.tgl_masuk $signnow '$tgllengkap'
 												  and d.sts = 1
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1274,7 +1276,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 			$rd = "d.rd like 'S'";
 		}
 
-		$dispsent = DB::select( DB::raw("SELECT TOP (100) d.[ids]
+		$dispsent = DB::select( DB::raw("SELECT TOP (200) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1321,8 +1323,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where $rd
-												  and month(d.tgl_masuk) $signnow $monthnow
-												  and year(d.tgl_masuk) $signnow $yearnow
+												  and m.tgl_masuk $signnow '$tgllengkap'
 												  and d.sts = 1
 												  $qid
 												  $qsearchnow
@@ -1513,7 +1514,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$filedispo = $request->nm_file_master;
 
-		$diryear = date('Y',strtotime($request->tglmaster));
+		$diryear = date('Y',strtotime($request->tgl_masuk));
 		if (isset($request->nm_file)) {
 			$file = $request->nm_file;
 			if (count($file) == 1) {

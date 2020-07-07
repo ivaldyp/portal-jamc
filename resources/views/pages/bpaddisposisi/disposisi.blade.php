@@ -227,8 +227,8 @@
 																	<input type="hidden" name="no_form" value="{{ $inbox['no_form'] }}">
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																	@endif
-																	@if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
-																	<button type="button" class="btn btn-danger btn-delete-inbox btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $inbox['ids'] }}" data-ids="{{ $inbox['ids'] }}" data-no_form="{{ $inbox['no_form'] }}"
+																	@if ($access['zdel'] == 'y')
+																	<button type="button" class="btn btn-danger btn-delete-inbox btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $inbox['ids'] }}" data-no_form="{{ $inbox['no_form'] }}"
 																	><i class="ti-trash"></i></button>
 																	@endif
 																</form>
@@ -349,8 +349,8 @@
 																	<input type="hidden" name="no_form" value="{{ $draft['no_form'] }}">
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																	@endif
-																	@if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
-																	<button type="button" class="btn btn-danger btn-delete-draft btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $draft['ids'] }}" data-ids="{{ $draft['ids'] }}" data-no_form="{{ $draft['no_form'] }}"
+																	@if ($access['zdel'] == 'y')
+																	<button type="button" class="btn btn-danger btn-delete-draft btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $draft['ids'] }}" data-no_form="{{ $draft['no_form'] }}"
 																	><i class="ti-trash"></i></button>
 																	@endif
 																</form>
@@ -484,9 +484,9 @@
 																	<input type="hidden" name="no_form" value="{{ $sent['no_form'] }}">
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																	@endif
-																	@if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
-																	<button type="button" class="btn btn-danger btn-delete-sent btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $sent['ids'] }}" data-ids="{{ $sent['ids'] }}" data-no_form="{{ $sent['no_form'] }}"
-																	><i class="ti-trash"></i></button>
+																	@if ($access['zdel'] == 'y')
+																	<!-- <button type="button" class="btn btn-danger btn-delete-sent btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $sent['ids'] }}" data-ids="{{ $sent['ids'] }}" data-no_form="{{ $sent['no_form'] }}"
+																	><i class="ti-trash"></i></button> -->
 																	@endif
 																</form>
 																
@@ -516,8 +516,8 @@
 							</div>
 							<div class="modal-body">
 								<h4 id="label-delete"></h4>
-								<input type="hidden" name="ids" value="">
-								<input type="hidden" name="no_form" value="">
+								<input type="hidden" name="ids" value="" id="modal_delete_ids">
+								<input type="hidden" name="no_form" value="" id="modal_delete_no_form">
 								
 							</div>
 							<div class="modal-footer">
@@ -603,6 +603,19 @@
 						
 					}); 
 				}
+			});
+
+			$('.btn-delete').on('click', function () {
+				var $el = $(this);
+
+				$("#label_delete").append('Apakah anda yakin ingin menghapus disposisi nomor <b>' + $el.data('no_form') + '</b>?');
+				$("#modal_delete_ids").val($el.data('ids'));
+				$("#modal_delete_judul").val($el.data('judul'));
+				$("#modal_delete_idkat").val($el.data('idkat'));
+			});
+
+			$("#modal-delete").on("hidden.bs.modal", function () {
+				$("#label_delete").empty();
 			});
 
 			$('#myTable').DataTable({

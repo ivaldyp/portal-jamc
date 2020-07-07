@@ -76,6 +76,7 @@
 										<input type="hidden" name="ids" value="{{ $dispmaster['ids'] }}">
 										<input type="hidden" name="kepada" value="{{ $kepada }}" id="kepada">
 										<input type="hidden" name="tgl" value="{{ $dispmaster['tgl'] }}">
+										<input type="hidden" name="tgl_masuk_master" value="{{ $dispmaster['tgl_masuk'] }}">
 
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>

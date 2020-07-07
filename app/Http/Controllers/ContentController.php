@@ -183,14 +183,22 @@ class ContentController extends Controller
 				->with('aside_recent', $aside_recent);
 	}
 
-	public function video_all()
+	public function video_all(Request $request)
 	{
+		if (isset($request->cari)) {
+			$cari = $request->cari;
+		} else {
+			$cari = '';
+		}
+
 		$video_list = Content_tb::
 					where('idkat', 12)
 					->where('appr', 'Y')
 					->where('sts', 1)
+					->whereRaw("judul like '%".$cari."%'")
 					->orderBy('tanggal', 'desc')
 					->paginate(15);
+		$video_list->appends($request->only('cari'));
 
 		$aside_top_view = Content_tb::take(3)
 							->where('appr', 'Y')
@@ -200,7 +208,8 @@ class ContentController extends Controller
 
 		return view('pages.video.video')
 				->with('video_list', $video_list)
-				->with('aside_top_view', $aside_top_view);
+				->with('aside_top_view', $aside_top_view)
+				->with('cari', $cari);
 	}
 
 	public function video_open($id)

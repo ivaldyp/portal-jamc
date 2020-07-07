@@ -109,7 +109,8 @@
 										<div class="form-group">
 											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk </label>
 											<div class="col-md-8">
-												<input type="text" name="tgl_masuk" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy">
+												<input type="text" name="tgl_masuk" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" required="" data-error="Isi tanggal masuk surat">
+												<div class="help-block with-errors"></div>
 											</div>
 										</div>
 
@@ -145,7 +146,8 @@
 											<label for="perihal" class="col-md-2 control-label"> Perihal </label>
 											<div class="col-md-8">
 												<!-- <textarea name="perihal" class="form-control" rows="3"></textarea> -->
-												<input type="text" name="perihal" class="form-control" id="perihal">
+												<input type="text" name="perihal" class="form-control" id="perihal" required="" data-error="Isi perihal surat">
+												<div class="help-block with-errors"></div>
 											</div>
 										</div>
 
@@ -205,7 +207,7 @@
 											</div>
 										</div>
 
-										@if($stafs == 99)
+										@if(isset($stafs))
 										<div class="form-group">
 											<label for="nip_emp" class="col-md-2 control-label"> Staf </label>
 											<div class="col-md-8">
