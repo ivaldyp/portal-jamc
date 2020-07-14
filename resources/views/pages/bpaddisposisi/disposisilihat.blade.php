@@ -192,7 +192,6 @@
 																<td class="col-md-6 p-l-30"><h4>Penanganan</h4></td>
 																<td class="col-md-6 data-input">
 																	<select class="select2 form-control" name="penanganan" id="penanganan">
-																		<option value="{{NULL}}">-</option>
 																		@foreach($penanganans as $penanganan)
 																			<option <?php if ($dispmaster['penanganan'] == $penanganan['nm_penanganan']): ?> selected <?php endif ?> value="{{ $penanganan['nm_penanganan'] }}"> {{ $penanganan['nm_penanganan'] }} </option>
 																		@endforeach

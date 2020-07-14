@@ -121,7 +121,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$idgroup = $_SESSION['user_data']['id_emp'];
 		if (is_null($idgroup)) {
-			$disposisisents = DB::select( DB::raw("SELECT TOP (300) [ids]
+			$disposisisents = DB::select( DB::raw("SELECT TOP (1000) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -169,7 +169,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisidrafts = DB::select( DB::raw("SELECT TOP (300) [ids]
+			$disposisidrafts = DB::select( DB::raw("SELECT TOP (1000) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -220,7 +220,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 			$disposisisents = json_decode(json_encode($disposisisents), true);
 			$disposisidrafts = json_decode(json_encode($disposisidrafts), true);
 		} else {
-			$disposisisents = DB::select( DB::raw("SELECT TOP (300) [ids]
+			$disposisisents = DB::select( DB::raw("SELECT TOP (1000) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -268,7 +268,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisidrafts = DB::select( DB::raw("SELECT TOP (300) [ids]
+			$disposisidrafts = DB::select( DB::raw("SELECT TOP (1000) [ids]
 												  ,[sts]
 												  ,[uname]
 												  ,[tgl]
@@ -1162,7 +1162,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		$tglnow = (int)date('d');
 		$tgllengkap = $yearnow . "-" . $monthnow . "-" . $tglnow;
 
-		$dispinbox = DB::select( DB::raw("SELECT TOP (300) d.[ids]
+		$dispinbox = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1220,7 +1220,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  order by d.tgl_masuk desc, d.no_form desc, d.ids asc"));
 		$dispinbox = json_decode(json_encode($dispinbox), true);
 
-		$dispdraft = DB::select( DB::raw("SELECT TOP (300) d.[ids]
+		$dispdraft = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1278,13 +1278,15 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		if (strlen($_SESSION['user_data']['idunit']) == 8) {
 			$rd = "";
-			$qid = "and d.from_pm = '".$idgroup."'";
+			$qid = "d.from_pm = '".$idgroup."'";
+			$or = "or (d.to_pm = '".$idgroup."' and d.selesai = 'Y')";
 			// $rd = "(d.rd like 'N' or d.rd like 'Y')";
 		} else {
 			$rd = "d.rd like 'S' and";
+			$or = "";
 		}
 
-		$dispsent = DB::select( DB::raw("SELECT TOP (300) d.[ids]
+		$dispsent = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
 												  ,d.[uname]
 												  ,d.[tgl]
@@ -1330,12 +1332,13 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.emp_data as emp1 on emp1.id_emp = d.from_pm
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
-												  where $rd
-												  month(m.tgl_masuk) $signnow $monthnow
+												  where month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
 												  and d.sts = 1
-												  $qid
 												  $qsearchnow
+												  and (
+												  ($rd $qid)
+												  $or)
 												  order by d.tgl_masuk desc, d.no_form desc, d.ids asc"));
 		$dispsent = json_decode(json_encode($dispsent), true);
 
@@ -1770,14 +1773,6 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 							where('idtop', $idtop)
 							->where('sts', 1)
 							->count();
-
-		// $countchilddisp = DB::select( DB::raw("
-		// 					SELECT count(ids)
-		// 					from bpaddtfake.dbo.fr_disposisi
-		// 					where idtop = '$idtop'
-		// 					and sts = 1
-		// 				") )[0];
-		// $countchilddisp = json_decode(json_encode($countchilddisp), true);
 
 		if ($countchilddisp == 0) {
 			Fr_disposisi::where('ids', $idtop)

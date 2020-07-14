@@ -190,12 +190,13 @@ class BookingController extends Controller
 			'id_emp'	=> $request->id_emp,
 			'unit_emp' => $kd_unit,
 			'nmunit_emp' => $unit,
-
-			'nm_ruang' => ($request->nm_ruang ? $request->nm_ruang : ''),
-			'kd_lokasi' => $kd_lokasi,
-			'lokasi' => $lokasi,
-			'lantai' => ($request->lantai ? $request->lantai : ''),
-			'jumlah' => ($request->jumlah ? $request->jumlah : ''),
+			'tujuan'	=> ($request->tujuan ? $request->tujuan : ''),
+			'peserta'	=> ($request->peserta ? $request->peserta : ''),
+			'ruang'		=> $request->ruang,
+			'tgl_pinjam' => date('Y-m-d',strtotime(str_replace('/', '-', $request->tgl_pinjam))),
+			'jam_mulai'	=> $request->time1,
+			'jam_selesai' => $request->time2,
+			'nm_file'	=> $file,
 		];
 
 		Agenda_tb::insert($insertagenda);

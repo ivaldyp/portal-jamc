@@ -113,7 +113,7 @@
 									<div class="form-group">
 										<label for="tujuan" class="col-md-2 control-label"> Tujuan </label>
 										<div class="col-md-8">
-											<input autocomplete="off" type="text" name="tujuan" id="tujuan" class="form-control">
+											<input autocomplete="off" type="text" name="tujuan" id="tujuan" class="form-control" required="">
 										</div>
 									</div>
 
@@ -128,7 +128,7 @@
 										<label for="tgl_pinjam" class="col-md-2 control-label"> Tanggal </label>
 										<div class="col-md-8">
 											<?php date_default_timezone_set('Asia/Jakarta'); ?>
-											<input type="text" class="form-control datepicker-autoclose" id="tgl_pinjam" name="tgl_pinjam" autocomplete="off" value="{{ date('d/m/Y') }}">
+											<input type="text" class="form-control datepicker-autoclose" id="tgl_pinjam" name="tgl_pinjam" autocomplete="off" value="{{ date('d/m/Y') }}" required="">
 										</div>
 									</div>
 

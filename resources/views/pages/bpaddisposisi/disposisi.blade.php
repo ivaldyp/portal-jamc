@@ -405,11 +405,11 @@
 																$thiskesent = $sent['to_nm'];
 															} else {
 																$thisdarisent = $sent['to_nm'];
-																$thiskesent = $sent['kepada'];
+																$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
 															}
 														} else {
 															$thisdarisent = $sent['to_nm'];
-															$thiskesent = $sent['kepada'];
+															$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
 														}
 															
 														$thiskepada = str_replace("::", "; ", $sent['kepada']);
