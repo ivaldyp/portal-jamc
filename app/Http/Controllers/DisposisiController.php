@@ -367,7 +367,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and month(tgl_masuk) $signnow $monthnow
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
-												  and (catatan_final <> 'undangan' )
+												  and (catatan_final <> 'undangan' or catatan_final is null)
 												  order by tgl_masuk desc, no_form desc"));
 			$disposisidrafts = DB::select( DB::raw("SELECT TOP (1000) [ids]
 												  ,[sts]
