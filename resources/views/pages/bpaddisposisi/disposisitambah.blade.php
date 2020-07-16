@@ -90,24 +90,37 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> Kode Surat </label>
 											<div class="col-md-8">
-												<p>{{ $randomletter }}</p>
-												<input type="hidden" name="kd_surat" value="{{ $randomletter }}">
+												<input type="text" class="form-control" value="{{ $randomletter }}" disabled="">
+												<input type="hidden" class="form-control" name="kd_surat" value="{{ $randomletter }}">
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="kd_unit" class="col-md-2 control-label"> Unit </label>
 											<div class="col-md-8">
-												<select class="form-control select2" name="kd_unit" id="kd_unit">
+												<input type="text" class="form-control" value="[{{ $unitkerjas[0]['kd_unit'] }}] - [{{ $unitkerjas[0]['nm_unit'] }}] " disabled="">
+												<input type="hidden" class="form-control" name="kd_unit" value="{{ $unitkerjas[0]['kd_unit'] }}">
+												<!-- <select class="form-control select2" name="kd_unit" id="kd_unit">
 													@foreach($unitkerjas as $unit)
 														<option value="{{ $unit['kd_unit'] }}"> [{{ $unit['kd_unit'] }}] - [{{ $unit['nm_unit'] }}] </option>
 													@endforeach
+												</select> -->
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="catatan_final" class="col-md-2 control-label"> Tipe<span style="color: red">*</span> </label>
+											<div class="col-md-8">
+												<select class="form-control" name="catatan_final" id="catatan_final" required="">
+													<option value="<?php echo NULL; ?>" selected>-</option>
+													<option value="Surat"> Surat </option>
+													<option value="Undangan"> Undangan </option>
 												</select>
 											</div>
 										</div>
 
 										<div class="form-group">
-											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk </label>
+											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk<span style="color: red">*</span> </label>
 											<div class="col-md-8">
 												<input type="text" name="tgl_masuk" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" required="" data-error="Isi tanggal masuk surat">
 												<div class="help-block with-errors"></div>
@@ -143,7 +156,7 @@
 										</div>
 
 										<div class="form-group">
-											<label for="perihal" class="col-md-2 control-label"> Perihal </label>
+											<label for="perihal" class="col-md-2 control-label"> Perihal<span style="color: red">*</span> </label>
 											<div class="col-md-8">
 												<!-- <textarea name="perihal" class="form-control" rows="3"></textarea> -->
 												<input type="text" name="perihal" class="form-control" id="perihal" required="" data-error="Isi perihal surat">

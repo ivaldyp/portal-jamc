@@ -89,7 +89,7 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> Kode Surat </label>
 											<div class="col-md-8">
-												<p>{{ $dispmaster['kd_surat'] }}</p>
+												<input type="text" class="form-control" value="{{ $dispmaster['kd_surat'] }}" disabled="">
 											</div>
 										</div>
 
@@ -105,7 +105,17 @@
 										</div>
 
 										<div class="form-group">
-											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk </label>
+											<label for="catatan_final" class="col-md-2 control-label"> Tipe<span style="color: red">*</span> </label>
+											<div class="col-md-8">
+												<select class="form-control" name="catatan_final" id="catatan_final">
+													<option <?php if (strtolower($dispmaster['catatan_final']) == "surat"): ?> selected <?php endif ?> value="Surat"> Surat </option>
+													<option <?php if (strtolower($dispmaster['catatan_final']) == "undangan"): ?> selected <?php endif ?> value="Undangan"> Undangan </option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Masuk<span style="color: red">*</span> </label>
 											<div class="col-md-8">
 												<input type="text" name="tgl_masuk" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y',strtotime($dispmaster['tgl_masuk'])) }}">
 											</div>
@@ -140,7 +150,7 @@
 										</div>
 
 										<div class="form-group">
-											<label for="perihal" class="col-md-2 control-label"> Perihal </label>
+											<label for="perihal" class="col-md-2 control-label"> Perihal<span style="color: red">*</span> </label>
 											<div class="col-md-8">
 												<textarea name="perihal" class="form-control" rows="3">{{ $dispmaster['perihal'] }}</textarea>
 											</div>

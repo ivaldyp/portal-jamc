@@ -109,12 +109,14 @@
 									</form>
 								</div>
 								<ul class="nav customtab nav-tabs" role="tablist">
-									<li role="presentation" class="active"><a href="#inbox" aria-controls="inbox" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Inbox</span></a></li>
-									<li role="presentation" class=""><a href="#draft" aria-controls="draft" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-file"></i></span> <span class="hidden-xs"> Draft</span></a></li>
-									<li role="presentation" class=""><a href="#sent" aria-controls="sent" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-file"></i></span> <span class="hidden-xs"> Sent</span></a></li>
+									<li role="presentation" class="active"><a href="#undinbox" aria-controls="undinbox" role="tab" data-toggle="tab" aria-expanded="true" style="background-color: #2cabe3; color: white"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Undangan Inbox</span></a></li>
+									<li role="presentation" class=""><a href="#undsent" aria-controls="undsent" role="tab" data-toggle="tab" aria-expanded="false" style="background-color: #2cabe3; color: white"><span class="visible-xs"><i class="ti-file"></i></span> <span class="hidden-xs"> Undangan Sent</span></a></li>
+									<li role="presentation" class=""><a href="#surinbox" aria-controls="surinbox" role="tab" data-toggle="tab" aria-expanded="true" style="background-color: #ffc36d; color: white"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Surat Inbox</span></a></li>
+									<li role="presentation" class=""><a href="#sursent" aria-controls="sursent" role="tab" data-toggle="tab" aria-expanded="false" style="background-color: #ffc36d; color: white"><span class="visible-xs"><i class="ti-file"></i></span> <span class="hidden-xs"> Surat Sent</span></a></li>
+									<li role="presentation" class=""><a href="#draft" aria-controls="draft" role="tab" data-toggle="tab" aria-expanded="false" style="background-color: #53e69d; color: white"><span class="visible-xs"><i class="ti-file"></i></span> <span class="hidden-xs"> Draft</span></a></li>
 								</ul>
 								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane fade active in" id="inbox">
+									<div role="tabpanel" class="tab-pane fade active in" id="undinbox">
 										<div class="table-responsive" style="overflow: visible;">
 											<table id="myTable" class="table table-hover table-striped" style="z-index: 99999;">
 												<thead>
@@ -134,7 +136,7 @@
 													</tr>
 												</thead>
 												<tbody>
-													<?php foreach ($dispinbox as $key => $inbox) {
+													<?php foreach ($dispinboxundangan as $key => $inbox) {
 														$thisnoform = $inbox['no_form'];
 														$thiskdsurat = $inbox['kd_surat'];
 														$thistanggal = $inbox['tgl_masuk'];
@@ -243,9 +245,408 @@
 											</table>
 										</div>
 									</div>
-									<div role="tabpanel" class="tab-pane fade" id="draft">
+									<div role="tabpanel" class="tab-pane fade" id="undsent">
 										<div class="table-responsive" style="overflow: visible;">
 											<table id="myTable2" class="table table-hover table-striped" style="z-index: 99999;">
+												<thead>
+													<tr>
+														<th class="col-sm-1">No. Form</th>
+														<th class="col-sm-1">Kode Surat</th>
+														<th class="col-sm-1">Tanggal masuk</th>
+														<th class="col-sm-1">Isi</th>
+														<th class="col-sm-1">Sifat</th>
+														<th class="col-sm-1">Dari</th>
+														<th class="">Ke</th>
+														<th class="">Penanganan</th>
+														<th class="">Catatan</th>
+														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+														<th>Action</th>
+														@endif
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach ($dispsentundangan as $key => $sent) {
+														$thisnoform = $sent['no_form'];
+														$thiskdsurat = $sent['kd_surat'];
+														$thistanggal = $sent['tgl_masuk'];
+														$thiskode = $sent['kode_disposisi'];
+														$thisnosurat = $sent['no_surat'];
+														$thisperihal = $sent['perihal'];
+														$thisasal = $sent['asal_surat'];
+														$thissifat1 = $sent['sifat1_surat'];
+														$thissifat2 = $sent['sifat2_surat'];
+														$thisfile = $sent['nm_file'];
+														$thisusrinput = $sent['usr_input'];
+														$thistglinput = $sent['tgl_input'];
+
+														if (isset($_SESSION['user_data']['idunit'])) {
+															if (strlen($_SESSION['user_data']['idunit']) == 8) {
+																$thisdarisent = $sent['from_nm'];
+																$thiskesent = $sent['to_nm'];
+															} else {
+																$thisdarisent = $sent['to_nm'];
+																$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
+															}
+														} else {
+															$thisdarisent = $sent['to_nm'];
+															$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
+														}
+															
+														$thiskepada = str_replace("::", "; ", $sent['kepada']);
+														$thispenanganan = $sent['penanganan'];
+														$thiscatatan = $sent['catatan'];
+														?>
+
+														<tr>
+															<td>{{ $thisnoform }}</td>
+															<td>{{ $thiskdsurat }}</td>
+															<td class="col-md-2">{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
+															<td>
+																<span class="mytooltip tooltip-effect-1"> 
+																	<span class="tooltip-item">Lihat Isi</span> 
+																	<span class="tooltip-content clearfix"> 
+																		<table class="table table-bordered">
+																			<tbody>
+																				<tr>
+																					<td><strong>Kode</strong></td>
+																					<td>{{ $thiskode ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>No Surat</strong></td>
+																					<td>{{ $thisnosurat ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Perihal</strong></td>
+																					<td>{{ $thisperihal ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Asal Surat</strong></td>
+																					<td>{{ $thisasal ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Download</strong></td>
+																					<td>
+																					<?php 
+																						$splitfile = explode("::", $thisfile);
+																						foreach ($splitfile as $key => $file) { 
+																							$namafolder = '/' . date('Y',strtotime($sent['tglmaster'])) . '/' . $thisnoform;
+																							?>
+																							<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																							<br>
+																						<?php } 
+																					?>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table> 
+																	</span> 
+																</span>
+															</td>
+															<td>
+																@if($thissifat1)
+																<span class="label label-info">{{ $thissifat1 }}</span>
+																<br>
+																@endif
+																@if($thissifat2)
+																<span class="label label-warning">{{ $thissifat2 }}</span>
+																@endif
+															</td>
+															<td>{{ $thisdarisent }}</td>
+															<td>{{ $thiskesent }}</td>
+															<td>{{ $thispenanganan }}</td>
+															<td>{{ $thiscatatan }}</td>
+															<td style="vertical-align: middle;">
+																
+																<form method="GET" action="/portal/disposisi/lihat disposisi">
+																	
+																	@if ($access['zupd'] == 'y')
+																	<input type="hidden" name="ids" value="{{ $sent['ids'] }}">
+																	<input type="hidden" name="no_form" value="{{ $sent['no_form'] }}">
+																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+																	@endif
+																	@if ($access['zdel'] == 'y')
+																	<!-- <button type="button" class="btn btn-danger btn-delete-sent btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $sent['ids'] }}" data-ids="{{ $sent['ids'] }}" data-no_form="{{ $sent['no_form'] }}"
+																	><i class="ti-trash"></i></button> -->
+																	@endif
+																</form>
+																
+																	
+															</td>
+														</tr>
+													
+														<div class="clearfix"></div>
+													<?php } ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div role="tabpanel" class="tab-pane fade" id="surinbox">
+										<div class="table-responsive" style="overflow: visible;">
+											<table id="myTable3" class="table table-hover table-striped" style="z-index: 99999;">
+												<thead>
+													<tr>
+														<th class="col-sm-1">No. Form</th>
+														<th class="col-sm-1">Kode Surat</th>
+														<th class="col-sm-1">Tanggal masuk</th>
+														<th class="col-sm-1">Isi</th>
+														<th class="col-sm-1">Sifat</th>
+														<th class="col-sm-1">Dari</th>
+														<th class="">Ke</th>
+														<th class="">Penanganan</th>
+														<th class="">Catatan</th>
+														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+														<th>Action</th>
+														@endif
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach ($dispinboxsurat as $key => $inbox) {
+														$thisnoform = $inbox['no_form'];
+														$thiskdsurat = $inbox['kd_surat'];
+														$thistanggal = $inbox['tgl_masuk'];
+														$thiskode = $inbox['kode_disposisi'];
+														$thisnosurat = $inbox['no_surat'];
+														$thisperihal = $inbox['perihal'];
+														$thisasal = $inbox['asal_surat'];
+														$thissifat1 = $inbox['sifat1_surat'];
+														$thissifat2 = $inbox['sifat2_surat'];
+														$thisfile = $inbox['nm_file'];
+														$thisusrinput = $inbox['usr_input'];
+														$thistglinput = $inbox['tgl_input'];
+														$thisdari = $inbox['from_nm'];
+														$thiske = $inbox['to_nm'];
+														$thispenanganan = $inbox['penanganan'];
+														$thiscatatan = $inbox['catatan'];
+														?>
+
+														<tr>
+															<td>
+																@if(strtolower($inbox['rd']) == 'n')
+																	<u>{{ $thisnoform }}</u>
+																@else 
+																	{{ $thisnoform }}
+																@endif
+																
+															</td>
+															<td>{{ $thiskdsurat }}</td>
+															<td class="col-md-2">{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
+															<td>
+																<span class="mytooltip tooltip-effect-1"> 
+																	<span class="tooltip-item">Lihat Isi</span> 
+																	<span class="tooltip-content clearfix"> 
+																		<table class="table table-bordered">
+																			<tbody>
+																				<tr>
+																					<td><strong>Kode</strong></td>
+																					<td>{{ $thiskode ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>No Surat</strong></td>
+																					<td>{{ $thisnosurat ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Perihal</strong></td>
+																					<td>{{ $thisperihal ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Asal Surat</strong></td>
+																					<td>{{ $thisasal ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Download</strong></td>
+																					<td>
+																					<?php 
+																						$splitfile = explode("::", $thisfile);
+																						foreach ($splitfile as $key => $file) { 
+																							$namafolder = '/' . date('Y',strtotime($inbox['tglmaster'])) . '/' . $thisnoform;
+																							?>
+																							<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																							<br>
+																						<?php } 
+																					?>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table> 
+																	</span> 
+																</span>
+															</td>
+															<td>
+																@if($thissifat1)
+																<span class="label label-info">{{ $thissifat1 }}</span>
+																<br>
+																@endif
+																@if($thissifat2)
+																<span class="label label-warning">{{ $thissifat2 }}</span>
+																@endif
+															</td>
+															<td>{{ $thisdari ? $thisdari : $inbox['from_pm'] }}</td>
+															<td>{{ $thiske }}</td>
+															<td>{{ $thispenanganan }}</td>
+															<td>{{ $thiscatatan }}</td>
+															<td style="vertical-align: middle;">
+																
+																<form method="GET" action="/portal/disposisi/lihat disposisi">
+																	
+																	@if ($access['zupd'] == 'y')
+																	<input type="hidden" name="ids" value="{{ $inbox['ids'] }}">
+																	<input type="hidden" name="no_form" value="{{ $inbox['no_form'] }}">
+																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+																	@endif
+																	@if ($access['zdel'] == 'y')
+																	<button type="button" class="btn btn-danger btn-delete btn-delete-inbox btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $inbox['ids'] }}" data-no_form="{{ $inbox['no_form'] }}" data-idtop="{{ $inbox['idtop'] }}"
+																	><i class="ti-trash"></i></button>
+																	@endif
+																</form>
+																
+																	
+															</td>
+														</tr>
+													
+														<div class="clearfix"></div>
+													<?php } ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div role="tabpanel" class="tab-pane fade" id="sursent">
+										<div class="table-responsive" style="overflow: visible;">
+											<table id="myTable4" class="table table-hover table-striped" style="z-index: 99999;">
+												<thead>
+													<tr>
+														<th class="col-sm-1">No. Form</th>
+														<th class="col-sm-1">Kode Surat</th>
+														<th class="col-sm-1">Tanggal masuk</th>
+														<th class="col-sm-1">Isi</th>
+														<th class="col-sm-1">Sifat</th>
+														<th class="col-sm-1">Dari</th>
+														<th class="">Ke</th>
+														<th class="">Penanganan</th>
+														<th class="">Catatan</th>
+														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+														<th>Action</th>
+														@endif
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach ($dispsentsurat as $key => $sent) {
+														$thisnoform = $sent['no_form'];
+														$thiskdsurat = $sent['kd_surat'];
+														$thistanggal = $sent['tgl_masuk'];
+														$thiskode = $sent['kode_disposisi'];
+														$thisnosurat = $sent['no_surat'];
+														$thisperihal = $sent['perihal'];
+														$thisasal = $sent['asal_surat'];
+														$thissifat1 = $sent['sifat1_surat'];
+														$thissifat2 = $sent['sifat2_surat'];
+														$thisfile = $sent['nm_file'];
+														$thisusrinput = $sent['usr_input'];
+														$thistglinput = $sent['tgl_input'];
+
+														if (isset($_SESSION['user_data']['idunit'])) {
+															if (strlen($_SESSION['user_data']['idunit']) == 8) {
+																$thisdarisent = $sent['from_nm'];
+																$thiskesent = $sent['to_nm'];
+															} else {
+																$thisdarisent = $sent['to_nm'];
+																$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
+															}
+														} else {
+															$thisdarisent = $sent['to_nm'];
+															$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
+														}
+															
+														$thiskepada = str_replace("::", "; ", $sent['kepada']);
+														$thispenanganan = $sent['penanganan'];
+														$thiscatatan = $sent['catatan'];
+														?>
+
+														<tr>
+															<td>{{ $thisnoform }}</td>
+															<td>{{ $thiskdsurat }}</td>
+															<td class="col-md-2">{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
+															<td>
+																<span class="mytooltip tooltip-effect-1"> 
+																	<span class="tooltip-item">Lihat Isi</span> 
+																	<span class="tooltip-content clearfix"> 
+																		<table class="table table-bordered">
+																			<tbody>
+																				<tr>
+																					<td><strong>Kode</strong></td>
+																					<td>{{ $thiskode ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>No Surat</strong></td>
+																					<td>{{ $thisnosurat ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Perihal</strong></td>
+																					<td>{{ $thisperihal ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Asal Surat</strong></td>
+																					<td>{{ $thisasal ?? '-' }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Download</strong></td>
+																					<td>
+																					<?php 
+																						$splitfile = explode("::", $thisfile);
+																						foreach ($splitfile as $key => $file) { 
+																							$namafolder = '/' . date('Y',strtotime($sent['tglmaster'])) . '/' . $thisnoform;
+																							?>
+																							<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
+																							<br>
+																						<?php } 
+																					?>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table> 
+																	</span> 
+																</span>
+															</td>
+															<td>
+																@if($thissifat1)
+																<span class="label label-info">{{ $thissifat1 }}</span>
+																<br>
+																@endif
+																@if($thissifat2)
+																<span class="label label-warning">{{ $thissifat2 }}</span>
+																@endif
+															</td>
+															<td>{{ $thisdarisent }}</td>
+															<td>{{ $thiskesent }}</td>
+															<td>{{ $thispenanganan }}</td>
+															<td>{{ $thiscatatan }}</td>
+															<td style="vertical-align: middle;">
+																
+																<form method="GET" action="/portal/disposisi/lihat disposisi">
+																	
+																	@if ($access['zupd'] == 'y')
+																	<input type="hidden" name="ids" value="{{ $sent['ids'] }}">
+																	<input type="hidden" name="no_form" value="{{ $sent['no_form'] }}">
+																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+																	@endif
+																	@if ($access['zdel'] == 'y')
+																	<!-- <button type="button" class="btn btn-danger btn-delete-sent btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $sent['ids'] }}" data-ids="{{ $sent['ids'] }}" data-no_form="{{ $sent['no_form'] }}"
+																	><i class="ti-trash"></i></button> -->
+																	@endif
+																</form>
+																
+																	
+															</td>
+														</tr>
+													
+														<div class="clearfix"></div>
+													<?php } ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div role="tabpanel" class="tab-pane fade" id="draft">
+										<div class="table-responsive" style="overflow: visible;">
+											<table id="myTable5" class="table table-hover table-striped" style="z-index: 99999;">
 												<thead>
 													<tr>
 														<th class="col-sm-1">No. Form</th>
@@ -365,141 +766,7 @@
 											</table>
 										</div>
 									</div>
-									<div role="tabpanel" class="tab-pane fade" id="sent">
-										<div class="table-responsive" style="overflow: visible;">
-											<table id="myTable3" class="table table-hover table-striped" style="z-index: 99999;">
-												<thead>
-													<tr>
-														<th class="col-sm-1">No. Form</th>
-														<th class="col-sm-1">Kode Surat</th>
-														<th class="col-sm-1">Tanggal masuk</th>
-														<th class="col-sm-1">Isi</th>
-														<th class="col-sm-1">Sifat</th>
-														<th class="col-sm-1">Dari</th>
-														<th class="">Ke</th>
-														<th class="">Penanganan</th>
-														<th class="">Catatan</th>
-														@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-														<th>Action</th>
-														@endif
-													</tr>
-												</thead>
-												<tbody>
-													<?php foreach ($dispsent as $key => $sent) {
-														$thisnoform = $sent['no_form'];
-														$thiskdsurat = $sent['kd_surat'];
-														$thistanggal = $sent['tgl_masuk'];
-														$thiskode = $sent['kode_disposisi'];
-														$thisnosurat = $sent['no_surat'];
-														$thisperihal = $sent['perihal'];
-														$thisasal = $sent['asal_surat'];
-														$thissifat1 = $sent['sifat1_surat'];
-														$thissifat2 = $sent['sifat2_surat'];
-														$thisfile = $sent['nm_file'];
-														$thisusrinput = $sent['usr_input'];
-														$thistglinput = $sent['tgl_input'];
-
-														if (isset($_SESSION['user_data']['idunit'])) {
-															if (strlen($_SESSION['user_data']['idunit']) == 8) {
-																$thisdarisent = $sent['from_nm'];
-																$thiskesent = $sent['to_nm'];
-															} else {
-																$thisdarisent = $sent['to_nm'];
-																$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
-															}
-														} else {
-															$thisdarisent = $sent['to_nm'];
-															$thiskesent = ($sent['kepada'] ? $sent['kepada'] : $sent['noid']);
-														}
-															
-														$thiskepada = str_replace("::", "; ", $sent['kepada']);
-														$thispenanganan = $sent['penanganan'];
-														$thiscatatan = $sent['catatan'];
-														?>
-
-														<tr>
-															<td>{{ $thisnoform }}</td>
-															<td>{{ $thiskdsurat }}</td>
-															<td class="col-md-2">{{ date('d-M-Y',strtotime($thistanggal)) }}</td>
-															<td>
-																<span class="mytooltip tooltip-effect-1"> 
-																	<span class="tooltip-item">Lihat Isi</span> 
-																	<span class="tooltip-content clearfix"> 
-																		<table class="table table-bordered">
-																			<tbody>
-																				<tr>
-																					<td><strong>Kode</strong></td>
-																					<td>{{ $thiskode ?? '-' }}</td>
-																				</tr>
-																				<tr>
-																					<td><strong>No Surat</strong></td>
-																					<td>{{ $thisnosurat ?? '-' }}</td>
-																				</tr>
-																				<tr>
-																					<td><strong>Perihal</strong></td>
-																					<td>{{ $thisperihal ?? '-' }}</td>
-																				</tr>
-																				<tr>
-																					<td><strong>Asal Surat</strong></td>
-																					<td>{{ $thisasal ?? '-' }}</td>
-																				</tr>
-																				<tr>
-																					<td><strong>Download</strong></td>
-																					<td>
-																					<?php 
-																						$splitfile = explode("::", $thisfile);
-																						foreach ($splitfile as $key => $file) { 
-																							$namafolder = '/' . date('Y',strtotime($sent['tglmaster'])) . '/' . $thisnoform;
-																							?>
-																							<a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a>
-																							<br>
-																						<?php } 
-																					?>
-																					</td>
-																				</tr>
-																			</tbody>
-																		</table> 
-																	</span> 
-																</span>
-															</td>
-															<td>
-																@if($thissifat1)
-																<span class="label label-info">{{ $thissifat1 }}</span>
-																<br>
-																@endif
-																@if($thissifat2)
-																<span class="label label-warning">{{ $thissifat2 }}</span>
-																@endif
-															</td>
-															<td>{{ $thisdarisent }}</td>
-															<td>{{ $thiskesent }}</td>
-															<td>{{ $thispenanganan }}</td>
-															<td>{{ $thiscatatan }}</td>
-															<td style="vertical-align: middle;">
-																
-																<form method="GET" action="/portal/disposisi/lihat disposisi">
-																	
-																	@if ($access['zupd'] == 'y')
-																	<input type="hidden" name="ids" value="{{ $sent['ids'] }}">
-																	<input type="hidden" name="no_form" value="{{ $sent['no_form'] }}">
-																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
-																	@endif
-																	@if ($access['zdel'] == 'y')
-																	<!-- <button type="button" class="btn btn-danger btn-delete-sent btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $sent['ids'] }}" data-ids="{{ $sent['ids'] }}" data-no_form="{{ $sent['no_form'] }}"
-																	><i class="ti-trash"></i></button> -->
-																	@endif
-																</form>
-																
-																	
-															</td>
-														</tr>
-													
-														<div class="clearfix"></div>
-													<?php } ?>
-												</tbody>
-											</table>
-										</div>
-									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -596,6 +863,16 @@
 			});
 
 			$('#myTable3').DataTable({
+				"ordering" : false,
+				"searching": false,
+			});
+
+			$('#myTable4').DataTable({
+				"ordering" : false,
+				"searching": false,
+			});
+
+			$('#myTable5').DataTable({
 				"ordering" : false,
 				"searching": false,
 			});

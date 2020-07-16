@@ -77,7 +77,7 @@
 
 										<div class="panel-group" id="exampleAccordionDefault" aria-multiselectable="true" role="tablist">
 											<div class="panel">
-												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultOne" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultOne" data-parent="#exampleAccordionDefault" aria-expanded="true" aria-controls="exampleCollapseDefaultOne"> Surat </a> </div>
+												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultOne" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultOne" data-parent="#exampleAccordionDefault" aria-expanded="true" aria-controls="exampleCollapseDefaultOne"> {{ strtolower($dispmaster['catatan_final']) == 'undangan' ? 'Undangan' : 'Surat' }} </a> </div>
 												<div class="panel-collapse collapse" id="exampleCollapseDefaultOne" aria-labelledby="exampleHeadingDefaultOne" role="tabpanel">
 													<div class="table-responsive">
 														<table class="table table-hover">
@@ -153,7 +153,34 @@
 												</div>
 											</div>
 											<div class="panel">
-												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultTwo" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultTwo" data-parent="#exampleAccordionDefault" aria-expanded="false" aria-controls="exampleCollapseDefaultTwo"> Lanjutan </a> </div>
+												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultThree" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultThree" data-parent="#exampleAccordionDefault" aria-expanded="false" aria-controls="exampleCollapseDefaultThree"> File </a> </div>
+												<div class="panel-collapse collapse" id="exampleCollapseDefaultThree" aria-labelledby="exampleHeadingDefaultThree" role="tabpanel">
+													<div class="table-responsive">
+														<table class="table table-hover">
+															<tr>
+																<td class="col-md-6 p-l-30"><h4>File</h4></td>
+																<td class="col-md-6 data-input">
+																	<input type="file" class="form-control" id="nm_file" name="nm_file[]" multiple>
+																	<br>
+																	<?php 
+																		$splitfile = explode("::", $dispmaster['nm_file']);
+																		if ($dispmaster['nm_file'] != '') {
+																			foreach ($splitfile as $key => $file) { 
+																				$namafolder = '/' . date('Y',strtotime($dispmaster['tglmaster'])) . '/' . $dispmaster['no_form'];
+																				?>
+																				<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i data-toggle="tooltip" title="Hapus?" class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
+																				<br>
+																			<?php }
+																		}	 
+																	?>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="panel">
+												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultTwo" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultTwo" data-parent="#exampleAccordionDefault" aria-expanded="false" aria-controls="exampleCollapseDefaultTwo"> Tindak Lanjut </a> </div>
 												<div class="panel-collapse collapse" id="exampleCollapseDefaultTwo" aria-labelledby="exampleHeadingDefaultTwo" role="tabpanel">
 													<div class="table-responsive">
 														<table class="table table-hover">
@@ -203,33 +230,6 @@
 																<td class="col-md-6 p-l-30"><h4>Catatan</h4></td>
 																<td class="col-md-6 data-input">
 																	<textarea name="catatan" class="form-control" rows="3">{{ $dispmaster['catatan'] }}</textarea>
-																</td>
-															</tr>
-														</table>
-													</div>
-												</div>
-											</div>
-											<div class="panel">
-												<div class="panel-heading" style="background-color: #edf1f5" id="exampleHeadingDefaultThree" role="tab"> <a class="panel-title collapsed" data-toggle="collapse" href="#exampleCollapseDefaultThree" data-parent="#exampleAccordionDefault" aria-expanded="false" aria-controls="exampleCollapseDefaultThree"> File </a> </div>
-												<div class="panel-collapse collapse" id="exampleCollapseDefaultThree" aria-labelledby="exampleHeadingDefaultThree" role="tabpanel">
-													<div class="table-responsive">
-														<table class="table table-hover">
-															<tr>
-																<td class="col-md-6 p-l-30"><h4>File</h4></td>
-																<td class="col-md-6 data-input">
-																	<input type="file" class="form-control" id="nm_file" name="nm_file[]" multiple>
-																	<br>
-																	<?php 
-																		$splitfile = explode("::", $dispmaster['nm_file']);
-																		if ($dispmaster['nm_file'] != '') {
-																			foreach ($splitfile as $key => $file) { 
-																				$namafolder = '/' . date('Y',strtotime($dispmaster['tglmaster'])) . '/' . $dispmaster['no_form'];
-																				?>
-																				<i class="fa fa-download"></i> <a target="_blank" href="{{ config('app.openfiledisposisi') }}{{$namafolder}}/{{ $file }}">{{ $file }}</a> <a href="javascript:void(0)"><i data-toggle="tooltip" title="Hapus?" class="fa fa-close delete-file" data-nm="{{$file}}" data-ids="{{$dispmaster['ids']}}" data-noform="{{ $dispmaster['no_form']}}" style="color: red"></i></a>
-																				<br>
-																			<?php }
-																		}	 
-																	?>
 																</td>
 															</tr>
 														</table>
