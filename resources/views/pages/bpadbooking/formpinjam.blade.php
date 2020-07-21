@@ -111,7 +111,7 @@
 									</div>
 
 									<div class="form-group">
-										<label for="tujuan" class="col-md-2 control-label"> Tujuan </label>
+										<label for="tujuan" class="col-md-2 control-label"> Kegiatan </label>
 										<div class="col-md-8">
 											<input autocomplete="off" type="text" name="tujuan" id="tujuan" class="form-control" required="">
 										</div>
@@ -150,7 +150,7 @@
 									<div class="form-group">
                                         <label for="nm_file" class="col-md-2 control-label"> File</label>
                                         <div class="col-md-8">
-                                            <input type="file" class="form-control" id="nm_file" name="nm_file">
+                                            <input type="file" class="form-control" id="nm_file" name="nm_file" required>
                                         </div>
                                     </div>
 								</div>

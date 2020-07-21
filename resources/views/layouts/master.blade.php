@@ -142,8 +142,8 @@
 				<!-- footer contact -->
 				<div class="col-md-4">
 					<div class="footer">
-						<div class="footer-logo" style="margin-bottom: 0px">
-							<a href="#"><img src="{{ ('/portal/public/img/photo/bpad-logo-02.png') }}" alt="" height="100"></a>
+						<div class="footer-logo" style="margin-top: 20px">
+							<a href="#"><img src="{{ ('/portal/public/img/photo/plusjakartalogo2.png') }}" alt="" height="70"></a>
 						</div>
 						<address>
 							<span style="font-weight: bold;">Gedung Dinas Teknis</span><br>
@@ -231,24 +231,21 @@
 
 			<!-- footer copyright & nav -->
 			<div id="footer-bottom" class="row">
-				<div class="col-md-6 col-md-push-6">
-					<!-- <ul class="footer-nav">
-						<li><a href="#">Home</a></li>
-						<li><a href="#">About</a></li>
-						<li><a href="#">Causes</a></li>
-						<li><a href="#">Events</a></li>
-						<li><a href="#">Blog</a></li>
-						<li><a href="#">Contact</a></li>
-					</ul> -->
-				</div>
-
-				<div class="col-md-6 col-md-pull-6">
-					<div class="footer-copyright">
-						<span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-<!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
-						<span>&copy; Copyright <?php echo date('Y'); ?> BPAD DKI Jakarta.</span><br>
-						Powered by <a href="JavaScript:void(0);"><span style="cursor: default;">Sub Bidang Data & Informasi</span></a>
+				<div class="col-sm-12">
+					<div class="col-sm-6">
+						<div class="footer-copyright">
+							<span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+	<!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
+	<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+							<span>&copy; Copyright <?php echo date('Y'); ?> BPAD DKI Jakarta.</span><br>
+							Powered by <a href="JavaScript:void(0);"><span style="cursor: default;">Sub Bidang Data & Informasi</span></a>
+						</div>
+					</div>
+					<div class="col-sm-6" style="top: -20px">
+						<div class="footer-copyright pull-right">
+							
+							<!-- <img src="{{ ('/portal/public/img/photo/plusjakartalogo2.png') }}" alt="" height="100"> -->
+						</div>
 					</div>
 				</div>
 			</div>

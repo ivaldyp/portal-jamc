@@ -51,6 +51,10 @@ Route::group(['prefix' => 'booking'], function () {
 
 	Route::get('pinjam', 'BookingController@formpinjam');
 	Route::post('form/tambahpinjam', 'BookingController@forminsertpinjam');
+
+	Route::get('list', 'BookingController@listpinjam');
+
+	Route::get('request', 'BookingController@requestpinjam');
 });
 
 Route::group(['prefix' => 'disposisi'], function () {
