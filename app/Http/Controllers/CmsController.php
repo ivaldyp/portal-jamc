@@ -574,7 +574,7 @@ class CmsController extends Controller
 					  and con.sts = 1
 					  order by con.appr asc, con.tanggal desc
 				"));
-		$contents = json_decode(json_encode($contents), true)->paginate(10);
+		$contents = json_decode(json_encode($contents), true);
 
 		return view('pages.bpadcms.content')
 				->with('access', $access)

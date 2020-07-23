@@ -193,7 +193,7 @@
 										</table>
 									</div>
 								</div>
-								{{ $contents->links() }}
+								
 							</div>
 						</div>
 					</div>
