@@ -95,7 +95,7 @@
 															<tr>
 																<td class="col-md-6 p-l-30"><h4>Unit</h4></td>
 																<td class="col-md-6" style="vertical-align: middle;">
-																<h4 class="text-muted">[{{ $dispmaster['kd_unit'] }}] - [{{ $dispmaster['nm_unit'] }}]</h4></td>
+																<h4 class="text-muted">[{{ $unitkerjas['kd_unit'] }}] - [{{ $unitkerjas['nm_unit'] }}]</h4></td>
 																
 															</tr>
 															<tr>
@@ -111,7 +111,7 @@
 															<tr>
 																<td class="col-md-6 p-l-30"><h4> Kode Disposisi</h4></td>
 																<td class="col-md-6" style="vertical-align: middle;">
-																<h4 class="text-muted">[{{ $dispmaster['kode_disposisi'] }}] - [{{ $dispmaster['nm_jnssurat'] }}]</h4></td>
+																<h4 class="text-muted">[{{ $kddispos['kode_disposisi'] }}] - [{{ $kddispos['nm_jnssurat'] }}]</h4></td>
 															</tr>
 															<tr>
 																<td class="col-md-6 p-l-30"><h4> Nomor & Tgl Surat</h4></td>

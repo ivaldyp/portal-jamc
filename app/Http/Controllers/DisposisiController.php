@@ -22,7 +22,7 @@ use App\Glo_org_jabatan;
 use App\Glo_org_kedemp;
 use App\Glo_org_lokasi;
 use App\Glo_org_statusemp;
-use App\glo_org_unitkerja;
+use App\Glo_org_unitkerja;
 use App\Sec_access;
 use App\Sec_menu;
 
@@ -1598,7 +1598,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  ,d.[logbuat]
 												  ,d.[kd_skpd]
 												  ,d.[kd_unit]
-												  ,unit.nm_unit
+												  --,d.nm_unit
 												  ,d.[no_form]
 												  ,m.[kd_surat]
 												  ,d.[status_surat]
@@ -1608,7 +1608,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  ,d.[tgl_input]
 												  ,m.[no_index]
 												  ,m.[kode_disposisi]
-												  ,kode.nm_jnssurat
+												  --,m.nm_jnssurat
 												  ,m.[perihal]
 												  ,m.[tgl_surat]
 												  ,m.[no_surat]
@@ -1636,13 +1636,15 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  ,m.[catatan_final]
 												  FROM [bpaddtfake].[dbo].[fr_disposisi] d
 												  left join bpaddtfake.dbo.emp_data as emp1 on emp1.id_emp = d.from_pm
-												  join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
+												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
 												  join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
-												  join bpaddtfake.dbo.glo_org_unitkerja as unit on unit.kd_unit = d.kd_unit
-												  join bpaddtfake.dbo.Glo_disposisi_kode as kode on kode.kd_jnssurat = m.kode_disposisi 
+												  --join bpaddtfake.dbo.glo_org_unitkerja as unit on unit.kd_unit = d.kd_unit
+												  --join bpaddtfake.dbo.Glo_disposisi_kode as kode on kode.kd_jnssurat = m.kode_disposisi 
 												  and d.ids = '$request->ids'"))[0];
 		$dispmaster = json_decode(json_encode($dispmaster), true); 
 
+		$kddispos = Glo_disposisi_kode::where('kd_jnssurat', $dispmaster['kode_disposisi'])->orderBy('kd_jnssurat')->first();
+		$unitkerjas = Glo_org_unitkerja::where('kd_unit', $dispmaster['kd_unit'])->orderBy('kd_unit')->first();
 
 		$to_pm = $dispmaster['to_pm'];
 		$tujuan = DB::select( DB::raw("SELECT id_emp, tbjab.idunit FROM bpaddtfake.dbo.emp_data as a
@@ -1725,6 +1727,8 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 				->with('treedisp', $treedisp)
 				->with('stafs', $stafs)
 				->with('tujuan', $tujuan)
+				->with('kddispos', $kddispos)
+				->with('unitkerjas', $unitkerjas)
 				->with('penanganans', $penanganans)
 				->with('jabatans', $jabatans);
 	}
