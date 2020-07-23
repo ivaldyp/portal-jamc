@@ -74,7 +74,34 @@
         <!-- ============================================================== -->
         
         @yield('content')
+        <div id="modal-password" class="modal fade" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="/portal/home/password" class="form-horizontal">
+                @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title"><b>Ubah Password</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Masukkan password baru  </h4>
 
+                        <div class="form-group col-md-12">
+                            <label for="idunit" class="col-md-2 control-label"> Password </label>
+                            <div class="col-md-8">
+                                <input autocomplete="off" type="text" name="passmd5" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger pull-right">Simpan</button>
+                        <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->

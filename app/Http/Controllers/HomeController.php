@@ -93,6 +93,31 @@ class HomeController extends Controller
 		return $result;
 	}
 
+	public function password(Request $request)
+	{
+		if (Auth::user()->id_emp) {
+			$ids = Auth::user()->id_emp;
+
+			Emp_data::
+			where('id_emp', $ids)
+			->update([
+				'passmd5' => md5($request->passmd5),
+			]);
+		} else {
+			$ids = Auth::user()->usname;
+
+			Sec_logins::
+			where('usname', $ids)
+			->update([
+				'passmd5' => md5($request->passmd5),
+			]);
+		}
+
+		return redirect('/home')
+					->with('message', 'Password berhasil diubah')
+					->with('msg_num', 1);
+	}
+
 	public function index(Request $request)
 	{
 		$this->checkSessionTime();

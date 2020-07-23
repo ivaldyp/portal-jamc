@@ -56,6 +56,13 @@
 				<!-- /.col-lg-12 -->
 			</div>
 			<div class="row">
+				<div class="col-sm-12">
+					@if(Session::has('message'))
+						<div class="alert <?php if(Session::get('msg_num') == 1) { ?>alert-success<?php } else { ?>alert-danger<?php } ?> alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
+					@endif
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-12">
 					<div class="white-box">
 						<div class="row row-in">
@@ -283,6 +290,7 @@
 		<!-- /.container-fluid -->
 		<footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by themedesigner.in </footer>
 	</div>
+	
 @endsection
 
 <!-- /////////////////////////////////////////////////////////////// -->

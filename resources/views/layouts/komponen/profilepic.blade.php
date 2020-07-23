@@ -14,9 +14,10 @@
 			</div>
 		</li>
 		<li role="separator" class="divider"></li>
-		<!-- <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-		<li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-		<li role="separator" class="divider"></li> -->
+		<li><a href="#" data-toggle="modal" data-target="#modal-password"><i class="ti-key"></i> Ubah Password</a></li>
+
+		<!-- <li><a href="#"><i class="ti-email"></i> Inbox</a></li> -->
+		<li role="separator" class="divider"></li>
 		<li class="user-footer">
 		  <div class="pull-right p-r-30">
 			<!-- <a href="{{ route('logout') }}" class="btn btn-danger btn-flat">Sign out</a> -->
@@ -37,4 +38,32 @@
 	</ul>
 	<!-- /.dropdown-user -->
 </li>
+<div id="modal-password" class="modal fade" role="dialog" data-backdrop="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form method="POST" action="/portal/home/password" class="form-horizontal">
+			@csrf
+				<div class="modal-header">
+					<h4 class="modal-title"><b>Ubah Password</b></h4>
+				</div>
+				<div class="modal-body">
+					<h4>Masukkan password baru  </h4>
+
+					<div class="form-group col-md-12">
+						<label for="passmd5" class="col-md-2 control-label"> Password </label>
+						<div class="col-md-8">
+							<input autocomplete="off" type="text" name="passmd5" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-danger pull-right">Simpan</button>
+					<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <!-- /.dropdown -->
