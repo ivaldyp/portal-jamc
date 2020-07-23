@@ -99,6 +99,8 @@ class HomeController extends Controller
 		
 		unset($_SESSION['user_data']);
 
+		date_default_timezone_set('Asia/Jakarta');
+		
 		if (is_null(Auth::user()->usname)) {
 			$iduser = Auth::user()->id_emp;
 
@@ -113,12 +115,22 @@ class HomeController extends Controller
 							"))[0];
 
 			$user_data = json_decode(json_encode($user_data), true);
+
+			Emp_data::where('id_emp', $user_data['id_emp'])
+			->update([
+				'lastlogin' => date('Y-m-d H:i:s'),
+			]);	
 		} else {
 			$iduser = Auth::user()->usname;
 
 			$user_data = Sec_logins::
 							where('usname', $iduser)
 							->first();
+
+			Sec_logins::where('usname', $user_data['usname'])
+			->update([
+				'lastlogin' => date('Y-m-d H:i:s'),
+			]);	
 		}
 
 		$_SESSION['user_data'] = $user_data;
