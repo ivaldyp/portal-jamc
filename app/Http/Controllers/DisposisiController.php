@@ -1693,7 +1693,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 						and tbunit.sao like '$kd_unit%' and ked_emp = 'aktif' order by nm_emp") );
 		$stafs = json_decode(json_encode($stafs), true);
 
-		if (strlen($_SESSION['user_data']['idunit']) == 10 && !(isset($_SESSION['user_data']['usname']))) {
+		if (strlen($_SESSION['user_data']['idunit']) == 10 ) {
 			$jabatans = 0;
 			$stafs = 0;
 		} else {
@@ -1710,6 +1710,9 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 											  where disposisi = 'Y'
 											  order by jabatan asc") );
 			$jabatans = json_decode(json_encode($jabatans), true);
+			if (Auth::user()->id_emp && strlen($_SESSION['user_data']['idunit']) < 8) {
+				$stafs = 0;
+			}
 		}
 
 		$penanganans = Glo_disposisi_penanganan::
