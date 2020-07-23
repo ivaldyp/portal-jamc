@@ -567,14 +567,14 @@ class CmsController extends Controller
 					get();
 
 		$contents = DB::select( DB::raw("
-				  	SELECT top 100 con.*, lower(kat.nmkat) as nmkat from bpadcmsfake.dbo.content_tb con
+				  	SELECT con.*, lower(kat.nmkat) as nmkat from bpadcmsfake.dbo.content_tb con
 					  join bpadcmsfake.dbo.glo_kategori kat on kat.ids = con.idkat
 					  where idkat = $katnow
 					  and suspend = '$suspnow'
 					  and con.sts = 1
 					  order by con.appr asc, con.tanggal desc
 				"));
-		$contents = json_decode(json_encode($contents), true);
+		$contents = json_decode(json_encode($contents), true)->paginate(10);
 
 		return view('pages.bpadcms.content')
 				->with('access', $access)

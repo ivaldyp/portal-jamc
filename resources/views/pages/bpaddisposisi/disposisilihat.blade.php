@@ -95,8 +95,19 @@
 															<tr>
 																<td class="col-md-6 p-l-30"><h4>Unit</h4></td>
 																<td class="col-md-6" style="vertical-align: middle;">
-																<h4 class="text-muted">[{{ $unitkerjas['kd_unit'] }}] - [{{ $unitkerjas['nm_unit'] }}]</h4></td>
-																
+																<h4 class="text-muted">
+																	@if($unitkerjas['kd_unit'])
+																		[{{ $unitkerjas['kd_unit'] }}]
+																	@endif
+
+																	@if($unitkerjas['kd_unit'] && $unitkerjas['nm_unit'])
+																		-
+																	@endif
+
+																	@if($unitkerjas['nm_unit'])
+																		[{{ $unitkerjas['nm_unit'] }}]
+																	@endif
+																</h4></td>
 															</tr>
 															<tr>
 																<td class="col-md-6 p-l-30"><h4>Tgl Masuk</h4></td>
@@ -111,12 +122,34 @@
 															<tr>
 																<td class="col-md-6 p-l-30"><h4> Kode Disposisi</h4></td>
 																<td class="col-md-6" style="vertical-align: middle;">
-																<h4 class="text-muted">[{{ $kddispos['kode_disposisi'] }}] - [{{ $kddispos['nm_jnssurat'] }}]</h4></td>
+																<h4 class="text-muted">
+																	@if($kddispos['kode_disposisi'])
+																		[{{ $kddispos['kode_disposisi'] }}]
+																	@endif
+
+																	@if($kddispos['kode_disposisi'] && $kddispos['nm_jnssurat'])
+																		-
+																	@endif
+
+																	@if($kddispos['nm_jnssurat'])
+																		[{{ $kddispos['nm_jnssurat'] }}]
+																	@endif
+																</h4></td>
 															</tr>
 															<tr>
 																<td class="col-md-6 p-l-30"><h4> Nomor & Tgl Surat</h4></td>
 																<td class="col-md-6 data-show" style="vertical-align: middle;"><h4 class="text-muted">
-																	[{{ $dispmaster['no_surat'] }}] - [{{ date('d/m/Y',strtotime($dispmaster['tgl_surat'])) }}]
+																	@if($dispmaster['no_surat'])
+																		[{{ $dispmaster['no_surat'] }}]
+																	@endif
+
+																	@if($dispmaster['no_surat'] && $dispmaster['tgl_surat'])
+																		-
+																	@endif
+
+																	@if($dispmaster['tgl_surat'])
+																		[{{ $dispmaster['tgl_surat'] }}]
+																	@endif
 																</h4></td>
 															</tr>
 															<tr>
