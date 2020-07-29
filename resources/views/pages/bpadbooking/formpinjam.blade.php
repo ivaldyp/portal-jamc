@@ -93,7 +93,7 @@
 										<div class="col-md-8">
 											<select class="form-control select2" name="unit" id="unit">
 												@foreach($units as $unit)
-													<option value="{{ $unit['kd_unit'] }}::{{ $unit['nm_unit'] }}"> {{ $unit['kd_unit'] }}::{{ $unit['nm_unit'] }} </option>
+													<option <?php if(strpos($_SESSION['user_data']['idunit'], $unit['kd_unit']) !== false): ?> selected <?php endif ?> value="{{ $unit['kd_unit'] }}::{{ $unit['nm_unit'] }}"> {{ $unit['kd_unit'] }}::{{ $unit['nm_unit'] }} </option>
 												@endforeach
 											</select>
 										</div>

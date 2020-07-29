@@ -51,6 +51,7 @@ Route::group(['prefix' => 'booking'], function () {
 	Route::post('form/hapusruang', 'BookingController@formdeleteruang');
 
 	Route::get('pinjam', 'BookingController@formpinjam');
+	Route::get('ubah pinjam', 'BookingController@ubahpinjam');
 	Route::post('form/tambahpinjam', 'BookingController@forminsertpinjam');
 
 	Route::get('list', 'BookingController@listpinjam');
