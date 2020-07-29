@@ -2126,19 +2126,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 			$data_self = json_decode(json_encode($data_self), true);
 		}		
 
-		$result = '';
-
-		$result .= '<tr>
-						<td>'.(is_null($data_self['nrk_emp']) || $data_self['nrk_emp'] == '' ? '-' : $data_self['nrk_emp'] ).'</td>
-						<td>'.ucwords(strtolower($data_self['nm_emp'])).'</td>
-						<td>'.ucwords($data_self['notes']).'</td>
-					';	
 		$total = $data_self['notread'] + $data_self['yesread'] + $data_self['lanjut'];
-		$result .= '	<td '. ($data_self['notread'] > 0 ? 'class="text-danger"' : '') .'>'.$data_self['notread'].'</td>
-						<td>'.$data_self['yesread'].'</td>
-						<td>'.$data_self['lanjut'].'</td>
-						<td><b>'.$total.'</b></td>
-					</tr>';
 
 		$sheet->setCellValue('A'.$nowrow, $data_self['id_emp']);
 		$sheet->setCellValue('B'.$nowrow, $data_self['nrk_emp']);
@@ -2149,6 +2137,11 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		$sheet->setCellValue('g'.$nowrow, $data_self['yesread']);
 		$sheet->setCellValue('h'.$nowrow, $data_self['lanjut']);
 		$sheet->setCellValue('i'.$nowrow, $total);
+		
+
+		if (strlen($data_self['idunit']) < 10) {
+			$sheet->getStyle('a'.$nowrow.':i'.$nowrow)->getFont()->setBold( true );
+		}
 		$nowrow++;
 
 		$nowunit = $data_self['idunit'];
@@ -2174,29 +2167,25 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 							") );
 		$data_stafs = json_decode(json_encode($data_stafs), true);
 
-		foreach ($data_stafs as $key => $staf) {
-			$result .= '<tr>
-							<td>'.(is_null($staf['nrk_emp']) || $staf['nrk_emp'] == '' ? '-' : $staf['nrk_emp'] ).'</td>
-							<td>'.ucwords(strtolower($staf['nm_emp'])).'</td>
-							<td>'.ucwords($staf['notes']).'</td>
-					';	
-			$total = $staf['notread'] + $staf['yesread'] + $staf['lanjut'];
-			$result .= '	<td '. ($staf['notread'] > 0 ? 'class="text-danger"' : '') .'>'.$staf['notread'].'</td>
-							<td>'.$staf['yesread'].'</td>
-							<td>'.$staf['lanjut'].'</td>
-							<td><b>'.$total.'</b></td>
-						</tr>';
+		if ($data_stafs) {
+			foreach ($data_stafs as $key => $staf) {
 
-			$sheet->setCellValue('A'.$nowrow, $staf['id_emp']);
-			$sheet->setCellValue('B'.$nowrow, $staf['nrk_emp']);
-			$sheet->setCellValue('c'.$nowrow, $staf['nm_emp']);
-			$sheet->setCellValue('d'.$nowrow, $staf['idjab']);
-			$sheet->setCellValue('e'.$nowrow, $staf['nm_unit']);
-			$sheet->setCellValue('f'.$nowrow, $staf['notread']);
-			$sheet->setCellValue('g'.$nowrow, $staf['yesread']);
-			$sheet->setCellValue('h'.$nowrow, $staf['lanjut']);
-			$sheet->setCellValue('i'.$nowrow, $total);
-			$nowrow++;
+				$total = $staf['notread'] + $staf['yesread'] + $staf['lanjut'];
+
+				$sheet->setCellValue('A'.$nowrow, $staf['id_emp']);
+				$sheet->setCellValue('B'.$nowrow, $staf['nrk_emp']);
+				$sheet->setCellValue('c'.$nowrow, $staf['nm_emp']);
+				$sheet->setCellValue('d'.$nowrow, $staf['idjab']);
+				$sheet->setCellValue('e'.$nowrow, $staf['nm_unit']);
+				$sheet->setCellValue('f'.$nowrow, $staf['notread']);
+				$sheet->setCellValue('g'.$nowrow, $staf['yesread']);
+				$sheet->setCellValue('h'.$nowrow, $staf['lanjut']);
+				$sheet->setCellValue('i'.$nowrow, $total);
+				if (strlen($staf['idunit']) < 10) {
+					$sheet->getStyle('a'.$nowrow.':i'.$nowrow)->getFont()->setBold( true );
+				}
+				$nowrow++;
+			}
 		}
 
 		$filename = 'STATDISP.xlsx';

@@ -1102,7 +1102,7 @@ class KepegawaianController extends Controller
 		$data_stafs = json_decode(json_encode($data_stafs), true);
 
 		foreach ($data_stafs as $key => $staf) {
-			$result .= '<tr'.(strlen($staf['idunit']) < 10 ? 'style="font-weight:bold"' : '' ).'>
+			$result .= '<tr '.(strlen($staf['idunit']) < 10 ? 'style="font-weight:bold"' : '' ).'>
 							<td>'.(is_null($staf['nrk_emp']) || $staf['nrk_emp'] == '' ? '-' : $staf['nrk_emp'] ).'</td>
 							<td>'.ucwords(strtolower($staf['nm_emp'])).'</td>
 							<td>'.ucwords($staf['notes']).'</td>
