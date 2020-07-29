@@ -96,7 +96,7 @@ class ContentController extends Controller
 
 		$lelang = Content_tb::
 					where('idkat', $lelang_id['ids'])
-					->where('appr', 'Y')
+					// ->where('appr', 'Y')
 					->where('sts', 1)
 					->orderBy('tanggal', 'desc')
 					->first();

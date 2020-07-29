@@ -174,17 +174,19 @@
 													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td>
-															@if($access['zupd'] == 'y')
-																<form method="POST" action="/portal/cms/ubah content">
-																	@csrf
+															<form method="POST" action="/portal/cms/ubah content">
+																@csrf
+																@if($access['zupd'] == 'y')
+																	
 																	<input type="hidden" name="ids" value="{{ $content['ids'] }}">
 																	<input type="hidden" name="idkat" value="{{ $content['idkat'] }}">
 																	<button type="submit" class="btn btn-info btn-update"><i class="ti-pencil-alt"></i></button>
-																</form>
-															@endif
-															@if($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $content['ids'] }}" data-judul="{{ $content['judul'] }}" data-idkat="{{ $content['idkat'] }}"><i class="fa fa-trash"></i></button>
-															@endif
+																	
+																@endif
+																@if($access['zdel'] == 'y')
+																	<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $content['ids'] }}" data-judul="{{ $content['judul'] }}" data-idkat="{{ $content['idkat'] }}"><i class="fa fa-trash"></i></button>
+																@endif
+															</form>
 														</td>
 													@endif
 												</tr>

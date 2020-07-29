@@ -120,16 +120,18 @@
 													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 														<td class="col-md-1">
-															@if($access['zupd'] == 'y')
-																<form method="POST" action="/portal/internal/agenda ubah">
-																	@csrf
+															<form method="POST" action="/portal/internal/agenda ubah">
+																@csrf
+																@if($access['zupd'] == 'y')
+																
 																	<input type="hidden" name="ids" value="{{ $agenda['ids'] }}">
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
-																</form>
-															@endif
-															@if($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $agenda['ids'] }}" data-dfile="{{ $agenda['dfile'] }}" ><i class="fa fa-trash"></i></button>
-															@endif
+																	
+																@endif
+																@if($access['zdel'] == 'y')
+																	<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $agenda['ids'] }}" data-dfile="{{ $agenda['dfile'] }}" ><i class="fa fa-trash"></i></button>
+																@endif
+															</form>
 														</td>
 													@endif
 												</tr>

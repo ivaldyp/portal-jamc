@@ -59,6 +59,11 @@
                         <div class="panel-heading"> Status Disposisi </div>
                     	<div class="panel-wrapper collapse in">
                             <div class="panel-body">
+                            	<div class="row">
+									<div class="col-md-12 m-b-30">
+										<a href="/portal/disposisi/excel"><button class="btn btn-info"> Excel </button></a>
+									</div>
+								</div>
 								<div class="row">
 									<div class="table-responsive">
 										<table class="myTable table table-hover table-striped">

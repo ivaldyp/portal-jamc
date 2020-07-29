@@ -123,11 +123,11 @@
 																<td class="col-md-6 p-l-30"><h4> Kode Disposisi</h4></td>
 																<td class="col-md-6" style="vertical-align: middle;">
 																<h4 class="text-muted">
-																	@if($kddispos['kode_disposisi'])
-																		[{{ $kddispos['kode_disposisi'] }}]
+																	@if($kddispos['kd_jnssurat'])
+																		[{{ $kddispos['kd_jnssurat'] }}]
 																	@endif
 
-																	@if($kddispos['kode_disposisi'] && $kddispos['nm_jnssurat'])
+																	@if($kddispos['kd_jnssurat'] && $kddispos['nm_jnssurat'])
 																		-
 																	@endif
 

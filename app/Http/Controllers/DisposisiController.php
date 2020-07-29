@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+require 'vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
@@ -111,7 +116,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		}
 
 		if ($request->searchnow) {
-			$qsearchnow = "and (kd_surat = '".$request->searchnow."' or no_form = '".$request->searchnow."')";
+			$qsearchnow = "and (kd_surat like '%".$request->searchnow."%' or no_form like '%".$request->searchnow."%')";
 		} else {
 			$qsearchnow = "";
 		}
@@ -267,9 +272,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisiundangans = json_decode(json_encode($disposisiundangans), true);
-			$disposisisurats = json_decode(json_encode($disposisisurats), true);
-			$disposisidrafts = json_decode(json_encode($disposisidrafts), true);
+			
 		} else {
 			$disposisiundangans = DB::select( DB::raw("SELECT TOP (1000) [ids]
 												  ,[sts]
@@ -417,10 +420,12 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and year(tgl_masuk) = $yearnow
 												  and sts = 1
 												  order by tgl_masuk desc, no_form desc"));
-			$disposisiundangans = json_decode(json_encode($disposisiundangans), true);
-			$disposisisurats = json_decode(json_encode($disposisisurats), true);
-			$disposisidrafts = json_decode(json_encode($disposisidrafts), true);
+			
 		}
+
+		$disposisiundangans = json_decode(json_encode($disposisiundangans), true);
+		$disposisisurats = json_decode(json_encode($disposisisurats), true);
+		$disposisidrafts = json_decode(json_encode($disposisidrafts), true);
 
 		return view('pages.bpaddisposisi.formdisposisi')
 				->with('access', $access)
@@ -2024,4 +2029,192 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 	}
 
 	// ---------/EMPLOYEE----------- //
+
+	public function printexcel(Request $request)
+	{
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->mergeCells('A1:I1');
+		$sheet->setCellValue('A1', 'STATUS DISPOSISI');
+		$sheet->getStyle('A1')->getFont()->setBold( true );
+		$sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
+
+		$styleArray = [
+		    'font' => [
+		        'size' => 12,
+		        'name' => 'Trebuchet MS',
+		    ]
+		];
+		$sheet->getStyle('A1:I1')->applyFromArray($styleArray);
+
+		$sheet->setCellValue('A3', 'ID');
+		$sheet->setCellValue('b3', 'NRK');
+		$sheet->setCellValue('c3', 'NAMA');
+		$sheet->setCellValue('d3', 'JABATAN');
+		$sheet->setCellValue('e3', 'UNIT');
+		$sheet->setCellValue('f3', 'BELUM DIBACA');
+		$sheet->setCellValue('g3', 'DIBACA');
+		$sheet->setCellValue('h3', 'DITINDAKLANJUTI');
+		$sheet->setCellValue('i3', 'TOTAL');
+		
+		$sheet->getStyle('A3')->getFont()->setBold( true );
+		$sheet->getStyle('B3')->getFont()->setBold( true );
+		$sheet->getStyle('C3')->getFont()->setBold( true );
+		$sheet->getStyle('D3')->getFont()->setBold( true );
+		$sheet->getStyle('E3')->getFont()->setBold( true );
+		$sheet->getStyle('F3')->getFont()->setBold( true );
+		$sheet->getStyle('G3')->getFont()->setBold( true );
+		$sheet->getStyle('H3')->getFont()->setBold( true );
+		$sheet->getStyle('I3')->getFont()->setBold( true );
+
+		$sheet->getStyle('A3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('B3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('C3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('D3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('E3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('F3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('G3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('H3')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('I3')->getAlignment()->setHorizontal('center');
+
+		$nowrow = 4;
+		$rowstart = $nowrow - 1;
+
+		$ids = Auth::user()->id_emp;
+
+		if ($ids) {
+			$data_self = DB::select( DB::raw("  
+								SELECT a.id_emp, a.nrk_emp, a.nip_emp, a.nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.notes, d.nm_lok, notread.notread, yesread.yesread, lanjut.lanjut from bpaddtfake.dbo.emp_data as a
+								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+								CROSS APPLY (
+									select  count(disp.rd) as 'notread' from fr_disposisi disp
+									  where rd = 'N'
+									  and disp.to_pm = a.id_emp) notread
+								CROSS APPLY (
+									select  count(disp.rd) as 'yesread' from fr_disposisi disp
+									  where rd = 'Y'
+									  and disp.to_pm = a.id_emp) yesread
+								CROSS APPLY (
+									select  count(disp.rd) as 'lanjut' from fr_disposisi disp
+									  where rd = 'S'
+									  and disp.to_pm = a.id_emp) lanjut
+								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+								and id_emp like '$ids'
+								") )[0];
+			$data_self = json_decode(json_encode($data_self), true);
+		} else {
+			$data_self = DB::select( DB::raw("  SELECT a.id_emp, a.nrk_emp, a.nip_emp, a.nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.notes, d.nm_lok, notread.notread, yesread.yesread, lanjut.lanjut from bpaddtfake.dbo.emp_data as a
+								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+								CROSS APPLY (
+									select  count(disp.rd) as 'notread' from fr_disposisi disp
+									  where rd = 'N'
+									  and disp.to_pm = a.id_emp) notread
+								CROSS APPLY (
+									select  count(disp.rd) as 'yesread' from fr_disposisi disp
+									  where rd = 'Y'
+									  and disp.to_pm = a.id_emp) yesread
+								CROSS APPLY (
+									select  count(disp.rd) as 'lanjut' from fr_disposisi disp
+									  where rd = 'S'
+									  and disp.to_pm = a.id_emp) lanjut
+								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+								and idunit like '01' and ked_emp = 'aktif'
+								") )[0];
+			$data_self = json_decode(json_encode($data_self), true);
+		}		
+
+		$result = '';
+
+		$result .= '<tr>
+						<td>'.(is_null($data_self['nrk_emp']) || $data_self['nrk_emp'] == '' ? '-' : $data_self['nrk_emp'] ).'</td>
+						<td>'.ucwords(strtolower($data_self['nm_emp'])).'</td>
+						<td>'.ucwords($data_self['notes']).'</td>
+					';	
+		$total = $data_self['notread'] + $data_self['yesread'] + $data_self['lanjut'];
+		$result .= '	<td '. ($data_self['notread'] > 0 ? 'class="text-danger"' : '') .'>'.$data_self['notread'].'</td>
+						<td>'.$data_self['yesread'].'</td>
+						<td>'.$data_self['lanjut'].'</td>
+						<td><b>'.$total.'</b></td>
+					</tr>';
+
+		$sheet->setCellValue('A'.$nowrow, $data_self['id_emp']);
+		$sheet->setCellValue('B'.$nowrow, $data_self['nrk_emp']);
+		$sheet->setCellValue('c'.$nowrow, $data_self['nm_emp']);
+		$sheet->setCellValue('d'.$nowrow, $data_self['idjab']);
+		$sheet->setCellValue('e'.$nowrow, $data_self['nm_unit']);
+		$sheet->setCellValue('f'.$nowrow, $data_self['notread']);
+		$sheet->setCellValue('g'.$nowrow, $data_self['yesread']);
+		$sheet->setCellValue('h'.$nowrow, $data_self['lanjut']);
+		$sheet->setCellValue('i'.$nowrow, $total);
+		$nowrow++;
+
+		$nowunit = $data_self['idunit'];
+
+		$data_stafs = DB::select( DB::raw("  SELECT a.id_emp, a.nrk_emp, a.nip_emp, a.nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.notes, d.nm_lok, notread.notread, yesread.yesread, lanjut.lanjut from bpaddtfake.dbo.emp_data as a
+							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+							CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+							CROSS APPLY (
+								select  count(disp.rd) as 'notread' from fr_disposisi disp
+								  where rd = 'N'
+								  and disp.to_pm = a.id_emp) notread
+							CROSS APPLY (
+								select  count(disp.rd) as 'yesread' from fr_disposisi disp
+								  where rd = 'Y'
+								  and disp.to_pm = a.id_emp) yesread
+							CROSS APPLY (
+								select  count(disp.rd) as 'lanjut' from fr_disposisi disp
+								  where rd = 'S'
+								  and disp.to_pm = a.id_emp) lanjut
+							,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
+							and tbunit.sao like '$nowunit%' and ked_emp = 'aktif'
+							order by idunit asc, nm_emp asc
+							") );
+		$data_stafs = json_decode(json_encode($data_stafs), true);
+
+		foreach ($data_stafs as $key => $staf) {
+			$result .= '<tr>
+							<td>'.(is_null($staf['nrk_emp']) || $staf['nrk_emp'] == '' ? '-' : $staf['nrk_emp'] ).'</td>
+							<td>'.ucwords(strtolower($staf['nm_emp'])).'</td>
+							<td>'.ucwords($staf['notes']).'</td>
+					';	
+			$total = $staf['notread'] + $staf['yesread'] + $staf['lanjut'];
+			$result .= '	<td '. ($staf['notread'] > 0 ? 'class="text-danger"' : '') .'>'.$staf['notread'].'</td>
+							<td>'.$staf['yesread'].'</td>
+							<td>'.$staf['lanjut'].'</td>
+							<td><b>'.$total.'</b></td>
+						</tr>';
+
+			$sheet->setCellValue('A'.$nowrow, $staf['id_emp']);
+			$sheet->setCellValue('B'.$nowrow, $staf['nrk_emp']);
+			$sheet->setCellValue('c'.$nowrow, $staf['nm_emp']);
+			$sheet->setCellValue('d'.$nowrow, $staf['idjab']);
+			$sheet->setCellValue('e'.$nowrow, $staf['nm_unit']);
+			$sheet->setCellValue('f'.$nowrow, $staf['notread']);
+			$sheet->setCellValue('g'.$nowrow, $staf['yesread']);
+			$sheet->setCellValue('h'.$nowrow, $staf['lanjut']);
+			$sheet->setCellValue('i'.$nowrow, $total);
+			$nowrow++;
+		}
+
+		$filename = 'STATDISP.xlsx';
+
+		// Redirect output to a client's web browser (Xlsx)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="'.$filename.'"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+		 
+		// If you're serving to IE over SSL, then the following may be needed
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header('Pragma: public'); // HTTP/1.
+
+		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
+	}
 }
