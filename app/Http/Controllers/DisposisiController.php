@@ -2089,15 +2089,15 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 								CROSS APPLY (
-									select  count(disp.rd) as 'notread' from fr_disposisi disp
+									select  count(disp.rd) as 'notread' from bpaddtfake.dbo.fr_disposisi disp
 									  where rd = 'N'
 									  and disp.to_pm = a.id_emp) notread
 								CROSS APPLY (
-									select  count(disp.rd) as 'yesread' from fr_disposisi disp
+									select  count(disp.rd) as 'yesread' from bpaddtfake.dbo.fr_disposisi disp
 									  where rd = 'Y'
 									  and disp.to_pm = a.id_emp) yesread
 								CROSS APPLY (
-									select  count(disp.rd) as 'lanjut' from fr_disposisi disp
+									select  count(disp.rd) as 'lanjut' from bpaddtfake.dbo.fr_disposisi disp
 									  where rd = 'S'
 									  and disp.to_pm = a.id_emp) lanjut
 								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
@@ -2109,15 +2109,15 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 								CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 								CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 								CROSS APPLY (
-									select  count(disp.rd) as 'notread' from fr_disposisi disp
+									select  count(disp.rd) as 'notread' from bpaddtfake.dbo.fr_disposisi disp
 									  where rd = 'N'
 									  and disp.to_pm = a.id_emp) notread
 								CROSS APPLY (
-									select  count(disp.rd) as 'yesread' from fr_disposisi disp
+									select  count(disp.rd) as 'yesread' from bpaddtfake.dbo.fr_disposisi disp
 									  where rd = 'Y'
 									  and disp.to_pm = a.id_emp) yesread
 								CROSS APPLY (
-									select  count(disp.rd) as 'lanjut' from fr_disposisi disp
+									select  count(disp.rd) as 'lanjut' from bpaddtfake.dbo.fr_disposisi disp
 									  where rd = 'S'
 									  and disp.to_pm = a.id_emp) lanjut
 								,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
@@ -2150,15 +2150,15 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 							CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
 							CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
 							CROSS APPLY (
-								select  count(disp.rd) as 'notread' from fr_disposisi disp
+								select  count(disp.rd) as 'notread' from bpaddtfake.dbo.fr_disposisi disp
 								  where rd = 'N'
 								  and disp.to_pm = a.id_emp) notread
 							CROSS APPLY (
-								select  count(disp.rd) as 'yesread' from fr_disposisi disp
+								select  count(disp.rd) as 'yesread' from bpaddtfake.dbo.fr_disposisi disp
 								  where rd = 'Y'
 								  and disp.to_pm = a.id_emp) yesread
 							CROSS APPLY (
-								select  count(disp.rd) as 'lanjut' from fr_disposisi disp
+								select  count(disp.rd) as 'lanjut' from bpaddtfake.dbo.fr_disposisi disp
 								  where rd = 'S'
 								  and disp.to_pm = a.id_emp) lanjut
 							,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1' 
