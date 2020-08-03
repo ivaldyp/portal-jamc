@@ -99,7 +99,7 @@
 						                                 	echo "selected";
 						                                }
 					                              	?>
-					                            	>[{{ $unit['kd_unit'] }}] - {{ $unit['nm_lok'] }} - {{ ($unit['kd_unit'] == '01' ? 'SEMUA' : $unit['notes'])   }}</option>
+					                            	>[{{ $unit['kd_unit'] }}] - {{ ($unit['kd_unit'] == '01' ? 'SEMUA' : $unit['notes'])   }}</option>
 					                          	<?php } ?>
 					                        	</select>
 				                      		</div>
