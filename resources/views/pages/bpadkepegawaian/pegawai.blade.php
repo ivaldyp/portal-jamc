@@ -116,7 +116,6 @@
 													<th>No</th>
 													<th>Id</th>
 													<th>NIP</th>
-													<th>NRK</th>
 													<th>Nama</th>
 													<th>Group</th>
 													<th class="col-md-1">Tgl Lahir</th>
@@ -138,8 +137,9 @@
 
 													<td>{{ $key + 1 }}</td>
 													<td>{{ $employee['id_emp'] }}</td>
-													<td>{{ $employee['nip_emp'] ? $employee['nip_emp'] :' -' }}</td>
-													<td>{{ $employee['nrk_emp'] ? $employee['nrk_emp'] :' -' }}</td>
+													<td>{{ $employee['nip_emp'] ? $employee['nip_emp'] :' -' }} <br>
+														<span class="text-muted">{{ $employee['nrk_emp'] ? $employee['nrk_emp'] :'' }}</span>
+													</td>
 													<td>{{ $employee['nm_emp'] }}</td>
 													<td>{{ $employee['nm_unit'] }}<br>
 														<span class="text-muted">{{ $employee['nm_lok'] }}</span>
