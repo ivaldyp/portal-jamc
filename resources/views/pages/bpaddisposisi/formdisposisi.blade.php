@@ -215,7 +215,7 @@
 																	@if ($access['zupd'] == 'y')
 																	<input type="hidden" name="ids" value="{{ $sent['ids'] }}">
 																	<input type="hidden" name="no_form" value="{{ $sent['no_form'] }}">
-																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
+																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-print" data-full="{{ json_encode($sent) }}"><i class="ti-pencil-alt"></i></button>
 																	@endif
 																	@if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
 																	<button type="button" class="btn btn-danger btn-delete-sent btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $sent['ids'] }}" data-ids="{{ $sent['ids'] }}" data-no_form="{{ $sent['no_form'] }}"
@@ -438,7 +438,7 @@
 															</td>
 															<td>{{ $thisusrinput }}<br><span class="text-muted">{{ date('d-M-Y',strtotime($thistglinput)) }}</span></td>
 															<td>
-																<button type="button" class="btn btn-warning btn-outline btn-circle m-r-5 btn-print" ><i class="ti-printer"></i></button>
+																<button type="button" class="btn btn-warning btn-outline btn-circle m-r-5 btn-print" data-full="{{ json_encode($draft) }}"><i class="ti-printer"></i></button>
 															</td>
 															<td style="vertical-align: middle;">
 																
@@ -564,8 +564,8 @@
 				doc.text(43, 123, full['kd_surat']);
 				doc.text(144, 123, full['kd_surat']);
 
-				window.open(URL.createObjectURL(doc.output("blob")));
-				// doc.save('a4.pdf');
+				// window.open(URL.createObjectURL(doc.output("blob")));
+				doc.save('tandaterima-'+full['no_form']+'.pdf');
 			});
 
 			$('.btn-delete-sent').on('click', function () {
