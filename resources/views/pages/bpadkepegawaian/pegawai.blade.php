@@ -141,7 +141,9 @@
 													<td>{{ $employee['nip_emp'] ? $employee['nip_emp'] :' -' }}</td>
 													<td>{{ $employee['nrk_emp'] ? $employee['nrk_emp'] :' -' }}</td>
 													<td>{{ $employee['nm_emp'] }}</td>
-													<td>{{ $employee['nm_unit'] }}</td>
+													<td>{{ $employee['nm_unit'] }}<br>
+														<span class="text-muted">{{ $employee['nm_lok'] }}</span>
+													</td>
 													<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $employee['tgl_lahir'] ))) }}</td>
 													<td>{{ $employee['jnkel_emp'] }}</td>
 													<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $employee['tgl_join'] ))) }}</td>
