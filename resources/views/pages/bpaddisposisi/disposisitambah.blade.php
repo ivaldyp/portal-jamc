@@ -174,7 +174,7 @@
 										<div class="form-group">
 											<label for="kepada_surat" class="col-md-2 control-label"> Kepada </label>
 											<div class="col-md-8">
-												<input autocomplete="off" type="text" name="kepada_surat" class="form-control" id="kepada_surat">
+												<input type="text" name="kepada_surat" class="form-control" id="kepada_surat">
 											</div>
 										</div>
 
