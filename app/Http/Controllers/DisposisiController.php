@@ -116,7 +116,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		}
 
 		if ($request->searchnow) {
-			$qsearchnow = "and (kd_surat like '%".$request->searchnow."%' or no_form like '%".$request->searchnow."%')";
+			$qsearchnow = "and (m.kd_surat = '".$request->searchnow."' or m.no_form = '".$request->searchnow."' or m.perihal = '".$request->searchnow."' or m.asal_surat = '".$request->searchnow."')";
 		} else {
 			$qsearchnow = "";
 		}
@@ -1257,7 +1257,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		}
 
 		if ($request->searchnow) {
-			$qsearchnow = "and (m.kd_surat = '".$request->searchnow."' or m.no_form = '".$request->searchnow."')";
+			$qsearchnow = "and (m.kd_surat = '".$request->searchnow."' or m.no_form = '".$request->searchnow."' or m.perihal = '".$request->searchnow."' or m.asal_surat = '".$request->searchnow."')";
 		} else {
 			$qsearchnow = "";
 		}
