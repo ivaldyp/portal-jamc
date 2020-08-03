@@ -87,7 +87,7 @@
 												<option <?php if ($signnow == "<="): ?> selected <?php endif ?> value="<="><=</option>
 											</select>
 										</div>
-										<div class=" col-md-1">
+										<div class=" col-md-2">
 											<select class="form-control" name="monthnow" id="monthnow" onchange="this.form.submit()">
 												@php
 												$months = 1
