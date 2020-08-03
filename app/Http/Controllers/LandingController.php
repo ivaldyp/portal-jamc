@@ -190,8 +190,8 @@ class LandingController extends Controller
 		$treedisp = null;
 		if(isset($idsurat)){
 			$query = DB::select( DB::raw("SELECT *
-											from bpaddt.dbo.fr_disposisi
-											join bpaddt.dbo.glo_disposisi_kode on bpaddt.dbo.glo_disposisi_kode.kd_jnssurat = bpaddt.dbo.fr_disposisi.kode_disposisi
+											from bpaddtfake.dbo.fr_disposisi
+											join bpaddtfake.dbo.glo_disposisi_kode on bpaddtfake.dbo.glo_disposisi_kode.kd_jnssurat = bpaddtfake.dbo.fr_disposisi.kode_disposisi
 											where kd_surat like '$idsurat' 
 											or no_form like '$idsurat'
 											order by ids") );
@@ -219,15 +219,15 @@ class LandingController extends Controller
 	public function display_disposisi($no_form, $idtop, $level = 0)
 	{
 		// $query = Fr_disposisi::
-		// 			leftJoin('bpaddt.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddt.dbo.fr_disposisi.to_pm')
+		// 			leftJoin('bpaddtfake.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddtfake.dbo.fr_disposisi.to_pm')
 		// 			->where('no_form', $no_form)
 		// 			->where('idtop', $idtop)
 		// 			->orderBy('ids')
 		// 			->get();
 
 		$query = DB::select( DB::raw("SELECT * 
-					from bpaddt.dbo.fr_disposisi
-					left join bpaddt.dbo.emp_data on bpaddt.dbo.emp_data.id_emp = bpaddt.dbo.fr_disposisi.to_pm
+					from bpaddtfake.dbo.fr_disposisi
+					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
 					where no_form = '$no_form'
 					and idtop = '$idtop'
 					order by ids

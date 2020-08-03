@@ -87,14 +87,14 @@
 						</ul>
 					</li>
 					<!-- <li><a href="" target="_blank" style="animation: color-change 1s infinite;">Disposisi</a> -->
-					<!-- <li class="has-dropdown"><a href="#" style="animation: color-change 1s infinite;">Disposisi</a>
+					<li class="has-dropdown"><a href="#" style="animation: color-change 1s infinite;">Disposisi</a>
 						<ul class="dropdown" style="list-style: none; padding: 0;">
-							<li><a href="http://bpad.jakarta.go.id/disposisi" style="animation: color-change 1s infinite;" target="_blank">Disposisi</a></li>
+							<!-- <li><a href="http://bpad.jakarta.go.id/disposisi" style="animation: color-change 1s infinite;" target="_blank">Disposisi</a></li> -->
 							<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a></li>
-							<li><a href="http://bpad.jakarta.go.id/ceksurat" target="_blank">Cek Surat</a></li>
+							<li><a href="http://bpad.jakarta.go.id/portal/ceksurat" target="_blank">Cek Surat</a></li>
 						</ul>
-					</li> -->	
-					<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a>
+					</li>	
+					<!-- <li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a> -->
 					<li><a href="https://ppid.jakarta.go.id/" target="_blank">PPID</a></li>
 					<li class="has-dropdown"><a href="#">SI-Gang</a>
 						<ul class="dropdown" style="list-style: none; padding: 0;">
