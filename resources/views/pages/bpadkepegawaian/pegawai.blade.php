@@ -99,7 +99,7 @@
 						                                 	echo "selected";
 						                                }
 					                              	?>
-					                            	>[{{ $unit['kd_unit'] }}] - {{ ($unit['kd_unit'] == '01' ? 'SEMUA' : $unit['notes'])   }}</option>
+					                            	>[{{ $unit['kd_unit'] }}] - {{ $unit['nm_lok'] }} - {{ ($unit['kd_unit'] == '01' ? 'SEMUA' : $unit['notes'])   }}</option>
 					                          	<?php } ?>
 					                        	</select>
 				                      		</div>
@@ -115,7 +115,7 @@
 												<tr>
 													<th>No</th>
 													<th>Id</th>
-													<th>NIP</th>
+													<th>NIP / NRK</th>
 													<th>Nama</th>
 													<th>Group</th>
 													<th class="col-md-1">Tgl Lahir</th>
@@ -127,7 +127,7 @@
 													@endif
 												</tr>
 											</thead>
-											<tbody>
+											<tbody style="vertical-align: middle;">
 												@foreach($employees as $key => $employee)
 												<tr <?php if(strlen($employee['idunit']) < 10): ?> style="font-weight: bold;" <?php endif ?>  >
 													<?php
