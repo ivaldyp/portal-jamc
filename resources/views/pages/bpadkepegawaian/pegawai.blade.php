@@ -14,6 +14,8 @@
 	<link href="{{ ('/portal/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="{{ ('/portal/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<!-- page CSS -->
+	<link href="{{ ('/portal/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -76,7 +78,7 @@
                             		<div class="col-md-6">
                             			<form method="GET" action="/portal/kepegawaian/data pegawai">
 					                      	<div class=" col-md-3">
-					                        	<select class="form-control" name="kednow" id="kednow" required>
+					                        	<select class="form-control" name="kednow" id="kednow" required onchange="this.form.submit()">
 					                          	<?php foreach ($kedudukans as $key => $kedudukan) { ?>
 					                            	<option value="{{ $kedudukan['ked_emp'] }}" 
 					                              	<?php 
@@ -88,7 +90,19 @@
 					                          	<?php } ?>
 					                        	</select>
 				                      		</div>
-				                      		<button type="submit" class="btn btn-primary">Cari</button>
+				                      		<div class=" col-md-9">
+					                        	<select class="form-control select2" name="unit" id="unit" required onchange="this.form.submit()">
+					                          	<?php foreach ($units as $key => $unit) { ?>
+					                            	<option value="{{ $unit['kd_unit'] }}" 
+					                              	<?php 
+					                                	if ($idunit == $unit['kd_unit']) {
+						                                 	echo "selected";
+						                                }
+					                              	?>
+					                            	>[{{ $unit['kd_unit'] }}] - {{ ($unit['kd_unit'] == '01' ? 'SEMUA' : $unit['notes'])   }}</option>
+					                          	<?php } ?>
+					                        	</select>
+				                      		</div>
 						                </form>
                             		</div>
                             		
@@ -116,7 +130,7 @@
 											</thead>
 											<tbody>
 												@foreach($employees as $key => $employee)
-												<tr>
+												<tr <?php if(strlen($employee['idunit']) < 10): ?> style="font-weight: bold;" <?php endif ?>  >
 													<?php
 														$tgl_lahir = explode(" ", $employee['tgl_lahir']);
 														$tgl_join = explode(" ", $employee['tgl_join']);
@@ -127,7 +141,7 @@
 													<td>{{ $employee['nip_emp'] ? $employee['nip_emp'] :' -' }}</td>
 													<td>{{ $employee['nrk_emp'] ? $employee['nrk_emp'] :' -' }}</td>
 													<td>{{ $employee['nm_emp'] }}</td>
-													<td>{{ $employee['idgroup'] }}</td>
+													<td>{{ $employee['nm_unit'] }}</td>
 													<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $employee['tgl_lahir'] ))) }}</td>
 													<td>{{ $employee['jnkel_emp'] }}</td>
 													<td>{{ date('d/M/Y', strtotime(str_replace('/', '-', $employee['tgl_join'] ))) }}</td>
@@ -230,6 +244,7 @@
 	<script src="{{ ('/portal/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/portal/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ ('/portal/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/portal/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 	<!-- wysuhtml5 Plugin JavaScript -->
     <script src="{{ ('/portal/public/ample/plugins/bower_components/html5-editor/wysihtml5-0.3.0.js') }}"></script>
     <script src="{{ ('/portal/public/ample/plugins/bower_components/html5-editor/bootstrap-wysihtml5.js') }}"></script>
@@ -243,6 +258,8 @@
 
 	<script>
 		$(function () {
+
+			$(".select2").select2();
 
 			$('.btn-update').on('click', function () {
 				var $el = $(this);
