@@ -22,7 +22,7 @@
 				<div class="article">
 					<!-- article content -->
 					<div class="article-content row">
-						<form class="form-horizontal" method="GET" action="{{ url('portal/ceksurat') }}" data-toggle="validator">
+						<form class="form-horizontal" method="GET" action="{{ url('ceksurat') }}" data-toggle="validator">
                             @csrf
 							<!-- <input class="input" type="email" placeholder="Enter your email"> -->
                             <!-- <label>Masukkan Kode atau Nomor Surat</label> -->
