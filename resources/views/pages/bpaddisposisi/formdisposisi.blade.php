@@ -217,10 +217,10 @@
 																	<input type="hidden" name="no_form" value="{{ $sent['no_form'] }}">
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																	@endif
-																	@if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
+																	<!-- @if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
 																	<button type="button" class="btn btn-danger btn-delete-sent btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $sent['ids'] }}" data-ids="{{ $sent['ids'] }}" data-no_form="{{ $sent['no_form'] }}"
 																	><i class="ti-trash"></i></button>
-																	@endif
+																	@endif -->
 																</form>
 																
 																	
@@ -333,10 +333,10 @@
 																	<input type="hidden" name="no_form" value="{{ $draft['no_form'] }}">
 																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
 																	@endif
-																	@if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
+																	<!-- @if ($access['zdel'] == 'y' && isset($_SESSION['user_data']['usname']))
 																	<button type="button" class="btn btn-danger btn-delete-draft btn-outline btn-circle m-r-5" data-toggle="modal" data-target="#modal-delete-{{ $draft['ids'] }}" data-ids="{{ $draft['ids'] }}" data-no_form="{{ $draft['no_form'] }}"
 																	><i class="ti-trash"></i></button>
-																	@endif
+																	@endif -->
 																</form>
 																
 																	
