@@ -2097,7 +2097,7 @@ class KepegawaianController extends Controller
 		foreach ($employees as $key => $employee) {
 			$sheet->setCellValue('A'.$nowrow, $key+1);
 			$sheet->setCellValue('B'.$nowrow, $employee['id_emp']);
-			$sheet->setCellValue('C'.$nowrow, $employee['nip_emp'] ? $employee['nip_emp'] : '-' );
+			$sheet->setCellValue('C'.$nowrow, $employee['nip_emp'] ? '\''.$employee['nip_emp'] : '-' );
 			$sheet->setCellValue('D'.$nowrow, $employee['nrk_emp'] ? $employee['nrk_emp'] : '-' );
 			$sheet->setCellValue('E'.$nowrow, strtoupper($employee['nm_emp']));
 			$sheet->setCellValue('F'.$nowrow, strtoupper($employee['nm_unit']));
