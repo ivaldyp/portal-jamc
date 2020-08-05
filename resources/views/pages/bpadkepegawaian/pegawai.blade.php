@@ -74,10 +74,10 @@
                             		<div class="col-md-1">
 				                      	<a href="/portal/kepegawaian/tambah pegawai"><button class="btn btn-info col-md-12" type="button">Tambah</button></a>
                             		</div>
+                            		@endif
                             		<div class="col-md-1">
 										<a href="/portal/kepegawaian/excel?unit={{ $idunit }}&ked={{ $kednow }}"><button class="btn btn-success col-md-12" type="button"> Excel </button></a>
 									</div>
-                            		@endif
                             		<div class="col-md-10">
                             			<form method="GET" action="/portal/kepegawaian/data pegawai">
 					                      	<div class=" col-md-2">
