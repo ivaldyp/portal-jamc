@@ -192,8 +192,7 @@ class LandingController extends Controller
 			$query = DB::select( DB::raw("SELECT *
 											from bpaddtfake.dbo.fr_disposisi
 											join bpaddtfake.dbo.glo_disposisi_kode on bpaddtfake.dbo.glo_disposisi_kode.kd_jnssurat = bpaddtfake.dbo.fr_disposisi.kode_disposisi
-											where kd_surat like '$idsurat' 
-											or no_form like '$idsurat'
+											where (kd_surat like '$idsurat' or no_form like '$idsurat') and bpaddtfake.dbo.fr_disposisi.sts = 1
 											order by ids") );
 			$query = json_decode(json_encode($query), true);
 
@@ -228,8 +227,8 @@ class LandingController extends Controller
 		$query = DB::select( DB::raw("SELECT * 
 					from bpaddtfake.dbo.fr_disposisi
 					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
-					where no_form = '$no_form'
-					and idtop = '$idtop'
+					where no_form = '$no_form' and idtop = '$idtop'
+					and bpaddtfake.dbo.fr_disposisi.sts = 1
 					order by ids
 					") );
 		$query = json_decode(json_encode($query), true);

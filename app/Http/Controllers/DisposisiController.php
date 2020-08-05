@@ -442,11 +442,17 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 	{
 		$this->checkSessionTime();
 
-		$maxnoform = Fr_disposisi::max('no_form');
+		// $maxnoform = Fr_disposisi::max('no_form');
+
+		$maxnoform = DB::select( DB::raw("SELECT max(no_form) as maks
+										  FROM [bpaddtfake].[dbo].[fr_disposisi]
+										  where sts = 1") );
+		$maxnoform = json_decode(json_encode($maxnoform), true);
+
 		if (is_null($maxnoform)) {
 			$maxnoform = '1.20.512.'.substr(date('Y'), -2).'100001';
 		} else {
-			$splitmaxform = explode(".", $maxnoform);
+			$splitmaxform = explode(".", $maxnoform[0]['maks']);
 			$maxnoform = $splitmaxform[0] . '.' . $splitmaxform[1] . '.' . $splitmaxform[2] . '.' . substr(date('Y'), -2) . substr(($splitmaxform[3]+1), -6);
 		}
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
@@ -699,14 +705,19 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 					->with('msg_num', 2);
 		}
 
-		$ceknoform = Fr_disposisi::where('no_form', $request->newnoform)->count();
+		$ceknoform = Fr_disposisi::where('no_form', $request->newnoform)
+									->where('sts', 1)
+									->count();
 		if ($ceknoform != 0) {
-			$maxnoform = Fr_disposisi::max('no_form');
+			$maxnoform = DB::select( DB::raw("SELECT max(no_form) as maks
+										  FROM [bpaddtfake].[dbo].[fr_disposisi]
+										  where sts = 1") );
+			$maxnoform = json_decode(json_encode($maxnoform), true);
 			if (is_null($maxnoform)) {
-				$maxnoform = '1.20.512.'.substr(date('Y'), -2).'100001';
+			$maxnoform = '1.20.512.'.substr(date('Y'), -2).'100001';
 			} else {
-				$splitmaxform = explode(".", $maxnoform);
-				$maxnoform = $splitmaxform[0] . '.' . $splitmaxform[1] . '.' . $splitmaxform[2] . '.' . substr(date('Y'), -2) . substr(($splitmaxform[3] + 1), -6);
+				$splitmaxform = explode(".", $maxnoform[0]['maks']);
+				$maxnoform = $splitmaxform[0] . '.' . $splitmaxform[1] . '.' . $splitmaxform[2] . '.' . substr(date('Y'), -2) . substr(($splitmaxform[3]+1), -6);
 			}
 		} else {
 			$maxnoform = $request->newnoform;
@@ -1274,6 +1285,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$dispinboxundangan = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
+												  ,m.sts as stsmaster
 												  ,d.[uname]
 												  ,d.[tgl]
 												  ,m.tgl as tglmaster
@@ -1324,7 +1336,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  where (d.rd like 'Y' or d.rd like 'N')
 												  and month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
-												  and d.sts = 1
+												  and m.sts = 1
 												  and m.catatan_final = 'undangan'
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1334,6 +1346,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$dispinboxsurat = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
+												  ,m.sts as stsmaster
 												  ,d.[uname]
 												  ,d.[tgl]
 												  ,m.tgl as tglmaster
@@ -1384,7 +1397,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  where (d.rd like 'Y' or d.rd like 'N')
 												  and month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
-												  and d.sts = 1
+												  and m.sts = 1
 												  and (m.catatan_final <> 'undangan' or m.catatan_final is null )
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1394,6 +1407,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$dispdraft = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
+												  ,m.sts as stsmaster
 												  ,d.[uname]
 												  ,d.[tgl]
 												  ,m.tgl as tglmaster
@@ -1441,7 +1455,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  where d.rd like 'D'
 												  and month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
-												  and d.sts = 1
+												  and m.sts = 1
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
 												  $qsearchnow
@@ -1460,6 +1474,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$dispsentundangan = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
+												  ,m.sts as stsmaster
 												  ,d.[uname]
 												  ,d.[tgl]
 												  ,m.tgl as tglmaster
@@ -1507,7 +1522,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
-												  and d.sts = 1
+												  and m.sts = 1
 												  and m.catatan_final = 'undangan'
 												  $qsearchnow
 												  and (
@@ -1518,6 +1533,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$dispsentsurat = DB::select( DB::raw("SELECT TOP (1000) d.[ids]
 												  ,d.[sts]
+												  ,m.sts as stsmaster
 												  ,d.[uname]
 												  ,d.[tgl]
 												  ,m.tgl as tglmaster
@@ -1565,7 +1581,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  left join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
 												  where month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
-												  and d.sts = 1
+												  and m.sts = 1
 												  and (m.catatan_final <> 'undangan' or m.catatan_final is null )
 												  $qsearchnow
 												  and (
@@ -1642,10 +1658,11 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  FROM [bpaddtfake].[dbo].[fr_disposisi] d
 												  left join bpaddtfake.dbo.emp_data as emp1 on emp1.id_emp = d.from_pm
 												  left join bpaddtfake.dbo.emp_data as emp2 on emp2.id_emp = d.to_pm
-												  join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0
+												  join bpaddtfake.dbo.fr_disposisi as m on m.no_form = d.no_form and m.idtop = 0 and m.sts = 1
 												  --join bpaddtfake.dbo.glo_org_unitkerja as unit on unit.kd_unit = d.kd_unit
 												  --join bpaddtfake.dbo.Glo_disposisi_kode as kode on kode.kd_jnssurat = m.kode_disposisi 
-												  and d.ids = '$request->ids'"))[0];
+												  where d.ids = '$request->ids'
+												  and d.sts = 1"))[0];
 		$dispmaster = json_decode(json_encode($dispmaster), true); 
 
 		$kddispos = Glo_disposisi_kode::where('kd_jnssurat', $dispmaster['kode_disposisi'])->orderBy('kd_jnssurat')->first();

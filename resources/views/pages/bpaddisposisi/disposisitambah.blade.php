@@ -151,7 +151,7 @@
 												<input autocomplete="off" type="text" name="no_surat" class="form-control" id="no_surat" placeholder="Nomor">
 											</div>
 											<div class="col-md-4">
-												<input type="text" name="tgl_surat" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy">
+												<input type="text" name="tgl_surat" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y') }}">
 											</div>
 										</div>
 
@@ -167,7 +167,7 @@
 										<div class="form-group">
 											<label for="asal_surat" class="col-md-2 control-label"> Dari </label>
 											<div class="col-md-8">
-												<input autocomplete="off" type="text" name="asal_surat" class="form-control" id="asal_surat">
+												<input type="text" name="asal_surat" class="form-control" id="asal_surat">
 											</div>
 										</div>
 
