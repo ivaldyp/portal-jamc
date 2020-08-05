@@ -74,9 +74,7 @@ class KepegawaianController extends Controller
 			$idunit = $request->unit;
 		}
 
-		if (Auth::user()->id_emp) {
-			
-			$employees = DB::select( DB::raw("  
+		$employees = DB::select( DB::raw("  
 					SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.nm_unit, tbunit.child, d.nm_lok from bpaddtfake.dbo.emp_data as a
 					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
 					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
@@ -85,19 +83,7 @@ class KepegawaianController extends Controller
 					,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
 					and idunit like '$idunit%' AND ked_emp = '$kednow'
 					order by idunit asc, nm_emp ASC") );
-			$employees = json_decode(json_encode($employees), true);
-		} else {
-			$employees = DB::select( DB::raw("  
-					SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.nm_unit, tbunit.child, d.nm_lok from bpaddtfake.dbo.emp_data as a
-					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
-					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
-					CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-					,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
-					and idunit like '$idunit%' and ked_emp = '$kednow'
-					order by idunit asc, nm_emp ASC") );
-			$employees = json_decode(json_encode($employees), true);
-		}
+		$employees = json_decode(json_encode($employees), true);
 		
 		$kedudukans = Glo_org_kedemp::get();
 
@@ -2053,74 +2039,36 @@ class KepegawaianController extends Controller
 
 	public function printexcel(Request $request)
 	{
-		$now_id = $request->id;
-		$now_month = $request->month;
-		$now_year = $request->year;
-		$now_valid = $request->valid;
+		$idunit = $request->idunit;
+		$kednow = $request->ked;
 
-		$monthName = date('F', mktime(0, 0, 0, $now_month, 10)); // March
-
-		$now_emp = DB::select( DB::raw("  
-				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao, tbunit.notes from bpaddtfake.dbo.emp_data as a
-				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
-				and id_emp like '$now_id' AND ked_emp = 'AKTIF'") )[0];
-		$now_emp = json_decode(json_encode($now_emp), true);
-
-		$sao_es4 = $now_emp['sao'];
-		$now_es4 = DB::select( DB::raw("  
-				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao, tbunit.notes from bpaddtfake.dbo.emp_data as a
-				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
-				and idunit like '$sao_es4' AND ked_emp = 'AKTIF'") )[0];
-		$now_es4 = json_decode(json_encode($now_es4), true);
-
-		$sao_es3 = $now_es4['sao'];
-		$now_es3 = DB::select( DB::raw("  
-				SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.sao, tbunit.notes from bpaddtfake.dbo.emp_data as a
-				CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
-				CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
-				,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
-				and idunit like '$sao_es3' AND ked_emp = 'AKTIF'") )[0];
-		$now_es3 = json_decode(json_encode($now_es3), true);
-
-		$laporans = DB::select( DB::raw("
-					SELECT *
-					from bpaddtfake.dbo.v_kinerja
-					where idemp = '$now_id'
-					and stat $now_valid
-					and YEAR(tgl_trans) = $now_year
-					and MONTH(tgl_trans) = $now_month
-					"));
-		$laporans = json_decode(json_encode($laporans), true);
+		$employees = DB::select( DB::raw("  
+					SELECT id_emp, nrk_emp, nip_emp, nm_emp, a.idgroup as idgroup, tgl_lahir, jnkel_emp, tgl_join, status_emp, tbjab.idjab, tbjab.idunit, tbunit.nm_unit, tbunit.notes, tbunit.child, d.nm_lok from bpaddtfake.dbo.emp_data as a
+					CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddtfake.dbo.emp_gol,bpaddtfake.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
+					CROSS APPLY (SELECT TOP 1 tmt_jab,idskpd,idunit,idlok,tmt_sk_jab,no_sk_jab,jns_jab,replace(idjab,'NA::','') as idjab,eselon,gambar FROM  bpaddtfake.dbo.emp_jab WHERE a.id_emp=emp_jab.noid AND emp_jab.sts='1' ORDER BY tmt_jab DESC) tbjab
+					CROSS APPLY (SELECT TOP 1 iddik,prog_sek,no_sek,th_sek,nm_sek,gelar_dpn_sek,gelar_blk_sek,ijz_cpns,gambar,nm_dik FROM  bpaddtfake.dbo.emp_dik,bpaddtfake.dbo.glo_dik WHERE a.id_emp = emp_dik.noid AND emp_dik.iddik=glo_dik.dik AND emp_dik.sts='1' AND glo_dik.sts='1' ORDER BY th_sek DESC) tbdik
+					CROSS APPLY (SELECT TOP 1 * FROM bpaddtfake.dbo.glo_org_unitkerja WHERE glo_org_unitkerja.kd_unit = tbjab.idunit) tbunit
+					,bpaddtfake.dbo.glo_skpd as b,bpaddtfake.dbo.glo_org_unitkerja as c,bpaddtfake.dbo.glo_org_lokasi as d WHERE tbjab.idskpd=b.skpd AND tbjab.idskpd+'::'+tbjab.idunit=c.kd_skpd+'::'+c.kd_unit AND tbjab.idskpd+'::'+tbjab.idlok=d.kd_skpd+'::'+d.kd_lok AND a.sts='1' AND b.sts='1' AND c.sts='1' AND d.sts='1'
+					and idunit like '$idunit%' AND ked_emp = '$kednow'
+					order by idunit asc, nm_emp ASC") );
+		$employees = json_decode(json_encode($employees), true);
 
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
-		$sheet->mergeCells('A1:E1');
-		$sheet->setCellValue('A1', 'LAPORAN KINERJA');
+		$sheet->mergeCells('A1:I1');
+		$sheet->setCellValue('A1', 'DATA PEGAWAI');
 		$sheet->getStyle('A1')->getFont()->setBold( true );
 		$sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
 
-		$sheet->mergeCells('A2:E2');
-		$sheet->setCellValue('A2', 'TENAGA AHLI '.$now_emp['nm_unit'].' BADAN PENGELOLAAN ASET DAERAH');
+		$sheet->mergeCells('A2:I2');
+		$sheet->setCellValue('A2', 'BADAN PENGELOLAAN ASET DAERAH');
 		$sheet->getStyle('A2')->getFont()->setBold( true );
 		$sheet->getStyle('A2')->getAlignment()->setHorizontal('center');
 
-		$sheet->mergeCells('A3:E3');
-		$sheet->setCellValue('A3', 'BADAN PENGELOLAAN ASET DAERAH (BPAD) PROVINSI DKI JAKARTA '.date('Y'));
+		$sheet->mergeCells('A3:I3');
+		$sheet->setCellValue('A3', 'PROVINSI DKI JAKARTA '.date('Y'));
 		$sheet->getStyle('A3')->getFont()->setBold( true );
-		$sheet->getStyle('A3')->getAlignment()->setHorizontal('center');
-
-		$sheet->setCellValue('A5', 'Nama');
-		$sheet->setCellValue('A6', 'Tempat Tugas');
-		$sheet->setCellValue('A7', 'Periode');
-
-		$sheet->setCellValue('C5', ': '.ucwords(strtolower($now_emp['nm_emp'])));
-		$sheet->getStyle('C5')->getFont()->setBold( true );
-		$sheet->setCellValue('C6', ': '.ucwords(strtolower($now_emp['nm_unit'])) . ' BPAD Provinsi DKI Jakarta');
-		$sheet->setCellValue('C7', ': '.$monthName .' '. $now_year);		
+		$sheet->getStyle('A3')->getAlignment()->setHorizontal('center');	
 
 		$styleArray = [
 		    'font' => [
@@ -2128,151 +2076,45 @@ class KepegawaianController extends Controller
 		        'name' => 'Trebuchet MS',
 		    ]
 		];
-		$sheet->getStyle('A1:E7')->applyFromArray($styleArray);
+		$sheet->getStyle('A1:I5')->applyFromArray($styleArray);
 
-		$sheet->setCellValue('A9', 'TANGGAL');
-		$sheet->setCellValue('B9', 'AWAL');
-		$sheet->setCellValue('C9', 'AKHIR');
-		$sheet->setCellValue('D9', 'URAIAN');
-		$sheet->setCellValue('E9', 'KETERANGAN');
+		$sheet->setCellValue('A5', 'NO');
+		$sheet->setCellValue('B5', 'ID');
+		$sheet->setCellValue('C5', 'NIP');
+		$sheet->setCellValue('D5', 'NRK');
+		$sheet->setCellValue('E5', 'NAMA');
+		$sheet->setCellValue('F5', 'UNIT');
+		$sheet->setCellValue('G5', 'LOKASI');
+		$sheet->setCellValue('H5', 'TGL LAHIR');
+		$sheet->setCellValue('I5', 'STATUS');
 
-		$sheet->getStyle('A9')->getFont()->setBold( true );
-		$sheet->getStyle('B9')->getFont()->setBold( true );
-		$sheet->getStyle('C9')->getFont()->setBold( true );
-		$sheet->getStyle('D9')->getFont()->setBold( true );
-		$sheet->getStyle('E9')->getFont()->setBold( true );
+		$sheet->getStyle('A5:I5')->getFont()->setBold( true );
 
-		$sheet->getStyle('A9')->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('B9')->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('C9')->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('D9')->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('E9')->getAlignment()->setHorizontal('center');
+		$sheet->getStyle('A5:I5')->getAlignment()->setHorizontal('center');
 
-		$nowdate = 0;
-		$nowrow = 10;
+		$nowrow = 6;
 		$rowstart = $nowrow - 1;
-		foreach ($laporans as $key => $laporan) {
-			if ($nowdate != $laporan['tgl_trans']) {
-				$nowdate = $laporan['tgl_trans'];
+		foreach ($employees as $key => $employee) {
+			$sheet->setCellValue('A'.$nowrow, $key+1);
+			$sheet->setCellValue('B'.$nowrow, $employee['id_emp']);
+			$sheet->setCellValue('C'.$nowrow, $employee['nip_emp'] ? $employee['nip_emp'] : '-' );
+			$sheet->setCellValue('D'.$nowrow, $employee['nrk_emp'] ? $employee['nrk_emp'] : '-' );
+			$sheet->setCellValue('E'.$nowrow, strtoupper($employee['nm_emp']));
+			$sheet->setCellValue('F'.$nowrow, strtoupper($employee['nm_unit']));
+			$sheet->setCellValue('G'.$nowrow, $employee['nm_lok']);
+			$sheet->setCellValue('H'.$nowrow, date('d-M-Y', strtotime($employee['tgl_lahir'])));
+			$sheet->setCellValue('I'.$nowrow, $employee['status_emp']);
 
-				if ($now_valid == "= 1") {
-					$jns_hadir = $laporan['jns_hadir_app'];
-				} else {
-					$jns_hadir = $laporan['jns_hadir'];
-				}
-
-				if ($laporan['jns_hadir_app'] == 'Lainnya (sebutkan)' || $laporan['jns_hadir'] == 'Lainnya (sebutkan)') {
-					$lainnya = " --- " . $laporan['lainnya'];
-				} else {
-					$lainnya = "";
-				}
-
-				$sheet->mergeCells("A".$nowrow.":E".$nowrow);
-				$sheet->setCellValue("A".$nowrow, date('D, d-M-Y',strtotime($laporan['tgl_trans'])) . " --- " . $jns_hadir);
-				$sheet->getStyle('A'.$nowrow)->getFont()->setBold( true );
-
-				$nowrow++;
+			if (strlen($employee['idunit']) < 10) {
+				$sheet->getStyle('A'.$nowrow.':I'.$nowrow)->getFont()->setBold( true );
 			}
 
-			if ($now_valid == "= 1") {
-				if ($laporan['tipe_hadir_app'] != 2) {
-					$sheet->setCellValue('A'.$nowrow, date('d-M-Y',strtotime($laporan['tgl_trans'])));
-					$sheet->setCellValue('B'.$nowrow, date('H:i',strtotime($laporan['time1'])));
-					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
-					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
-					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
-					$nowrow++;
-				}
-			} else {
-				if ($laporan['tipe_hadir'] != 2) {
-					$sheet->setCellValue('A'.$nowrow, date('d-M-Y',strtotime($laporan['tgl_trans'])));
-					$sheet->setCellValue('B'.$nowrow, date('H:i',strtotime($laporan['time1'])));
-					$sheet->setCellValue('C'.$nowrow, date('H:i',strtotime($laporan['time2'])));
-					$sheet->setCellValue('D'.$nowrow, $laporan['uraian']);
-					$sheet->setCellValue('E'.$nowrow, $laporan['keterangan']);
-					$nowrow++;
-				}
-			}
+			$nowrow++;
 		}
 
 		$rowend = $nowrow - 1;
 
-		$sheet->getColumnDimension('A')->setWidth(10);
-		$sheet->getColumnDimension('B')->setWidth(8);
-		$sheet->getColumnDimension('C')->setWidth(8);
-		$sheet->getColumnDimension('D')->setWidth(55);
-		$sheet->getColumnDimension('E')->setWidth(30);
-
-		$styleArray = [
-		    'borders' => [
-		        'allBorders' => [
-		            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-		        ],
-		    ],
-		];
-
-		$sheet->getStyle('A'.$rowstart.':E'.$rowend)->applyFromArray($styleArray);
-
-		$nowrow++;
-		$sheet->setCellValue('E'.$nowrow, 'Jakarta, _________');
-
-		$nowrow++;
-		$rownext = $nowrow + 1;
-		$sheet->mergeCells('A'.$nowrow.':C'.$rownext);
-		$sheet->setCellValue('A'.$nowrow, strtoupper($now_es4['notes']));
-		$sheet->getStyle('A'.$nowrow)->getAlignment()->setWrapText(true);
-		$sheet->getStyle('A'.$nowrow)->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('A'.$nowrow)->getAlignment()->setVertical('center');
-
-		$nowrow++;
-		$sheet->setCellValue('E'.$nowrow, 'TENAGA PENDAMPING');
-		$sheet->getStyle('E'.$nowrow)->getAlignment()->setHorizontal('center');
-
-		$nowrow = $nowrow + 4;
-		$sheet->setCellValue('D'.$nowrow, 'Mengetahui:');
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
-
-		$nowrow++;
-		$sheet->mergeCells('A'.$nowrow.':C'.$nowrow);
-		$sheet->setCellValue('A'.$nowrow, strtoupper($now_es4['nm_emp']));
-		$sheet->getStyle('A'.$nowrow)->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('A'.$nowrow)->getFont()->setBold( true );
-		//-----//
-		$rownext = $nowrow + 1;
-		$sheet->mergeCells('D'.$nowrow.':D'.$rownext);
-		$sheet->setCellValue('D'.$nowrow, strtoupper($now_es3['notes']));
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setWrapText(true);
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setVertical('center');
-		//-----//
-		$sheet->setCellValue('E'.$nowrow, strtoupper($now_emp['nm_emp']));
-		$sheet->getStyle('E'.$nowrow)->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('E'.$nowrow)->getFont()->setBold( true );
-
-		$nowrow++;
-		$sheet->setCellValue('A'.$nowrow, 'NIP. '.$now_es4['nip_emp']);
-		$sheet->mergeCells('A'.$nowrow.':C'.$nowrow);
-		$sheet->getStyle('A'.$nowrow)->getAlignment()->setHorizontal('center');
-
-		$nowrow = $nowrow + 4;
-		$sheet->setCellValue('D'.$nowrow, strtoupper($now_es3['nm_emp']));
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setWrapText(true);
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setVertical('center');
-		
-		$nowrow++;
-		$sheet->setCellValue('D'.$nowrow, 'NIP. '.$now_es3['nip_emp']);
-		$sheet->getStyle('D'.$nowrow)->getAlignment()->setHorizontal('center');
-
-		$styleArray = [
-		    'font' => [
-		        'size' => 12,
-		        'name' => 'Trebuchet MS',
-		    ]
-		];
-		$sheet->getStyle('A'.($rowend+1).':E'.$nowrow)->applyFromArray($styleArray);
-
-		$filename = 'EKinerja_'.$now_id.'_'.$monthName.$now_year.'.xlsx';
+		$filename = 'Pegawai'.date('Y').'.xlsx';
 
 		// Redirect output to a client's web browser (Xlsx)
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

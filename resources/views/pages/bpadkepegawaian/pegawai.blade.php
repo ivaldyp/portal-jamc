@@ -72,12 +72,15 @@
                             	<div class="row " style="margin-bottom: 10px">
                             		@if ($access['zadd'] == 'y')
                             		<div class="col-md-1">
-				                      	<a href="/portal/kepegawaian/tambah pegawai"><button class="btn btn-info" type="button">Tambah</button></a>
+				                      	<a href="/portal/kepegawaian/tambah pegawai"><button class="btn btn-info col-md-12" type="button">Tambah</button></a>
                             		</div>
+                            		<div class="col-md-1">
+										<a href="/portal/kepegawaian/excel?unit={{ $idunit }}&ked={{ $kednow }}"><button class="btn btn-success col-md-12" type="button"> Excel </button></a>
+									</div>
                             		@endif
-                            		<div class="col-md-6">
+                            		<div class="col-md-10">
                             			<form method="GET" action="/portal/kepegawaian/data pegawai">
-					                      	<div class=" col-md-3">
+					                      	<div class=" col-md-2">
 					                        	<select class="form-control" name="kednow" id="kednow" required onchange="this.form.submit()">
 					                          	<?php foreach ($kedudukans as $key => $kedudukan) { ?>
 					                            	<option value="{{ $kedudukan['ked_emp'] }}" 
@@ -90,7 +93,7 @@
 					                          	<?php } ?>
 					                        	</select>
 				                      		</div>
-				                      		<div class=" col-md-9">
+				                      		<div class=" col-md-6">
 					                        	<select class="form-control select2" name="unit" id="unit" required onchange="this.form.submit()">
 					                          	<?php foreach ($units as $key => $unit) { ?>
 					                            	<option value="{{ $unit['kd_unit'] }}" 
@@ -103,6 +106,7 @@
 					                          	<?php } ?>
 					                        	</select>
 				                      		</div>
+				                      		
 						                </form>
                             		</div>
                             		
@@ -117,9 +121,9 @@
 													<th>Id</th>
 													<th>NIP / NRK</th>
 													<th>Nama</th>
-													<th>Group</th>
+													<th>Unit</th>
 													<th class="col-md-1">Tgl Lahir</th>
-													<th>Jns Kel</th>
+													<th class="col-md-1" >Jns Kel</th>
 													<th class="col-md-1">TMT</th>
 													<th>Status</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
