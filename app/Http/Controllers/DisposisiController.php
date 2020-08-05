@@ -116,7 +116,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		}
 
 		if ($request->searchnow) {
-			$qsearchnow = "and (m.kd_surat = '".$request->searchnow."' or m.no_form = '".$request->searchnow."' or m.perihal like '%".$request->searchnow."%' or m.asal_surat like '%".$request->searchnow."%')";
+			$qsearchnow = "and (kd_surat = '".$request->searchnow."' or no_form = '".$request->searchnow."' or perihal like '%".$request->searchnow."%' or asal_surat like '%".$request->searchnow."%')";
 		} else {
 			$qsearchnow = "";
 		}
