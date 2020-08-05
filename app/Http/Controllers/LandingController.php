@@ -189,7 +189,7 @@ class LandingController extends Controller
 		$query = null;
 		$treedisp = null;
 		if(isset($idsurat)){
-			$query = DB::select( DB::raw("SELECT *
+			$query = DB::select( DB::raw("SELECT *, bpaddtfake.dbo.fr_disposisi.tgl as disptgl
 											from bpaddtfake.dbo.fr_disposisi
 											join bpaddtfake.dbo.glo_disposisi_kode on bpaddtfake.dbo.glo_disposisi_kode.kd_jnssurat = bpaddtfake.dbo.fr_disposisi.kode_disposisi
 											where (kd_surat like '$idsurat' or no_form like '$idsurat') and bpaddtfake.dbo.fr_disposisi.sts = 1
@@ -199,7 +199,7 @@ class LandingController extends Controller
 			if(count($query) >= 1){
 				$treedisp = '<tr>
 								<td>
-									<i class="fa fa-book"></i> <span>'.$query[0]['no_form'].'</span> <br>
+									<i class="fa fa-book"></i> <span>'.$query[0]['no_form'].' ['.date('d-M-Y', strtotime($query[0]['disptgl'])).']</span> <br>
 									<span class="text-muted">Kode: '.$query[0]['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$query[0]['no_surat'].'</span><br>
 								</td>
 							</tr>';
@@ -224,7 +224,7 @@ class LandingController extends Controller
 		// 			->orderBy('ids')
 		// 			->get();
 
-		$query = DB::select( DB::raw("SELECT * 
+		$query = DB::select( DB::raw("SELECT * , bpaddtfake.dbo.fr_disposisi.tgl as disptgl
 					from bpaddtfake.dbo.fr_disposisi
 					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
 					where no_form = '$no_form' and idtop = '$idtop'
@@ -240,7 +240,7 @@ class LandingController extends Controller
 				$padding = ($level * 20);
 				$result .= '<tr >
 								<td style="padding-left:'.$padding.'px; padding-top:10px">
-									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> 
+									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).' ['.date('d-M-Y', strtotime($log['disptgl'])).']</span> 
 									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i data-toggle='tooltip' title='Sudah ditindaklanjut!' class='fa fa-check' style='color: blue'></i>" : '').'
 									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i data-toggle='tooltip' title='Belum ditindaklanjut!' class='fa fa-close' style='color: red'></i>" : '').'
 									<br> 

@@ -52,7 +52,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 		// 			->orderBy('ids')
 		// 			->get();
 
-		$query = DB::select( DB::raw("SELECT * 
+		$query = DB::select( DB::raw("SELECT *, bpaddtfake.dbo.fr_disposisi.tgl as disptgl
 					from bpaddtfake.dbo.fr_disposisi
 					left join bpaddtfake.dbo.emp_data on bpaddtfake.dbo.emp_data.id_emp = bpaddtfake.dbo.fr_disposisi.to_pm
 					where no_form = '$no_form'
@@ -70,7 +70,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 				$result .= '<tr >
 								<td style="padding-left:'.$padding.'px; padding-top:10px">
-									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).'</span> 
+									<i class="fa fa-user"></i> <span>'.$log['nrk_emp'].' '.ucwords(strtolower($log['nm_emp'])).' ['.date('d-M-Y',strtotime($log['disptgl'])).']</span> 
 									'.(($log['child'] == 0 && $log['rd'] == 'S') ? "<i data-toggle='tooltip' title='Sudah ditindaklanjut!' class='fa fa-check' style='color: blue'></i>" : '').'
 									'.(($log['child'] == 0 && $log['rd'] != 'S') ? "<i data-toggle='tooltip' title='Belum ditindaklanjut!' class='fa fa-close' style='color: red'></i>" : '').'
 									<br> 
@@ -562,15 +562,15 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  order by tgl_masuk desc, no_form desc"))[0];
 		$dispmaster = json_decode(json_encode($dispmaster), true);
 
-		$treedisp = '<tr>
-						<td>
-							<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].'</span> <br>
-							<span class="text-muted">Kode: '.$dispmaster['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$dispmaster['no_surat'].'</span><br>
+		// $treedisp = '<tr>
+		// 				<td>
+		// 					<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].' ['.date('d-M-Y',strtotime($dispmaster['tgl'])).']</span> <br>
+		// 					<span class="text-muted">Kode: '.$dispmaster['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$dispmaster['no_surat'].'</span><br>
 
-						</td>
-					</tr>';
+		// 				</td>
+		// 			</tr>';
 
-		$treedisp .= $this->display_disposisi($request->no_form, $dispmaster['ids']);
+		// $treedisp .= $this->display_disposisi($request->no_form, $dispmaster['ids']);
 
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
@@ -622,7 +622,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$treedisp = '<tr>
 						<td>
-							<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].'</span> <br>
+							<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].' ['.date('d-M-Y',strtotime($dispmaster['tgl'])).']</span> <br>
 							<span class="text-muted">Kode: '.$dispmaster['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$dispmaster['no_surat'].'</span><br>
 
 						</td>
@@ -1693,7 +1693,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 
 		$treedisp = '<tr>
 						<td>
-							<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].'</span> <br>
+							<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].' ['.date('d-M-Y', strtotime($dispmaster['tglmaster'])).'] </span> <br>
 							<span class="text-muted">Kode: '.$dispmaster['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$dispmaster['no_surat'].'</span><br>
 
 						</td>
