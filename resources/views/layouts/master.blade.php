@@ -91,8 +91,8 @@
 							<li><a href="http://bpad.jakarta.go.id/portal/ceksurat" target="_blank">Cek Surat</a></li>
 							<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a></li>
 							<li><a href="https://ppid.jakarta.go.id/" target="_blank">PPID</a></li>
-							<li><a href="http://bpad.jakarta.go.id/brandgangpermohonan" target="_blank">Permohonan</a></li>
-							<li><a href="http://bpad.jakarta.go.id/brandgangmonitoring" target="_blank">Monitoring</a></li>
+							<li><a href="http://bpad.jakarta.go.id/brandgangpermohonan" target="_blank">Permohonan Brandgang</a></li>
+							<li><a href="http://bpad.jakarta.go.id/brandgangmonitoring" target="_blank">Monitoring Brandgang</a></li>
 							<!-- <li><a href="{{ url('content/Infografis') }}">Infografis</a></li> -->
 						</ul>
 					</li>	
