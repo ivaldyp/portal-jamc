@@ -76,7 +76,7 @@
                             		</div>
                             		@endif
                             		<div class="col-md-1">
-										<a href="/portal/kepegawaian/excel?unit={{ $idunit }}&ked={{ $kednow }}"><button class="btn btn-success col-md-12" type="button"> Excel </button></a>
+										<a href="/portal/kepegawaian/excelpegawai?unit={{ $idunit }}&ked={{ $kednow }}"><button class="btn btn-success col-md-12" type="button"> Excel </button></a>
 									</div>
                             		<div class="col-md-10">
                             			<form method="GET" action="/portal/kepegawaian/data pegawai">
