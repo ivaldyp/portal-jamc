@@ -2279,7 +2279,7 @@ class KepegawaianController extends Controller
 
 	public function printexcelpegawai(Request $request)
 	{
-		$idunit = $request->idunit;
+		$idunit = $request->unit;
 		$kednow = $request->ked;
 
 		$employees = DB::select( DB::raw("  
