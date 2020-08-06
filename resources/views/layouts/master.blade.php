@@ -86,22 +86,17 @@
 							<!-- <li><a href="{{ url('content/Infografis') }}">Infografis</a></li> -->
 						</ul>
 					</li>
-					<!-- <li><a href="" target="_blank" style="animation: color-change 1s infinite;">Disposisi</a> -->
-					<li class="has-dropdown"><a href="#">Cek Surat</a>
+					<li class="has-dropdown"><a href="#">Lainnya</a>
 						<ul class="dropdown" style="list-style: none; padding: 0;">
-							<!-- <li><a href="http://bpad.jakarta.go.id/disposisi" style="animation: color-change 1s infinite;" target="_blank">Disposisi</a></li> -->
-							<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a></li>
 							<li><a href="http://bpad.jakarta.go.id/portal/ceksurat" target="_blank">Cek Surat</a></li>
-						</ul>
-					</li>	
-					<!-- <li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a> -->
-					<li><a href="https://ppid.jakarta.go.id/" target="_blank">PPID</a></li>
-					<li class="has-dropdown"><a href="#">SI-Gang</a>
-						<ul class="dropdown" style="list-style: none; padding: 0;">
+							<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a></li>
+							<li><a href="https://ppid.jakarta.go.id/" target="_blank">PPID</a></li>
 							<li><a href="http://bpad.jakarta.go.id/brandgangpermohonan" target="_blank">Permohonan</a></li>
 							<li><a href="http://bpad.jakarta.go.id/brandgangmonitoring" target="_blank">Monitoring</a></li>
+							<!-- <li><a href="{{ url('content/Infografis') }}">Infografis</a></li> -->
 						</ul>
-					</li>
+					</li>	
+
 					<!-- <li>
 						<ul class="dropdown">
 							<li><a href="single-event.html">Produk Hukum</a></li>
