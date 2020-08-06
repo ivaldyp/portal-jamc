@@ -549,7 +549,7 @@ class CmsController extends Controller
 		// } 
 
 		$kategoris = DB::select( DB::raw("
-				  	SELECT *, (select count (ids) from bpadcmsfake.dbo.content_tb as con where appr = 'N' and sts = 1 and suspend = '' and idkat = kat.ids) as total
+				  	SELECT *, (select count (ids) from bpadcmsfake.dbo.content_tb as con where appr = 'N' and sts = 1 and idkat = kat.ids) as total
 					FROM bpadcmsfake.dbo.glo_kategori as kat
 					WHERE sts = 1
 					ORDER BY nmkat
