@@ -40,6 +40,7 @@ class DisposisiController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+		set_time_limit(300);
 	}
 
 	public function log(Request $request)
@@ -797,7 +798,7 @@ class DisposisiController extends Controller
 				$filedispo = 'disp';
 
 				if ($file[0]->getSize() > 52222222) {
-					return redirect('/disposisi/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+					return redirect('/disposisi/tambah disposisi')->with('message', 'Ukuran file terlalu besar');     
 				} 
 
 				$filedispo .= ($splitmaxform[3]);
@@ -813,7 +814,7 @@ class DisposisiController extends Controller
 					$filenow = 'disp';
 
 					if ($data->getSize() > 52222222) {
-						return redirect('/disposisi/tambah disposisi')->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+						return redirect('/disposisi/tambah disposisi')->with('message', 'Ukuran file terlalu besar');     
 					} 
 
 					$filenow .= $key;
@@ -1072,7 +1073,7 @@ class DisposisiController extends Controller
 			if (count($file) == 1) {
 				
 				if ($file[0]->getSize() > 52222222) {
-					return redirect('/disposisi/ubah disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+					return redirect('/disposisi/ubah disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar');     
 				} 
 
 				if ($filedispo != '') {
@@ -1099,7 +1100,7 @@ class DisposisiController extends Controller
 				foreach ($file as $key => $data) {
 
 					if ($data->getSize() > 52222222) {
-						return redirect('/disposisi/ubah disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+						return redirect('/disposisi/ubah disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar');     
 					} 
 
 					$filenow = 'disp';
@@ -1578,7 +1579,8 @@ class DisposisiController extends Controller
 												  ,d.[to_user]
 												  ,d.[to_pm]
 												  ,emp2.nm_emp as to_nm
-												  ,d.[rd]
+												  ,d.[rd] as rddisp
+												  ,m.rd as rdmaster
 												  ,d.[usr_rd]
 												  ,d.[tgl_rd]
 												  ,d.[selesai]
@@ -1638,7 +1640,8 @@ class DisposisiController extends Controller
 												  ,d.[to_user]
 												  ,d.[to_pm]
 												  ,emp2.nm_emp as to_nm
-												  ,d.[rd]
+												  ,d.[rd] as rddisp
+												  ,m.rd as rdmaster
 												  ,d.[usr_rd]
 												  ,d.[tgl_rd]
 												  ,d.[selesai]
@@ -1861,7 +1864,7 @@ class DisposisiController extends Controller
 			if (count($file) == 1) {
 				
 				if ($file[0]->getSize() > 52222222) {
-					return redirect('/disposisi/lihat disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+					return redirect('/disposisi/lihat disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar');     
 				} 
 
 				if ($filedispo != '') {
@@ -1888,7 +1891,7 @@ class DisposisiController extends Controller
 				foreach ($file as $key => $data) {
 
 					if ($data->getSize() > 52222222) {
-						return redirect('/disposisi/lihat disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar (Maksimal 2MB)');     
+						return redirect('/disposisi/lihat disposisi?ids='.$request->ids)->with('message', 'Ukuran file terlalu besar');     
 					} 
 
 					$filenow = 'disp';

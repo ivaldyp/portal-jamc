@@ -69,7 +69,7 @@
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
 								<div class="row" style="margin-bottom: 10px">
-									<form method="GET" action="/portal/booking/list">
+									<form method="GET" action="/portal/booking/request">
 										<div class=" col-md-2">
 											<?php date_default_timezone_set('Asia/Jakarta'); ?>
 											<select class="form-control" name="yearnow" id="yearnow" onchange="this.form.submit()">

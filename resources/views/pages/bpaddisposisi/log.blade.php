@@ -32,7 +32,8 @@
 					</tr>
 					<tr>
 						<td>Nomor & Tgl Surat</td>
-						<td>{{ $dispmaster['no_surat'] ?? '-' }} {{ $dispmaster['tgl_surat'] ? ' - '.$dispmaster['tgl_surat'] : '' }}</td>
+						<td>{{ $dispmaster['no_surat'] ?? '-' }} <br>
+						{{ $dispmaster['tgl_surat'] ?? '-' }}</td>
 					</tr>
 					<tr>
 						<td>Perihal</td>

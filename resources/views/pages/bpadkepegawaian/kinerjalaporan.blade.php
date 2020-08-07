@@ -66,9 +66,9 @@
 										<div class="col-md-3">
 											<select class="form-control select2" name="now_id_emp" id="now_id_emp" onchange="this.form.submit()">
 												@forelse($pegawais as $pegawai)
-												<option <?php if ($now_id_emp == $pegawai['id_emp']): ?> selected <?php endif ?> value="{{ $pegawai['id_emp'] }}">{{ ucwords(strtolower($pegawai['nm_emp'])) }}-{{ $pegawai['nrk_emp'] }}</option>
+												<option <?php if ($now_id_emp == $pegawai['id_emp']): ?> selected <?php endif ?> value="{{ $pegawai['id_emp'] }}">[{{ $pegawai['id_emp'] }}] - {{ ucwords(strtolower($pegawai['nm_emp'])) }}</option>
 												@empty
-												<option value="{{ $_SESSION['user_data']['id_emp'] }}">{{ ucwords(strtolower($_SESSION['user_data']['nm_emp'])) }}-{{ $_SESSION['user_data']['nrk_emp'] }}</option>
+												<option value="{{ $_SESSION['user_data']['id_emp'] }}">[{{ $_SESSION['user_data']['id_emp'] }}] - {{ ucwords(strtolower($_SESSION['user_data']['nm_emp'])) }}</option>
 												@endforelse
 											</select>
 										</div>

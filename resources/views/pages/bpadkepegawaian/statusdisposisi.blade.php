@@ -69,6 +69,7 @@
 										<table class="myTable table table-hover table-striped">
 											<thead>
 												<tr>
+													<th>ID</th>
 													<th>NRK</th>
 													<th>Nama</th>
 													<th>Jabatan</th>
