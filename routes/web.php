@@ -74,6 +74,7 @@ Route::group(['prefix' => 'disposisi'], function () {
 	Route::get('form/hapusdisposisiemp', 'DisposisiController@formdeletedisposisiemp');
 
 	Route::get('/excel', 'DisposisiController@printexcel');
+	Route::get('/log', 'DisposisiController@log');
 });
 
 Route::group(['prefix' => 'profil'], function () {

@@ -42,8 +42,73 @@ class DisposisiController extends Controller
 		$this->middleware('auth');
 	}
 
+	public function log(Request $request)
+	{
+		// if (file_exists("C:/xampp/htdocs/portal/public/publicfile/disp/1.20.512.20102228/disp19.pdf" )) {
 
-public function display_disposisi($no_form, $idtop, $level = 0)
+		$dispmaster = DB::select( DB::raw("SELECT TOP (100) [ids]
+												  ,[sts]
+												  ,[uname]
+												  ,[tgl]
+												  ,[ip]
+												  ,[logbuat]
+												  ,[kd_skpd]
+												  ,[kd_unit]
+												  ,[no_form]
+												  ,[kd_surat]
+												  ,[status_surat]
+												  ,[idtop]
+												  ,[tgl_masuk]
+												  ,[usr_input]
+												  ,[tgl_input]
+												  ,[no_index]
+												  ,[kode_disposisi]
+												  ,[perihal]
+												  ,[tgl_surat]
+												  ,[no_surat]
+												  ,[asal_surat]
+												  ,[kepada_surat]
+												  ,[sifat1_surat]
+												  ,[sifat2_surat]
+												  ,[ket_lain]
+												  ,[nm_file]
+												  ,[kepada]
+												  ,[noid]
+												  ,[penanganan]
+												  ,[catatan]
+												  ,[from_user]
+												  ,[from_pm]
+												  ,[to_user]
+												  ,[to_pm]
+												  ,[rd]
+												  ,[usr_rd]
+												  ,[tgl_rd]
+												  ,[selesai]
+												  ,[child]
+												  ,[penanganan_final]
+												  ,[catatan_final]
+												  FROM [bpaddtfake].[dbo].[fr_disposisi]
+												  where no_form like '$request->form'
+												  and sts = 1
+												  order by no_form desc, ids asc"))[0];
+		$dispmaster = json_decode(json_encode($dispmaster), true);
+
+		$treedisp = '<tr>
+						<td>
+							<span class="fa fa-book"></span> <span>'.$dispmaster['no_form'].' ['.date('d-M-Y',strtotime($dispmaster['tgl'])).']</span> <br>
+							<span class="text-muted">Kode: '.$dispmaster['kode_disposisi'].'</span> | <span class="text-muted"> Nomor: '.$dispmaster['no_surat'].'</span><br>
+
+						</td>
+					</tr>';
+
+		$treedisp .= $this->display_disposisi($dispmaster['no_form'], $dispmaster['ids']);
+
+		return view('pages.bpaddisposisi.log')
+				->with('dispmaster', $dispmaster)
+				->with('treedisp', $treedisp);
+	}
+
+	public function display_disposisi($no_form, $idtop, $level = 0)
 	{
 		// $query = Fr_disposisi::
 		// 			leftJoin('bpaddtfake.dbo.emp_data as emp1', 'emp1.id_emp', '=', 'bpaddtfake.dbo.fr_disposisi.to_pm')
@@ -1337,6 +1402,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
 												  and m.sts = 1
+												  and d.sts = 1
 												  and m.catatan_final = 'undangan'
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1398,6 +1464,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
 												  and m.sts = 1
+												  and d.sts = 1
 												  and (m.catatan_final <> 'undangan' or m.catatan_final is null )
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
@@ -1456,6 +1523,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  and month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
 												  and m.sts = 1
+												  and d.sts = 1
 												  AND d.idtop > 0 AND d.child = 0
 												  $qid
 												  $qsearchnow
@@ -1523,6 +1591,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  where month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
 												  and m.sts = 1
+												  and d.sts = 1
 												  and m.catatan_final = 'undangan'
 												  $qsearchnow
 												  and (
@@ -1582,6 +1651,7 @@ public function display_disposisi($no_form, $idtop, $level = 0)
 												  where month(m.tgl_masuk) $signnow $monthnow
 												  and year(m.tgl_masuk) = $yearnow
 												  and m.sts = 1
+												  and d.sts = 1
 												  and (m.catatan_final <> 'undangan' or m.catatan_final is null )
 												  $qsearchnow
 												  and (

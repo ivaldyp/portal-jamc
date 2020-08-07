@@ -202,6 +202,10 @@
 																					?>
 																					</td>
 																				</tr>
+																				<tr>
+																					<td><strong>Log</strong></td>
+																					<td><a href="/portal/disposisi/log?form={{ $thisnoform }}" target="_blank"><button type="submit" class="btn btn-info">Lihat Log</button></a></td>
+																				</tr>
 																			</tbody>
 																		</table> 
 																	</span> 
@@ -337,6 +341,10 @@
 																					?>
 																					</td>
 																				</tr>
+																				<tr>
+																					<td><strong>Log</strong></td>
+																					<td><a href="/portal/disposisi/log?form={{ $thisnoform }}" target="_blank"><button type="submit" class="btn btn-info">Lihat Log</button></a></td>
+																				</tr>
 																			</tbody>
 																		</table> 
 																	</span> 
@@ -465,6 +473,10 @@
 																						<?php } 
 																					?>
 																					</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Log</strong></td>
+																					<td><a href="/portal/disposisi/log?form={{ $thisnoform }}" target="_blank"><button type="submit" class="btn btn-info">Lihat Log</button></a></td>
 																				</tr>
 																			</tbody>
 																		</table> 
@@ -601,6 +613,10 @@
 																					?>
 																					</td>
 																				</tr>
+																				<tr>
+																					<td><strong>Log</strong></td>
+																					<td><a href="/portal/disposisi/log?form={{ $thisnoform }}" target="_blank"><button type="submit" class="btn btn-info">Lihat Log</button></a></td>
+																				</tr>
 																			</tbody>
 																		</table> 
 																	</span> 
@@ -722,6 +738,10 @@
 																						<?php } 
 																					?>
 																					</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Log</strong></td>
+																					<td><a href="/portal/disposisi/log?form={{ $thisnoform }}" target="_blank"><button type="submit" class="btn btn-info">Lihat Log</button></a></td>
 																				</tr>
 																			</tbody>
 																		</table> 
