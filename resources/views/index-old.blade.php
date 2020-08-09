@@ -10,7 +10,7 @@
 <div id="ads" class="bottom pull-right">
 	<button class="btn btnads" id="adsbutton">X</button>
 	<a href="{{ url('/content/lelang') }}">
-		<img src="{{ ('/portal/public/img/photo/lelang-bpad.jpeg') }}">
+		<img src="{{ ('/pengamanan/public/img/photo/lelang-bpad.jpeg') }}">
 		<h1 class="text-center" id="lelang-text">LELANG</h1>
 		<!-- <a href="#">Home</a> -->
 	</a>
@@ -27,7 +27,7 @@
 			<!-- <h1 class="title"><span style="background: linear-gradient(90deg, #0052D4 0%, #65C7F7 30%, #65C7F7 60%, #0052D4 100%); -webkit-background-clip: text;-webkit-text-fill-color: transparent; font-size: 64px; font-weight: bold;">BERITA TERKINI</span></h1> -->
 
 			<!-- <div style="text-align: center;">
-				<img height="200" src="{{ ('/portal/public/img/photo/bpad-logo-04b.png') }}">
+				<img height="200" src="{{ ('/pengamanan/public/img/photo/bpad-logo-04b.png') }}">
 			</div> -->
 
 			<!-- <h1 class=" chrome">BERITA</h1> -->
@@ -38,7 +38,7 @@
 </div>
 <div id="testimonial" class="section" style="height: 780px;">
 	<!-- background section -->
-	<div class="section-bg asyncImage" style="background-image: url('{{ ('/portal/public/img/photo/background-00b.jpg')}}');">
+	<div class="section-bg asyncImage" style="background-image: url('{{ ('/pengamanan/public/img/photo/background-00b.jpg')}}');">
 	</div>
 	<!-- /background section -->
 
@@ -218,7 +218,7 @@
 						<div class="article-img">
 							<a href="JavaScript:void(0);">
 								<span class="text-test" style="">
-									<img style="width: 50px" src="{{ ('/portal/public/img/photo/bpad-logo-00.png') }}">
+									<img style="width: 50px" src="{{ ('/pengamanan/public/img/photo/bpad-logo-00.png') }}">
 									<hr>
 									<h4 style="color: white">{{ $photo['judul'] }}</h4>
 								</span>

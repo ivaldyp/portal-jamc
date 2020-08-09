@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kinerja_detail extends Model
 {
-    protected $connection = 'sqlsrv2';
+    protected $connection = 'sqlsrv';
 	protected $table = "kinerja_detail";
 	// protected $primaryKey = "ids"; 
 	// public $incrementing = false;

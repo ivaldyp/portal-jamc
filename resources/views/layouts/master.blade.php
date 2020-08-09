@@ -8,23 +8,23 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<title>BPAD DKI Jakarta</title>
-	<link rel="shortcut icon" type="image/x-icon" href="{{ ('/portal/public/img/photo/bpad-logo-00.png') }}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{ ('/pengamanan/public/img/photo/bpad-logo-00.png') }}" />
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400%7CSource+Sans+Pro:700" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/portal/public/css/bootstrap.min.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/pengamanan/public/css/bootstrap.min.css') }}" />
 
 	<!-- Owl Carousel -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/portal/public/css/owl.carousel.css') }}" />
-	<link type="text/css" rel="stylesheet" href="{{ ('/portal/public/css/owl.theme.default.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/pengamanan/public/css/owl.carousel.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/pengamanan/public/css/owl.theme.default.css') }}" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="{{ ('/portal/public/css/font-awesome.min.css') }}" />
+	<link rel="stylesheet" href="{{ ('/pengamanan/public/css/font-awesome.min.css') }}" />
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/portal/public/css/style.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/pengamanan/public/css/style.css') }}" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,7 +44,7 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a  href="{{ url('/') }}"><img src="{{ ('/portal/public/img/photo/bpad-logo-04b.png') }}" alt="logo" height="85"></a>
+						<a  href="{{ url('/') }}"><img src="{{ ('/pengamanan/public/img/photo/bpad-logo-04b.png') }}" alt="logo" height="85"></a>
 					</div>
 					<!-- Logo -->
 
@@ -88,7 +88,7 @@
 					</li>
 					<li class="has-dropdown"><a href="#">Lainnya</a>
 						<ul class="dropdown" style="list-style: none; padding: 0;">
-							<li><a href="http://bpad.jakarta.go.id/portal/ceksurat" target="_blank">Cek Surat</a></li>
+							<li><a href="http://bpad.jakarta.go.id/pengamanan/ceksurat" target="_blank">Cek Surat</a></li>
 							<li><a href="https://webmail.bpadjakarta.id/" target="_blank">Webmail</a></li>
 							<li><a href="https://ppid.jakarta.go.id/" target="_blank">PPID</a></li>
 							<li><a href="http://bpad.jakarta.go.id/brandgangpermohonan" target="_blank">Permohonan Brandgang</a></li>
@@ -138,7 +138,7 @@
 				<div class="col-md-4">
 					<div class="footer">
 						<div class="footer-logo" style="margin-top: 20px">
-							<a href="#"><img src="{{ ('/portal/public/img/photo/plusjakartalogo2.png') }}" alt="" height="70"></a>
+							<a href="#"><img src="{{ ('/pengamanan/public/img/photo/plusjakartalogo2.png') }}" alt="" height="70"></a>
 						</div>
 						<address>
 							<span style="font-weight: bold;">Gedung Dinas Teknis</span><br>
@@ -239,7 +239,7 @@
 					<div class="col-sm-6" style="top: -20px">
 						<div class="footer-copyright pull-right">
 							
-							<!-- <img src="{{ ('/portal/public/img/photo/plusjakartalogo2.png') }}" alt="" height="100"> -->
+							<!-- <img src="{{ ('/pengamanan/public/img/photo/plusjakartalogo2.png') }}" alt="" height="100"> -->
 						</div>
 					</div>
 				</div>
@@ -251,14 +251,14 @@
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="{{ ('/portal/public/js/jquery.min.js') }}"></script>
-	<script src="{{ ('/portal/public/js/bootstrap.min.js') }}"></script>
-	<script src="{{ ('/portal/public/js/owl.carousel.min.js') }}"></script>
-	<script src="{{ ('/portal/public/js/jquery.stellar.min.js') }}"></script>
-	<script src="{{ ('/portal/public/js/main.js') }}"></script>
+	<script src="{{ ('/pengamanan/public/js/jquery.min.js') }}"></script>
+	<script src="{{ ('/pengamanan/public/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/pengamanan/public/js/owl.carousel.min.js') }}"></script>
+	<script src="{{ ('/pengamanan/public/js/jquery.stellar.min.js') }}"></script>
+	<script src="{{ ('/pengamanan/public/js/main.js') }}"></script>
 
 	<!-- <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script> -->
-	<script src="{{ ('/portal/public/js/jquery.zoom.js') }}"></script>
+	<script src="{{ ('/pengamanan/public/js/jquery.zoom.js') }}"></script>
 	<script type="text/javascript">
 		var main = function(){
 			var ads = $('#ads')

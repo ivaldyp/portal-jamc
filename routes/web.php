@@ -24,6 +24,14 @@ Route::get('/home', 'HomeController@index');
 Route::POST('/home/password', 'HomeController@password');
 Route::get('/logout', 'LandingController@logout');
 
+Route::group(['prefix' => 'cms'], function () {
+	Route::get('/menu', 'CmsController@menuall');
+	Route::post('/form/tambahmenu', 'CmsController@forminsertmenu');
+	Route::post('/form/ubahmenu', 'CmsController@formupdatemenu');
+	Route::post('/form/hapusmenu', 'CmsController@formdeletemenu');
+	Route::get('/menuakses', 'CmsController@menuakses');
+	Route::post('/form/ubahaccess', 'CmsController@formupdateaccess');
+});
 
 Route::group(['prefix' => 'kepegawaian'], function () {
 	Route::get('/excel', 'KepegawaianController@printexcel');

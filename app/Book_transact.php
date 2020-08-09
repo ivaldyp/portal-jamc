@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class book_transact extends Model
 {
-    protected $connection = 'sqlsrv2';
+    protected $connection = 'sqlsrv';
     // protected $primaryKey = "ids"; 
     protected $table = "book_transact";
 

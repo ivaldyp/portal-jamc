@@ -46,15 +46,21 @@
 						<div class="row">
 							<form method="POST" action="{{ route('login') }}">
 								@csrf
+
+								@if(Auth::check())
+								<button type="submit" class="btn btn-warning" style="color: white">MASUK</button>
+								@else
 								<div class="form-group">
 									<label for="name" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Username</label>
-									<input autocomplete="off" type="text" name="name" class="form-control no-outline">	
+									<input required="" autocomplete="off" type="text" name="name" class="form-control no-outline">	
 								</div>
 								<div class="form-group">
 									<label for="password" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Password</label>
-									<input autocomplete="off" type="password" name="password" class="form-control no-outline">	
+									<input required="" autocomplete="off" type="password" name="password" class="form-control no-outline">	
 								</div>
 								<button type="submit" class="btn btn-warning" style="color: white">LOGIN</button>
+								@endif
+								
 							</form>
 						</div>
 						<div class="row">

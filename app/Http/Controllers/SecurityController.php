@@ -29,10 +29,10 @@ class SecurityController extends Controller
 		}
 
 		$query = Sec_menu::
-				join('bpaddtfake.dbo.sec_access', 'bpaddtfake.dbo.sec_access.idtop', '=', 'bpaddtfake.dbo.Sec_menu.ids')
-                ->where('bpaddtfake.dbo.sec_access.idgroup', $idgroup)
-                ->where('bpaddtfake.dbo.Sec_menu.sao', $parent)
-                ->orderBy('bpaddtfake.dbo.Sec_menu.urut')
+				join('bpadpengamanan.dbo.sec_access', 'bpadpengamanan.dbo.sec_access.idtop', '=', 'bpadpengamanan.dbo.Sec_menu.ids')
+                ->where('bpadpengamanan.dbo.sec_access.idgroup', $idgroup)
+                ->where('bpadpengamanan.dbo.Sec_menu.sao', $parent)
+                ->orderBy('bpadpengamanan.dbo.Sec_menu.urut')
 				->get();
 
 		$result = '';
@@ -348,9 +348,11 @@ class SecurityController extends Controller
 		$this->checkSessionTime();
 		// $access = $this->checkAccess($_SESSION['user_data']['idgroup'], 6);
 
-		$query = Sec_logins::
-					where('usname', $request->usname)
-					->delete();
+		Sec_logins::
+			where('ids', $request->ids)
+			->update([
+				'sts' => 0,
+			]);
 
 		return redirect('/security/manage user')
 					->with('message', 'User '.$request->usname.' berhasil dihapus')

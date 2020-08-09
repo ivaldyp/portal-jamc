@@ -11,7 +11,7 @@ class Admin extends Authenticatable
     use Notifiable;
     //protected $guard = 'logins';
 
-    protected $connection = 'sqlsrv2';
+    protected $connection = 'sqlsrv';
     protected $table = 'sec_logins';
     protected $primaryKey = 'usname';
     public $incrementing = false;

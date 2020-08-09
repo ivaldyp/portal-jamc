@@ -61,34 +61,66 @@
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
 					<div class="panel panel-default">
-						<div class="panel-heading">Surat Keluar</div>
-						<div class="panel-wrapper collapse in">
-							<div class="panel-body">
-								<h2 class="article-title">Struktur Organisasi - BPAD</h2>
-					            <!-- <img id="img-overlay" src="{{ ('/pengamanan/public/img/profil/organisasi.png') }}" style="width: 100%"> -->
-					            <!-- <div id="overlay"></div> -->
-					            <span class="zoom" id="ex2">
-									<!-- <svgs>       
-										<image href="https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png" height="200" width="200"/>
-									</svg> -->
-									<a href="/pengamanan/public/img/profil/organisasi2.jpg" target="_blank"><img src="{{ ('/pengamanan/public/img/profil/organisasi2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/></a>
-								</span>
-					            <br><br>
-
-					            <h2 class="article-title">Struktur Organisasi - Suku Badan</h2>
-					            <!-- <img id="img-overlay" src="{{ ('/pengamanan/public/img/profil/organisasi.png') }}" style="width: 100%"> -->
-					            <!-- <div id="overlay"></div> -->
-					            <span class="zoom" id="ex1">
-									<a href="/pengamanan/public/img/profil/organisasi_suban2.jpg" target="_blank"><img src="{{ ('/pengamanan/public/img/profil/organisasi_suban2.jpg') }}" width='100%' alt='Struktur Organisasi BPAD'/></a>
-								</span>
-					            <br><br>
-
+                        <div class="panel-heading">Hak Akses</div>
+                    	<div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                            	<form action="{{ url('/cms/form/ubahaccess') }}" method="POST">
+                            	@csrf
+                            		<div class="row">
+                            			<div class="col-md-12">
+                            				<button class="btn btn-info pull-right">Simpan</button>
+                            				<a href="{{ url('/cms/menu') }}"><button type="button" class="m-r-10 btn btn-default pull-right">Kembali</button></a>
+                            			</div>
+                            		</div>
+                            		<div class="row">
+                            			<div class="col-md-12">
+                            				
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th>Nama</th>
+															<th>view</th>
+															<th>insert</th>
+															<th>update</th>
+															<th>delete</th>
+														</tr>
+													</thead>
+													<tbody>
+														<input type="hidden" name="idtop" value="{{ $now_idtop }}"> 
+														<input type="hidden" name="desk" value="{{ $now_desk }}"> 
+													@foreach($accesses as $acc)
+														<tr>
+															<td>{{ $acc['idgroup'] }}</td>
+															<td><input type="checkbox" name="zviw[]" <?php if ($acc['zviw'] == 'y'): ?> checked <?php endif ?> value="{{ $acc['idgroup'] }}" ></td>
+															<td><input type="checkbox" name="zadd[]" <?php if ($acc['zadd'] == 'y'): ?> checked <?php endif ?> value="{{ $acc['idgroup'] }}" ></td>
+															<td><input type="checkbox" name="zupd[]" <?php if ($acc['zupd'] == 'y'): ?> checked <?php endif ?> value="{{ $acc['idgroup'] }}" ></td>
+															<td><input type="checkbox" name="zdel[]" <?php if ($acc['zdel'] == 'y'): ?> checked <?php endif ?> value="{{ $acc['idgroup'] }}" ></td>
+														</tr>
+													@endforeach
+													</tbody>
+												</table>
+											</div>
+                            			</div>
+                            		</div>
+                            		<div class="row">
+                            			<div class="col-md-12">
+                            				<button class="btn btn-info pull-right">Simpan</button>
+                            				<a href="{{ url('/cms/menu') }}"><button type="button" class="m-r-10 btn btn-default pull-right">Kembali</button></a>
+                            			</div>
+                            		</div>
+                            	</form>
 							</div>
 						</div>
 					</div>
+					<!-- </div> -->
 				</div>
 			</div>
 		</div>
+		<!-- /.container-fluid -->
+		<footer class="footer text-center"> 
+			<span>&copy; Copyright <?php echo date('Y'); ?> BPAD DKI Jakarta.</span></span></a>
+		</footer>
 	</div>
 @endsection
 
@@ -106,16 +138,13 @@
 	<script src="{{ ('/pengamanan/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
 	<script src="{{ ('/pengamanan/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/pengamanan/public/js/jquery.zoom.js') }}"></script>
-	<script src="{{ ('/pengamanan/public/js/jquery.zoom.min.js') }}"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			// $('#ex1').zoom({
-			//   	magnify: 0.2,
-			// });
-			// $('#ex2').zoom({
-			//   	magnify: 0.2,
-			// });
-		});
+	<script src="{{ ('/pengamanan/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ ('/pengamanan/public/ample/js/validator.js') }}"></script>
+
+
+	<script>
+		function goBack() {
+		  window.history.back();
+		}
 	</script>
 @endsection

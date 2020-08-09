@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Emp_jab extends Model
 {
-    protected $connection = 'sqlsrv2';
+    protected $connection = 'sqlsrv';
     // protected $primaryKey = "id_emp"; 
     protected $table = "emp_jab";
     
