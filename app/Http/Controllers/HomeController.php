@@ -9,13 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Traits\SessionCheckTraits;
 
-use App\Agenda_tb;
-use App\Berita_tb;
 use App\Emp_data;
 use App\Sec_access;
 use App\Sec_logins;
 use App\Sec_menu;
-use App\Fr_disposisi;
 
 session_start();
 
