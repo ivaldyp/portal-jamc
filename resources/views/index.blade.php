@@ -1,392 +1,75 @@
-@extends('layouts.master')
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login</title>
+		<link href="{{ ('/pengamanan/public/landing/bootstrap400/css/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ ('/pengamanan/public/landing/css/custom.css') }}" rel="stylesheet">
+	</head>
+	<body style="background-color: #fbe6a5" class="login-body">
+		<div class="content col-md-12" style="background-color: white">
+			<!-- <nav class="navbar navbar-expand-sm bg-light"> -->
+			<nav class="navbar navbar-expand-sm">
+				<div class="container">
+				  	<img src="{{ ('/pengamanan/public/landing/img/bpad-logo-01.png') }}" alt="BPAD" width="10%" class="navbar-brand">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/02_BM_eHarga.pdf">Manual Book</a>
+						</li>
+						<li class="nav-item">
+						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/BP_02-eHarga.jpg">Bisnis Proses</a>
+						</li>
+						<li class="nav-item">
+						  	<a class="nav-link cust-nav" href="https://youtu.be/RCXbZfmz0ZQ">Video Tutorial</a>
+						</li>
+						<li class="nav-item">
+						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/04_SOP_eHarga.pdf">SOP</a>
+						</li>
+						<li class="nav-item">
+						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/appdoc/public/faq/eHARGA">FAQ</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
 
-@section('content')
-
-@php
-	$webname = config('app.webname');
-@endphp
-
-@if($lelang['sts'] == 1)
-<div id="ads" class="bottom pull-right">
-	<button class="btn btnads" id="adsbutton">X</button>
-	<a href="{{ url('/content/lelang') }}">
-		<img src="{{ ('/portal/public/img/photo/lelang-bpad.jpeg') }}">
-		<h1 class="text-center" id="lelang-text">LELANG</h1>
-		<!-- <a href="#">Home</a> -->
-	</a>
-</div>
-@endif
-		
-
-<!-- <div id="about"></div> -->
-<div class="row">
-	<div class="col-md-12">
-		<!-- <div class="section-title text-center"> -->
-			<!-- <h1 class="title"><span style="background: linear-gradient(90deg, #1FA2FF 0%, #12D8FA 25%, #A6FFCF 50%, #12D8FA 75%, #1FA2FF 100%); -webkit-background-clip: text;-webkit-text-fill-color: transparent; font-size: 64px; font-weight: bold;">BERITA TERKINI</span></h1> -->
-			
-			<!-- <h1 class="title"><span style="background: linear-gradient(90deg, #0052D4 0%, #65C7F7 30%, #65C7F7 60%, #0052D4 100%); -webkit-background-clip: text;-webkit-text-fill-color: transparent; font-size: 64px; font-weight: bold;">BERITA TERKINI</span></h1> -->
-
-			<!-- <div style="text-align: center;">
-				<img height="200" src="{{ ('/portal/public/img/photo/bpad-logo-04b.png') }}">
-			</div> -->
-
-			<!-- <h1 class=" chrome">BERITA</h1> -->
-			<!-- <h3 class=" dreams">TERKINI</h3> -->
-			<!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
-		<!-- </div> -->
-	</div>
-</div>
-<div id="testimonial" class="section" style="height: 780px;">
-	<!-- background section -->
-	<div class="section-bg asyncImage" style="background-image: url('{{ ('/portal/public/img/photo/background-00b.jpg')}}');">
-	</div>
-	<!-- /background section -->
-
-	<!-- container -->
-	<div class="container">
-		<!-- row -->
-		<div class="row">
-			<!-- Testimonial owl -->
-			<div class="col-md-12" style="top: 30px">
-				<div id="testimonial-owl" class="owl-carousel owl-theme">
-					<!-- testimonial -->
-					@foreach($hot_content as $hot)
-
-						<?php
-							// if (file_exists(config('app.openfileimgberita') . $hot['tfile'])) {
-							// 	$fullpath = config('app.openfileimgberita') . $hot['tfile'];
-							// } else {
-							// 	$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $hot['tfile'];
-							// }
-
-							if (file_exists(config('app.openfileimgberita') . $hot['tfile']) && $hot['tfile'] && $hot['tfile'] != '') {
-								$fullpath = config('app.openfileimgberitafull') . $hot['tfile'];
-							} elseif (file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $hot['tfile'])) {
-								$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $hot['tfile'];
-							} else {
-								$fullpath = config('app.openfileimgcontentdefault');
-							}
-						?>
-
-						<div class="testimonial col-md-12 hot-div">
-							<div class="col-md-6"><img class="hot-img" src="{{ $fullpath }}" alt=""></div>
-							
-							<div class="col-md-6">
-								<h3 class="hot-title">{{ $hot['judul'] }}</h3><br>
-								<div class="hot-text" style="color: black">
-									{!! html_entity_decode($hot['isi1']) !!}
+			<div class="container">
+				<div class="row ">
+					<div class="col-md-6">
+						<div class="row">
+							<p style="font-family: 'Myriad Pro Bold'; color: #5793ce; font-size: 24px; ">Selamat datang di </p>
+						</div>
+						<div class="row">
+							<p style="font-family: 'Myriad Pro Regular'; color: #002853; font-size: 48px; ">E-<span style="font-family: 'Myriad Pro Bold'; color: #002853; font-size: 48px;">PENGAMANAN</span></p>
+						</div>
+						<div class="row">
+							<p style="font-family: 'Myriad Pro Regular'; text-align: justify; font-size: 20px">Sistem pengamanan berdasarkan dokumen Barang Milik Daerah, pengamanan Barang Milik Daerah juga dilakukan dengan pengamanan fisik</p>
+						</div>
+						<div class="row">
+							<form method="POST" action="{{ route('login') }}">
+								@csrf
+								<div class="form-group">
+									<label for="name" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Username</label>
+									<input autocomplete="off" type="text" name="name" class="form-control no-outline">	
 								</div>
-								<hr>
-								<a href="{{ url('/content/berita/' . $hot['ids']) }}" class="primary-button pull-right">Lihat Berita</a>
-							</div>
+								<div class="form-group">
+									<label for="password" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Password</label>
+									<input autocomplete="off" type="password" name="password" class="form-control no-outline">	
+								</div>
+								<button type="submit" class="btn btn-warning" style="color: white">LOGIN</button>
+							</form>
 						</div>
-
-					@endforeach
-
-				</div>
-			</div>
-			<!-- /Testimonial owl -->
-		</div>
-		<!-- /Row -->
-	</div>
-	<!-- /container -->
-
-</div>
-<!-- /TESTIMONIAL -->
-<hr>
-<!-- EVENTS -->
-<div id="events" class="section">
-	<!-- container -->
-	<div class="container">
-		<!-- row -->
-		<div class="row">
-			<!-- section title -->
-			<div class="col-md-12">
-				<div class="section-title">
-					<h2 class="title" style="font-family: 'Century Gothic';"><span style="color: #006cb8; font-weight: bold">BERITA</span> TERKINI</h2>
-					<!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
-				</div>
-			</div>
-			<!-- /section title -->
-
-			<?php $count = 1 ?>
-			@foreach($normal_content as $normal)
-
-				<?php 
-					if (file_exists(config('app.openfileimgberita') . $normal['tfile']) && $normal['tfile'] && $normal['tfile'] != '') {
-						$fullpath = config('app.openfileimgberitafull') . $normal['tfile'];
-					} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $normal['tfile'])) {
-						$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/1/file/' . $normal['tfile'];
-					} else {
-						$fullpath = config('app.openfileimgcontentdefault');
-					}
-
-					$originalDate = explode(" ", $normal['tanggal']);
-					$newTime = explode(":", $originalDate[1]);
-					$newDate = date("l, d F Y", strtotime($originalDate[0]));
-				?>
-
-				<div class="col-md-6">
-					<div class="event">
-						<div class="event-img">
-							<a href="{{ url('/content/berita/' . $normal['ids']) }}">
-								<img src="{{ $fullpath }}" alt="">
-							</a>
-						</div>
-						<div class="event-content">
-							<h4><a href="{{ url('/content/berita/' . $normal['ids']) }}">{{ $normal['judul'] }}</a></h4>
-							<ul style="list-style: none; padding: 0;" class="event-meta">
-								<li><i class="fa fa-clock-o"></i> {{ $newDate }} </li>
-								<li><i class="fa fa-user"></i> {{ ucwords(strtolower($normal['editor'])) }} </li>
-							</ul>
-							<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
+						<div class="row">
+							<footer class="page-footer">
+								<div class="footer-copyright text-center py-3" style="color: #002853; font-family: 'Myriad Pro Regular'; font-size: 18px ">&#169; 2020 BPAD Provinsi DKI Jakarta</div>
+							</footer>
 						</div>
 					</div>
-				</div>
-
-				@if ($count%2 == 0)
-
-					<div class="clearfix visible-md visible-lg"></div>
-
-				@endif
-				
-				<?php $count++; ?>
-
-			@endforeach
-
-		</div>
-		<!-- /row -->
-		<div class="text-center">
-			<a href="{{ url('/content/berita/') }}" class="primary-button pull-right">Lihat Semua</a>
-		</div>
-	</div>
-	<!-- /container -->
-</div>
-<!-- /EVENTS -->
-
-<hr>
-
-<!-- BLOG -->
-<div id="blog" class="section">
-	<!-- container -->
-	<div class="container">
-		<!-- row -->
-		<div class="row">
-			<!-- section title -->
-			<div class="col-md-12">
-				<div class="section-title">
-					<h2 class="title" style="font-family: 'Century Gothic';"><span style="color: #006cb8; font-weight: bold;">GALERI</span> FOTO</h2>
-					<!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
-				</div>
-			</div>
-			<!-- /section title -->
-
-			<!-- blog -->
-			<!-- <div class="col-md-4">
-				<div class="article">
-					<div class="article-img">
-						<a href="single-blog.html">
-							<img src="./img/post-3.jpg" alt="">
-						</a>
-					</div>
-					<div class="article-content">
-						<h3 class="article-title"><a href="single-blog.html">Possit nostro aeterno eu vis, ut cum quem reque</a></h3>
-						<ul class="article-meta">
-							<li>12 November 2018</li>
-							<li>By John doe</li>
-							<li>0 Comments</li>
-						</ul>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+					<div class="col-md-6" align="center">
+						<img src="{{ ('/pengamanan/public/landing/img/E-PENGAMANAN.png') }}" width="90%">
 					</div>
 				</div>
-			</div> -->
-			<!-- /blog -->
-			<?php $count = 1 ?>
-			@foreach($photo_content as $photo)
-				<?php
-					if (file_exists(config('app.openfileimggambar') . $photo['tfile']) && $photo['tfile'] && $photo['tfile'] != '') {
-						$fullpath = config('app.openfileimggambarfull') . $photo['tfile'];
-					} elseif(file_exists('http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $photo['tfile'])) {
-						$fullpath = 'http://bpad.jakarta.go.id/images/cms/1.20.512/5/file/' . $photo['tfile'];
-					} else {
-						$fullpath = config('app.openfileimgcontentdefault');
-					}
-				?>
-
-				<div class="col-md-6">
-					<div class="article">
-						<div class="article-img">
-							<a href="JavaScript:void(0);">
-								<span class="text-test" style="">
-									<img style="width: 50px" src="{{ ('/portal/public/img/photo/bpad-logo-00.png') }}">
-									<hr>
-									<h4 style="color: white">{{ $photo['judul'] }}</h4>
-								</span>
-								<img src="{{ $fullpath }}" alt="" >
-							</a>
-						</div>
-						<!-- <div class="article-content">
-							<h3 class="article-title"><a href="single-blog.html">Possit nostro aeterno eu vis, ut cum quem reque</a></h3>
-							<ul class="article-meta">
-								<li>12 November 2018</li>
-								<li>By John doe</li>
-								<li>0 Comments</li>
-							</ul>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div> -->
-					</div>
-				</div>
-
-				@if ($count%2 == 0)
-
-					<div class="clearfix visible-md visible-lg"></div>
-
-				@endif
-				
-				<?php $count++; ?>	
-
-			@endforeach
-
-		</div>
-		<!-- /row -->
-		<div class="text-center">
-			<a href="{{ url('/content/foto/') }}" class="primary-button">Lihat Semua</a>
-		</div>
-	</div>
-	<!-- /container -->
-</div>
-<!-- /BLOG -->
-
-<hr>
-
-<!-- container -->
-<div class="container">
-	<!-- row -->
-	<div class="row">
-		<!-- section title -->
-		<div class="col-md-12">
-			<div class="section-title">
-				<h2 class="title" style="font-family: 'Century Gothic';"><span style="color: #006cb8; font-weight: bold;">INFO</span>GRAFIK</h2>
-				<!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
 			</div>
 		</div>
-		<!-- /section title -->
-	</div>
-	<!-- /row -->
-</div>
-<!-- /container -->
-<div id="home-owl" class="owl-carousel owl-theme">
 
-	@if($infos == null)
-		<!-- home item -->
-		<div class="home-item"  style="overflow: hidden; height: 500px">
-			<!-- section background -->
-			<div class="section-bg" style="background-image: url('{{ config('app.openfileimgcontentdefault') }}'); background-size: contain; background-repeat: no-repeat;"></div>
-			<!-- /section background -->
-		</div>
-		<!-- /home item -->
-	@else
-		@foreach($infos as $info)
-
-		<?php
-			// $fullpath = config('app.openfileimginfografik') . $info['tfile'];
-
-			if ($info['tfile'] && $info['tfile'] != '') {
-				$fullpath = config('app.openfileimginfografik') . $info['tfile'];
-			} else {
-				$fullpath = config('app.openfileimgcontentdefault');
-			}
-		?>
-
-		<!-- home item -->
-		<div class="home-item"  style="overflow: hidden; height: 500px">
-			<!-- section background -->
-			<div class="section-bg" style="background-image: url('{{ $fullpath }}'); background-size: contain; background-repeat: no-repeat;"></div>
-			<!-- /section background -->
-		</div>
-		<!-- /home item -->
-		@endforeach
-	@endif
-	
-		
-</div>
-<!-- /HOME OWL -->
-
-<hr>
-
-<!-- NUMBERS -->
-<div id="numbers" class="section">
-	<!-- container -->
-	<div class="container">
-		<!-- row -->
-		<div id="div-icon" class="row" style="height: 370px; overflow: hidden;">
-
-			<!-- section title -->
-			<div class="col-md-12">
-				<div class="section-title">
-					<h2 class="title" style="font-family: 'Century Gothic';"><span style="color: #006cb8; font-weight: bold;">PRODUK</span> BPAD</h2>
-					<!-- <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
-				</div>
-			</div>
-			<!-- section title -->
-
-			<!-- subsection title -->
-			<!-- <div class="col-md-8 col-md-offset-2">
-				<div class="section-title text-center">
-					<h3 class="">Perencanaan Aset</h3>
-					<p class="sub-title">Perencanaan adalah proses yang mendefinisikan tujuan dari organisasi, membuat strategi digunakan untuk mencapai tujuan dari organisasi, serta mengembangkan rencana aktivitas kerja organisasi</p>
-				</div>
-			</div> -->
-			<!-- subsection title -->
-
-			@for($i=0; $i< count($produk_content); $i++)
-
-			<!-- number -->
-			<div class="col-md-4 col-sm-6">
-				<div class="number">
-					<a target="_blank" href="{{ $produk_content[$i]['href'] }}">
-						<img src="{{ $produk_content[$i]['source'] }}" alt="{{ $produk_content[$i]['name'] }}" width="150" class="static">
-
-						<?php $i++; ?>
-
-						<img src="{{ $produk_content[$i]['source'] }}" alt="{{ $produk_content[$i]['name'] }}" width="150" class="active">
-					</a>
-					<!-- <i class="fa fa-smile-o"></i> -->
-					<h4>{{ $produk_content[$i]['name'] }}</h4>
-					<!-- <span>eDokumen</span> -->
-				</div>
-			</div>
-			<!-- /number -->
-
-			@endfor
-		</div>
-		<!-- /row -->
-		<div class="text-center">
-			<a href="JavaScript:void(0);" class="primary-button show-icon">Lihat Semua</a>
-		</div>
-	</div>
-	<!-- /container -->
-</div>
-<!-- /NUMBERS -->
-
-<script type="text/javascript">
-	(() => {
-	  'use strict';
-	  // Page is loaded
-	  const objects = document.getElementsByClassName('asyncImage');
-	  Array.from(objects).map((item) => {
-		// Start loading image
-		const img = new Image();
-		img.src = item.dataset.src;
-		// Once image is loaded replace the src of the HTML element
-		img.onload = () => {
-		  item.classList.remove('asyncImage');
-		  return item.nodeName === 'IMG' ? 
-			item.src = item.dataset.src :        
-			item.style.backgroundImage = `url(${item.dataset.src})`;
-		};
-	  });
-	})();
-</script>
-
-@endsection
+		<script src="{{ ('/pengamanan/public/landing/bootstrap400/js/bootstrap.min.js') }}"></script>
+	</body>
+</html>
