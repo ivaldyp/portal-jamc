@@ -21,8 +21,32 @@ session_start();
 
 class LandingController extends Controller
 {
-	public function index()
+	public function index(Request $request)
 	{
+		// if ($request->yearnow) {
+		// 	$yearnow = (int)$request->yearnow;
+		// } else {
+		// 	$yearnow = (int)date('Y');
+		// }
+
+		// if ($request->monthnow) {
+		// 	$monthnow = (int)$request->monthnow;
+		// } else {
+		// 	$monthnow = (int)date('m');
+		// }
+
+		// if ($request->signnow) {
+		// 	$signnow = $request->signnow;
+		// } else {
+		// 	$signnow = "=";
+		// }
+
+		// if ($request->searchnow) {
+		// 	$qsearchnow = "and (kd_surat = '".$request->searchnow."' or no_form = '".$request->searchnow."' or perihal like '%".$request->searchnow."%' or asal_surat like '%".$request->searchnow."%')";
+		// } else {
+		// 	$qsearchnow = "";
+		// }
+
 		return view('index');
 	}
 

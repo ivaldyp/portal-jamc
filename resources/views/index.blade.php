@@ -1,81 +1,67 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Login</title>
-		<link href="{{ ('/pengamanan/public/landing/bootstrap400/css/bootstrap.min.css') }}" rel="stylesheet">
-		<link href="{{ ('/pengamanan/public/landing/css/custom.css') }}" rel="stylesheet">
-	</head>
-	<body style="background-color: #fbe6a5" class="login-body">
-		<div class="content col-md-12" style="background-color: white">
-			<!-- <nav class="navbar navbar-expand-sm bg-light"> -->
-			<nav class="navbar navbar-expand-sm">
-				<div class="container">
-				  	<img src="{{ ('/pengamanan/public/landing/img/bpad-logo-01.png') }}" alt="BPAD" width="10%" class="navbar-brand">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/02_BM_eHarga.pdf">Manual Book</a>
-						</li>
-						<li class="nav-item">
-						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/BP_02-eHarga.jpg">Bisnis Proses</a>
-						</li>
-						<li class="nav-item">
-						  	<a class="nav-link cust-nav" href="https://youtu.be/RCXbZfmz0ZQ">Video Tutorial</a>
-						</li>
-						<li class="nav-item">
-						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/04_SOP_eHarga.pdf">SOP</a>
-						</li>
-						<li class="nav-item">
-						  	<a class="nav-link cust-nav" href="http://aset.jakarta.go.id/appdoc/public/faq/eHARGA">FAQ</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
+@extends('layouts.master')
 
-			<div class="container">
-				<div class="row ">
-					<div class="col-md-6">
-						<div class="row">
-							<p style="font-family: 'Myriad Pro Bold'; color: #5793ce; font-size: 24px; ">Selamat datang di </p>
-						</div>
-						<div class="row">
-							<p style="font-family: 'Myriad Pro Regular'; color: #002853; font-size: 48px; ">E-<span style="font-family: 'Myriad Pro Bold'; color: #002853; font-size: 48px;">PENGAMANAN</span></p>
-						</div>
-						<div class="row">
-							<p style="font-family: 'Myriad Pro Regular'; text-align: justify; font-size: 20px">Sistem pengamanan berdasarkan dokumen Barang Milik Daerah, pengamanan Barang Milik Daerah juga dilakukan dengan pengamanan fisik</p>
-						</div>
-						<div class="row">
-							<form method="POST" action="{{ route('login') }}">
-								@csrf
+@section('content')
 
-								@if(Auth::check())
-								<button type="submit" class="btn btn-warning" style="color: white">MASUK</button>
-								@else
-								<div class="form-group">
-									<label for="name" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Username</label>
-									<input required="" autocomplete="off" type="text" name="name" class="form-control no-outline">	
-								</div>
-								<div class="form-group">
-									<label for="password" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Password</label>
-									<input required="" autocomplete="off" type="password" name="password" class="form-control no-outline">	
-								</div>
-								<button type="submit" class="btn btn-warning" style="color: white">LOGIN</button>
-								@endif
-								
-							</form>
-						</div>
-						<div class="row">
-							<footer class="page-footer">
-								<div class="footer-copyright text-center py-3" style="color: #002853; font-family: 'Myriad Pro Regular'; font-size: 18px ">&#169; 2020 BPAD Provinsi DKI Jakarta</div>
-							</footer>
-						</div>
-					</div>
-					<div class="col-md-6" align="center">
-						<img src="{{ ('/pengamanan/public/landing/img/E-PENGAMANAN.png') }}" width="90%">
-					</div>
-				</div>
-			</div>
+@php
+	$webname = config('app.webname');
+@endphp
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<!-- <h1 class="title"><span style="background: linear-gradient(to right, #8C0606 0%, #FF0000 50%, #8C0606 100%); -webkit-background-clip: text;-webkit-text-fill-color: transparent; font-size: 64px">BERITA BPAD</span></h1> -->
+			<h1 class="title" style="font-family: 'Century Gothic'; font-size: 64px"><span style="color: #006cb8; font-weight: bold">DASAR</span> HUKUM</h1>
 		</div>
+	</div>
+</div>
+<!-- SECTION -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<!-- <div class="row">
+			<div class="col-md-12" style="padding: 20px">
+				<form class="form-horizontal" action="" method="get">
+					<div class="form-group">
+						<label class="control-label col-md-2" style="text-align: left;">Cari Berita</label>
+						<div class="col-md-6">
+							<i class="fa fa-search"></i><input type="text" class="input" name="" placeholder="cari">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div> -->
+		<div class="row" style="padding-bottom: 30px">
+			<form method="GET" action="/dasarhukum">
+				<div class="col-xs-6 col-sm-4">
+					<input type="text" name="cari" autocomplete="off" class="form-control" >
+				</div>
+				<div class="col-xs-1">
+					<button class="btn btn-info">Cari</button>
+				</div>
+			</form>
+		</div>
+		<!-- <hr> -->
+		<div class="row ">
+			<!-- MAIN -->
+			<main id="main" class="col-md-9" style="border-right: 2px solid #eee;">
+				<div class="row">
+					<!-- article -->
 
-		<script src="{{ ('/pengamanan/public/landing/bootstrap400/js/bootstrap.min.js') }}"></script>
-	</body>
-</html>
+					
+
+					<!-- /article -->
+
+				</div>
+			</main>
+			<!-- /MAIN -->
+
+			
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /SECTION -->
+
+@endsection

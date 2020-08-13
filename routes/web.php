@@ -24,6 +24,19 @@ Route::get('/home', 'HomeController@index');
 Route::POST('/home/password', 'HomeController@password');
 Route::get('/logout', 'LandingController@logout');
 
+Route::group(['prefix' => 'setup'], function () {
+	Route::get('/kategori', 'SetupController@kategoriall');
+	Route::post('/form/tambahkategori', 'SetupController@forminsertkategori');
+	Route::post('/form/ubahkategori', 'SetupController@formupdatekategori');
+	Route::post('/form/hapuskategori', 'SetupController@formdeletekategori');
+	Route::get('/file', 'SetupController@fileall');
+	Route::get('/tambah file', 'SetupController@filetambah');
+	Route::get('/ubah file', 'SetupController@fileubah');
+	Route::post('/form/tambahfile', 'SetupController@forminsertfile');
+	Route::post('/form/ubahfile', 'SetupController@formupdatefile');
+	Route::post('/form/hapusfile', 'SetupController@formdeletefile');
+});
+
 Route::group(['prefix' => 'cms'], function () {
 	Route::get('/menu', 'CmsController@menuall');
 	Route::post('/form/tambahmenu', 'CmsController@forminsertmenu');

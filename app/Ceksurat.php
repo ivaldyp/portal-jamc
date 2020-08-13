@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Content_tb extends Model
+class Ceksurat extends Model
 {
 	protected $connection = 'sqlsrv3';
     // protected $primaryKey = "ids"; 

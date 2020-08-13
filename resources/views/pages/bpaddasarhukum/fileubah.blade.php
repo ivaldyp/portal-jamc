@@ -66,102 +66,54 @@
 			<div class="row ">
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<form class="form-horizontal" method="POST" action="/dasarhukum/kepegawaian/form/ubahsuratkeluar" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/dasarhukum/setup/form/ubahfile" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
-							<div class="panel-heading"> Ubah Surat Keluar </div>
+							<div class="panel-heading"> Dasar Hukum Baru </div>
 							<div class="panel-wrapper collapse in" aria-expanded="true">
 								<div class="panel-body">
 
-									<input type="hidden" name="ids" value="{{ $surat['ids'] }}">
+									<input type="hidden" name="ids" value="{{ $file['ids'] }}">
 
 									<div class="form-group">
-										<label for="tgl_masuk" class="col-md-2 control-label"> SKPD </label>
+										<label for="updated_at" class="col-md-2 control-label"> Tanggal Dibuat </label>
 										<div class="col-md-8">
-											<p class="form-control-static">1.20.512 - Badan Pengelola Aset Daerah</p>
+											<input type="text" name="updated_at" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date(' d/m/Y',strtotime($file['created_at'])) }}">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label for="kode_disposisi" class="col-md-2 control-label"> No Disposisi </label>
+										<label for="id_kat" class="col-md-2 control-label"> Kategori </label>
 										<div class="col-md-8">
-											<select class="form-control select2" name="no_form_in" id="no_form_in">
-												@foreach($disposisis as $disp)
-													<option value="{{ $disp['no_form'] }}" <?php if ($surat['no_form_in'] == $disp['no_form'] ): ?> selected <?php endif ?>> [{{ $disp['no_form'] }}] - [{{ date('d-M-Y', strtotime($disp['tgl'])) }}] - [{{ $disp['perihal'] }}] </option>
+											<select class="form-control select2" name="id_kat" id="id_kat">
+												@foreach($kategoris as $kat)
+													<option  <?php if($kat['ids'] == $file['id_kat']): ?> selected <?php endif ?> value="{{ $kat['ids'] }}" > {{ $kat['singkatan'] ? '['. strtoupper($kat['singkatan'])  .'] - ' : '' }} {{ ucwords(strtolower($kat['nm_kat'])) }} </option>
 												@endforeach
 											</select>
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label for="tgl_masuk" class="col-md-2 control-label"> Tgl Terima </label>
-										<div class="col-md-8">
-											<input type="text" name="tgl_terima" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $surat['tgl_terima']))) }}">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="kode_disposisi" class="col-md-2 control-label"> Kode Disposisi </label>
-										<div class="col-md-8">
-											<select class="form-control select2" name="kode_disposisi" id="kode_disposisi">
-												@foreach($dispkodes as $kode)
-													<option value="{{ $kode['kd_jnssurat'] }}" <?php if ($surat['kode_disposisi'] == $kode['kd_jnssurat'] ): ?> selected <?php endif ?> > [{{ $kode['kd_jnssurat'] }}] - [{{ $kode['nm_jnssurat'] }}] </option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="asal_surat" class="col-md-2 control-label"> Dari </label>
-										<div class="col-md-8">
-											<input autocomplete="off" type="text" name="asal_surat" class="form-control" id="asal_surat" value="{{ $surat['asal_surat'] }}">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="asal_surat" class="col-md-2 control-label"> Kepada </label>
-										<div class="col-md-8">
-											<input autocomplete="off" type="text" name="kepada" class="form-control" id="kepada" value="{{ $surat['kepada'] }}">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="tgl_masuk" class="col-md-2 control-label"> Tgl & No Surat </label>
+										<label for="tgl_masuk" class="col-md-2 control-label"> Nomor & Tahun </label>
 										<div class="col-md-4">
-											<input type="text" name="tgl_surat" class="form-control" id="datepicker-autoclose2" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $surat['tgl_surat']))) }}">
+											<input type="text" name="nomor" class="form-control" autocomplete="off" required="" placeholder="Nomor" value="{{ $file['nomor'] }}">
 										</div>
 										<div class="col-md-4">
-											<input type="text" name="no_surat" class="form-control" autocomplete="off" placeholder="No Surat" value="{{ $surat['no_surat'] }}">
+											<input type="text" name="tahun" class="form-control" autocomplete="off" required="" placeholder="Tahun" value="{{ $file['tahun'] }}">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label for="perihal" class="col-md-2 control-label"> Perihal </label>
+										<label for="tentang" class="col-md-2 control-label"> Tentang </label>
 										<div class="col-md-8">
-											<textarea name="perihal" class="form-control" rows="3">{{ $surat['perihal'] }}</textarea>
+											<input autocomplete="off" type="text" name="tentang" class="form-control" id="tentang" required="">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label for="perihal" class="col-md-2 control-label"> Keterangan </label>
-										<div class="col-md-8">
-											<textarea name="ket_lain" class="form-control" rows="3">{{ $surat['ket_lain'] }}</textarea>
-										</div>
-									</div>
-
-                                    <div class="form-group">
-                                        <label for="nm_file" class="col-lg-2 control-label"> Unduh File </label>
+                                        <label for="url" class="col-lg-2 control-label"> URL <br> </label>
                                         <div class="col-lg-8">
-                                            <p class="form-control-static">
-												<a target="_blank" href="{{ config('app.openfilesuratkeluar') }}/{{ $surat['nm_file'] }}"><i class="fa fa-download"></i> {{ $surat['nm_file'] }}</a>
-											</p>
-                                        </div>
-                                    </div>
-
-									<div class="form-group">
-                                        <label for="nm_file" class="col-lg-2 control-label"> Ubah file <br> <span class="text-muted" style="font-size: 10px">Dapat dikosongkan</span> </label>
-                                        <div class="col-lg-8">
-                                            <input type="file" class="form-control" id="nm_file" name="nm_file">
+                                            <input type="text" class="form-control" id="url" name="url" required="">
                                         </div>
                                     </div>
 								</div>
@@ -172,12 +124,10 @@
                                 <button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
                                 <div class="clearfix"></div>
                             </div>
-						</div>	
-						<div class="panel panel-info">
-							<div class="panel-heading">  
+                            <div class="panel-heading">  
 								
 							</div>
-						</div>
+						</div>	
 					</form>
 				</div>
 			</div>
@@ -209,17 +159,11 @@
 		function goBack() {
 		  window.history.back();
 		}
-
+		
 		$(function () {
 			$(".select2").select2();
 
 			jQuery('#datepicker-autoclose').datepicker({
-				autoclose: true
-				, todayHighlight: true
-				, format: 'dd/mm/yyyy'
-			});
-
-			jQuery('#datepicker-autoclose2').datepicker({
 				autoclose: true
 				, todayHighlight: true
 				, format: 'dd/mm/yyyy'

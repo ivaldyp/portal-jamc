@@ -1,10 +1,5 @@
 <li class="dropdown">
 	<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> 
-	  <?php if ($_SESSION['user_data']['foto'] && $_SESSION['user_data']['foto'] != '') : ?>
-			<img src="{{ config('app.openfileimg') }}/{{ $_SESSION['user_data']['foto'] }}" width="36" class=" img-circle" alt="img">
-		<?php else : ?>
-			<img src="{{ config('app.openfileimgdefault') }}" width="36" class=" img-circle" alt="img">
-		<?php endif ?>
 
 	  <b class="hidden-xs pull-right">Welcome</b><span class="caret"></span> </a>
 	<ul class="dropdown-menu dropdown-user animated flipInY">
@@ -41,7 +36,7 @@
 <div id="modal-password" class="modal fade" role="dialog" data-backdrop="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form method="POST" action="/pengamanan/home/password" class="form-horizontal">
+			<form method="POST" action="/dasarhukum/home/password" class="form-horizontal">
 			@csrf
 				<div class="modal-header">
 					<h4 class="modal-title"><b>Ubah Password</b></h4>

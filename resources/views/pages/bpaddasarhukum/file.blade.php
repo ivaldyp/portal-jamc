@@ -13,6 +13,8 @@
 	<link href="{{ ('/dasarhukum/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="{{ ('/dasarhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<!-- page CSS -->
+	<link href="{{ ('/dasarhukum/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,66 +64,77 @@
 			<div class="row ">
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
-					<div class="panel panel-default">
-						<div class="panel-heading">Surat Keluar</div>
-						<div class="panel-wrapper collapse in">
-							<div class="panel-body">
-								<div class="row " style="margin-bottom: 10px">
-									<div class="col-md-1">
-										@if ($access['zadd'] == 'y')
-										<a href="/dasarhukum/kepegawaian/surat keluar tambah"><button class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
-										@endif
-									</div>
-								</div>
+					<div class="panel panel-info">
+                        <div class="panel-heading"> File Dasar Hukum </div>
+                    	<div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                            	<div class="row " style="margin-bottom: 10px">
+                            		@if ($access['zadd'] == 'y')
+                        			<div class="col-md-1">
+                        				<a href="/dasarhukum/setup/tambah file"><button data-toggle="modal" data-target="#modal-insert" class="btn btn-info col-sm-12" style="margin-bottom: 10px">Tambah</button></a>
+                        			</div>
+                        			<div class="col-md-10">
+                            			<form method="GET" action="/dasarhukum/setup/file">
+											<div class=" col-md-2">
+												<input type="text" name="yearnow" class="form-control" placeholder="Tahun" value="{{ $yearnow }}" autocomplete="off">
+											</div>
+				                      		<div class=" col-md-4">
+					                        	<select class="form-control select2" name="katnow" id="katnow">
+				                        		<option value="<?php echo null; ?>">--SEMUA--</option>
+					                          	<?php foreach ($kategoris as $key => $kat) { ?>
+					                            	<option value="{{ $kat['nm_kat'] }}" 
+					                              	<?php 
+					                                	if ($katnow == $kat['nm_kat']) {
+						                                 	echo "selected";
+						                                }
+					                              	?>
+					                            	>{{ $kat['singkatan'] ? '['. strtoupper($kat['singkatan'])  .'] - ' : '' }} {{ ucwords(strtolower($kat['nm_kat'])) }}</option>
+					                          	<?php } ?>
+					                        	</select>
+				                      		</div>
+				                      		<button type="submit" class="btn btn-info">Cari</button>
+										</form>
+                            		</div>    
+                            		@endif   
+                            		                     		
+                            	</div>
 								<div class="row">
 									<div class="table-responsive">
 										<table class="myTable table table-hover">
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>No Form</th>
-													<th>Tgl Terima</th>
-													<th>Kode</th>
-													<th>Perihal</th>
-													<th>Nomor Surat</th>
-													<th>Dari</th>
-													<th>File</th>
+													<th>Tanggal Upload</th>
+													<th>Kategori</th>
+													<th>Nomor</th>
+													<th>Tentang</th>
+													<th>Download</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th class="col-md-1">Action</th>
+													<th class="col-md-2">Action</th>
 													@endif
 												</tr>
 											</thead>
-											<tbody>
-												@foreach($surats as $key => $surat)
+											<tbody style="vertical-align: middle;">
+												@foreach($files as $key => $file)
 												<tr>
 													<td>{{ $key + 1 }}</td>
-													<td>{{ $surat['no_form'] }}</td>
-													<td>{{ date('d-M-Y',strtotime($surat['tgl_terima'])) }}</td>
-													<td>{{ $surat['kode_disposisi'] }}</td>
-													<td>{{ $surat['perihal'] }}</td>
-													<td>
-														@if($surat['no_surat'])
-														{{ $surat['no_surat'] }}
-														<br>
-														@endif
-														<span class="text-muted">{{ date('d-M-Y',strtotime(str_replace('/', '-', $surat['tgl_surat']))) }}</span>
-													</td>
-													<td>{{ $surat['asal_surat'] }}</td>
-													<td><a target="_blank" href="{{ config('app.openfilesuratkeluar') }}/{{ $surat['nm_file'] }}"><i class="fa fa-download"></i> {{ $surat['nm_file'] }}</a></td>
+													<td>{{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}</td>
+													<td>{{ ucwords(strtolower($file['nm_kat'])) }}</td>
+													<td>Nomor {{ $file['nomor'] ?? '-' }} Tahun {{ $file['tahun'] ?? '-' }}</td>
+													<td>{{ $file['tentang'] }}</td>
+													<td><a href="{{ $file['url'] }}"><i class="fa fa-download"></i> Download</a></td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-														<td class="col-md-1">
-															@if($access['zupd'] == 'y')
-																<form method="POST" action="/dasarhukum/kepegawaian/surat keluar ubah">
-																	@csrf
-																	<input type="hidden" name="ids" value="{{ $surat['ids'] }}">
-																	<input type="hidden" name="no_form" value="{{ $surat['no_form'] }}">
-																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
-																</form>
-															@endif
-															@if($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $surat['ids'] }}" data-noform="{{ $surat['no_form'] }}" data-nmfile="{{ $surat['nm_file'] }}" ><i class="fa fa-trash"></i></button>
-															@endif
-														</td>
+													<td>
+														<form method="GET" action="/dasarhukum/setup/ubah file">
+														@if($access['zupd'] == 'y')
+															<input type="hidden" name="ids" value="{{ $file['ids'] }}">
+															<button type="submit" class="btn btn-info btn-update"><i class="fa fa-edit"></i></button>
+														@endif
+														@if($access['zdel'] == 'y')
+															<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $file['ids'] }}" data-nomor="{{ $file['nomor'] }}" data-tahun="{{ $file['tahun'] }}"><i class="fa fa-trash"></i></button>
+														@endif
+														</form>
+													</td>
 													@endif
 												</tr>
 												@endforeach
@@ -129,25 +142,23 @@
 										</table>
 									</div>
 								</div>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                            	
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<div id="modal-delete" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/dasarhukum/kepegawaian/form/hapussuratkeluar" class="form-horizontal">
+						<form method="POST" action="/dasarhukum/setup/form/hapusfile" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
-								<h4 class="modal-title"><b>Hapus Surat Keluar</b></h4>
+								<h4 class="modal-title"><b>Hapus File</b></h4>
 							</div>
 							<div class="modal-body">
 								<h4 id="label_delete"></h4>
 								<input type="hidden" name="ids" id="modal_delete_ids" value="">
-								<input type="hidden" name="no_form" id="modal_delete_noform" value="">
-								<input type="hidden" name="nm_file" id="modal_delete_nmfile" value="">
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
@@ -157,8 +168,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+        </div>
+    </div>
 @endsection
 
 <!-- /////////////////////////////////////////////////////////////// -->
@@ -176,17 +187,30 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="{{ ('/dasarhukum/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ ('/dasarhukum/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 
 	<script>
 		$(function () {
 
+			$(".select2").select2();
+
+			$('.btn-update').on('click', function () {
+				var $el = $(this);
+
+				$("#modal_update_ids").val($el.data('ids'));
+				$("#modal_update_nm_kat").val($el.data('nm_kat'));
+				$("#modal_update_singkatan").val($el.data('singkatan'));
+
+			});
+
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus surat dengan nomor form <b>' + $el.data('noform') + '</b>?');
+				$("#label_delete").append('Apakah anda yakin ingin menghapus file <b>Nomor ' + $el.data('nomor') + ' Tahun '+ $el.data('tahun') +'</b>?');
 				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_noform").val($el.data('noform'));
-				$("#modal_delete_nmfile").val($el.data('nmfile'));
+				$("#modal_delete_nomor").val($el.data('nomor'));
+				$("#modal_delete_tahun").val($el.data('tahun'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {

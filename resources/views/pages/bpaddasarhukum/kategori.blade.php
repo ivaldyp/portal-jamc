@@ -60,68 +60,46 @@
 				</div>
 			</div>
 			<div class="row ">
-				<div class="col-md-12">
+				<div class="col-sm-2"></div>
+				<div class="col-md-8">
 					<!-- <div class="white-box"> -->
-					<div class="panel panel-default">
-						<div class="panel-heading">Surat Keluar</div>
-						<div class="panel-wrapper collapse in">
-							<div class="panel-body">
-								<div class="row " style="margin-bottom: 10px">
-									<div class="col-md-1">
-										@if ($access['zadd'] == 'y')
-										<a href="/dasarhukum/kepegawaian/surat keluar tambah"><button class="btn btn-info" style="margin-bottom: 10px">Tambah </button></a> 
-										@endif
-									</div>
-								</div>
+					<div class="panel panel-info">
+                        <div class="panel-heading"> Kategori </div>
+                    	<div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                            	<div class="row " style="margin-bottom: 10px">
+                            		@if ($access['zadd'] == 'y')
+                            		<button data-toggle="modal" data-target="#modal-insert" class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
+                            		@endif                            		
+                            	</div>
 								<div class="row">
 									<div class="table-responsive">
 										<table class="myTable table table-hover">
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>No Form</th>
-													<th>Tgl Terima</th>
-													<th>Kode</th>
-													<th>Perihal</th>
-													<th>Nomor Surat</th>
-													<th>Dari</th>
-													<th>File</th>
+													<th>Kategori</th>
+													<th>Singkatan</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-													<th class="col-md-1">Action</th>
+													<th class="col-md-2">Action</th>
 													@endif
 												</tr>
 											</thead>
-											<tbody>
-												@foreach($surats as $key => $surat)
+											<tbody style="vertical-align: middle;">
+												@foreach($kategoris as $key => $kat)
 												<tr>
 													<td>{{ $key + 1 }}</td>
-													<td>{{ $surat['no_form'] }}</td>
-													<td>{{ date('d-M-Y',strtotime($surat['tgl_terima'])) }}</td>
-													<td>{{ $surat['kode_disposisi'] }}</td>
-													<td>{{ $surat['perihal'] }}</td>
-													<td>
-														@if($surat['no_surat'])
-														{{ $surat['no_surat'] }}
-														<br>
-														@endif
-														<span class="text-muted">{{ date('d-M-Y',strtotime(str_replace('/', '-', $surat['tgl_surat']))) }}</span>
-													</td>
-													<td>{{ $surat['asal_surat'] }}</td>
-													<td><a target="_blank" href="{{ config('app.openfilesuratkeluar') }}/{{ $surat['nm_file'] }}"><i class="fa fa-download"></i> {{ $surat['nm_file'] }}</a></td>
+													<td>{{ ucwords(strtolower($kat['nm_kat'])) }}</td>
+													<td>{{ strtoupper($kat['singkatan']) ?? '-' }}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-														<td class="col-md-1">
-															@if($access['zupd'] == 'y')
-																<form method="POST" action="/dasarhukum/kepegawaian/surat keluar ubah">
-																	@csrf
-																	<input type="hidden" name="ids" value="{{ $surat['ids'] }}">
-																	<input type="hidden" name="no_form" value="{{ $surat['no_form'] }}">
-																	<button type="submit" class="btn btn-info btn-outline btn-circle m-r-5 btn-update"><i class="ti-pencil-alt"></i></button>
-																</form>
-															@endif
-															@if($access['zdel'] == 'y')
-																<button type="button" class="btn btn-danger btn-outline btn-circle m-r-5 btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $surat['ids'] }}" data-noform="{{ $surat['no_form'] }}" data-nmfile="{{ $surat['nm_file'] }}" ><i class="fa fa-trash"></i></button>
-															@endif
-														</td>
+													<td>
+														@if($access['zupd'] == 'y')
+															<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $kat['ids'] }}" data-nm_kat="{{ $kat['nm_kat'] }}" data-singkatan="{{ $kat['singkatan'] }}"><i class="fa fa-edit"></i></button>
+														@endif
+														@if($access['zdel'] == 'y')
+															<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $kat['ids'] }}" data-nm_kat="{{ $kat['nm_kat'] }}"><i class="fa fa-trash"></i></button>
+														@endif
+													</td>
 													@endif
 												</tr>
 												@endforeach
@@ -129,25 +107,85 @@
 										</table>
 									</div>
 								</div>
-								
+                            	
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal-insert" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="POST" action="/dasarhukum/setup/form/tambahkategori" class="form-horizontal">
+						@csrf
+							<div class="modal-header">
+								<h4 class="modal-title"><b> Kategori Baru </b></h4>
 							</div>
-						</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="nm_kat" class="col-sm-2 control-label"> Kategori </label>
+									<div class="col-sm-8">
+										<input type="text" name="nm_kat" id="nm_kat" class="form-control" autocomplete="off" required="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="singkatan" class="col-sm-2 control-label"> Singkatan </label>
+									<div class="col-sm-8">
+										<input type="text" name="singkatan" id="singkatan" class="form-control" autocomplete="off" placeholder="contoh: KEPGUB, INGUB, PERGUB">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger pull-right">Tambah</button>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="modal-update" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form method="POST" action="/dasarhukum/setup/form/ubahkategori" class="form-horizontal">
+						@csrf
+							<div class="modal-header">
+								<h4 class="modal-title"><b> Ubah Kategori </b></h4>
+							</div>
+							<div class="modal-body">
+								<input type="hidden" name="ids" id="modal_update_ids">
+								<div class="form-group">
+									<label for="nm_kat" class="col-sm-2 control-label"> Kategori </label>
+									<div class="col-sm-8">
+										<input type="text" name="nm_kat" id="modal_update_nm_kat" class="form-control" autocomplete="off" required="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="singkatan" class="col-sm-2 control-label"> Singkatan </label>
+									<div class="col-sm-8">
+										<input type="text" name="singkatan" id="modal_update_singkatan" class="form-control" autocomplete="off" placeholder="contoh: KEPGUB, INGUB, PERGUB">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger pull-right">Simpang</button>
+								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 			<div id="modal-delete" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/dasarhukum/kepegawaian/form/hapussuratkeluar" class="form-horizontal">
+						<form method="POST" action="/dasarhukum/setup/form/hapuskategori" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
-								<h4 class="modal-title"><b>Hapus Surat Keluar</b></h4>
+								<h4 class="modal-title"><b>Hapus Kategori</b></h4>
 							</div>
 							<div class="modal-body">
 								<h4 id="label_delete"></h4>
 								<input type="hidden" name="ids" id="modal_delete_ids" value="">
-								<input type="hidden" name="no_form" id="modal_delete_noform" value="">
-								<input type="hidden" name="nm_file" id="modal_delete_nmfile" value="">
+								<input type="hidden" name="nm_kat" id="modal_delete_nm_kat" value="">
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
@@ -157,8 +195,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+        </div>
+    </div>
 @endsection
 
 <!-- /////////////////////////////////////////////////////////////// -->
@@ -176,17 +214,26 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="{{ ('/dasarhukum/public/ample/js/custom.min.js') }}"></script>
 	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ ('/dasarhukum/public/ample/js/validator.js') }}"></script>
 
 	<script>
 		$(function () {
 
+			$('.btn-update').on('click', function () {
+				var $el = $(this);
+
+				$("#modal_update_ids").val($el.data('ids'));
+				$("#modal_update_nm_kat").val($el.data('nm_kat'));
+				$("#modal_update_singkatan").val($el.data('singkatan'));
+
+			});
+
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus surat dengan nomor form <b>' + $el.data('noform') + '</b>?');
+				$("#label_delete").append('Apakah anda yakin ingin menghapus kategori <b>' + $el.data('nm_kat') + '</b>?');
 				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_noform").val($el.data('noform'));
-				$("#modal_delete_nmfile").val($el.data('nmfile'));
+				$("#modal_delete_nm_kat").val($el.data('nm_kat'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {
