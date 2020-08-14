@@ -76,13 +76,6 @@
 									<input type="hidden" name="ids" value="{{ $file['ids'] }}">
 
 									<div class="form-group">
-										<label for="updated_at" class="col-md-2 control-label"> Tanggal Dibuat </label>
-										<div class="col-md-8">
-											<input type="text" name="updated_at" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date(' d/m/Y',strtotime($file['created_at'])) }}">
-										</div>
-									</div>
-
-									<div class="form-group">
 										<label for="id_kat" class="col-md-2 control-label"> Kategori </label>
 										<div class="col-md-8">
 											<select class="form-control select2" name="id_kat" id="id_kat">
@@ -106,14 +99,14 @@
 									<div class="form-group">
 										<label for="tentang" class="col-md-2 control-label"> Tentang </label>
 										<div class="col-md-8">
-											<input autocomplete="off" type="text" name="tentang" class="form-control" id="tentang" required="">
+											<input autocomplete="off" type="text" name="tentang" class="form-control" id="tentang" required="" value="{{ $file['tentang'] }}">
 										</div>
 									</div>
 
 									<div class="form-group">
                                         <label for="url" class="col-lg-2 control-label"> URL <br> </label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" id="url" name="url" required="">
+                                            <input type="text" class="form-control" id="url" name="url" required="" value="{{ $file['url'] }}">
                                         </div>
                                     </div>
 								</div>

@@ -107,6 +107,7 @@
 													<th>Tanggal Upload</th>
 													<th>Kategori</th>
 													<th>Nomor</th>
+													<th>Tahun</th>
 													<th>Tentang</th>
 													<th>Download</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
@@ -120,7 +121,8 @@
 													<td>{{ $key + 1 }}</td>
 													<td>{{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}</td>
 													<td>{{ ucwords(strtolower($file['nm_kat'])) }}</td>
-													<td>Nomor {{ $file['nomor'] ?? '-' }} Tahun {{ $file['tahun'] ?? '-' }}</td>
+													<td>Nomor {{ $file['nomor'] ?? '-' }} </td>
+													<td>{{ $file['tahun'] ?? '-' }}</td>
 													<td>{{ $file['tentang'] }}</td>
 													<td><a href="{{ $file['url'] }}"><i class="fa fa-download"></i> Download</a></td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')

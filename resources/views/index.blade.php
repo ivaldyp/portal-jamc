@@ -2,10 +2,6 @@
 
 @section('content')
 
-@php
-	$webname = config('app.webname');
-@endphp
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 text-center">
@@ -31,34 +27,97 @@
 				</form>
 			</div>
 		</div> -->
-		<div class="row" style="padding-bottom: 30px">
+		<div class="row container" style="padding-bottom: 10px">
 			<form method="GET" action="/dasarhukum">
-				<div class="col-xs-6 col-sm-4">
-					<input type="text" name="cari" autocomplete="off" class="form-control" >
+				<!-- <div class="col-xs-2"></div> -->
+				<div class=" col-md-2">
+					<input type="text" name="year" class="form-control" placeholder="Tahun" value="{{ $yearnow }}" autocomplete="off">
 				</div>
-				<div class="col-xs-1">
-					<button class="btn btn-info">Cari</button>
+				<div class=" col-md-3">
+					<input type="text" name="tentang" class="form-control" placeholder="Tentang" value="{{ $tentangnow }}" autocomplete="off">
 				</div>
+          		<div class=" col-md-3">
+                	<select class="form-control select2" name="kat" id="katnow">
+            		<option value="<?php echo null; ?>">--SEMUA KATEGORI--</option>
+                  	<?php foreach ($kategoris as $key => $kat) { ?>
+                    	<option value="{{ $kat['nm_kat'] }}" 
+                      	<?php 
+                        	if ($katnow == $kat['nm_kat']) {
+                             	echo "selected";
+                            }
+                      	?>
+                    	>{{ $kat['singkatan'] ? '['. strtoupper($kat['singkatan'])  .'] - ' : '' }} {{ ucwords(strtolower($kat['nm_kat'])) }}</option>
+                  	<?php } ?>
+                	</select>
+          		</div>
+          		<button type="submit" class="btn btn-info">Cari</button>
+          		<div class="pull-right col-md-2 form-inline">
+          			<label>Show</label>
+                	<select class="form-control select2" name="show" id="shownow" onchange="this.form.submit()">
+                  		<option value="10" <?php if($shownow == 10): ?> selected <?php endif ?> >10</option>
+                  		<option value="25" <?php if($shownow == 25): ?> selected <?php endif ?>>25</option>
+                  		<option value="50" <?php if($shownow == 50): ?> selected <?php endif ?>>50</option>
+                  		<option value="100" <?php if($shownow == 100): ?> selected <?php endif ?>>100</option>
+                	</select>
+          		</div>
+
 			</form>
 		</div>
+		<hr>
 		<!-- <hr> -->
+		Total {{ $files->total() }} Results
+		{{ $files->appends(Request::all())->links() }}
 		<div class="row ">
 			<!-- MAIN -->
-			<main id="main" class="col-md-9" style="border-right: 2px solid #eee;">
+			<!-- <div class="col-md-2"></div> -->
+			<main id="main" class="col-md-12">
 				<div class="row">
 					<!-- article -->
 
-					
+					@if($files->isEmpty())
+					<h2><center> Data Tidak Ditemukan </center></h2>
+					@else
+					<table>
+						<tbody>
+							<?php $count = 1 ?>
+							@foreach($files as $key => $file)
 
-					<!-- /article -->
+							<div class="col-md-6">
+								<div class="event">
+									<div class="event-img">
+										<center><img src="{{ config('app.openfileimgdefault') }}" alt="" style="max-width: 120px">
+											</center>
+									</div>
+									<div class="event-content">
+										<h3><strong>{{ ucwords(strtolower($file['nm_kat'])) }} Nomor {{ $file['nomor'] }} Tahun {{ $file['tahun'] }}</strong></h3>
+										<h4 class="text-muted"> {{ $file['tentang'] }}</h4>
+										<ul style="list-style: none; padding: 0;" class="event-meta">
+											<!-- <i class="fa fa-eye"></i> {{ $file['views'] }} Views -->
+											<i class="fa fa-calendar"></i> {{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}
+											<span class="pull-right"><a href="{{ $file['views'] }}"> <i class="fa fa-download"></i> Download</a>  <br></span><br>
+											
+										</ul>
+									</div>
+								</div>
+							</div>
 
+							@if ($count%2 == 0)
+
+								<div class="clearfix visible-md visible-lg"></div>
+
+							@endif
+							
+							<?php $count++; ?>
+
+							@endforeach
+						</tbody>
+					</table>
+					@endif
 				</div>
 			</main>
-			<!-- /MAIN -->
-
-			
 		</div>
 		<!-- /row -->
+		{{ $files->appends(Request::all())->links() }}
 	</div>
 	<!-- /container -->
 </div>

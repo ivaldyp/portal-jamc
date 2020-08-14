@@ -7,15 +7,9 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-use App\Content_tb;
-use App\Glo_kategori;
-use App\Help;
-use App\Produk_aset;
-use App\Setup_tb;
-use App\Fr_disposisi;
+
+use App\Hu_kategori;
+use App\hu_dasarhukum;
 
 session_start();
 
@@ -23,31 +17,45 @@ class LandingController extends Controller
 {
 	public function index(Request $request)
 	{
-		// if ($request->yearnow) {
-		// 	$yearnow = (int)$request->yearnow;
-		// } else {
-		// 	$yearnow = (int)date('Y');
-		// }
+		$kategoris = Hu_kategori::
+						where('sts', 1)
+						->orderBy('nm_kat')
+						->get();
 
-		// if ($request->monthnow) {
-		// 	$monthnow = (int)$request->monthnow;
-		// } else {
-		// 	$monthnow = (int)date('m');
-		// }
+		if ($request->show) {
+			$paging = (int)$request->show;
+		} else {
+			$paging = 10;
+		}
 
-		// if ($request->signnow) {
-		// 	$signnow = $request->signnow;
-		// } else {
-		// 	$signnow = "=";
-		// }
+		$files = Hu_dasarhukum::where('hu_dasarhukum.sts', 1)
+					->join('hu_kategori', 'hu_kategori.ids', '=', 'hu_dasarhukum.id_kat')
+					->orderBy('hu_dasarhukum.tahun', 'desc')
+					->orderBy('hu_dasarhukum.nomor', 'asc')
+					->orderBy('hu_dasarhukum.tgl', 'desc');
+		
 
-		// if ($request->searchnow) {
-		// 	$qsearchnow = "and (kd_surat = '".$request->searchnow."' or no_form = '".$request->searchnow."' or perihal like '%".$request->searchnow."%' or asal_surat like '%".$request->searchnow."%')";
-		// } else {
-		// 	$qsearchnow = "";
-		// }
+		if ($request->kat) {
+			$files->where('hu_kategori.nm_kat', $request->kat);
+		}
 
-		return view('index');
+		if ($request->year) {
+			$files->where('hu_dasarhukum.tahun', $request->year);
+		}
+
+		if ($request->tentang) {
+			$files->whereRaw("hu_dasarhukum.tentang like '%".$request->tentang."%'");
+		}			
+
+		$files = $files->paginate($paging, array('hu_dasarhukum.*', 'hu_kategori.nm_kat as nm_kat', 'hu_kategori.singkatan as singkatan'));
+
+		return view('index')
+				->with('kategoris', $kategoris)
+				->with('katnow', $request->kat)
+				->with('yearnow', $request->year)
+				->with('tentangnow', $request->tentang)
+				->with('shownow', $paging)
+				->with('files', $files);
 	}
 
 	public function logout()

@@ -132,7 +132,7 @@ class SetupController extends Controller
 					where dsr.sts = 1 
 					$qkat
 					$qyear
-					order by tgl desc") );
+					order by tahun desc, id_kat, nomor asc, tgl desc") );
 		$files = json_decode(json_encode($files), true);
 
 		return view('pages.bpaddasarhukum.file')
@@ -177,19 +177,15 @@ class SetupController extends Controller
 					      ,[updated_at]
 					FROM bpaddasarhukum.dbo.hu_dasarhukum dsr
 					JOIN bpaddasarhukum.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
-					where dsr.ids = $request->ids
-					order by tgl desc") )[0];
+					where dsr.ids = $request->ids") )[0];
 		$file = json_decode(json_encode($file), true);
-
-		var_dump($file);
-		die();
 
 		$kategoris = Hu_kategori::
 						where('sts', 1)
 						->orderBy('nm_kat')
 						->get();
 
-		return view('pages.bpaddasarhukum.filetambah')
+		return view('pages.bpaddasarhukum.fileubah')
 				->with('kategoris', $kategoris)
 				->with('file', $file);
 	}
@@ -214,6 +210,23 @@ class SetupController extends Controller
 
 		return redirect('/setup/file')
 					->with('message', 'Berhasil menambahkan dasar hukum')
+					->with('msg_num', 1);
+	}
+
+	public function formupdatefile(Request $request)
+	{
+		Hu_dasarhukum::where('ids', $request->ids)
+			->update([
+				'id_kat'	=> $request->id_kat,
+				'nomor'		=> $request->nomor,
+				'tahun'		=> $request->tahun,
+				'tentang'	=> $request->tentang,
+				'url'		=> $request->url,
+				'updated_at'=> date('Y-m-d H:i:s'),
+			]);
+
+		return redirect('/setup/file')
+					->with('message', 'Berhasil mengubah file dasar hukum')
 					->with('msg_num', 1);
 	}
 
