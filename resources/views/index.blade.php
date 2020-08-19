@@ -85,7 +85,20 @@
 							<div class="col-md-6">
 								<div class="event">
 									<div class="event-img">
-										<center><a href="{{ $file['url'] }}"><img src="{{ config('app.openfileimgdefault') }}" alt="" style="max-width: 120px"></a>
+										<?php 
+											if ($file['img_file']) {
+	                                    		$fullpath = config('app.openfilehukum') . date('Y', strtotime( $file['tgl'] ));
+	                                    		$fullpath .= "/da" . date('YmdHis', strtotime( $file['tgl'] ));
+	                                    		$fullpath .= "/" . $file['img_file'];
+
+	                                    		$width = "350px";
+	                                    	} else {
+	                                    		$fullpath = config('app.openfileimgdefault');
+
+	                                    		$width = "120px";
+	                                    	}
+										?>
+										<center><a href="{{ $file['url'] }}"><img src="{{ $fullpath }}" alt="" style="max-width: {{ $width }}"></a>
 											</center>
 									</div>
 									<div class="event-content">
