@@ -85,16 +85,16 @@
 							<div class="col-md-6">
 								<div class="event">
 									<div class="event-img">
-										<center><img src="{{ config('app.openfileimgdefault') }}" alt="" style="max-width: 120px">
+										<center><a href="{{ $file['url'] }}"><img src="{{ config('app.openfileimgdefault') }}" alt="" style="max-width: 120px"></a>
 											</center>
 									</div>
 									<div class="event-content">
-										<h3><strong>{{ ucwords(strtolower($file['nm_kat'])) }} Nomor {{ $file['nomor'] }} Tahun {{ $file['tahun'] }}</strong></h3>
+										<h2><a href="{{ $file['url'] }}">{{ ucwords(strtolower($file['nm_kat'])) }} Nomor {{ $file['nomor'] }} Tahun {{ $file['tahun'] }}</a></h2>
 										<h4 class="text-muted"> {{ $file['tentang'] }}</h4>
 										<ul style="list-style: none; padding: 0;" class="event-meta">
 											<!-- <i class="fa fa-eye"></i> {{ $file['views'] }} Views -->
 											<i class="fa fa-calendar"></i> {{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}
-											<span class="pull-right"><a href="{{ $file['views'] }}"> <i class="fa fa-download"></i> Download</a>  <br></span><br>
+											<span class="pull-right"><a href="{{ $file['url'] }}"> <i class="fa fa-download"></i> Download</a>  <br></span><br>
 
 										</ul>
 									</div>

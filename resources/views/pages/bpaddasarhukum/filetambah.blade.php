@@ -114,6 +114,13 @@
                                             <input type="text" class="form-control" id="url" name="url" required="">
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+										<label for="filefoto" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
+										<div class="col-lg-8">
+											<input type="file" class="form-control" id="filefoto" name="filefoto">
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="panel-footer">

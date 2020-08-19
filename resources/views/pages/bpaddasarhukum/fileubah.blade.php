@@ -109,6 +109,27 @@
                                             <input type="text" class="form-control" id="url" name="url" required="" value="{{ $file['url'] }}">
                                         </div>
                                     </div>
+
+                                    <?php 
+                                    	if ($file['img_file']) {
+
+                                    		$fullpath = config('app.openfilehukum') . date('Y', strtotime( $file['tgl'] ));
+                                    		$fullpath .= "/da" . date('YmdHis', strtotime( $file['tgl'] ));
+                                    		$fullpath .= "/" . $file['img_file'];
+                                    	} else {
+                                    		$fullpath = "";
+                                    	}
+                                    ?>
+
+                                    <div class="form-group">
+										<label for="filefoto" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
+										<div class="col-lg-8">
+											<input type="file" class="form-control" id="filefoto" name="filefoto">
+											<br>
+											<p><a href="{{ $fullpath }}" target="_blank">{{$file['img_file']}}</a></p>
+										</div>
+									</div>
+
 								</div>
 							</div>
 							<div class="panel-footer">

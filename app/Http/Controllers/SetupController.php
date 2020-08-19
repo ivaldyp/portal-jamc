@@ -192,6 +192,27 @@ class SetupController extends Controller
 
 	public function forminsertfile(Request $request)
 	{
+		$tgl = date('Y-m-d H:i:s');
+
+		$filefoto = '';
+
+		if (isset($request->filefoto)) {
+			$file = $request->filefoto;
+
+			$ext = $file->getClientOriginalExtension();
+			if (strtolower($ext) != 'jpg' && strtolower($ext) != 'jpeg' && strtolower($ext) != 'png') {
+				return redirect('/setup/tambah file')->with('message', 'File yang diunggah bukan JPG / JPEG / PNG');    
+			}
+
+			$tujuan_upload = config('app.savefilehukum');
+			$tujuan_upload .= "\\" . date('Y',strtotime($tgl));
+			$tujuan_upload .= "\\da" . date('YmdHis',strtotime($tgl)). "\\";
+
+			$filefoto .= "file" . date('YmdHis',strtotime($tgl)) . ".". $file->getClientOriginalExtension();
+
+			$file->move($tujuan_upload, $filefoto);
+		}
+
 		$insertfile = [
 				'sts'       => 1,
 				'uname'     => Auth::user()->usname,
@@ -202,6 +223,7 @@ class SetupController extends Controller
 				'tentang'	=> $request->tentang,
 				'views'		=> 0,
 				'url'		=> $request->url,
+				'img_file'	=> $filefoto,
 				'created_at'=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->updated_at))),
 				'updated_at'=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->updated_at))),
 			];
@@ -215,6 +237,39 @@ class SetupController extends Controller
 
 	public function formupdatefile(Request $request)
 	{
+		$nowhukum = Hu_dasarhukum::where('ids', $request->ids)->first();
+
+		$filefoto = '';
+
+		if (isset($request->filefoto)) {
+
+			$fullpath = config('app.savefilehukum') . "\\" . date('Y',strtotime(str_replace('/', '-', $nowhukum['tgl'])));
+    		$fullpath .= "\\da" . date('YmdHis',strtotime(str_replace('/', '-', $nowhukum['tgl'])));
+    		$fullpath .= "\\*";
+
+			$files = glob($fullpath); // get all file names
+
+			foreach($files as $file) { // iterate files
+			  	if(is_file($file))
+			    	unlink($file); // delete file
+			}
+
+			$file = $request->filefoto;
+
+			$ext = $file->getClientOriginalExtension();
+			if (strtolower($ext) != 'jpg' && strtolower($ext) != 'jpeg' && strtolower($ext) != 'png') {
+				return redirect('/setup/tambah file')->with('message', 'File yang diunggah bukan JPG / JPEG / PNG');    
+			}
+
+			$tujuan_upload = config('app.savefilehukum');
+			$tujuan_upload .= "\\" . date('Y',strtotime(str_replace('/', '-', $nowhukum['tgl'])));
+			$tujuan_upload .= "\\da" . date('YmdHis',strtotime(str_replace('/', '-', $nowhukum['tgl']))) . "\\";
+
+			$filefoto .= "file" . date('YmdHis',strtotime(str_replace('/', '-', $nowhukum['tgl']))) . ".". $file->getClientOriginalExtension();
+
+			$file->move($tujuan_upload, $filefoto);
+		}
+
 		Hu_dasarhukum::where('ids', $request->ids)
 			->update([
 				'id_kat'	=> $request->id_kat,
@@ -225,6 +280,13 @@ class SetupController extends Controller
 				'updated_at'=> date('Y-m-d H:i:s'),
 			]);
 
+		if ($filefoto) {
+			Hu_dasarhukum::where('ids', $request->ids)
+			->update([
+				'img_file'	=> $filefoto,
+			]);
+		}
+
 		return redirect('/setup/file')
 					->with('message', 'Berhasil mengubah file dasar hukum')
 					->with('msg_num', 1);
@@ -232,6 +294,19 @@ class SetupController extends Controller
 
 	public function formdeletefile(Request $request)
 	{
+		$nowhukum = Hu_dasarhukum::where('ids', $request->ids)->first();
+
+		$fullpath = config('app.savefilehukum') . "\\" . date('Y',strtotime(str_replace('/', '-', $nowhukum['tgl'])));
+		$fullpath .= "\\da" . date('YmdHis',strtotime(str_replace('/', '-', $nowhukum['tgl'])));
+		$fullpath .= "\\*";
+
+		$files = glob($fullpath); // get all file names
+
+		foreach($files as $file) { // iterate files
+		  	if(is_file($file))
+		    	unlink($file); // delete file
+		}
+
 		Hu_dasarhukum::where('ids', $request->ids)
 			->update([
 				'sts'    => 0,
