@@ -38,10 +38,11 @@
                             <p style="font-family: 'Myriad Pro Bold'; color: #5793ce; font-size: 24px; ">Selamat datang di </p>
                         </div>
                         <div class="row">
-                            <p style="font-family: 'Myriad Pro Regular'; color: #002853; font-size: 48px; "><span style="font-family: 'Myriad Pro Bold'; color: #002853; font-size: 48px;">DASAR HUKUM</span></p>
+                            <p style="font-family: 'Myriad Pro Regular'; color: #002853; font-size: 48px; "><span style="font-family: 'Myriad Pro Bold'; color: #002853; font-size: 48px;">PRODUK HUKUM</span></p>
                         </div>
                         <div class="row">
-                            <p style="font-family: 'Myriad Pro Regular'; text-align: justify; font-size: 20px">Sistem yang berisi dasar hukum</p>
+                            <p style="font-family: 'Myriad Pro Regular'; text-align: justify; font-size: 20px">Sistem yang menghimpun produk hukum yang ditetapkan oleh BPAD maupun acuan peraturan lain untuk memudahkan pencarian landasan hukum terkait pengelolaan Barang Milik Daerah di Pemerintah Provinsi DKI Jakarta
+</p>
                         </div>
                         <div class="row">
                             <form method="POST" action="{{ route('login') }}">
