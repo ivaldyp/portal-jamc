@@ -9,17 +9,17 @@
 
     <!-- <title>{{ config('app.name', 'Laravel') }}</title> -->
     <title>BPAD DKI Jakarta</title>
-    <link rel="shortcut icon" type="image/x-icon" href="{{ ('/dasarhukum/public/img/photo/bpad-logo-00.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ ('/produkhukum/public/img/photo/bpad-logo-00.png') }}" />
 
     <!-- Scripts -->
-    <script src="{{ ('/dasarhukum/public/js/app.js') }}" defer></script>
+    <script src="{{ ('/produkhukum/public/js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ ('/dasarhukum/public/css/app.css') }}" rel="stylesheet">
+    <link href="{{ ('/produkhukum/public/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

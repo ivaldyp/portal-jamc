@@ -2,15 +2,15 @@
 <html>
     <head>
         <title>Login</title>
-        <link href="{{ ('/dasarhukum/public/landing/bootstrap400/css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ ('/dasarhukum/public/landing/css/custom.css') }}" rel="stylesheet">
+        <link href="{{ ('/produkhukum/public/landing/bootstrap400/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ ('/produkhukum/public/landing/css/custom.css') }}" rel="stylesheet">
     </head>
     <body style="background-color: #fbe6a5" class="login-body">
         <div class="content col-md-12" style="background-color: white">
             <!-- <nav class="navbar navbar-expand-sm bg-light"> -->
             <nav class="navbar navbar-expand-sm">
                 <div class="container">
-                    <img src="{{ ('/dasarhukum/public/landing/img/bpad-logo-01.png') }}" alt="BPAD" width="10%" class="navbar-brand">
+                    <img src="{{ ('/produkhukum/public/landing/img/bpad-logo-01.png') }}" alt="BPAD" width="10%" class="navbar-brand">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/02_BM_eHarga.pdf">Manual Book</a>
@@ -70,12 +70,12 @@
                         </div>
                     </div>
                     <div class="col-md-6" align="center">
-                        <img src="{{ ('/dasarhukum/public/landing/img/dasarhukum.png') }}" width="90%">
+                        <img src="{{ ('/produkhukum/public/img/icon-aset/ico-dasarhukum.png') }}" width="90%">
                     </div>
                 </div>
             </div>
         </div>
 
-        <script src="{{ ('/dasarhukum/public/landing/bootstrap400/js/bootstrap.min.js') }}"></script>
+        <script src="{{ ('/produkhukum/public/landing/bootstrap400/js/bootstrap.min.js') }}"></script>
     </body>
 </html>

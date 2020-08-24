@@ -8,23 +8,23 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<title>BPAD DKI Jakarta</title>
-	<link rel="shortcut icon" type="image/x-icon" href="{{ ('/dasarhukum/public/img/photo/bpad-logo-00.png') }}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{ ('/produkhukum/public/img/photo/bpad-logo-00.png') }}" />
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400%7CSource+Sans+Pro:700" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/dasarhukum/public/css/bootstrap.min.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/bootstrap.min.css') }}" />
 
 	<!-- Owl Carousel -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/dasarhukum/public/css/owl.carousel.css') }}" />
-	<link type="text/css" rel="stylesheet" href="{{ ('/dasarhukum/public/css/owl.theme.default.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/owl.carousel.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/owl.theme.default.css') }}" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="{{ ('/dasarhukum/public/css/font-awesome.min.css') }}" />
+	<link rel="stylesheet" href="{{ ('/produkhukum/public/css/font-awesome.min.css') }}" />
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/dasarhukum/public/css/style.css') }}" />
+	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/style.css') }}" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,7 +44,7 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a  href="{{ url('/') }}"><img src="{{ ('/dasarhukum/public/img/photo/bpad-logo-04b.png') }}" alt="logo" height="85"></a>
+						<a  href="{{ url('/') }}"><img src="{{ ('/produkhukum/public/img/photo/bpad-logo-04b.png') }}" alt="logo" height="85"></a>
 					</div>
 					<!-- Logo -->
 
@@ -112,7 +112,7 @@
 					<div class="col-sm-6" style="top: -20px">
 						<div class="footer-copyright pull-right">
 							
-							<!-- <img src="{{ ('/dasarhukum/public/img/photo/plusjakartalogo2.png') }}" alt="" height="100"> -->
+							<!-- <img src="{{ ('/produkhukum/public/img/photo/plusjakartalogo2.png') }}" alt="" height="100"> -->
 						</div>
 					</div>
 				</div>
@@ -124,14 +124,14 @@
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="{{ ('/dasarhukum/public/js/jquery.min.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/js/bootstrap.min.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/js/owl.carousel.min.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/js/jquery.stellar.min.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/js/main.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/js/jquery.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/js/owl.carousel.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/js/jquery.stellar.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/js/main.js') }}"></script>
 
 	<!-- <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script> -->
-	<script src="{{ ('/dasarhukum/public/js/jquery.zoom.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/js/jquery.zoom.js') }}"></script>
 	<script type="text/javascript">
 		var main = function(){
 			var ads = $('#ads')

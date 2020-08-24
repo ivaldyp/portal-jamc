@@ -28,7 +28,7 @@
 			</div>
 		</div> -->
 		<div class="row container" style="padding-bottom: 10px">
-			<form method="GET" action="/dasarhukum">
+			<form method="GET" action="/produkhukum">
 				<!-- <div class="col-xs-2"></div> -->
 				<div class=" col-md-2">
 					<input type="text" name="year" class="form-control" placeholder="Tahun" value="{{ $yearnow }}" autocomplete="off">

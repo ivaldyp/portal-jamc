@@ -2,19 +2,19 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- Menu CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- Date picker plugins css -->
-	<link href="{{ ('/dasarhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 	<!-- page CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -65,7 +65,7 @@
 			</div>
 			<div class="row ">
 				<div class="col-md-12">
-					<form class="form-horizontal" method="POST" action="/dasarhukum/profil/form/lihatdisposisi" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/produkhukum/profil/form/lihatdisposisi" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Disposisi </div>
@@ -409,18 +409,18 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/dasarhukum/public/ample/js/waves.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/js/cbpFWTabs.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/cbpFWTabs.js') }}"></script>
 	<script type="text/javascript">
 		(function () {
 				[].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
@@ -428,11 +428,11 @@
 			});
 		})();
 	</script>
-	<script src="{{ ('/dasarhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/ample/js/validator.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 	<!-- Date Picker Plugin JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
 	<script>
 		function goBack() {
@@ -464,7 +464,7 @@
 
 				$.ajax({ 
 				type: "GET", 
-				url: "/dasarhukum/profil/ceknoform",
+				url: "/produkhukum/profil/ceknoform",
 				data: { noform : varnoform },
 				dataType: "JSON",
 				}).done(function( data ) { 

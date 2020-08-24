@@ -2,17 +2,17 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/dasarhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/dasarhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -116,7 +116,7 @@
             <div id="modal-insert" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/dasarhukum/setup/form/tambahkategori" class="form-horizontal">
+						<form method="POST" action="/produkhukum/setup/form/tambahkategori" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b> Kategori Baru </b></h4>
@@ -146,7 +146,7 @@
 			<div id="modal-update" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/dasarhukum/setup/form/ubahkategori" class="form-horizontal">
+						<form method="POST" action="/produkhukum/setup/form/ubahkategori" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b> Ubah Kategori </b></h4>
@@ -177,7 +177,7 @@
 			<div id="modal-delete" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/dasarhukum/setup/form/hapuskategori" class="form-horizontal">
+						<form method="POST" action="/produkhukum/setup/form/hapuskategori" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b>Hapus Kategori</b></h4>
@@ -202,19 +202,19 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/dasarhukum/public/ample/js/waves.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/dasarhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ ('/dasarhukum/public/ample/js/validator.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ ('/produkhukum/public/ample/js/validator.js') }}"></script>
 
 	<script>
 		$(function () {
