@@ -54,6 +54,10 @@ class HomeController extends Controller
 		if (count($query) > 0) {
 
 			$result .= $arrLevel[$level];
+
+			if ($level == 0) {
+				$result .= '<li id="li_portal"> <a href="/produkhukum" class="waves-effect"> <i class="fa fa-globe fa-fw"></i> <span class="hide-menu">Produk Hukum BPAD</span></a></li>';
+			}
 		
 			foreach ($query as $menu) {
 				if (is_null($menu['urlnew'])) {
