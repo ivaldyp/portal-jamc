@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-md-12 text-center">
 			<!-- <h1 class="title"><span style="background: linear-gradient(to right, #8C0606 0%, #FF0000 50%, #8C0606 100%); -webkit-background-clip: text;-webkit-text-fill-color: transparent; font-size: 64px">BERITA BPAD</span></h1> -->
-			<h1 class="title" style="font-family: 'Century Gothic'; font-size: 64px"><span style="color: #006cb8; font-weight: bold">DASAR</span> HUKUM</h1>
+			<h1 class="title" style="font-family: 'Century Gothic'; font-size: 64px"><span style="color: #006cb8; font-weight: bold">PRODUK</span> HUKUM</h1>
 		</div>
 	</div>
 </div>
