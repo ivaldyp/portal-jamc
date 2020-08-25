@@ -11,6 +11,7 @@ use App\Traits\SessionCheckTraits;
 
 use App\Hu_kategori;
 use App\Hu_dasarhukum;
+use App\Hu_jenis;
 use App\Sec_menu;
 
 session_start();
@@ -118,6 +119,8 @@ class SetupController extends Controller
 					      ,[id_kat]
 					      ,kat.nm_kat
 					      ,kat.singkatan
+					      ,[id_jns]
+					      ,jns.nm_jenis
 					      ,[nomor]
 					      ,[tahun]
 					      ,[tentang]
@@ -129,6 +132,7 @@ class SetupController extends Controller
 					      ,[updated_at]
 					FROM bpaddasarhukum.dbo.hu_dasarhukum dsr
 					JOIN bpaddasarhukum.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
+					JOIN bpaddasarhukum.dbo.hu_jenis as jns on jns.ids = dsr.id_jns 
 					where dsr.sts = 1 
 					$qkat
 					$qyear
@@ -150,8 +154,14 @@ class SetupController extends Controller
 						->orderBy('nm_kat')
 						->get();
 
+		$jenises = Hu_jenis::
+						where('sts', 1)
+						->orderBy('ids')
+						->get();
+
 		return view('pages.bpaddasarhukum.filetambah')
-				->with('kategoris', $kategoris);
+				->with('kategoris', $kategoris)
+				->with('jenises', $jenises);
 	}
 
 	public function fileubah(Request $request)
@@ -166,6 +176,8 @@ class SetupController extends Controller
 					      ,[id_kat]
 					      ,kat.nm_kat
 					      ,kat.singkatan
+					      ,[id_jns]
+					      ,jns.nm_jenis
 					      ,[nomor]
 					      ,[tahun]
 					      ,[tentang]
@@ -177,6 +189,7 @@ class SetupController extends Controller
 					      ,[updated_at]
 					FROM bpaddasarhukum.dbo.hu_dasarhukum dsr
 					JOIN bpaddasarhukum.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
+					JOIN bpaddasarhukum.dbo.hu_jenis as jns on jns.ids = dsr.id_jns
 					where dsr.ids = $request->ids") )[0];
 		$file = json_decode(json_encode($file), true);
 
@@ -185,13 +198,30 @@ class SetupController extends Controller
 						->orderBy('nm_kat')
 						->get();
 
+		$jenises = Hu_jenis::
+						where('sts', 1)
+						->orderBy('ids')
+						->get();
+
 		return view('pages.bpaddasarhukum.fileubah')
 				->with('kategoris', $kategoris)
+				->with('jenises', $jenises)
 				->with('file', $file);
 	}
 
 	public function forminsertfile(Request $request)
 	{
+		$countsama = Hu_dasarhukum::
+						where('id_kat', $request->id_kat)
+						->where('nomor', $request->nomor)
+						->where('tahun', $request->tahun)
+						->where('sts', 1)
+						->count();
+
+		if ($countsama > 0) {
+			return redirect('/setup/tambah file')->with('message', 'File tersebut sudah ada');
+		}
+
 		$tgl = date('Y-m-d H:i:s');
 
 		$filefoto = '';
@@ -218,12 +248,14 @@ class SetupController extends Controller
 				'uname'     => Auth::user()->usname,
 				'tgl'       => date('Y-m-d H:i:s'),
 				'id_kat'	=> $request->id_kat,
+				'id_jns'	=> $request->jenis,
 				'nomor'		=> $request->nomor,
 				'tahun'		=> $request->tahun,
 				'tentang'	=> $request->tentang,
 				'views'		=> 0,
 				'url'		=> $request->url,
 				'img_file'	=> $filefoto,
+				'status'	=> $request->status,
 				'created_at'=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->updated_at))),
 				'updated_at'=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->updated_at))),
 			];
@@ -258,7 +290,7 @@ class SetupController extends Controller
 
 			$ext = $file->getClientOriginalExtension();
 			if (strtolower($ext) != 'jpg' && strtolower($ext) != 'jpeg' && strtolower($ext) != 'png') {
-				return redirect('/setup/tambah file')->with('message', 'File yang diunggah bukan JPG / JPEG / PNG');    
+				return redirect('/setup/ubah file?ids='.$nowhukum['ids'])->with('message', 'File yang diunggah bukan JPG / JPEG / PNG');    
 			}
 
 			$tujuan_upload = config('app.savefilehukum');
@@ -273,10 +305,12 @@ class SetupController extends Controller
 		Hu_dasarhukum::where('ids', $request->ids)
 			->update([
 				'id_kat'	=> $request->id_kat,
+				'id_jns'	=> $request->jenis,
 				'nomor'		=> $request->nomor,
 				'tahun'		=> $request->tahun,
 				'tentang'	=> $request->tentang,
 				'url'		=> $request->url,
+				'status'	=> $request->status,
 				'updated_at'=> date('Y-m-d H:i:s'),
 			]);
 

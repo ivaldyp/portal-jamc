@@ -110,6 +110,7 @@
 													<th>Tahun</th>
 													<th>Tentang</th>
 													<th>Download</th>
+													<th>Issued By</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-2">Action</th>
 													@endif
@@ -120,11 +121,16 @@
 												<tr>
 													<td>{{ $key + 1 }}</td>
 													<td>{{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}</td>
-													<td>{{ ucwords(strtolower($file['nm_kat'])) }}</td>
+													<td>{{ ucwords(strtolower($file['nm_kat'])) }}
+														@if($file['id_jns'] != 0)
+															<br><span class="text-muted">{{ $file['nm_jenis'] }}</span>
+														@endif
+													</td>
 													<td>Nomor {{ $file['nomor'] ?? '-' }} </td>
 													<td>{{ $file['tahun'] ?? '-' }}</td>
 													<td>{{ $file['tentang'] }}</td>
 													<td><a href="{{ $file['url'] }}"><i class="fa fa-download"></i> Download</a></td>
+													<td>{{ $file['status'] }}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<td>
 														<form method="GET" action="/produkhukum/setup/ubah file">

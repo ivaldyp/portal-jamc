@@ -104,24 +104,45 @@
 									</div>
 
 									<div class="form-group">
-                                        <label for="url" class="col-lg-2 control-label"> URL <br> </label>
-                                        <div class="col-lg-8">
-                                            <input type="text" class="form-control" id="url" name="url" required="" value="{{ $file['url'] }}">
-                                        </div>
-                                    </div>
+										<label for="url" class="col-lg-2 control-label"> URL <br> </label>
+										<div class="col-lg-8">
+											<input type="text" class="form-control" id="url" name="url" required="" value="{{ $file['url'] }}">
+										</div>
+									</div>
 
-                                    <?php 
-                                    	if ($file['img_file']) {
+									<div class="form-group">
+										<label for="status" class="col-md-2 control-label"> Issued By </label>
+										<div class="col-md-8">
+											<select class="form-control select2" name="status" id="status">
+												<option <?php if($file['status'] == "BPAD"): ?> selected <?php endif ?> value="BPAD"> BPAD </option>
+												<option <?php if($file['status'] == "NON-BPAD"): ?> selected <?php endif ?> value="NON-BPAD"> NON-BPAD </option>
+											</select>
+										</div>
+									</div>
 
-                                    		$fullpath = config('app.openfilehukum') . date('Y', strtotime( $file['tgl'] ));
-                                    		$fullpath .= "/da" . date('YmdHis', strtotime( $file['tgl'] ));
-                                    		$fullpath .= "/" . $file['img_file'];
-                                    	} else {
-                                    		$fullpath = "";
-                                    	}
-                                    ?>
+									<div class="form-group">
+										<label for="jenis" class="col-md-2 control-label"> Jenis </label>
+										<div class="col-md-8">
+											<select class="form-control select2" name="jenis" id="jenis">
+												@foreach($jenises as $jns)
+													<option  <?php if($jns['ids'] == $file['id_jns']): ?> selected <?php endif ?> value="{{ $jns['ids'] }}"> {{ $jns['nm_jenis'] }} </option>
+												@endforeach
+											</select>
+										</div>
+									</div>
 
-                                    <div class="form-group">
+									<?php 
+										if ($file['img_file']) {
+
+											$fullpath = config('app.openfilehukum') . date('Y', strtotime( $file['tgl'] ));
+											$fullpath .= "/da" . date('YmdHis', strtotime( $file['tgl'] ));
+											$fullpath .= "/" . $file['img_file'];
+										} else {
+											$fullpath = "";
+										}
+									?>
+
+									<div class="form-group">
 										<label for="filefoto" class="col-lg-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 										<div class="col-lg-8">
 											<input type="file" class="form-control" id="filefoto" name="filefoto">
@@ -133,12 +154,12 @@
 								</div>
 							</div>
 							<div class="panel-footer">
-                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
-                                <!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
-                                <button type="button" class="btn btn-default pull-right m-r-10" onclick="goBack()">Kembali</button>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="panel-heading">  
+								<button type="submit" class="btn btn-success pull-right">Simpan</button>
+								<!-- <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Kembali</button> -->
+								<a href="{{ url('setup/file') }}"><button type="button" class="btn btn-default pull-right m-r-10">Kembali</button></a>
+								<div class="clearfix"></div>
+							</div>
+							<div class="panel-heading">  
 								
 							</div>
 						</div>	
