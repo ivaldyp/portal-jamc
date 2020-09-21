@@ -93,7 +93,7 @@
 
 	                                    		$width = "350px";
 	                                    	} else {
-	                                    		$fullpath = config('app.openfileimgdefault');
+	                                    		$fullpath = config('app.openfileimgdefault')."32";
 
 	                                    		$width = "120px";
 	                                    	}

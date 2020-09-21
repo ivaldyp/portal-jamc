@@ -10,7 +10,7 @@
             <!-- <nav class="navbar navbar-expand-sm bg-light"> -->
             <nav class="navbar navbar-expand-sm">
                 <div class="container">
-                    <img src="{{ ('/produkhukum/public/landing/img/bpad-logo-01.png') }}" alt="BPAD" width="10%" class="navbar-brand">
+                    <img src="{{ ('/produkhukum/public/landing/img/bpad-logo-01.png32') }}" alt="BPAD" width="10%" class="navbar-brand">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/02_BM_eHarga.pdf">Manual Book</a>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="col-md-6" align="center">
-                        <img src="{{ ('/produkhukum/public/img/icon-aset/ico-dasarhukum.png') }}" width="90%">
+                        <img src="{{ ('/produkhukum/public/img/icon-aset/ico-dasarhukum.png32') }}" width="90%">
                     </div>
                 </div>
             </div>
