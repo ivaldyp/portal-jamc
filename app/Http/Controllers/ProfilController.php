@@ -43,12 +43,12 @@ class ProfilController extends Controller
 		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
 		$currentpath = explode("?", $currentpath)[0];
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
+		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
 
-		$accessid = $this->checkAccess($_SESSION['user_data']['idgroup'], 37);
-		$accessdik = $this->checkAccess($_SESSION['user_data']['idgroup'], 65);
-		$accessgol = $this->checkAccess($_SESSION['user_data']['idgroup'], 71);
-		$accessjab = $this->checkAccess($_SESSION['user_data']['idgroup'], 72);
+		$accessid = $this->checkAccess($_SESSION['user_produk']['idgroup'], 37);
+		$accessdik = $this->checkAccess($_SESSION['user_produk']['idgroup'], 65);
+		$accessgol = $this->checkAccess($_SESSION['user_produk']['idgroup'], 71);
+		$accessjab = $this->checkAccess($_SESSION['user_produk']['idgroup'], 72);
 
 		$emp_data = Emp_data::
 						where('id_emp', Auth::user()->id_emp)
@@ -173,7 +173,7 @@ class ProfilController extends Controller
 	{
 		$this->checkSessionTime();
 
-		$id_emp = $_SESSION['user_data']['id_emp'];
+		$id_emp = $_SESSION['user_produk']['id_emp'];
 		$fileijazah = '';
 
 		// (PENDIDIKAN) cek dan set variabel untuk file foto ijazah
@@ -227,7 +227,7 @@ class ProfilController extends Controller
 	{
 		$this->checkSessionTime();
 
-		$id_emp = $_SESSION['user_data']['id_emp'];
+		$id_emp = $_SESSION['user_produk']['id_emp'];
 		$fileijazah = '';
 
 		$nm_ijazah = Emp_dik::where('ids', $request->ids)->first();
@@ -289,7 +289,7 @@ class ProfilController extends Controller
 	{
 		$this->checkSessionTime();
 
-		$id_emp = $_SESSION['user_data']['id_emp'];
+		$id_emp = $_SESSION['user_produk']['id_emp'];
 
 		Emp_dik::where('noid', $id_emp)
 		->where('ids', $request->ids)
@@ -308,7 +308,7 @@ class ProfilController extends Controller
 		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
 		$currentpath = explode("?", $currentpath)[0];
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_data']['idgroup'], $thismenu['ids']);
+		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
 
 		if ($request->yearnow) {
 			$yearnow = (int)$request->yearnow;
@@ -322,7 +322,7 @@ class ProfilController extends Controller
 			$signnow = "=";
 		}
 
-		$idgroup = $_SESSION['user_data']['idgroup'];
+		$idgroup = $_SESSION['user_produk']['idgroup'];
 		if (substr($idgroup, 0, 8) == 'EMPLOYEE' || $idgroup == 'ADMIN DIA' || $idgroup == 'TYPIST') {
 			$disposisiinboxs = DB::select( DB::raw("SELECT top 500 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
 										  from bpaddasarhukum.dbo.fr_disposisi disp
@@ -330,19 +330,19 @@ class ProfilController extends Controller
 										  left join bpaddasarhukum.dbo.emp_data emp2 on disp.to_pm = emp2.id_emp
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddtfake].[dbo].[fr_disposisi]
-										  where to_pm = '".$_SESSION['user_data']['id_emp'] ."')
+										  where to_pm = '".$_SESSION['user_produk']['id_emp'] ."')
 										  and disp.sts = 1
 										  and year(tgl_masuk) $signnow $yearnow
 										  order by disp.no_form DESC, disp.ids ASC") );
 
-			if (strlen($_SESSION['user_data']['idunit']) == 10) {
+			if (strlen($_SESSION['user_produk']['idunit']) == 10) {
 				$disposisiends = DB::select( DB::raw("SELECT top 500 disp.*, emp1.nm_emp as from_pm, emp2.nm_emp as to_pm, disp.from_pm as from_id, disp.to_pm as to_id
 										  from bpaddasarhukum.dbo.fr_disposisi disp
 										  left join bpaddasarhukum.dbo.emp_data emp1 on disp.from_pm = emp1.id_emp
 										  left join bpaddasarhukum.dbo.emp_data emp2 on disp.to_pm = emp2.id_emp
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddtfake].[dbo].[fr_disposisi]
-										  where to_pm = '".$_SESSION['user_data']['id_emp'] ."')
+										  where to_pm = '".$_SESSION['user_produk']['id_emp'] ."')
 										  and disp.sts = 1
 										  and year(tgl_masuk) $signnow $yearnow
 										  order by disp.no_form DESC, disp.ids ASC") );
@@ -354,7 +354,7 @@ class ProfilController extends Controller
 										  left join bpaddasarhukum.dbo.emp_data emp2 on disp.to_pm = emp2.id_emp
 										  where no_form in (SELECT distinct(no_form)
 										  FROM [bpaddtfake].[dbo].[fr_disposisi]
-										  where from_pm = '".$_SESSION['user_data']['id_emp'] ."')
+										  where from_pm = '".$_SESSION['user_produk']['id_emp'] ."')
 										  and disp.sts = 1
 										  and year(tgl_masuk) $signnow $yearnow
 										  order by disp.no_form DESC, disp.ids ASC") );
@@ -504,12 +504,12 @@ class ProfilController extends Controller
 
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
-		if ($_SESSION['user_data']['child'] == 1 || is_null($_SESSION['user_data']['id_emp'])) {
+		if ($_SESSION['user_produk']['child'] == 1 || is_null($_SESSION['user_produk']['id_emp'])) {
 
-			if (is_null($_SESSION['user_data']['id_emp'])) {
+			if (is_null($_SESSION['user_produk']['id_emp'])) {
 				$idunits = '%';
 			} else {
-				$idunits = $_SESSION['user_data']['idunit'];
+				$idunits = $_SESSION['user_produk']['idunit'];
 			}
 
 			$stafs = DB::select( DB::raw("
@@ -523,12 +523,12 @@ class ProfilController extends Controller
 			$stafs = 0;
 		}
 
-		if (is_null($_SESSION['user_data']['id_emp'])) {
+		if (is_null($_SESSION['user_produk']['id_emp'])) {
 			$jabatans = Glo_org_jabatan::
 					where('jabatan',  'like', '%Kepala Badan%')
 					->get();
 		} else {
-			$idunit = $_SESSION['user_data']['idunit'];
+			$idunit = $_SESSION['user_produk']['idunit'];
 			$jabatans = DB::select( DB::raw("
 						SELECT id_emp, nm_emp, tbjab.idjab, tbjab.idunit, tbunit.child, tbunit.nm_unit, tbunit.notes from bpaddasarhukum.dbo.emp_data as a
 						CROSS APPLY (SELECT TOP 1 tmt_gol,tmt_sk_gol,no_sk_gol,idgol,jns_kp,mk_thn,mk_bln,gambar,nm_pangkat FROM  bpaddasarhukum.dbo.emp_gol,bpaddasarhukum.dbo.glo_org_golongan WHERE a.id_emp = emp_gol.noid AND emp_gol.idgol=glo_org_golongan.gol AND emp_gol.sts='1' AND glo_org_golongan.sts='1' ORDER BY tmt_gol DESC) tbgol
@@ -546,7 +546,7 @@ class ProfilController extends Controller
 						orderBy('urut')
 						->get();
 
-		$idgroup = $_SESSION['user_data']['idgroup'];
+		$idgroup = $_SESSION['user_produk']['idgroup'];
 		if (substr($idgroup, 0, 8) == 'EMPLOYEE' || $idgroup == 'ADMIN DIA' || $idgroup == 'TYPIST') {
 			$isEmployee = 1;
 		} else {
@@ -577,12 +577,12 @@ class ProfilController extends Controller
 		$maxnoform = Fr_disposisi::max('no_form');
 		$kddispos = Glo_disposisi_kode::orderBy('kd_jnssurat')->get();
 
-		if ($_SESSION['user_data']['child'] == 1 || is_null($_SESSION['user_data']['id_emp'])) {
+		if ($_SESSION['user_produk']['child'] == 1 || is_null($_SESSION['user_produk']['id_emp'])) {
 
-			if (is_null($_SESSION['user_data']['id_emp'])) {
+			if (is_null($_SESSION['user_produk']['id_emp'])) {
 				$idunits = '%';
 			} else {
-				$idunits = $_SESSION['user_data']['idunit'];
+				$idunits = $_SESSION['user_produk']['idunit'];
 			}
 
 			$stafs = DB::select( DB::raw("
@@ -598,7 +598,7 @@ class ProfilController extends Controller
 			$stafs = 0;
 		}
 
-		if (is_null($_SESSION['user_data']['id_emp'])) {
+		if (is_null($_SESSION['user_produk']['id_emp'])) {
 			$jabatans = Glo_org_jabatan::
 					where('jabatan',  'like', '%Kepala Badan%')
 					->get();
@@ -630,7 +630,7 @@ class ProfilController extends Controller
 		$this->checkSessionTime();
 		//kalo dia orang TU brarti ngubah form doang
 
-		if (is_null($_SESSION['user_data']['id_emp'])) {
+		if (is_null($_SESSION['user_produk']['id_emp'])) {
 
 			$file = $request->nm_file;
 

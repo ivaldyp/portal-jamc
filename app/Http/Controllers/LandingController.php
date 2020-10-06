@@ -60,7 +60,7 @@ class LandingController extends Controller
 
 	public function logout()
 	{
-		unset($_SESSION['user_data']);
+		unset($_SESSION['user_produk']);
 		Auth::logout();
 		return redirect('/');
 	}	

@@ -119,7 +119,7 @@ class HomeController extends Controller
 	{
 		$this->checkSessionTime();
 		
-		unset($_SESSION['user_data']);
+		unset($_SESSION['user_produk']);
 
 		date_default_timezone_set('Asia/Jakarta');
 		
@@ -155,13 +155,13 @@ class HomeController extends Controller
 			]);	
 		}
 
-		$_SESSION['user_data'] = $user_data;
+		$_SESSION['user_produk'] = $user_data;
 
 		$all_menu = [];
 
-		$menus = $this->display_menus($all_menu, 0, 0, $_SESSION['user_data']['idgroup']);
+		$menus = $this->display_menus($all_menu, 0, 0, $_SESSION['user_produk']['idgroup']);
 
-		$_SESSION['menus'] = $menus;
+		$_SESSION['menus_produk'] = $menus;
 
 		return view('home')
 				->with('iduser', $iduser);

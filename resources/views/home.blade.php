@@ -73,7 +73,7 @@
 								<div class="panel-wrapper collapse in">
 									<div class="panel-body">
 										<div>
-											Welcome {{ $_SESSION['user_data']['usname'] ?? $_SESSION['user_data']['nm_emp'] }}	
+											Welcome {{ $_SESSION['user_produk']['usname'] ?? $_SESSION['user_produk']['nm_emp'] }}	
 										</div>
 									</div>
 								</div>
