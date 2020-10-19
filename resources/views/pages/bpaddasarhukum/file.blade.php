@@ -104,6 +104,7 @@
 											<thead>
 												<tr>
 													<th>No</th>
+													<th>Suspend?</th>
 													<th>Tanggal Upload</th>
 													<th>Kategori</th>
 													<th>Nomor</th>
@@ -111,6 +112,7 @@
 													<th>Tentang</th>
 													<th>Download</th>
 													<th>Issued By</th>
+													<th>Produk Hukum?</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-2">Action</th>
 													@endif
@@ -120,6 +122,13 @@
 												@foreach($files as $key => $file)
 												<tr>
 													<td>{{ $key + 1 }}</td>
+													<td>
+														@if($file['suspend'] == 1)
+															<i class="fa fa-check" style="color: green"></i>
+														@else
+															<i class="fa fa-close" style="color: red"></i>
+														@endif
+													</td>
 													<td>{{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}</td>
 													<td>{{ ucwords(strtolower($file['nm_kat'])) }}
 														@if($file['id_jns'] != 0)
@@ -131,6 +140,13 @@
 													<td>{{ $file['tentang'] }}</td>
 													<td><a href="{{ $file['url'] }}"><i class="fa fa-download"></i> Download</a></td>
 													<td>{{ $file['status'] }}</td>
+													<td>
+														@if($file['hukum'] == 1)
+															<i class="fa fa-check" style="color: green"></i>
+														@else
+															<i class="fa fa-close" style="color: red"></i>
+														@endif
+													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<td>
 														<form method="GET" action="/produkhukum/setup/ubah file">
