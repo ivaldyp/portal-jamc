@@ -138,7 +138,7 @@ class SetupController extends Controller
 					where dsr.sts = 1 
 					$qkat
 					$qyear
-					order by tahun desc, tgl desc, id_kat, nomor asc") );
+					order by tahun desc, created_at desc, id_kat, nomor asc") );
 		$files = json_decode(json_encode($files), true);
 
 		return view('pages.bpaddasarhukum.file')
