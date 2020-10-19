@@ -69,7 +69,7 @@
 					<form class="form-horizontal" method="POST" action="/produkhukum/setup/form/ubahfile" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
-							<div class="panel-heading"> Dasar Hukum Baru </div>
+							<div class="panel-heading"> Ubah Produk Hukum </div>
 							<div class="panel-wrapper collapse in" aria-expanded="true">
 								<div class="panel-body">
 

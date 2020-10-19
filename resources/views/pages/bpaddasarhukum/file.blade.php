@@ -65,7 +65,7 @@
 				<div class="col-md-12">
 					<!-- <div class="white-box"> -->
 					<div class="panel panel-info">
-                        <div class="panel-heading"> File Dasar Hukum </div>
+                        <div class="panel-heading"> File Produk Hukum </div>
                     	<div class="panel-wrapper collapse in">
                             <div class="panel-body">
                             	<div class="row " style="margin-bottom: 10px">

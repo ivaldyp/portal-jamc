@@ -263,7 +263,7 @@ class SetupController extends Controller
 		Hu_dasarhukum::insert($insertfile);
 
 		return redirect('/setup/file')
-					->with('message', 'Berhasil menambahkan dasar hukum')
+					->with('message', 'Berhasil menambahkan produk hukum')
 					->with('msg_num', 1);
 	}
 
@@ -323,7 +323,7 @@ class SetupController extends Controller
 		}
 
 		return redirect('/setup/file')
-					->with('message', 'Berhasil mengubah file dasar hukum')
+					->with('message', 'Berhasil mengubah file produk hukum')
 					->with('msg_num', 1);
 	}
 
@@ -348,7 +348,7 @@ class SetupController extends Controller
 			]);
 
 		return redirect('/setup/file')
-					->with('message', 'Berhasil menghapus file dasar hukum')
+					->with('message', 'Berhasil menghapus file produk hukum')
 					->with('msg_num', 1);
 	}
 }
