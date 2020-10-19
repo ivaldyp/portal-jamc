@@ -187,6 +187,8 @@ class SetupController extends Controller
 					      ,[status]
 					      ,[created_at]
 					      ,[updated_at]
+					      ,[hukum]
+					      ,[suspend]
 					FROM bpaddasarhukum.dbo.hu_dasarhukum dsr
 					JOIN bpaddasarhukum.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
 					JOIN bpaddasarhukum.dbo.hu_jenis as jns on jns.ids = dsr.id_jns

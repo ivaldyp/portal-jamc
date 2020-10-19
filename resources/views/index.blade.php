@@ -103,7 +103,7 @@
 									</div>
 									<div class="event-content">
 										<h2><a href="{{ $file['url'] }}">{{ ucwords(strtolower($file['nm_kat'])) }} 
-										@if($file['hukum'] == 1)
+										@if($file['hukum'] == 1 or $file['hukum'] == null)
 											Nomor {{ $file['nomor'] }}
 											Tahun {{ $file['tahun'] }}
 										@endif

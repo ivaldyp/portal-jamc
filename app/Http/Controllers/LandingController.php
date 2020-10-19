@@ -45,7 +45,15 @@ class LandingController extends Controller
 
 		if ($request->tentang) {
 			$files->whereRaw("hu_dasarhukum.tentang like '%".$request->tentang."%'");
-		}			
+		}		
+
+		$files
+		->where(function ($q) {
+			$q->where('hu_dasarhukum.suspend', 0)
+			  ->orWhereNull('hu_dasarhukum.suspend');
+			}
+		);
+		// ->where('hu_dasarhukum.suspend', 0);
 
 		$files = $files->paginate($paging, array('hu_dasarhukum.*', 'hu_kategori.nm_kat as nm_kat', 'hu_kategori.singkatan as singkatan'));
 
