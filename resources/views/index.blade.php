@@ -103,13 +103,12 @@
 									</div>
 									<div class="event-content">
 										<h2><a href="{{ $file['url'] }}">{{ ucwords(strtolower($file['nm_kat'])) }} 
-										@if(is_numeric($file['nomor']))
+										@if($file['hukum'] == 1)
 											Nomor {{ $file['nomor'] }}
-										@else
-											{{ $file['nomor'] }}
+											Tahun {{ $file['tahun'] }}
 										@endif
 										 
-										Tahun {{ $file['tahun'] }}</a></h2>
+										</a></h2>
 										<h4 class="text-muted"> {{ $file['tentang'] }}</h4>
 										<ul style="list-style: none; padding: 0;" class="event-meta">
 											<!-- <i class="fa fa-eye"></i> {{ $file['views'] }} Views -->

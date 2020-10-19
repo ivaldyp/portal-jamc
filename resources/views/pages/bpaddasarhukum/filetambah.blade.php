@@ -79,6 +79,16 @@
 											<input type="text" name="updated_at" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y') }}" required="">
 										</div>
 									</div>
+									
+									<div class="form-group">
+										<label for="hukum" class="col-md-2 control-label"> Produk Hukum? </label>
+										<div class="col-md-4">
+											<select class="form-control select2" name="hukum" id="hukum">
+												<option value="1"> Ya </option>
+												<option value="0"> Bukan </option>
+											</select>
+										</div>
+									</div>
 
 									<div class="form-group">
 										<label for="id_kat" class="col-md-2 control-label"> Kategori </label>
@@ -94,10 +104,10 @@
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Nomor & Tahun </label>
 										<div class="col-md-4">
-											<input type="text" name="nomor" class="form-control" autocomplete="off" required="" placeholder="Nomor">
+											<input type="text" name="nomor" class="form-control" autocomplete="off" placeholder="Nomor">
 										</div>
 										<div class="col-md-4">
-											<input type="text" name="tahun" class="form-control" autocomplete="off" required="" placeholder="Tahun">
+											<input type="text" name="tahun" class="form-control" autocomplete="off" placeholder="Tahun">
 										</div>
 									</div>
 
@@ -116,16 +126,6 @@
 									</div>
 
 									<div class="form-group">
-										<label for="status" class="col-md-2 control-label"> Issued By </label>
-										<div class="col-md-4">
-											<select class="form-control select2" name="status" id="status">
-												<option value="BPAD"> BPAD </option>
-												<option value="NON-BPAD"> NON-BPAD </option>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group">
 										<label for="jenis" class="col-md-2 control-label"> Jenis </label>
 										<div class="col-md-4">
 											<select class="form-control select2" name="jenis" id="jenis">
@@ -140,6 +140,16 @@
 										<label for="filefoto" class="col-md-2 control-label"> Upload Foto <br> <span style="font-size: 10px">Hanya berupa JPG, JPEG, dan PNG</span> </label>
 										<div class="col-md-8">
 											<input type="file" class="form-control" id="filefoto" name="filefoto">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="suspend" class="col-md-2 control-label"> Suspend? </label>
+										<div class="col-md-4">
+											<select class="form-control select2" name="suspend" id="suspend">
+												<option value="0"> Tidak </option>
+												<option value="1"> Ya </option>
+											</select>
 										</div>
 									</div>
 								</div>

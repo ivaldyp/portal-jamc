@@ -83,6 +83,16 @@
 									</div>
 
 									<div class="form-group">
+										<label for="hukum" class="col-md-2 control-label"> Produk Hukum? </label>
+										<div class="col-md-4">
+											<select class="form-control select2" name="hukum" id="hukum">
+												<option value="1" <?php if($file['hukum'] == 1): ?> selected <?php endif ?> > Ya </option>
+												<option value="0" <?php if($file['hukum'] == 0): ?> selected <?php endif ?> > Bukan </option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
 										<label for="id_kat" class="col-md-2 control-label"> Kategori </label>
 										<div class="col-md-8">
 											<select class="form-control select2" name="id_kat" id="id_kat">
@@ -96,10 +106,10 @@
 									<div class="form-group">
 										<label for="tgl_masuk" class="col-md-2 control-label"> Nomor & Tahun </label>
 										<div class="col-md-4">
-											<input type="text" name="nomor" class="form-control" autocomplete="off" required="" placeholder="Nomor" value="{{ $file['nomor'] }}">
+											<input type="text" name="nomor" class="form-control" autocomplete="off" placeholder="Nomor" value="{{ $file['nomor'] }}">
 										</div>
 										<div class="col-md-4">
-											<input type="text" name="tahun" class="form-control" autocomplete="off" required="" placeholder="Tahun" value="{{ $file['tahun'] }}">
+											<input type="text" name="tahun" class="form-control" autocomplete="off" placeholder="Tahun" value="{{ $file['tahun'] }}">
 										</div>
 									</div>
 
@@ -155,6 +165,16 @@
 											<input type="file" class="form-control" id="filefoto" name="filefoto">
 											<br>
 											<p><a href="{{ $fullpath }}" target="_blank">{{$file['img_file']}}</a></p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="suspend" class="col-md-2 control-label"> Suspend? </label>
+										<div class="col-md-4">
+											<select class="form-control select2" name="suspend" id="suspend">
+												<option value="0" <?php if($file['suspend'] == 0): ?> selected <?php endif ?> > Tidak </option>
+												<option value="1" <?php if($file['suspend'] == 1): ?> selected <?php endif ?> > Ya </option>
+											</select>
 										</div>
 									</div>
 

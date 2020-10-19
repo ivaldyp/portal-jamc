@@ -258,6 +258,8 @@ class SetupController extends Controller
 				'status'	=> $request->status,
 				'created_at'=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->updated_at))),
 				'updated_at'=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->updated_at))),
+				'hukum'		=> $request->hukum,
+				'suspend'	=> $request->suspend,
 			];
 
 		Hu_dasarhukum::insert($insertfile);
@@ -313,6 +315,8 @@ class SetupController extends Controller
 				'status'	=> $request->status,
 				'created_at'=> date('Y/m/d',strtotime(str_replace('/', '-', $request->created_at))),
 				'updated_at'=> date('Y-m-d H:i:s'),
+				'hukum'		=> $request->hukum,
+				'suspend'	=> $request->suspend,
 			]);
 
 		if ($filefoto) {
