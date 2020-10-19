@@ -30,8 +30,8 @@ class LandingController extends Controller
 
 		$files = Hu_dasarhukum::where('hu_dasarhukum.sts', 1)
 					->join('hu_kategori', 'hu_kategori.ids', '=', 'hu_dasarhukum.id_kat')
-					->orderBy('hu_dasarhukum.tgl', 'desc')
 					->orderBy('hu_dasarhukum.tahun', 'desc')
+					->orderBy('hu_dasarhukum.created_at', 'desc')
 					->orderBy('hu_dasarhukum.nomor', 'asc');
 		
 
