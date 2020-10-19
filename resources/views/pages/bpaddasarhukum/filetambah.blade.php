@@ -126,6 +126,16 @@
 									</div>
 
 									<div class="form-group">
+										<label for="status" class="col-md-2 control-label"> Issued By </label>
+										<div class="col-md-8">
+											<select class="form-control select2" name="status" id="status">
+												<option value="BPAD"> BPAD </option>
+												<option value="NON-BPAD"> NON-BPAD </option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
 										<label for="jenis" class="col-md-2 control-label"> Jenis </label>
 										<div class="col-md-4">
 											<select class="form-control select2" name="jenis" id="jenis">
