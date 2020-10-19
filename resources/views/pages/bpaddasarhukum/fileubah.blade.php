@@ -76,6 +76,13 @@
 									<input type="hidden" name="ids" value="{{ $file['ids'] }}">
 
 									<div class="form-group">
+										<label for="created_at" class="col-md-2 control-label"> Tanggal Dibuat </label>
+										<div class="col-md-8">
+											<input type="text" name="created_at" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}" required="">
+										</div>
+									</div>
+
+									<div class="form-group">
 										<label for="id_kat" class="col-md-2 control-label"> Kategori </label>
 										<div class="col-md-8">
 											<select class="form-control select2" name="id_kat" id="id_kat">

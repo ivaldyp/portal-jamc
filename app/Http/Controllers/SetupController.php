@@ -136,7 +136,7 @@ class SetupController extends Controller
 					where dsr.sts = 1 
 					$qkat
 					$qyear
-					order by tahun desc, id_kat, nomor asc, tgl desc") );
+					order by tgl desc, tahun desc, id_kat, nomor asc") );
 		$files = json_decode(json_encode($files), true);
 
 		return view('pages.bpaddasarhukum.file')
@@ -311,6 +311,7 @@ class SetupController extends Controller
 				'tentang'	=> $request->tentang,
 				'url'		=> $request->url,
 				'status'	=> $request->status,
+				'created_at'=> date('Y/m/d',strtotime(str_replace('/', '-', $request->created_at))),
 				'updated_at'=> date('Y-m-d H:i:s'),
 			]);
 

@@ -74,9 +74,9 @@
 								<div class="panel-body">
 
 									<div class="form-group">
-										<label for="updated_at" class="col-md-2 control-label"> Tanggal Dibuat </label>
+										<label for="created_at" class="col-md-2 control-label"> Tanggal Dibuat </label>
 										<div class="col-md-8">
-											<input type="text" name="updated_at" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y') }}">
+											<input type="text" name="created_at" class="form-control" id="datepicker-autoclose" autocomplete="off" placeholder="dd/mm/yyyy" value="{{ date('d/m/Y') }}" required="">
 										</div>
 									</div>
 
