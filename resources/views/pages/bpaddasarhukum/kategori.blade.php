@@ -78,6 +78,7 @@
 											<thead>
 												<tr>
 													<th>No</th>
+													<th>ID</th>
 													<th>Kategori</th>
 													<th>Singkatan</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
@@ -89,6 +90,7 @@
 												@foreach($kategoris as $key => $kat)
 												<tr>
 													<td>{{ $key + 1 }}</td>
+													<td><b>{{ $kat['ids'] }}</b></td>
 													<td>{{ ucwords(strtolower($kat['nm_kat'])) }}</td>
 													<td>{{ strtoupper($kat['singkatan']) ?? '-' }}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')

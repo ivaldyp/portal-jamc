@@ -137,7 +137,7 @@
 
 									<div class="form-group">
 										<label for="jenis" class="col-md-2 control-label"> Jenis </label>
-										<div class="col-md-4">
+										<div class="col-md-8">
 											<select class="form-control select2" name="jenis" id="jenis">
 												<option value="0"> TIDAK ADA </option>
 												@foreach($jenises as $jns)
