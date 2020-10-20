@@ -112,7 +112,7 @@ class SetupController extends Controller
 				'sts'       => 1,
 				'uname'     => Auth::user()->usname,
 				'tgl'       => date('Y-m-d H:i:s'),
-				'nm_jenis'    => $request->nm_jenis,
+				'nm_jenis'    => strtoupper($request->nm_jenis),
 			];
 
 		Hu_jenis::insert($insertjenis);
@@ -126,7 +126,7 @@ class SetupController extends Controller
 	{
 		Hu_jenis::where('ids', $request->ids)
 			->update([
-				'nm_jenis'    => $request->nm_jenis,
+				'nm_jenis'    => strtoupper($request->nm_jenis),
 			]);
 
 		return redirect('/setup/jenis')
