@@ -40,13 +40,13 @@
                 	<select class="form-control select2" name="kat" id="katnow">
             		<option value="<?php echo null; ?>">--SEMUA KATEGORI--</option>
                   	<?php foreach ($kategoris as $key => $kat) { ?>
-                    	<option value="{{ $kat['nm_kat'] }}" 
+                    	<option value="{{ $kat['nama'] }}" 
                       	<?php 
-                        	if ($katnow == $kat['nm_kat']) {
+                        	if ($katnow == $kat['nama']) {
                              	echo "selected";
                             }
                       	?>
-                    	>{{ $kat['singkatan'] ? '['. strtoupper($kat['singkatan'])  .'] - ' : '' }} {{ ucwords(strtolower($kat['nm_kat'])) }}</option>
+                    	>{{ $kat['singkatan'] ? '['. strtoupper($kat['singkatan'])  .'] - ' : '' }} {{ ucwords(strtolower($kat['nama'])) }}</option>
                   	<?php } ?>
                 	</select>
           		</div>

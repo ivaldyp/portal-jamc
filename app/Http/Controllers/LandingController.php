@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-use App\Hu_kategori;
 use App\hu_dasarhukum;
+use App\Hu_jenis;
+use App\Hu_kategori;
 
 session_start();
 
@@ -17,10 +18,16 @@ class LandingController extends Controller
 {
 	public function index(Request $request)
 	{
+		$jenises = Hu_jenis::
+					select(DB::raw('nm_jenis as nama'))
+					->where('sts', 1);
+	
 		$kategoris = Hu_kategori::
-						where('sts', 1)
-						->orderBy('nm_kat')
-						->get();
+					select(DB::raw('nm_kat as nama'))
+					->where('sts', 1)
+					->union($jenises)
+					->orderBy('nama')
+					->get();
 
 		if ($request->show) {
 			$paging = (int)$request->show;
