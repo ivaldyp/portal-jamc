@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ ('/produkhukum/public/img/photo/bpad-logo-05.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ ('/produkhukum/public/img/photo/bpad-logo-05.png32') }}">
 
     <title>BPAD</title>
     @yield('css')

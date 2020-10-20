@@ -8,7 +8,7 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<title>BPAD DKI Jakarta</title>
-	<link rel="shortcut icon" type="image/x-icon" href="{{ ('/produkhukum/public/img/photo/bpad-logo-00.png') }}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{ ('/produkhukum/public/img/photo/bpad-logo-00.png32') }}" />
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400%7CSource+Sans+Pro:700" rel="stylesheet">
