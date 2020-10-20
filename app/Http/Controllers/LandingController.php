@@ -37,13 +37,20 @@ class LandingController extends Controller
 
 		$files = Hu_dasarhukum::where('hu_dasarhukum.sts', 1)
 					->join('hu_kategori', 'hu_kategori.ids', '=', 'hu_dasarhukum.id_kat')
+					->join('hu_jenis', 'hu_jenis.ids', '=', 'hu_dasarhukum.id_jns')
 					->orderBy('hu_dasarhukum.tahun', 'desc')
 					->orderBy('hu_dasarhukum.created_at', 'desc')
 					->orderBy('hu_dasarhukum.nomor', 'asc');
 		
 
 		if ($request->kat) {
-			$files->where('hu_kategori.nm_kat', $request->kat);
+			$kat = $request->kat;
+			$files
+			->where(function ($q) use ($kat) {
+				$q->where('hu_kategori.nm_kat', $kat)
+				  ->orWhere('hu_jenis.nm_jenis', $kat);
+				}
+			);
 		}
 
 		if ($request->year) {
