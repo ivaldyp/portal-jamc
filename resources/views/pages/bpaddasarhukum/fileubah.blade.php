@@ -141,6 +141,7 @@
 										<label for="jenis" class="col-md-2 control-label"> Jenis </label>
 										<div class="col-md-8">
 											<select class="form-control select2" name="jenis" id="jenis">
+												<option  <?php if($file['id_jns'] == 0): ?> selected <?php endif ?> value="0"> TIDAK ADA </option>
 												@foreach($jenises as $jns)
 													<option  <?php if($jns['ids'] == $file['id_jns']): ?> selected <?php endif ?> value="{{ $jns['ids'] }}"> {{ $jns['nm_jenis'] }} </option>
 												@endforeach

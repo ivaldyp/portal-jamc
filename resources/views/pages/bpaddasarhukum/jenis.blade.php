@@ -64,7 +64,7 @@
 				<div class="col-md-8">
 					<!-- <div class="white-box"> -->
 					<div class="panel panel-info">
-                        <div class="panel-heading"> Kategori </div>
+                        <div class="panel-heading"> Jenis </div>
                     	<div class="panel-wrapper collapse in">
                             <div class="panel-body">
                             	<div class="row " style="margin-bottom: 10px">
@@ -78,26 +78,26 @@
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>Kategori</th>
-													<th>Singkatan</th>
+													<th>Nama</th>
+													<th>Create date</th>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<th class="col-md-2">Action</th>
 													@endif
 												</tr>
 											</thead>
 											<tbody style="vertical-align: middle;">
-												@foreach($kategoris as $key => $kat)
+												@foreach($jenises as $key => $jen)
 												<tr>
 													<td>{{ $key + 1 }}</td>
-													<td>{{ ucwords(strtolower($kat['nm_kat'])) }}</td>
-													<td>{{ strtoupper($kat['singkatan']) ?? '-' }}</td>
+													<td>{{ strtoupper($jen['nm_jenis']) }}</td>
+													<td>{{ $jen['tgl'] }}</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<td>
 														@if($access['zupd'] == 'y')
-															<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $kat['ids'] }}" data-nm_kat="{{ $kat['nm_kat'] }}" data-singkatan="{{ $kat['singkatan'] }}"><i class="fa fa-edit"></i></button>
+															<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $jen['ids'] }}" data-nm_jenis="{{ $jen['nm_jenis'] }}"><i class="fa fa-edit"></i></button>
 														@endif
 														@if($access['zdel'] == 'y')
-															<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $kat['ids'] }}" data-nm_kat="{{ $kat['nm_kat'] }}"><i class="fa fa-trash"></i></button>
+															<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-ids="{{ $jen['ids'] }}" data-nm_jenis="{{ $jen['nm_jenis'] }}"><i class="fa fa-trash"></i></button>
 														@endif
 													</td>
 													@endif
@@ -116,22 +116,16 @@
             <div id="modal-insert" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/produkhukum/setup/form/tambahkategori" class="form-horizontal">
+						<form method="POST" action="/produkhukum/setup/form/tambahjenis" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
-								<h4 class="modal-title"><b> Kategori Baru </b></h4>
+								<h4 class="modal-title"><b> Jenis Baru </b></h4>
 							</div>
 							<div class="modal-body">
 								<div class="form-group">
-									<label for="nm_kat" class="col-sm-2 control-label"> Kategori </label>
+									<label for="nm_jenis" class="col-sm-2 control-label"> jenis </label>
 									<div class="col-sm-8">
-										<input type="text" name="nm_kat" id="nm_kat" class="form-control" autocomplete="off" required="">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="singkatan" class="col-sm-2 control-label"> Singkatan </label>
-									<div class="col-sm-8">
-										<input type="text" name="singkatan" id="singkatan" class="form-control" autocomplete="off" placeholder="contoh: KEPGUB, INGUB, PERGUB">
+										<input type="text" name="nm_jenis" id="nm_jenis" class="form-control" autocomplete="off" required="">
 									</div>
 								</div>
 							</div>
@@ -146,23 +140,17 @@
 			<div id="modal-update" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/produkhukum/setup/form/ubahkategori" class="form-horizontal">
+						<form method="POST" action="/produkhukum/setup/form/ubahjenis" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
-								<h4 class="modal-title"><b> Ubah Kategori </b></h4>
+								<h4 class="modal-title"><b> Ubah Jenis </b></h4>
 							</div>
 							<div class="modal-body">
 								<input type="hidden" name="ids" id="modal_update_ids">
 								<div class="form-group">
-									<label for="nm_kat" class="col-sm-2 control-label"> Kategori </label>
+									<label for="nm_jenis" class="col-sm-2 control-label"> Jenis </label>
 									<div class="col-sm-8">
-										<input type="text" name="nm_kat" id="modal_update_nm_kat" class="form-control" autocomplete="off" required="">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="singkatan" class="col-sm-2 control-label"> Singkatan </label>
-									<div class="col-sm-8">
-										<input type="text" name="singkatan" id="modal_update_singkatan" class="form-control" autocomplete="off" placeholder="contoh: KEPGUB, INGUB, PERGUB">
+										<input type="text" name="nm_jenis" id="modal_update_nm_jenis" class="form-control" autocomplete="off" required="">
 									</div>
 								</div>
 							</div>
@@ -177,15 +165,15 @@
 			<div id="modal-delete" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/produkhukum/setup/form/hapuskategori" class="form-horizontal">
+						<form method="POST" action="/produkhukum/setup/form/hapusjenis" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
-								<h4 class="modal-title"><b>Hapus Kategori</b></h4>
+								<h4 class="modal-title"><b>Hapus Jenis</b></h4>
 							</div>
 							<div class="modal-body">
 								<h4 id="label_delete"></h4>
 								<input type="hidden" name="ids" id="modal_delete_ids" value="">
-								<input type="hidden" name="nm_kat" id="modal_delete_nm_kat" value="">
+								<input type="hidden" name="nm_jenis" id="modal_delete_nm_jenis" value="">
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
@@ -223,17 +211,15 @@
 				var $el = $(this);
 
 				$("#modal_update_ids").val($el.data('ids'));
-				$("#modal_update_nm_kat").val($el.data('nm_kat'));
-				$("#modal_update_singkatan").val($el.data('singkatan'));
-
+				$("#modal_update_nm_jenis").val($el.data('nm_jenis'));
 			});
 
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus kategori <b>' + $el.data('nm_kat') + '</b>?');
+				$("#label_delete").append('Apakah anda yakin ingin menghapus jenis <b>' + $el.data('nm_jenis') + '</b>?');
 				$("#modal_delete_ids").val($el.data('ids'));
-				$("#modal_delete_nm_kat").val($el.data('nm_kat'));
+				$("#modal_delete_nm_jenis").val($el.data('nm_jenis'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {

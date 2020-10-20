@@ -86,6 +86,68 @@ class SetupController extends Controller
 					->with('msg_num', 1);
 	}
 
+	////////////////////////////////////////////////////////////////////////////
+
+	public function jenisall(Request $request)
+	{
+		$this->checkSessionTime();
+		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
+		$currentpath = explode("?", $currentpath)[0];
+		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
+		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+
+		$jenises = Hu_jenis::
+						where('sts', 1)
+						->orderBy('nm_jenis')
+						->get();
+
+		return view('pages.bpaddasarhukum.jenis')
+				->with('access', $access)
+				->with('jenises', $jenises);
+	}
+
+	public function forminsertjenis(Request $request)
+	{
+		$insertjenis = [
+				'sts'       => 1,
+				'uname'     => Auth::user()->usname,
+				'tgl'       => date('Y-m-d H:i:s'),
+				'nm_jenis'    => $request->nm_jenis,
+			];
+
+		Hu_jenis::insert($insertjenis);
+
+		return redirect('/setup/jenis')
+					->with('message', 'Berhasil membuat jenis baru')
+					->with('msg_num', 1);
+	}
+
+	public function formupdatejenis(Request $request)
+	{
+		Hu_jenis::where('ids', $request->ids)
+			->update([
+				'nm_jenis'    => $request->nm_jenis,
+			]);
+
+		return redirect('/setup/jenis')
+					->with('message', 'Berhasil mengubah jenis')
+					->with('msg_num', 1);
+	}
+
+	public function formdeletejenis(Request $request)
+	{
+		Hu_jenis::where('ids', $request->ids)
+			->update([
+				'sts'    => 0,
+			]);
+
+		return redirect('/setup/jenis')
+					->with('message', 'Berhasil menghapus jenis')
+					->with('msg_num', 1);
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+
 	public function fileall(Request $request)
 	{
 		$this->checkSessionTime();
@@ -158,7 +220,7 @@ class SetupController extends Controller
 
 		$jenises = Hu_jenis::
 						where('sts', 1)
-						->orderBy('ids')
+						->orderBy('nm_jenis')
 						->get();
 
 		return view('pages.bpaddasarhukum.filetambah')
@@ -204,7 +266,7 @@ class SetupController extends Controller
 
 		$jenises = Hu_jenis::
 						where('sts', 1)
-						->orderBy('ids')
+						->orderBy('nm_jenis')
 						->get();
 
 		return view('pages.bpaddasarhukum.fileubah')

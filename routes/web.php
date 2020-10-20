@@ -29,6 +29,13 @@ Route::group(['prefix' => 'setup'], function () {
 	Route::post('/form/tambahkategori', 'SetupController@forminsertkategori');
 	Route::post('/form/ubahkategori', 'SetupController@formupdatekategori');
 	Route::post('/form/hapuskategori', 'SetupController@formdeletekategori');
+
+	Route::get('/jenis', 'SetupController@jenisall');
+	Route::post('/form/tambahjenis', 'SetupController@forminsertjenis');
+	Route::post('/form/ubahjenis', 'SetupController@formupdatejenis');
+	Route::post('/form/hapusjenis', 'SetupController@formdeletejenis');
+
+
 	Route::get('/file', 'SetupController@fileall');
 	Route::get('/tambah file', 'SetupController@filetambah');
 	Route::get('/ubah file', 'SetupController@fileubah');
