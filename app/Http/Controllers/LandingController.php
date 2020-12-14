@@ -58,7 +58,7 @@ class LandingController extends Controller
 		}
 
 		if ($request->tentang) {
-			$files->whereRaw("hu_dasarhukum.tentang like '%".$request->tentang."%'");
+			$files->whereRaw("hu_dasarhukum.tentang like '%".$request->tentang."%' or hu_dasarhukum.nomor like '%".$request->tentang."%'");
 		}		
 
 		$files
