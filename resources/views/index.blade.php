@@ -46,7 +46,7 @@
                              	echo "selected";
                             }
                       	?>
-                    	>{{ $kat['singkatan'] ? '['. strtoupper($kat['singkatan'])  .'] - ' : '' }} {{ ucwords(strtolower($kat['nama'])) }}</option>
+                    	>{{ $kat['singkatan'] ? '['. strtoupper($kat['singkatan'])  .'] - ' : '' }} {{ $kat['nama'] }}</option>
                   	<?php } ?>
                 	</select>
           		</div>
@@ -102,7 +102,7 @@
 											</center>
 									</div>
 									<div class="event-content">
-										<h2><a href="{{ $file['url'] }}">{{ ucwords(strtolower($file['nm_kat'])) }} 
+										<h2><a href="{{ $file['url'] }}">{{ $file['nm_kat'] }} 
 										@if($file['hukum'] == 1 or $file['hukum'] == null)
 											Nomor {{ $file['nomor'] }}
 											Tahun {{ $file['tahun'] }}
