@@ -113,7 +113,8 @@
 										<ul style="list-style: none; padding: 0;" class="event-meta">
 											<!-- <i class="fa fa-eye"></i> {{ $file['views'] }} Views -->
 											<i class="fa fa-calendar"></i> {{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}
-											<span class="pull-right"><a href="{{ $file['url'] }}"> <i class="fa fa-download"></i> Download</a>  <br></span><br>
+											<span class="pull-right"><i class="fa fa-check"></i> Issued By {{ $file['status'] }} <br></span><br>
+											<a href="{{ $file['url'] }}"> <i class="fa fa-download"></i> Download</a> 
 
 										</ul>
 									</div>
