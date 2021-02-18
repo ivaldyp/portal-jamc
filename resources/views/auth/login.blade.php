@@ -8,7 +8,7 @@
     <body style="background-color: #fbe6a5" class="login-body">
         <div class="content col-md-12" style="background-color: white">
             <!-- <nav class="navbar navbar-expand-sm bg-light"> -->
-            <nav class="navbar navbar-expand-sm">
+            <!-- <nav class="navbar navbar-expand-sm">
                 <div class="container">
                     <img src="{{ ('/produkhukum/public/img/photo/bpad-logo-01.png32') }}" alt="BPAD" width="10%" class="navbar-brand">
                     <ul class="navbar-nav">
@@ -29,7 +29,7 @@
                         </li>
                     </ul>
                 </div>
-            </nav>
+            </nav> -->
 
             <div class="container">
                 <div class="row ">
