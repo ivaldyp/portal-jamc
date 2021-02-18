@@ -35,7 +35,7 @@
 				<div class="row ">
 					<div class="col-md-6">
 						<div class="row">
-							<p style="font-family: 'Myriad Pro Bold'; color: #5793ce; font-size: 24px; ">Selamat datang di </p>
+							<p style="font-family: 'Myriad Pro Bold'; color: #5793ce; font-size: 24px; ">Selamat datang di aaaa </p>
 						</div>
 						<div class="row">
 							<p style="font-family: 'Myriad Pro Regular'; color: #002853; font-size: 48px; ">E-<span style="font-family: 'Myriad Pro Bold'; color: #002853; font-size: 48px;">PENGAMANAN</span></p>
