@@ -110,11 +110,16 @@
 										 
 										</a></h2>
 										<h4 class="text-muted"> {{ $file['tentang'] }}</h4>
+										<input type="hidden" id="url_{{$file['url']}}" value="{{$file['url']}}">
 										<ul style="list-style: none; padding: 0;" class="event-meta">
 											<!-- <i class="fa fa-eye"></i> {{ $file['views'] }} Views -->
 											<i class="fa fa-calendar"></i> {{ date('d M Y', strtotime(str_replace('/', '-', $file['created_at'] ))) }}
 											<span class="pull-right"><i class="fa fa-check"></i> Issued By {{ $file['status'] }} <br></span><br>
-											<a href="{{ $file['url'] }}"> <i class="fa fa-download"></i> Download</a> 
+											<a href="{{ $file['url'] }}"> <i class="fa fa-download"></i> Download</a> <br>
+											<button class="copyBtn" style="background-color: transparent; border: none; padding-left: 0px" 
+										        data-clipboard-text="{{$file['url']}}">
+										        <i class="fa fa-link"></i> Copy Link
+											</button>
 
 										</ul>
 									</div>
@@ -142,5 +147,7 @@
 	<!-- /container -->
 </div>
 <!-- /SECTION -->
+
+
 
 @endsection

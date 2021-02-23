@@ -146,6 +146,15 @@
 		}
 		$(document).ready(main);
 	</script>
+
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<script src="{{ ('/produkhukum/public/js/jquery.copy-to-clipboard.js') }}"></script>
+	<script type="text/javascript">
+		$('.copyBtn').click(function(){
+		  	$(this).CopyToClipboard();
+		  	alert("Link Berhasil Di Salin");
+		});
+	</script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#adsbutton").click(function(){
