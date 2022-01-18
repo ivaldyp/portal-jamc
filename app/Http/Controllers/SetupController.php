@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
@@ -330,6 +332,28 @@ class SetupController extends Controller
 			];
 
 		Hu_dasarhukum::insert($insertfile);
+
+		if($request->url && $request->tahun && $request->tentang) {
+			// $url = "http://10.15.38.80/mobileaset/notif/bulk"; //release
+			$url = "http://10.15.38.82/mobileasetstaging/notif/bulk"; //staging
+			
+			$client = new Client();
+			$res = $client->request('GET', $url, [
+				'headers' => [
+					'Content-Type' => 'application/x-www-form-urlencoded',
+				],
+				'form_params' => [
+					"title" => "Produk Hukum Terbaru",
+					"message" => "Lihat produk hukum terbaru BPAD tentang ".ucwords($request->tentang). " disini!!",
+					"data" => [
+						"type" => "produkhukum",
+						"ids" => 1,
+						"url" => $request->url,
+						// "image"
+					],
+				],
+			]);	
+		}
 
 		return redirect('/setup/file')
 					->with('message', 'Berhasil menambahkan produk hukum')
