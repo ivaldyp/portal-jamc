@@ -346,7 +346,7 @@ class SetupController extends Controller
 					"title" => "Produk Hukum Terbaru",
 					"message" => "Lihat produk hukum terbaru BPAD tentang ".ucwords($request->tentang). " disini!!",
 					"data" => [
-						"type" => "produkhukum",
+						"type" => "produkHukum",
 						"ids" => 1,
 						"url" => $request->url,
 						// "image"
