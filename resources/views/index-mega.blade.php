@@ -169,8 +169,10 @@
                         <article>
                             <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/1.png') }}" alt="Image">
                             <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                                <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700"><a href="http://keenthemes.com/">Digitalisasi<br>Dokumen</a></h3>
-                                <button class="btn btn-info">Kunjungi</button>
+                                <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">Digitalisasi<br>Dokumen</h3>
+                                <a target="_blank" href="https://simaster.jakarta.go.id/digidok/start">
+                                    <button class="btn btn-info">Kunjungi</button>
+                                </a>
                             </div>
                         </article>
                         <!-- End News -->
@@ -181,8 +183,10 @@
                         <article>
                             <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/2.png') }}" alt="Image">
                             <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                                <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700"><a href="http://keenthemes.com/">HGB<br>Diatas HPL</a></h3>
-                                <button class="btn btn-info">Kunjungi</button>
+                                <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">HGB<br>Diatas HPL</h3>
+                                <!-- <a target="_blank" href="javascript:void(0)"> -->
+                                    <button class="btn btn-info">Kunjungi</button>
+                                <!-- </a> -->
                             </div>
                         </article>
                         <!-- End News -->
@@ -193,8 +197,10 @@
                         <article>
                             <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/3.png') }}" alt="Image">
                             <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                                <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700"><a href="http://keenthemes.com/">Pelayanan<br>Pemanfaatan</a></h3>
-                                <button class="btn btn-info">Kunjungi</button>
+                                <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">Pelayanan<br>Pemanfaatan</h3>
+                                <a target="_blank" href="https://simaster.jakarta.go.id/dpa/start">
+                                    <button class="btn btn-info">Kunjungi</button>
+                                </a>
                             </div>
                         </article>
                         <!-- End News -->
