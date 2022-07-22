@@ -5,7 +5,7 @@
 	<ul class="dropdown-menu dropdown-user animated flipInY">
 		<li>
 			<div class="dw-user-box">                
-				<div class="u-text"><h4><?php echo isset($_SESSION['user_produk']['nm_emp']) ? $_SESSION['user_produk']['nm_emp'] : $_SESSION['user_produk']['nama_user']; ?></h4><p class="text-muted"><?php echo isset($_SESSION['user_produk']['email_emp']) ? $_SESSION['user_produk']['email_emp'] : ''; ?></p><h4><?php echo $_SESSION['user_produk']['idgroup']; ?></h4></div>
+				<div class="u-text"><h4><?php echo isset($_SESSION['user_jamcportal']['nm_emp']) ? $_SESSION['user_jamcportal']['nm_emp'] : $_SESSION['user_jamcportal']['nama_user']; ?></h4><p class="text-muted"><?php echo isset($_SESSION['user_jamcportal']['email_emp']) ? $_SESSION['user_jamcportal']['email_emp'] : ''; ?></p><h4><?php echo $_SESSION['user_jamcportal']['idgroup']; ?></h4></div>
 			</div>
 		</li>
 		<li role="separator" class="divider"></li>
@@ -36,7 +36,7 @@
 <div id="modal-password" class="modal fade" role="dialog" data-backdrop="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form method="POST" action="/produkhukum/home/password" class="form-horizontal">
+			<form method="POST" action="/{{ config('app.name') }}/home/password" class="form-horizontal">
 			@csrf
 				<div class="modal-header">
 					<h4 class="modal-title"><b>Ubah Password</b></h4>

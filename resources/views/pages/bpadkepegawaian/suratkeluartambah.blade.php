@@ -2,19 +2,19 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- Menu CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- Date picker plugins css -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 	<!-- page CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -66,7 +66,7 @@
 			<div class="row ">
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<form class="form-horizontal" method="POST" action="/produkhukum/kepegawaian/form/tambahsuratkeluar" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/{{ config('app.name') }}/kepegawaian/form/tambahsuratkeluar" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Buat Surat Keluar </div>
@@ -177,21 +177,21 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/js/validator.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/custom.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/validator.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 	<!-- Date Picker Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
 	<script>
 		function goBack() {

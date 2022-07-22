@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Emp_data extends Model
 {
-    protected $connection = 'sqlsrv';
-    // protected $primaryKey = "id_emp"; 
-    protected $table = "emp_data";
-    
+    protected $connection = 'server76';
+    protected $table = 'bpaddtfake.dbo.emp_data';
     public $incrementing = 'false';
     public $timestamps = false;
 }

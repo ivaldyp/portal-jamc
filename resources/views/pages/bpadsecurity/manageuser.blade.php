@@ -1,279 +1,196 @@
-@extends('layouts.masterhome' )
+@extends('layouts.master')
 
 @section('css')
-	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-	<!-- Menu CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
-	<!-- animation CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
-	<!-- Custom CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
-	<!-- color CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
-
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
+	<!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('lte/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ asset('lte/dist/css/adminlte.min.css') }}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
-
-<!-- /////////////////////////////////////////////////////////////// -->
 
 @section('content')
-	<div id="page-wrapper">
-		<div class="container-fluid">
-			<div class="row bg-title">
-				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-					<h4 class="page-title"><?php 
-												$link = explode("/", url()->full());    
-												echo ucwords($link[4]);
-											?> </h4> </div>
-				<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"> 
-					<ol class="breadcrumb">
-						<li>{{config('app.name')}}</li>
-						<?php 
-							$link = explode("/", url()->full());
-							if (count($link) == 5) {
-								?> 
-									<li class="active"> {{ ucwords($link[4]) }} </li>
-								<?php
-							} elseif (count($link) == 6) {
-								?> 
-									<li class="active"> {{ ucwords($link[4]) }} </li>
-									<li class="active"> {{ str_replace('%20', ' ', ucwords($link[5])) }} </li>
-								<?php
-							} 
-						?>
-					</ol>
-				</div>
-				<!-- /.col-lg-12 -->
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					@if(Session::has('message'))
-						<div class="alert <?php if(Session::get('msg_num') == 1) { ?>alert-success<?php } else { ?>alert-danger<?php } ?> alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
-					@endif
-				</div>
-			</div>
-			<div class="row ">
-				<div class="col-md-12">
-					<!-- <div class="white-box"> -->
-					<div class="panel panel-default">
-						<div class="panel-heading">Users</div>
-						<div class="panel-wrapper collapse in">
-							<div class="panel-body">
-								@if($access['zadd'] == 'y')
-								<a href="/produkhukum/security/tambah user"><button class="btn btn-info" style="margin-bottom: 10px">Tambah</button></a>
-								@endif
-								<div class="table-responsive">
-									<table id="myTable" class="table table-hover">
-										<thead>
-											<tr>
-												<th class="col-md-1">No</th>
-												<th>Username</th>
-												<th>Nama</th>
-												<th>Deskripsi</th>
-												<th>Email</th>
-												<th>Idgroup</th>
-												<th>Created At</th>
-												@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-												<th class="col-md-2">Action</th>
-												@endif
-											</tr>
-										</thead>
-										<tbody>
-										@foreach($users as $key => $user)
-											<tr>
-												<td>{{ $key + 1 }}</td>
-												<td>{{ $user['usname'] }}</td>
-												<td>{{ (!($user['nama_user']) ? '-' : $user['nama_user']) }}</td>
-												<td>{{ (!($user['deskripsi_user']) ? '-' : $user['deskripsi_user']) }}</td>
-												<td>{{ (!($user['email_user']) ? '-' : $user['email_user']) }}</td>
-												<td>{{ $user['idgroup'] }}</td>
-												<td>{{ (!($user['createdate']) ? '-' : date('d/M/Y', strtotime(str_replace('/', '-', $user['createdate'])))) }}</td>
-												@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-												<td>
-													@if($access['zupd'] == 'y')
-													<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $user['ids'] }}" data-usname="{{ $user['usname'] }}" data-idgroup="{{ $user['idgroup'] }}" data-nama_user="{{ $user['nama_user'] }}" data-deskripsi_user="{{ $user['deskripsi_user'] }}" data-email_user="{{ $user['email_user'] }}"><i class="fa fa-edit"></i></button>
-													<button type="button" class="btn btn-warning btn-password" data-toggle="modal" data-target="#modal-password-{{$key}}"><i class="fa fa-key"></i></button>
-													@endif
-													@if($access['zdel'] == 'y')
-													<button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-usname="{{ $user['usname'] }}" data-ids="{{ $user['ids'] }}"><i class="fa fa-trash"></i></button>
-													@endif
-													<div id="modal-password-{{$key}}" class="modal fade" role="dialog">
-														<div class="modal-dialog">
-															<div class="modal-content">
-																<form method="POST" action="/produkhukum/security/form/ubahpassuser" class="form-horizontal">
-																@csrf
-																	<div class="modal-header">
-																		<h4 class="modal-title"><b>Ubah Password</b></h4>
-																	</div>
-																	<div class="modal-body">
-																		<h4>Masukkan password baru  </h4>
+  <input type="hidden" id="activemenus" value="{{ $activemenus }}">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage User</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Security</a></li>
+              <li class="breadcrumb-item active">Manage User</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
 
-																		<input type="hidden" name="ids" value="{{ $user['ids'] }}">
-																		<input type="hidden" name="usname" value="{{ $user['usname'] }}">
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        @include('layouts.komponen.flash-message')
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <a href="/{{ config('app.name') }}/security/tambah user">
+                    <button class="btn btn-info btn-sm btn-insert">Tambah User</button>
+                </a>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" >
+                <table id="datatable" class="table table-sm">
+                  <thead>
+                    <tr>
+                        <th class="col-md-1">No</th>
+                        <th>Username</th>
+                        <th>Nama</th>
+                        <th>Deskripsi</th>
+                        <th>Email</th>
+                        <th>Idgroup</th>
+                        <th>Created At</th>
+                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                        <th class="col-md-2">Action</th>
+                        @endif
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($users as $key => $user)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $user['usname'] }}</td>
+                            <td>{{ (!($user['nama_user']) ? '-' : $user['nama_user']) }}</td>
+                            <td>{{ (!($user['deskripsi_user']) ? '-' : $user['deskripsi_user']) }}</td>
+                            <td>{{ (!($user['email_user']) ? '-' : $user['email_user']) }}</td>
+                            <td>{{ $user['idgroup'] }}</td>
+                            <td>{{ (!($user['createdate']) ? '-' : date('d/M/Y', strtotime(str_replace('/', '-', $user['createdate'])))) }}</td>
+                            @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                            <td>
+                                @if($access['zupd'] == 'y')
+                                <a href="/{{ config('app.name') }}/security/ubah user?ids={{ $user['ids'] }}">
+                                    <button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="{{ $user['ids'] }}" data-usname="{{ $user['usname'] }}" data-idgroup="{{ $user['idgroup'] }}" data-nama_user="{{ $user['nama_user'] }}" data-deskripsi_user="{{ $user['deskripsi_user'] }}" data-email_user="{{ $user['email_user'] }}"><i class="fa fa-edit"></i></button>
+                                </a>
+                                <button type="button" class="btn btn-warning btn-password" data-toggle="modal" data-target="#modal-password-{{$key}}"><i class="fa fa-key"></i></button>
+                                @endif
+                                @if($access['zdel'] == 'y')
+                                <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-usname="{{ $user['usname'] }}" data-ids="{{ $user['ids'] }}"><i class="fa fa-trash"></i></button>
+                                @endif
+                                <div id="modal-password-{{$key}}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog modal-lg ">
+                                        <div class="modal-content">
+                                            <form method="POST" action="/{{ config('app.name') }}/security/form/ubahpassuser" class="form-horizontal">
+                                            @csrf
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title"><b>Ubah Password</b></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4>Masukkan password baru  </h4>
 
-																		<div class="form-group col-md-12">
-																			<label for="idunit" class="col-md-2 control-label"> Password </label>
-																			<div class="col-md-8">
-																				<input autocomplete="off" type="text" name="passmd5" class="form-control" required>
-																			</div>
-																		</div>
+                                                    <input type="hidden" name="ids" value="{{ $user['ids'] }}">
+                                                    <input type="hidden" name="usname" value="{{ $user['usname'] }}">
 
-																		<div class="clearfix"></div>
-																	</div>
-																	<div class="modal-footer">
-																		<button type="submit" class="btn btn-danger pull-right">Simpan</button>
-																		<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
-																	</div>
-																</form>
-															</div>
-														</div>
-													</div>
-												</td>
-												@endif
-											</tr>
-										@endforeach
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- </div> -->
-				</div>
-			</div>
-			<div class="modal fade" id="modal-update">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content">
-						<form method="POST" action="/produkhukum/security/form/ubahuser" class="form-horizontal" data-toggle="validator">
-						@csrf
-							<div class="modal-header">
-								<h4 class="modal-title"><b>Ubah User</b></h4>
-							</div>
-							<div class="modal-body">
-								<input type="hidden" name="ids" id="modal_update_ids">
-								<div class="form-group">
-									<label for="modal_update_usname" class="col-lg-2 control-label"> Username </label>
-									<div class="col-lg-8">
-										<input type="text" name="usname" id="modal_update_usname" class="form-control" autocomplete="off">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="modal_update_nama_user" class="col-lg-2 control-label"> Nama </label>
-									<div class="col-lg-8">
-										<input type="text" name="nama_user" id="modal_update_nama_user" class="form-control" autocomplete="off">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="model_update_deskripsi_user" class="col-md-2 control-label"> Deskripsi </label>
-									<div class="col-md-8">
-										<input type="text" class="form-control" id="model_update_deskripsi_user" name="deskripsi_user" autocomplete="off">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="modal_update_email_user" class="col-md-2 control-label"> Email </label>
-									<div class="col-md-8">
-										<input type="email" class="form-control" id="modal_update_email_user" name="email_user" autocomplete="off" data-error="Masukkan format email yang benar">
-										<div class="help-block with-errors"></div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="modal_update_idgroup" class="col-md-2 control-label"> Grup User </label>
-									<div class="col-md-8">
-										<select class="form-control" name="idgroup" id="modal_update_idgroup">
-											@foreach($idgroup as $group)
-												<option value="{{ $group['idgroup'] }}"> {{ $group['idgroup'] }} </option>
-											@endforeach
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-success pull-right">Simpan</button>
-								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="modal fade" id="modal-delete">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form method="POST" action="/produkhukum/security/form/hapususer" class="form-horizontal">
-						@csrf
-							<div class="modal-header">
-								<h4 class="modal-title"><b>Hapus User</b></h4>
-							</div>
-							<div class="modal-body">
-								<h4 id="label_delete"></h4>
-								<input type="hidden" name="usname" id="modal_delete_usname" value="">
-								<input type="hidden" name="ids" id="modal_delete_ids" value="">
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-danger pull-right">Hapus</button>
-								<button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /.container-fluid -->
-		<footer class="footer text-center"> 
-			<span>&copy; Copyright <?php echo date('Y'); ?> BPAD DKI Jakarta.</span></span></a>
-		</footer>
-	</div>
+                                                    <div class="form-group row col-md-12">
+                                                        <label for="idunit" class="col-md-2 col-form-label"> Password </label>
+                                                        <div class="col-md-8">
+                                                            <input autocomplete="off" type="text" name="passmd5" class="form-control" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-info pull-right">Simpan</button>
+                                                    <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+
+          <div id="modal-delete" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form method="POST" action="{{ url('security/form/hapususer') }}" class="form-horizontal">
+                @csrf
+                  <div class="modal-header">
+                    <h4 class="modal-title">Hapus Grup User</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p id="label_delete"></p>
+                    <input type="hidden" name="usname" id="modal_delete_usname" value="">
+                    <input type="hidden" name="ids" id="modal_delete_ids" value="">
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 @endsection
-
-<!-- /////////////////////////////////////////////////////////////// -->
-
-@section('js')
+  
+  @section('js')
 	<!-- jQuery -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
-	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
-	<!--slimscroll JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
-	<!--Wave Effects -->
-	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
-	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/js/validator.js') }}"></script>
+	<script src="{{ asset('lte/plugins/jquery/jquery.min.js') }}"></script>
+	<!-- Bootstrap 4 -->
+	<script src="{{ asset('lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+	<!-- AdminLTE App -->
+	<script src="{{ asset('lte/dist/js/adminlte.min.js') }}"></script>
+  @include('layouts.komponen.activate-menu')
 
-	<script>
-		$(document).ready(function() {
-
-			$('.btn-update').on('click', function () {
-				var $el = $(this);      
-				$("#modal_update_ids").val($el.data('ids'));
-				$("#modal_update_usname").val($el.data('usname'));
-				$("#modal_update_nama_user").val($el.data('nama_user'));
-				$("#model_update_deskripsi_user").val($el.data('deskripsi_user'));
-				$("#modal_update_email_user").val($el.data('email_user'));
-				$("#modal_update_idgroup").val($el.data('idgroup'));
-			});
+  <script>
+		$(function () {
 
 			$('.btn-delete').on('click', function () {
-				var $el = $(this);      
-				$("#label_delete").append('Apakah anda yakin ingin menghapus user <b>' + $el.data('usname') + '</b>?');
+				var $el = $(this);
+
+				$("#label_delete").append('Apakah anda yakin ingin menghapus group user <b>' + $el.data('usname') + '</b>?');
 				$("#modal_delete_usname").val($el.data('usname'));
+				$("#modal_delete_ids").val($el.data('ids'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {
 				$("#label_delete").empty();
 			});
 
-			$('#myTable').DataTable();
+            $('#datatable').DataTable();
 		});
 	</script>
 @endsection

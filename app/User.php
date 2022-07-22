@@ -10,10 +10,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $connection = 'sqlsrv';
-    protected $table = 'sec_logins';
+    protected $connection = 'server76';
+    protected $table = 'bpadjamc.dbo.new_loginjamc';
     protected $primaryKey = 'ids';
-    // public $incrementing = false;
 
     public function getAuthPassword()
     {

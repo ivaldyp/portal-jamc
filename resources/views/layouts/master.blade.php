@@ -1,175 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-	<title>BPAD DKI Jakarta</title>
-	<link rel="shortcut icon" type="image/x-icon" href="{{ ('/produkhukum/public/img/photo/bpad-logo-00.png32') }}" />
-
-	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400%7CSource+Sans+Pro:700" rel="stylesheet">
-
-	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/bootstrap.min.css') }}" />
-
-	<!-- Owl Carousel -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/owl.carousel.css') }}" />
-	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/owl.theme.default.css') }}" />
-
-	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="{{ ('/produkhukum/public/css/font-awesome.min.css') }}" />
-
-	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="{{ ('/produkhukum/public/css/style.css') }}" />
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laporan BMD Provinsi DKI Jakarta</title>
+	<link rel="icon" type="image/png" sizes="16x16" href="{{ url('public/img/bpad-logo-5.png') }}">
+	<!-- CSS -->
+	@yield('css')
+	<!-- /CSS -->
 </head>
+<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar -->
+  <!-- <nav class="main-header navbar navbar-expand navbar-white navbar-light"> -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
 
-<body>
-	<!-- HEADER -->
-	<header id="home" style="height: 100px">
-		<!-- NAVGATION -->
-		<nav id="main-navbar" style="top: 20px">
-			<div class="container">
-				<div class="navbar-header">
-					<!-- Logo -->
-					<div class="navbar-brand">
-						<a  href="{{ url('/') }}"><img src="{{ ('/produkhukum/public/img/photo/bpad-logo-04b.png32') }}" alt="logo" height="85"></a>
-					</div>
-					<!-- Logo -->
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
+        <div class="navbar-search-block">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{ url('/logout') }}" class="nav-link">Log Out</a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
 
-					<!-- Mobile toggle -->
-					<button class="navbar-toggle-btn">
-							<i class="fa fa-bars"></i>
-						</button>
-					<!-- Mobile toggle -->
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ url('/') }}" class="brand-link">
+      <img src="{{ url('public/img/bpad-logo-0.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Laporan BMD</span>
+    </a>
 
-					<!-- Mobile Search toggle -->
-					<button class="search-toggle-btn">
-							<i class="fa fa-search"></i>
-						</button>
-					<!-- Mobile Search toggle -->
-				</div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ url('public/img/account.png') }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="javascript:void(0)" class="d-block">
+            <?php echo isset($_SESSION['user_jamcportal']['nm_emp']) ? $_SESSION['user_jamcportal']['nm_emp'] : $_SESSION['user_jamcportal']['nama_user']; ?>
+		  </a>
+        </div>
+      </div>
 
-				<!-- Search -->
-				<!-- <div class="navbar-search">
-					<button class="search-btn"><i class="fa fa-search"></i></button>
-					<div class="search-form">
-						<form>
-							<input class="input" type="text" name="search" placeholder="Search">
-						</form>
-					</div>
-				</div> -->
-				<!-- Search -->
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        {!! $_SESSION['menus_jamcportal'] !!}
+        
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
 
-				<!-- Nav menu -->
-				<ul class="navbar-menu nav navbar-nav navbar-right">
-					<li style="background: #006cb8;"><a style="color: white" href="{{ url('/login') }}">
-						@if(Auth::check())
-						Masuk
-						@else
-						Login
-						@endif
-					</a></li>
-				</ul>
+  <!-- Content -->
+  @yield('content')
+  <!-- /Content -->
+  
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.1.0
+    </div>
+    <strong><a href="https://bpad.jakarta.go.id" target="_blank">BPAD</a> Provinsi DKI Jakarta.</strong> All rights reserved.
+  </footer>
 
-				<!-- Nav menu -->
-			</div>
-		</nav>
-		<!-- /NAVGATION -->
-	</header>
-	<!-- /HEADER -->
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
 
-	@yield('content')
-
-	<!-- FOOTER -->
-	<footer id="footer" class="section">
-		<!-- container -->
-		<div class="container">
-
-			<!-- footer copyright & nav -->
-			<div id="footer-bottom" class="row">
-				<div class="col-sm-12">
-					<div class="col-sm-6">
-						<div class="footer-copyright">
-							<span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-	<!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
-	<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
-							<span>&copy; Copyright <?php echo date('Y'); ?> BPAD DKI Jakarta.</span><br>
-							Powered by <a href="JavaScript:void(0);"><span style="cursor: default;">Sub Bidang Data & Informasi</span></a>
-						</div>
-					</div>
-					<div class="col-sm-6" style="top: -20px">
-						<div class="footer-copyright pull-right">
-							
-							<!-- <img src="{{ ('/produkhukum/public/img/photo/plusjakartalogo2.png') }}" alt="" height="100"> -->
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /footer copyright & nav -->
-		</div>
-		<!-- /container -->
-	</footer>
-	<!-- /FOOTER -->
-
-	<!-- jQuery Plugins -->
-	<script src="{{ ('/produkhukum/public/js/jquery.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/js/bootstrap.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/js/owl.carousel.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/js/jquery.stellar.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/js/main.js') }}"></script>
-
-	<!-- <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script> -->
-	<script src="{{ ('/produkhukum/public/js/jquery.zoom.js') }}"></script>
-	<script type="text/javascript">
-		var main = function(){
-			var ads = $('#ads')
-			
-			$(document).scroll(function(){
-				if ( $(this).scrollTop() >= $(window).height() - ads.height() ){
-				ads.removeClass('bottom').addClass('top')
-				} else {
-				ads.removeClass('top').addClass('bottom')
-				}
-			})
-		}
-		$(document).ready(main);
-	</script>
-
-	<script src="//code.jquery.com/jquery.min.js"></script>
-	<script src="{{ ('/produkhukum/public/js/jquery.copy-to-clipboard.js') }}"></script>
-	<script type="text/javascript">
-		$('.copyBtn').click(function(){
-		  	$(this).CopyToClipboard();
-		  	alert("Link Berhasil Di Salin");
-		});
-	</script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#adsbutton").click(function(){
-				$("#ads").hide();
-			});
-			$("#mail_submit").click(function(){
-				var isi = $("#isi").val();
-				var sender = $("#sender").val();
-
-				if (isi != '' && sender != '') {
-					alert("Saran berhasil tersimpan");
-				}
-			});
-		});
-	</script>
+<!-- JS -->
+	@yield('js')
+<!-- /JS -->
 </body>
-
 </html>

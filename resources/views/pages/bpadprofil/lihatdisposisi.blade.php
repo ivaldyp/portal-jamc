@@ -2,19 +2,19 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- Menu CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- Date picker plugins css -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 	<!-- page CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -65,7 +65,7 @@
 			</div>
 			<div class="row ">
 				<div class="col-md-12">
-					<form class="form-horizontal" method="POST" action="/produkhukum/profil/form/lihatdisposisi" data-toggle="validator" enctype="multipart/form-data">
+					<form class="form-horizontal" method="POST" action="/{{ config('app.name') }}/profil/form/lihatdisposisi" data-toggle="validator" enctype="multipart/form-data">
 					@csrf
 						<div class="panel panel-info">
 							<div class="panel-heading"> Disposisi </div>
@@ -83,7 +83,7 @@
 										<div class="form-group">
 											<label class="col-md-2 control-label"> No Form </label>
 											<div class="col-md-8">
-												<?php if (is_null($_SESSION['user_produk']['id_emp'])) : ?>
+												<?php if (is_null($_SESSION['user_jamcportal']['id_emp'])) : ?>
 												<input autocomplete="off" type="text" name="no_form" class="form-control" id="no_form" value="{{ $opendisposisi[0]['no_form'] }}">
 												<?php else : ?>
 												<p>{{ $opendisposisi[0]['no_form'] }}</p>
@@ -240,7 +240,7 @@
 													?>
 													<!-- <a target="_blank" href="{{ config('app.openfiledisposisi') }}/{{ $opendisposisi[0]['nm_file'] }}">{{ $opendisposisi[0]['nm_file'] }}</a> -->
 												</p>
-												<?php if ($_SESSION['user_produk']['idgroup'] == 'SKPD INTERNAL'): ?>
+												<?php if ($_SESSION['user_jamcportal']['idgroup'] == 'SKPD INTERNAL'): ?>
 												<span style="color: red">*untuk mengubah file, upload ulang semua file</span>
 												<input type="file" class="form-control formDisp" id="nm_file" name="nm_file[]" multiple>
 												<?php endif ?>
@@ -249,7 +249,7 @@
 									</div>
 
 									<div class="col-md-6">
-										<?php if ($_SESSION['user_produk']['child'] == 1 || is_null($_SESSION['user_produk']['id_emp'])): ?>
+										<?php if ($_SESSION['user_jamcportal']['child'] == 1 || is_null($_SESSION['user_jamcportal']['id_emp'])): ?>
 											<div class="form-group">
 												<label class="col-md-2 control-label"> Disposisi Ke </label>
 												<div class="col-md-8">
@@ -263,7 +263,7 @@
 														<?php endif ?>
 														
 													</select>
-													@if(is_null($_SESSION['user_produk']['id_emp']))
+													@if(is_null($_SESSION['user_jamcportal']['id_emp']))
 													<span style="color: red">
 														*disposisi yang baru dibuat otomatis ditujukan kepada Kepala Badan 
 													</span>
@@ -271,7 +271,7 @@
 												</div>
 											</div>
 
-											<?php if ($_SESSION['user_produk']['child'] == 1): ?>
+											<?php if ($_SESSION['user_jamcportal']['child'] == 1): ?>
 											<div class="form-group">
 												<label for="nip_emp" class="col-md-2 control-label"> Staf </label>
 												<div class="col-md-8">
@@ -314,7 +314,7 @@
 											</div>
 										</div>
 
-										<!-- <?php if (!($_SESSION['user_produk']['idgroup'] == 'SKPD INTERNAL')): ?>
+										<!-- <?php if (!($_SESSION['user_jamcportal']['idgroup'] == 'SKPD INTERNAL')): ?>
 										<div class="form-group">
 											<label for="nm_tambahan" class="col-lg-2 control-label"> File Tambahan <br> </label>
 											<div class="col-lg-8">
@@ -380,7 +380,7 @@
 								</div>
 							</div>
 							<div class="panel-footer">
-								<?php if (is_null($_SESSION['user_produk']['id_emp']) && $opendisposisi[0]['status_surat'] == 'd'): ?>
+								<?php if (is_null($_SESSION['user_jamcportal']['id_emp']) && $opendisposisi[0]['status_surat'] == 'd'): ?>
 									<input type="submit" name="btnKirim" class="btn btn-info pull-right m-r-10" value="Kirim">
 									<input type="submit" name="btnDraft" class="btn btn-warning pull-right m-r-10" value="Draft">
 
@@ -409,18 +409,18 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/cbpFWTabs.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/cbpFWTabs.js') }}"></script>
 	<script type="text/javascript">
 		(function () {
 				[].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
@@ -428,11 +428,11 @@
 			});
 		})();
 	</script>
-	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/js/validator.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/custom.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/validator.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 	<!-- Date Picker Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
 	<script>
 		function goBack() {
@@ -464,7 +464,7 @@
 
 				$.ajax({ 
 				type: "GET", 
-				url: "/produkhukum/profil/ceknoform",
+				url: "/{{ config('app.name') }}/profil/ceknoform",
 				data: { noform : varnoform },
 				dataType: "JSON",
 				}).done(function( data ) { 

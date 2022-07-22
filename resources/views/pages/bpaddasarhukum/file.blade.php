@@ -2,19 +2,19 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- page CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -71,10 +71,10 @@
                             	<div class="row " style="margin-bottom: 10px">
                             		@if ($access['zadd'] == 'y')
                         			<div class="col-md-1">
-                        				<a href="/produkhukum/setup/tambah file"><button data-toggle="modal" data-target="#modal-insert" class="btn btn-info col-sm-12" style="margin-bottom: 10px">Tambah</button></a>
+                        				<a href="/{{ config('app.name') }}/setup/tambah file"><button data-toggle="modal" data-target="#modal-insert" class="btn btn-info col-sm-12" style="margin-bottom: 10px">Tambah</button></a>
                         			</div>
                         			<div class="col-md-10">
-                            			<form method="GET" action="/produkhukum/setup/file">
+                            			<form method="GET" action="/{{ config('app.name') }}/setup/file">
 											<div class=" col-md-2">
 												<input type="text" name="yearnow" class="form-control" placeholder="Tahun" value="{{ $yearnow }}" autocomplete="off">
 											</div>
@@ -149,7 +149,7 @@
 													</td>
 													@if($access['zupd'] == 'y' || $access['zdel'] == 'y')
 													<td>
-														<form method="GET" action="/produkhukum/setup/ubah file">
+														<form method="GET" action="/{{ config('app.name') }}/setup/ubah file">
 														@if($access['zupd'] == 'y')
 															<input type="hidden" name="ids" value="{{ $file['ids'] }}">
 															<button type="submit" class="btn btn-info btn-update"><i class="fa fa-edit"></i></button>
@@ -175,7 +175,7 @@
 			<div id="modal-delete" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/produkhukum/setup/form/hapusfile" class="form-horizontal">
+						<form method="POST" action="/{{ config('app.name') }}/setup/form/hapusfile" class="form-horizontal">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b>Hapus File</b></h4>
@@ -199,20 +199,20 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/js/validator.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/custom.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/validator.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
 
 	<script>
 		$(function () {

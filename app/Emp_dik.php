@@ -6,15 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Emp_dik extends Model
 {
-    protected $connection = 'sqlsrv';
-    // protected $primaryKey = "id_emp"; 
-    protected $table = "emp_dik";
+    protected $connection = 'server76';
+    protected $table = "bpaddtfake.dbo.emp_dik";
     
     public $incrementing = 'false';
     public $timestamps = false;
-
-    public function dik()
-    {
-        return $this->hasOne('App\Glo_dik', 'dik', 'iddik')->orderBy('urut');
-    }
 }

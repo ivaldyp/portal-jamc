@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Traits\SessionCheckTraits;
+use App\Traits\TraitsCheckActiveMenu;
 
 use App\Content_tb;
 use App\Glo_kategori;
@@ -15,12 +16,15 @@ use App\Glo_subkategori;
 use App\New_icon_produk;
 use App\Sec_access;
 use App\Sec_menu;
+use App\Setup_can_approve;
+use PhpOffice\PhpSpreadsheet\Reader\Xls\RC4;
 
 session_start();
 
 class CmsController extends Controller
 {
 	use SessionCheckTraits;
+    use TraitsCheckActiveMenu;
 
 	public function __construct()
 	{
@@ -38,13 +42,11 @@ class CmsController extends Controller
 			$sao = "(sao = ".$parent.")";
 		}
 
-		$query = DB::select( DB::raw("
-					SELECT *
-					FROM bpaddasarhukum.dbo.sec_menu
-					WHERE $sao
-					ORDER BY urut, ids
-				"));
-		$query = json_decode(json_encode($query), true);
+        $query = Sec_menu::
+                whereRaw($sao)
+                ->orderBy('urut')
+                ->orderBy('ids')
+                ->get();
 
 		$result = '';
 
@@ -71,7 +73,7 @@ class CmsController extends Controller
 									'<td class="col-md-2">
 										'.(($access['zupd'] == 'y') ? 
 											'<button type="button" class="btn btn-info btn-update" data-toggle="modal" data-target="#modal-update" data-ids="'.$menu['ids'].'" data-desk="'.$menu['desk'].'" data-child="'.$menu['child'].'" data-iconnew="'.$menu['iconnew'].'" data-urlnew="'.$menu['urlnew'].'" data-urut="'.$menu['urut'].'" data-tampilnew="'.$menu['tampilnew'].'" data-zket="'.$menu['zket'].'"><i class="fa fa-edit"></i></button>
-											<a href="/produkhukum/cms/menuakses?menu='.$menu['ids'].'&nama='.$menu['desk'].'"><button type="button" class="btn btn-warning"><i class="fa fa-key"></i></button></a>
+											<a href="/'.config('app.name').'/cms/menuakses?menu='.$menu['ids'].'&nama='.$menu['desk'].'"><button type="button" class="btn btn-warning"><i class="fa fa-key"></i></button></a>
 											'
 										: '').'
 										'.(($access['zdel'] == 'y') ? 
@@ -92,11 +94,10 @@ class CmsController extends Controller
 
 	public function menuall(Request $request)
 	{
-		$this->checkSessionTime();
-		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
-		$currentpath = explode("?", $currentpath)[0];
-		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+        $this->checkSessionTime();
+        $thismenu = $this->trimmenu($_SERVER['REQUEST_URI']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
+        $activemenus = $this->checkactivemenu(config('app.name'), url()->current());
 
 		$all_menu = [];
 
@@ -104,7 +105,8 @@ class CmsController extends Controller
 		
 		return view('pages.bpadcms.menu')
 				->with('access', $access)
-				->with('menus', $menus);
+				->with('menus', $menus)
+                ->with('activemenus', $activemenus);
 	}
 
 	public function forminsertmenu(Request $request)
@@ -180,8 +182,7 @@ class CmsController extends Controller
 		Sec_access::insert($result);
 
 		return redirect('/cms/menu')
-					->with('message', 'Menu '.$request->desk.' berhasil ditambah')
-					->with('msg_num', 1);
+                    ->with('success', 'Menu '.$request->desk.' berhasil ditambah');
 	}
 
 	public function formupdatemenu(Request $request)
@@ -200,8 +201,7 @@ class CmsController extends Controller
 			]);
 
 		return redirect('/cms/menu')
-					->with('message', 'Menu '.$request->desk.' berhasil diubah')
-					->with('msg_num', 1);
+                    ->with('success', 'Menu '.$request->desk.' berhasil diubah');
 	}
 
 	public function deleteLoopAccess($ids)
@@ -268,8 +268,7 @@ class CmsController extends Controller
 		}
 
 		return redirect('/cms/menu')
-					->with('message', 'Menu '.$request->desk.' berhasil dihapus')
-					->with('msg_num', 1);
+                    ->with('success', 'Menu '.$request->desk.' berhasil dihapus');
 	}
 
 	public function menuakses(Request $request)
@@ -349,12 +348,268 @@ class CmsController extends Controller
 		}
 
 		return redirect('/cms/menuakses?menu='.$idtop.'&nama='.$desk)
-					->with('message', 'Hak akses '.$desk.' berhasil diubah')
-					->with('msg_num', 1);
+                    ->with('success', 'Hak akses '.$desk.' berhasil diubah');
 	}
 
 	// ------------------ MENU ------------------ //
+    
+    // ----------------- CONTENT ---------------- //
 
+    public function contentall(Request $request)
+	{
+        $this->checkSessionTime();
+        $thismenu = $this->trimmenu($_SERVER['REQUEST_URI']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
+        $activemenus = $this->checkactivemenu(config('app.name'), url()->current());
+
+		if (!(is_null($request->katnow))) {
+			$katnow = $request->katnow;
+		} else {
+			$katnow = 1;
+		}
+
+		if (is_null($request->suspnow) || $request->suspnow == 'N') {
+			$suspnow = '';
+		} elseif ($request->suspnow == 'Y') {
+			$suspnow = 'Y';
+		}
+
+		if ($request->yearnow) {
+			$yearnow = (int)$request->yearnow;
+		} else {
+			$yearnow = (int)date('Y');
+		}
+
+		if ($request->monthnow) {
+			$monthnow = (int)$request->monthnow;
+		} else {
+			$monthnow = (int)date('m');
+		}
+
+		if ($request->signnow) {
+			$signnow = $request->signnow;
+		} else {
+			$signnow = "<=";
+		}
+
+        $kategoris = DB::select( DB::raw("
+					SELECT *, (select count (ids) from bpadjamc.dbo.content_tb as con where appr = 'N' and sts = 1 and suspend = '$suspnow' and idkat = kat.ids) as total
+					FROM bpadjamc.dbo.glo_kategori as kat
+					WHERE sts = 1
+					ORDER BY nmkat
+				"));
+		$kategoris = json_decode(json_encode($kategoris), true);
+
+		$katnowdetail = DB::select( DB::raw("
+					SELECT *, lower(nmkat) as nama
+					FROM bpadjamc.dbo.glo_kategori kat
+					WHERE ids = $katnow
+				"))[0];
+		$katnowdetail = json_decode(json_encode($katnowdetail), true);
+
+		$subkats = Glo_subkategori::
+					get();
+
+		$contents = DB::select( DB::raw("
+					SELECT TOP (1000) con.ids, con.suspend, con.ids, con.tanggal, con.subkat, con.judul, con.editor, con.editor, con.tfile, con.tipe, con.appr, con.tgl, con.idkat, lower(kat.nmkat) as nmkat 
+                      from bpadjamc.dbo.content_tb con
+					  join bpadjamc.dbo.glo_kategori kat on kat.ids = con.idkat
+					  where idkat = $katnow
+					  and suspend = '$suspnow'
+					  and con.sts = 1
+					  and month(con.tanggal) $signnow $monthnow
+					  and year(con.tanggal) $signnow $yearnow
+					  order by con.appr, con.tgl desc 
+				    "));
+		$contents = json_decode(json_encode($contents), true);
+
+		$approve = Setup_can_approve::first();
+		$splitappr = explode("::", $approve['can_approve']);
+
+        if ($_SESSION['user_jamcportal']['id_emp']) {
+			$thisid = $_SESSION['user_jamcportal']['id_emp'];
+		} else {
+			$thisid = $_SESSION['user_jamcportal']['usname'];
+		} 
+
+		foreach ($splitappr as $key => $data) {
+			if ($thisid == $data) {
+				$flagapprove = 1;
+				break;
+			} else {
+				$flagapprove = 0;
+			}
+		}
+		
+		return view('pages.bpadmedia.content')
+				->with('access', $access)
+				->with('kategoris', $kategoris)
+				->with('subkats', $subkats)
+				->with('contents', $contents)
+				->with('katnow', $katnow)
+				->with('katnowdetail', $katnowdetail)
+				->with('suspnow', $suspnow)
+				->with('flagapprove', $flagapprove)
+				->with('signnow', $signnow)
+				->with('monthnow', $monthnow)
+				->with('yearnow', $yearnow)
+                ->with('activemenus', $activemenus);
+	}
+
+    public function contenttambah(Request $request)
+    {
+        if(count($_SESSION) == 0) {
+			return redirect('home');
+		}
+		//$this->checkSessionTime();
+
+		$subkats = Glo_subkategori::
+					where('idkat', $request->kat)
+                    ->orderBy('urut_subkat', 'asc')
+					->get();
+
+		$kat = Glo_kategori::
+					where('ids', $request->kat)
+					->first();
+
+		return view('pages.bpadmedia.contenttambah')
+				->with('subkats', $subkats)
+				->with('kat', $kat)
+				->with('idkat', $request->kat);
+    }
+
+    public function forminsertcontent(Request $request)
+    {
+        if(count($_SESSION) == 0) {
+			return redirect('home');
+		}
+		//$this->checkSessionTime();
+
+		$kat = Glo_kategori::
+					where('ids', $request->idkat)
+					->first();
+
+		if (isset($request->tfile)) {
+			$file = $request->tfile;
+
+			if ($file->getSize() > 1024000) {
+				// return redirect('/media/content?katnow='.$request->idkat)->with('message', 'Ukuran file terlalu besar (Maksimal 1MB)');
+				return redirect()->back()->with('error', 'Ukuran file terlalu besar (Maksimal 1MB)');
+			} 
+			if (strtolower($file->getClientOriginalExtension()) != "png" && strtolower($file->getClientOriginalExtension()) != "jpg" && strtolower($file->getClientOriginalExtension()) != "jpeg") {
+				return redirect()->back()->with('error', 'File yang diunggah harus berbentuk JPG / JPEG / PNG');     
+			} 
+
+			$file_name = "media" . preg_replace("/[^0-9]/", "", $request->tanggal);
+			$file_name .= $_SESSION['user_jamcportal']['nrk_emp'];
+			$file_name .= ".". $file->getClientOriginalExtension();
+
+			if ($request->idkat == 1) {
+				$tujuan_upload = config('app.savefileimgberita');
+			} elseif ($request->idkat == 5) {
+				$tujuan_upload = config('app.savefileimggambar');
+			}
+
+			// if (strtolower($kat['nmkat']) == 'lelang') {
+			// 	$tujuan_upload = config('app.savefileimglelang');
+			// } elseif (strtolower($kat['nmkat']) == 'infografik') {
+			// 	$tujuan_upload = config('app.savefileimginfografik');
+			// } elseif (strtolower($kat['nmkat']) == 'infografik epem') {
+			// 	$tujuan_upload = config('app.savefileimginfografikepem');
+			// }
+		
+			$file->move($tujuan_upload, $file_name);
+		}
+			
+		if (!(isset($file_name))) {
+			$file_name = '';
+		}
+
+		if (!(isset($request->subkat))) {
+			$subkat = '';
+		} else {
+			$subkat = $request->subkat;
+		}
+
+		if (!(isset($request->url))) {
+			$url = '';
+		} else {
+			$url = $request->url;
+		}
+
+		if (!(isset($request->isi1))) {
+			$isi1 = '';
+		} else {
+			$isi1 = $request->isi1;
+		}
+
+		if (!(isset($request->isi2))) {
+			$isi2 = '';
+		} else {
+			$isi2 = $request->isi2;
+		}
+
+		if ($request->suspend == 'Y') {
+			$suspend = 'Y';
+		} else {
+			$suspend = '';
+		}
+
+		if ($request->headline == 'H,' ) {
+			$headline = 'H,';
+		} else {
+			$headline = '';
+		}
+
+		if (strtolower($kat['nmkat']) == 'lelang' && $headline == 'H,') {
+			Content_tb::where('idkat', $request->idkat)
+			->update([
+				'tipe' => '',
+			]);
+		}
+
+		if ($request->kode_kat == 'VID') {
+			$isi2 = $isi2;
+		} else {
+			$isi2 = htmlentities($isi2);
+		}
+		
+		$insert = [
+				'sts'       => 1,
+				'uname'     => (Auth::user()->usname ? Auth::user()->usname : Auth::user()->id_emp),
+				'tgl'       => date('Y-m-d H:i:s'),
+				'ip'        => '',
+				'logbuat'   => '',
+				'suspend'   => $suspend,
+				'idkat'     => $request->idkat,
+				'subkat'    => $subkat,
+				'tipe'      => $headline,
+				'tanggal'   => (is_null($request->tanggal) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))) ),
+				'judul'     => $request->judul,
+				'isi1'      => htmlentities($isi1),
+				'isi2'      => $isi2,
+				'tglinput'  => (is_null($request->tanggal) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $request->tanggal))) ),
+				'editor'    => $request->editor,
+				'link'      => '',
+				'thits'     => 0,
+				'ipserver'  => '',
+				'tfile'     => $file_name,
+				'likes'     => 0,
+				'privacy'   => '',
+				'url'       => $url,
+				'kd_cms'    => '1.20.512',
+				'appr'      => "N",
+				'usrinput'  => $request->usrinput,
+				'contentnew'=> $request->contentnew,
+			];
+
+		Content_tb::insert($insert);
+
+		return redirect('/media/content?katnow='.$request->idkat)
+					->with('success', 'Konten berhasil ditambah');
+    }
+
+    // ----------------- CONTENT ---------------- //
 }
 
 	

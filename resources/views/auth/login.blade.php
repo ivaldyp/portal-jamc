@@ -1,82 +1,55 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Login</title>
-        <link href="{{ ('/produkhukum/public/landing/bootstrap400/css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ ('/produkhukum/public/landing/css/custom.css') }}" rel="stylesheet">
-    </head>
-    <body style="background-color: #fbe6a5" class="login-body">
-        <div class="content col-md-12" style="background-color: white">
-            <!-- <nav class="navbar navbar-expand-sm bg-light"> -->
-            <!-- <nav class="navbar navbar-expand-sm">
-                <div class="container">
-                    <img src="{{ ('/produkhukum/public/img/photo/bpad-logo-01.png32') }}" alt="BPAD" width="10%" class="navbar-brand">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/02_BM_eHarga.pdf">Manual Book</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/BP_02-eHarga.jpg">Bisnis Proses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link cust-nav" href="https://youtu.be/RCXbZfmz0ZQ">Video Tutorial</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link cust-nav" href="http://aset.jakarta.go.id/fileapp/files/04_SOP_eHarga.pdf">SOP</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link cust-nav" href="http://aset.jakarta.go.id/appdoc/public/faq/eHARGA">FAQ</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav> -->
+@extends('layouts.app')
 
-            <div class="container">
-                <div class="row ">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <p style="font-family: 'Myriad Pro Bold'; color: #5793ce; font-size: 24px; ">Selamat datang di </p>
-                        </div>
-                        <div class="row">
-                            <p style="font-family: 'Myriad Pro Regular'; color: #002853; font-size: 48px; "><span style="font-family: 'Myriad Pro Bold'; color: #002853; font-size: 48px;">PRODUK HUKUM</span></p>
-                        </div>
-                        <div class="row">
-                            <p style="font-family: 'Myriad Pro Regular'; text-align: justify; font-size: 20px">Sistem yang menghimpun produk hukum yang ditetapkan oleh BPAD maupun acuan peraturan lain untuk memudahkan pencarian landasan hukum terkait pengelolaan Barang Milik Daerah di Pemerintah Provinsi DKI Jakarta
-</p>
-                        </div>
-                        <div class="row">
-                            <form method="POST" action="{{ route('login') }}">
-                                @csrf
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Login') }}</div>
 
-                                @if(Auth::check())
-                                <button type="submit" class="btn btn-warning" style="color: white">MASUK</button>
-                                @else
-                                <div class="form-group">
-                                    <label for="name" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Username</label>
-                                    <input required="" autocomplete="off" type="text" name="name" class="form-control no-outline">  
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" style="font-family: 'Myriad Pro Regular'; font-size: 18px; color: #5793ce;">Password</label>
-                                    <input required="" autocomplete="off" type="password" name="password" class="form-control no-outline">  
-                                </div>
-                                <button type="submit" class="btn btn-warning" style="color: white">LOGIN</button>
-                                @endif
-                                
-                            </form>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="row">
-                            <footer class="page-footer">
-                                <div class="footer-copyright text-center py-3" style="color: #002853; font-family: 'Myriad Pro Regular'; font-size: 18px ">&#169; 2020 BPAD Provinsi DKI Jakarta</div>
-                            </footer>
+
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6" align="center">
-                        <img src="{{ ('/produkhukum/public/img/icon-aset/ico-dasarhukum.png32') }}" width="90%">
-                    </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-
-        <script src="{{ ('/produkhukum/public/landing/bootstrap400/js/bootstrap.min.js') }}"></script>
-    </body>
-</html>
+    </div>
+</div>
+@endsection

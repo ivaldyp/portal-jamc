@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Traits\SessionCheckTraits;
+use App\Traits\TraitsCheckActiveMenu;
 
 use App\Emp_data;
+use App\Ref_idgroups;
 use App\Sec_access;
 use App\Sec_menu;
 use App\Sec_logins;
@@ -19,6 +21,7 @@ session_start();
 class SecurityController extends Controller
 {
 	use SessionCheckTraits;
+    use TraitsCheckActiveMenu;
 
 	// // // GRUP USER // // // 
 
@@ -29,10 +32,10 @@ class SecurityController extends Controller
 		}
 
 		$query = Sec_menu::
-				join('bpaddasarhukum.dbo.sec_access', 'bpaddasarhukum.dbo.sec_access.idtop', '=', 'bpaddasarhukum.dbo.Sec_menu.ids')
-                ->where('bpaddasarhukum.dbo.sec_access.idgroup', $idgroup)
-                ->where('bpaddasarhukum.dbo.Sec_menu.sao', $parent)
-                ->orderBy('bpaddasarhukum.dbo.Sec_menu.urut')
+				join('bpadjamc.dbo.sec_access', 'bpadjamc.dbo.sec_access.idtop', '=', 'bpadjamc.dbo.Sec_menu.ids')
+                ->where('bpadjamc.dbo.sec_access.idgroup', $idgroup)
+                ->where('bpadjamc.dbo.Sec_menu.sao', $parent)
+                ->orderBy('bpadjamc.dbo.Sec_menu.urut')
 				->get();
 
 		$result = '';
@@ -73,19 +76,16 @@ class SecurityController extends Controller
 	public function grupall()
 	{
 		$this->checkSessionTime();
-		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
-		$currentpath = explode("?", $currentpath)[0];
-		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+        $thismenu = $this->trimmenu($_SERVER['REQUEST_URI']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
+        $activemenus = $this->checkactivemenu(config('app.name'), url()->current());
 
-		$groups = Sec_access::
-					distinct('idgroup')
-					->orderBy('idgroup')
-					->get('idgroup');
+		$groups = Ref_idgroups::orderBy('idgroup')->get();
 
 		return view('pages.bpadsecurity.grupuser')
 				->with('access', $access)
-				->with('groups', $groups);
+				->with('groups', $groups)
+                ->with('activemenus', $activemenus);
 	}
 
 	public function grupubah(Request $request)
@@ -114,7 +114,7 @@ class SecurityController extends Controller
 	public function forminsertgrup(Request $request)
 	{
 		$this->checkSessionTime();
-		// $access = $this->checkAccess($_SESSION['user_produk']['idgroup'], 4);
+		// $access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], 4);
 
 		$namecheck = Sec_access::
 						where('idgroup', $request->idgroup)
@@ -122,8 +122,7 @@ class SecurityController extends Controller
 
 		if (count($namecheck) > 0) {
 			return redirect('/security/group user')
-					->with('message', 'Grup user '.$request->idgroup.' sudah ada di database. Harap ganti nama.')
-					->with('msg_num', 2);
+                    ->with('error', 'Grup user '.$request->idgroup.' sudah ada di database. Harap ganti nama.');
 		}
 
 		$query = Sec_access::
@@ -144,15 +143,19 @@ class SecurityController extends Controller
 			Sec_access::insert($insert_idgroup);
 		}
 
+        $insert_refidgroup = [
+            'idgroup' => $request->idgroup,
+        ];
+        Ref_idgroups::insert($insert_refidgroup);
+
 		return redirect('/security/group user')
-					->with('message', 'Grup user '.$request->idgroup.' berhasil ditambah')
-					->with('msg_num', 1);
+                ->with('success', 'Grup user '.$request->idgroup.' berhasil ditambah');
 	}
 
 	public function formupdategrup(Request $request)
 	{
 		$this->checkSessionTime();
-		// $access = $this->checkAccess($_SESSION['user_produk']['idgroup'], 4);
+		// $access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], 4);
 
 		!(isset($request->zviw)) ? $zviw = '' : $zviw = 'y';
 		!(isset($request->zadd)) ? $zadd = '' : $zadd = 'y';
@@ -179,7 +182,7 @@ class SecurityController extends Controller
 	public function formdeletegrup(Request $request)
 	{
 		$this->checkSessionTime();
-		// $access = $this->checkAccess($_SESSION['user_produk']['idgroup'], 4);
+		// $access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], 4);
 
 		$cari1 = Sec_logins::
 					where('idgroup', $request->idgroup)
@@ -191,17 +194,19 @@ class SecurityController extends Controller
 
 		if ($cari1 > 0 || $cari2 > 0) {
 			return redirect('/security/group user')
-				->with('message', 'Grup user '.$request->idgroup.' tidak dapat dihapus karena terdapat user yang merupakan grup user tersebut')
-				->with('msg_num', 2);
+                ->with('error', 'Grup user '.$request->idgroup.' tidak dapat dihapus karena terdapat user yang merupakan grup user tersebut');
 		}
 
-		$query = Sec_access::
-					where('idgroup', $request->idgroup)
-					->delete();
+		Sec_access::
+        where('idgroup', $request->idgroup)
+        ->delete();
+
+        Ref_idgroups::
+        where('idgroup', $request->idgroup)
+        ->delete();
 
 		return redirect('/security/group user')
-				->with('message', 'Grup user '.$request->idgroup.' berhasil dihapus')
-				->with('msg_num', 1);
+                ->with('success', 'Grup user '.$request->idgroup.' berhasil dihapus');
 	}
 
 	// ----------------GRUP USER----------------- //
@@ -213,25 +218,43 @@ class SecurityController extends Controller
 	public function tambahuser()
 	{
 		$this->checkSessionTime();
-		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
-		$currentpath = explode("?", $currentpath)[0];
-		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+        $thismenu = $this->trimmenu($_SERVER['REQUEST_URI']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
+        $activemenus = $this->checkactivemenu(config('app.name'), url()->current());
 
-		$idgroup = Sec_access::
-					distinct('idgroup')
-					->orderBy('idgroup', 'asc')
+		$idgroup = Ref_idgroups::
+					orderBy('idgroup', 'asc')
 					->get('idgroup');
 
 		return view('pages.bpadsecurity.tambahuser')
 				->with('access', $access)
-				->with('idgroup', $idgroup);
+				->with('idgroup', $idgroup)
+                ->with('activemenus', $activemenus);
+	}
+
+    public function ubahuser(Request $request)
+	{
+		$this->checkSessionTime();
+        $activemenus = $this->checkactivemenu(config('app.name'), url()->current());
+
+		$idgroup = Ref_idgroups::
+					orderBy('idgroup', 'asc')
+					->get('idgroup');
+
+        $nowlogins = Sec_logins::
+        where('ids', $request->ids)
+        ->first();
+
+		return view('pages.bpadsecurity.ubahuser')
+				->with('idgroup', $idgroup)
+                ->with('nowlogins', $nowlogins)
+                ->with('activemenus', $activemenus);
 	}
 
 	public function forminsertuser(Request $request)
 	{
 		$this->checkSessionTime();
-		// $access = $this->checkAccess($_SESSION['user_produk']['idgroup'], 5);
+		// $access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], 5);
 
 		$data = [
 				'sts'			=> 1,
@@ -265,12 +288,11 @@ class SecurityController extends Controller
 
 		if (Sec_logins::insert($data)) {
 			return redirect('/security/manage user')
-					->with('message', 'User '.$request->username.' berhasil ditambah')
-					->with('msg_num', 1);
+                    ->with('success', 'User '.$request->username.' berhasil ditambah');
+                    
 		} else {
 			return redirect('/security/manage user')
-					->with('message', 'User '.$request->username.' gagal ditambah')
-					->with('msg_num', 2);
+                    ->with('error', 'User '.$request->username.' gagal ditambah');
 		}	
 	}
 
@@ -283,13 +305,13 @@ class SecurityController extends Controller
 	public function manageuser()
 	{
 		$this->checkSessionTime();
-		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
-		$currentpath = explode("?", $currentpath)[0];
-		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+        $thismenu = $this->trimmenu($_SERVER['REQUEST_URI']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
+        $activemenus = $this->checkactivemenu(config('app.name'), url()->current());
 
 		$users = Sec_logins::
-					orderBy('idgroup')
+                    where('sts', 1)
+					->orderBy('idgroup')
 					->orderBy('usname')
 					->get();	
 
@@ -301,33 +323,33 @@ class SecurityController extends Controller
 		return view('pages.bpadsecurity.manageuser')
 				->with('access', $access)
 				->with('idgroup', $idgroup)
-				->with('users', $users);
+				->with('users', $users)
+                ->with('activemenus', $activemenus);
 	}
 
 	public function formupdateuser(Request $request)
 	{
 		$this->checkSessionTime();
-		// $access = $this->checkAccess($_SESSION['user_produk']['idgroup'], 6);
+		// $access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], 6);
 
-		$query = Sec_logins::
-					where('ids', $request->ids)
-					->update([
-						'usname' => $request->usname,
-						'nama_user' => $request->nama_user,
-						'deskripsi_user' => $request->deskripsi_user,
-						'email_user' => $request->email_user,
-						'idgroup' => $request->idgroup,
-					]);
+		Sec_logins::
+        where('ids', $request->ids)
+        ->update([
+            'usname' => $request->usname,
+            'nama_user' => $request->nama_user,
+            'deskripsi_user' => $request->deskripsi_user,
+            'email_user' => $request->email_user,
+            'idgroup' => $request->idgroup,
+        ]);
 
 		return redirect('/security/manage user')
-					->with('message', 'User '.$request->usname.' berhasil diubah')
-					->with('msg_num', 1);
+                    ->with('success', 'User '.$request->usname.' berhasil diubah');
 	}
 
 	public function formupdatepassuser(Request $request)
 	{
 		$this->checkSessionTime();
-		// $access = $this->checkAccess($_SESSION['user_produk']['idgroup'], 6);
+		// $access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], 6);
 		
 		Sec_logins::
 			where('ids', $request->ids)
@@ -336,14 +358,13 @@ class SecurityController extends Controller
 			]);
 
 		return redirect('/security/manage user')
-					->with('message', 'Password '.$request->usname.' berhasil diubah')
-					->with('msg_num', 1);
+                ->with('success', 'Password user '.$request->usname.' berhasil diubah');
 	}
 
 	public function formdeleteuser(Request $request)
 	{
 		$this->checkSessionTime();
-		// $access = $this->checkAccess($_SESSION['user_produk']['idgroup'], 6);
+		// $access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], 6);
 
 		Sec_logins::
 			where('ids', $request->ids)
@@ -352,8 +373,7 @@ class SecurityController extends Controller
 			]);
 
 		return redirect('/security/manage user')
-					->with('message', 'User '.$request->usname.' berhasil dihapus')
-					->with('msg_num', 1);
+                    ->with('success', 'Password user '.$request->usname.' berhasil dihapus');
 	}
 
 	// ---------------MANAGE USER---------------- // 

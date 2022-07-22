@@ -11,14 +11,15 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('/index/copy', function () {
+    return view('indexcopy');
+});
 
 // Route::get('/home', function () {
 //     return view('index');
 // });
 
+Route::get('/index2', 'LandingController@index2');
 Route::get('/', 'LandingController@index');
 Route::get('/home', 'HomeController@index');
 Route::POST('/home/password', 'HomeController@password');
@@ -51,6 +52,12 @@ Route::group(['prefix' => 'cms'], function () {
 	Route::post('/form/hapusmenu', 'CmsController@formdeletemenu');
 	Route::get('/menuakses', 'CmsController@menuakses');
 	Route::post('/form/ubahaccess', 'CmsController@formupdateaccess');
+});
+
+Route::group(['prefix' => 'media'], function () {
+    Route::get('/content', 'CmsController@contentall');
+    Route::get('/tambah content', 'CmsController@contenttambah');
+    Route::post('/form/tambahcontent', 'CmsController@forminsertcontent');
 });
 
 Route::group(['prefix' => 'kepegawaian'], function () {
@@ -104,13 +111,15 @@ Route::group(['prefix' => 'kepegawaian'], function () {
 
 Route::group(['prefix' => 'security'], function () {
 	Route::get('/group user', 'SecurityController@grupall');
+	Route::get('/hak akses', 'SecurityController@hakakses');
+
 	Route::get('/group user/ubah', 'SecurityController@grupubah');
 	Route::post('/form/tambahgrup', 'SecurityController@forminsertgrup');
 	Route::post('/form/ubahgrup', 'SecurityController@formupdategrup');
 	Route::post('/form/hapusgrup', 'SecurityController@formdeletegrup');
 
 	Route::get('/tambah user', 'SecurityController@tambahuser');
-	Route::post('/form/tambahuser', 'SecurityController@forminsertuser');
+	Route::get('/ubah user', 'SecurityController@ubahuser');
 
 	Route::get('/manage user', 'SecurityController@manageuser');
 	Route::post('/form/tambahuser', 'SecurityController@forminsertuser');

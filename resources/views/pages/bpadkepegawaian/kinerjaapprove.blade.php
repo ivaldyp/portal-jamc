@@ -2,21 +2,21 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- Date picker plugins css -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 	<!-- animation CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 	<!-- page CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -71,13 +71,13 @@
 						<div class="panel-wrapper collapse in">
 							<div class="panel-body">
 								<div class="row" style="margin-bottom: 10px">
-									<form method="GET" action="/produkhukum/kepegawaian/approve kinerja">
+									<form method="GET" action="/{{ config('app.name') }}/kepegawaian/approve kinerja">
 										<div class="col-md-3">
 											<select class="form-control select2" name="now_id_emp" id="now_id_emp" onchange="this.form.submit()">
 												@forelse($pegawais as $pegawai)
 												<option <?php if ($now_id_emp == $pegawai['id_emp']): ?> selected <?php endif ?> value="{{ $pegawai['id_emp'] }}">{{ ucwords(strtolower($pegawai['nm_emp'])) }}-{{ $pegawai['nrk_emp'] }}</option>
 												@empty
-												<option value="{{ $_SESSION['user_produk']['id_emp'] }}">{{ ucwords(strtolower($_SESSION['user_produk']['nm_emp'])) }}-{{ $_SESSION['user_produk']['nrk_emp'] }}</option>
+												<option value="{{ $_SESSION['user_jamcportal']['id_emp'] }}">{{ ucwords(strtolower($_SESSION['user_jamcportal']['nm_emp'])) }}-{{ $_SESSION['user_jamcportal']['nrk_emp'] }}</option>
 												@endforelse
 											</select>
 										</div>
@@ -85,14 +85,14 @@
 								</div>
 								<div class="row ">
 									<h3 class="text-center">tabel kinerja belum tervalidasi</h3>
-									<form method="POST" action="/produkhukum/kepegawaian/form/approvekinerja">
+									<form method="POST" action="/{{ config('app.name') }}/kepegawaian/form/approvekinerja">
 									@csrf
 										<div class="table-responsive">
 											<table class=" table table-hover color-table primary-table" >
 												<thead>
 													<tr>
-														@if($_SESSION['user_produk']['idunit'])
-														@if(strlen($_SESSION['user_produk']['idunit']) < 10)
+														@if($_SESSION['user_jamcportal']['idunit'])
+														@if(strlen($_SESSION['user_jamcportal']['idunit']) < 10)
 														<th style="display: none;"></th>
 														<th>Pilih</th>
 														@endif
@@ -129,8 +129,8 @@
 													?>
 
 													<tr>
-														@if($_SESSION['user_produk']['idunit'])
-														@if(strlen($_SESSION['user_produk']['idunit']) < 10)
+														@if($_SESSION['user_jamcportal']['idunit'])
+														@if(strlen($_SESSION['user_jamcportal']['idunit']) < 10)
 														<input type="hidden" name="idemp_{{$key}}" value="{{ $laporan['idemp'] }}">
 														<input type="hidden" name="tgl_trans_{{$key}}" value="{{ $laporan['tgl_trans'] }}">
 														<input type="hidden" name="tipe_hadir_{{$key}}" value="{{ $laporan['tipe_hadir'] }}">
@@ -183,8 +183,8 @@
 												</tbody>
 											</table>
 										</div>
-									@if($_SESSION['user_produk']['idunit'])
-									@if(strlen($_SESSION['user_produk']['idunit']) < 10)
+									@if($_SESSION['user_jamcportal']['idunit'])
+									@if(strlen($_SESSION['user_jamcportal']['idunit']) < 10)
 									@if(count($laporans) != 0)
 									<button id="confirmButton" type="submit" class="btn btn-warning">Setujui & Proses</button>
 									@endif
@@ -222,7 +222,7 @@
 			<div id="modal-update" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<form method="POST" action="/produkhukum/kepegawaian/form/approvekinerjasingle" class="form-horizontal" data-toggle="validator">
+						<form method="POST" action="/{{ config('app.name') }}/kepegawaian/form/approvekinerjasingle" class="form-horizontal" data-toggle="validator">
 						@csrf
 							<div class="modal-header">
 								<h4 class="modal-title"><b>Ubah Kinerja</b></h4>
@@ -294,21 +294,21 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/custom.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/custom-select/custom-select.min.js') }}" type="text/javascript"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<!-- Date Picker Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
 	<script>
 		var checkBoxes = $('tbody .myCheckBox');
@@ -366,7 +366,7 @@
 
 				$.ajax({ 
 				method: "GET", 
-				url: "/produkhukum/kepegawaian/getdetailaktivitas",
+				url: "/{{ config('app.name') }}/kepegawaian/getdetailaktivitas",
 				data: { tgl_trans : vartgltrans, idemp : varidemp,  },
 				}).done(function( data ) { 
 					console.log(data);

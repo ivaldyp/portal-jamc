@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ ('/produkhukum/public/img/photo/bpad-logo-05.png32') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="/{{ config('app.name') }}{{ ('/public/img/photo/bpad-logo-05.png32') }}">
 
     <title>BPAD</title>
     @yield('css')
@@ -34,9 +34,9 @@
             <div class="navbar-header">
                 <div class="top-left-part">
                     <!-- Logo -->
-                    <a class="logo" href="/produkhukum/home">
-                        <span class="hidden-sm hidden-md hidden-lg"><img width="50%" src="{{ ('/produkhukum/public/img/photo/bpad-logo-05.png32') }}"></span>
-                        <span class="hidden-xs"><img width="20%" src="{{ ('/produkhukum/public/img/photo/bpad-logo-000.png32') }}"><strong>BPAD</strong>
+                    <a class="logo" href="/{{ config('app.name') }}/home">
+                        <span class="hidden-sm hidden-md hidden-lg"><img width="50%" src="/{{ config('app.name') }}{{ ('/public/img/photo/bpad-logo-05.png32') }}"></span>
+                        <span class="hidden-xs"><img width="20%" src="/{{ config('app.name') }}{{ ('/public/img/photo/bpad-logo-000.png32') }}"><strong>BPAD</strong>
                         </span>
                     </a>
                 </div>
@@ -77,7 +77,7 @@
         <div id="modal-password" class="modal fade" role="dialog" >
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="/produkhukum/home/password" class="form-horizontal">
+                <form method="POST" action="/{{ config('app.name') }}/home/password" class="form-horizontal">
                 @csrf
                     <div class="modal-header">
                         <h4 class="modal-title"><b>Ubah Password</b></h4>

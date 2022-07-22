@@ -2,17 +2,17 @@
 
 @section('css')
 	<!-- Bootstrap Core CSS -->
-	<link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
-	<link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
 	<!-- animation CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/animate.css') }}" rel="stylesheet">
 	<!-- Custom CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/style.css') }}" rel="stylesheet">
 	<!-- color CSS -->
-	<link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
+	<link href="/{{ config('app.name') }}{{ ('/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -68,8 +68,8 @@
                             <div class="panel-body">
                             	<div class="row" style="margin-bottom: 10px">
                             		<div class="col-md-1">
-										@if ($access['zadd'] == 'y' && $_SESSION['user_produk']['id_emp'] )
-										<form class="form-horizontal" method="POST" action="/produkhukum/kepegawaian/kinerja tambah">
+										@if ($access['zadd'] == 'y' && $_SESSION['user_jamcportal']['id_emp'] )
+										<form class="form-horizontal" method="POST" action="/{{ config('app.name') }}/kepegawaian/kinerja tambah">
 											<button class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
 										@csrf
 										</form>
@@ -120,7 +120,7 @@
 																<td>{{ ($laporan['lainnya'] ? $laporan['lainnya'] : '-') }}</td>
 																<td>
 																	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-																		<form method="POST" action="/produkhukum/kepegawaian/kinerja tambah">
+																		<form method="POST" action="/{{ config('app.name') }}/kepegawaian/kinerja tambah">
 																			@csrf
 																			<input type="hidden" name="now_tgl_trans" value="{{ $laporan['tgl_trans'] }}">
 																			<input type="hidden" name="now_tipe_hadir" value="{{ $laporan['tipe_hadir'] }}">
@@ -131,7 +131,7 @@
 																	</div>
 																	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 																		@if($laporan['stat'] != 1)
-																		<form method="POST" action="/produkhukum/kepegawaian/form/hapuskinerja">
+																		<form method="POST" action="/{{ config('app.name') }}/kepegawaian/form/hapuskinerja">
 																			@csrf
 																			<input type="hidden" name="idemp" value="{{ $laporan['idemp'] }}">
 																			<input type="hidden" name="tgl_trans" value="{{ $laporan['tgl_trans'] }}">
@@ -164,18 +164,18 @@
 <!-- /////////////////////////////////////////////////////////////// -->
 
 @section('js')
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<!-- Menu Plugin JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 	<!--slimscroll JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/jquery.slimscroll.js') }}"></script>
 	<!--Wave Effects -->
-	<script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/waves.js') }}"></script>
 	<!-- Custom Theme JavaScript -->
-	<script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
-	<script src="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/js/custom.min.js') }}"></script>
+	<script src="/{{ config('app.name') }}{{ ('/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 	<!-- start - This is for export functionality only -->
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>

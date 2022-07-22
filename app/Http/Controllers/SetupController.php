@@ -34,14 +34,14 @@ class SetupController extends Controller
 		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
 		$currentpath = explode("?", $currentpath)[0];
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
 
 		$kategoris = Hu_kategori::
 						where('sts', 1)
 						->orderBy('nm_kat')
 						->get();
 
-		return view('pages.bpaddasarhukum.kategori')
+		return view('pages.bpadjamc.kategori')
 				->with('access', $access)
 				->with('kategoris', $kategoris);
 	}
@@ -96,14 +96,14 @@ class SetupController extends Controller
 		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
 		$currentpath = explode("?", $currentpath)[0];
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
 
 		$jenises = Hu_jenis::
 						where('sts', 1)
 						->orderBy('nm_jenis')
 						->get();
 
-		return view('pages.bpaddasarhukum.jenis')
+		return view('pages.bpadjamc.jenis')
 				->with('access', $access)
 				->with('jenises', $jenises);
 	}
@@ -156,7 +156,7 @@ class SetupController extends Controller
 		$currentpath = str_replace("%20", " ", $_SERVER['REQUEST_URI']);
 		$currentpath = explode("?", $currentpath)[0];
 		$thismenu = Sec_menu::where('urlnew', $currentpath)->first('ids');
-		$access = $this->checkAccess($_SESSION['user_produk']['idgroup'], $thismenu['ids']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
 
 		$kategoris = Hu_kategori::
 						where('sts', 1)
@@ -196,16 +196,16 @@ class SetupController extends Controller
 					      ,[updated_at]
 					      ,[hukum]
 					      ,[suspend]
-					FROM bpaddasarhukum.dbo.hu_dasarhukum dsr
-					JOIN bpaddasarhukum.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
-					JOIN bpaddasarhukum.dbo.hu_jenis as jns on jns.ids = dsr.id_jns 
+					FROM bpadjamc.dbo.hu_dasarhukum dsr
+					JOIN bpadjamc.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
+					JOIN bpadjamc.dbo.hu_jenis as jns on jns.ids = dsr.id_jns 
 					where dsr.sts = 1 
 					$qkat
 					$qyear
 					order by tahun desc, created_at desc, id_kat, nomor asc") );
 		$files = json_decode(json_encode($files), true);
 
-		return view('pages.bpaddasarhukum.file')
+		return view('pages.bpadjamc.file')
 				->with('access', $access)
 				->with('kategoris', $kategoris)
 				->with('katnow', $request->katnow)
@@ -225,7 +225,7 @@ class SetupController extends Controller
 						->orderBy('nm_jenis')
 						->get();
 
-		return view('pages.bpaddasarhukum.filetambah')
+		return view('pages.bpadjamc.filetambah')
 				->with('kategoris', $kategoris)
 				->with('jenises', $jenises);
 	}
@@ -255,9 +255,9 @@ class SetupController extends Controller
 					      ,[updated_at]
 					      ,[hukum]
 					      ,[suspend]
-					FROM bpaddasarhukum.dbo.hu_dasarhukum dsr
-					JOIN bpaddasarhukum.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
-					JOIN bpaddasarhukum.dbo.hu_jenis as jns on jns.ids = dsr.id_jns
+					FROM bpadjamc.dbo.hu_dasarhukum dsr
+					JOIN bpadjamc.dbo.hu_kategori as kat on kat.ids = dsr.id_kat 
+					JOIN bpadjamc.dbo.hu_jenis as jns on jns.ids = dsr.id_jns
 					where dsr.ids = $request->ids") )[0];
 		$file = json_decode(json_encode($file), true);
 
@@ -271,7 +271,7 @@ class SetupController extends Controller
 						->orderBy('nm_jenis')
 						->get();
 
-		return view('pages.bpaddasarhukum.fileubah')
+		return view('pages.bpadjamc.fileubah')
 				->with('kategoris', $kategoris)
 				->with('jenises', $jenises)
 				->with('file', $file);

@@ -1,198 +1,177 @@
-@extends('layouts.masterhome' )
+@extends('layouts.master')
 
 @section('css')
-    <!-- Bootstrap Core CSS -->
-    <link href="{{ ('/produkhukum/public/ample/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <!-- Menu CSS -->
-    <link href="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
-    <!-- animation CSS -->
-    <link href="{{ ('/produkhukum/public/ample/css/animate.css') }}" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="{{ ('/produkhukum/public/ample/css/style.css') }}" rel="stylesheet">
-    <!-- color CSS -->
-    <link href="{{ ('/produkhukum/public/ample/css/colors/purple-dark.css') }}" id="theme" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('lte/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ asset('lte/dist/css/adminlte.min.css') }}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
-
-<!-- /////////////////////////////////////////////////////////////// -->
 
 @section('content')
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <div class="row bg-title">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title"><?php 
-                                                $link = explode("/", url()->full());    
-                                                echo ucwords($link[4]);
-                                            ?> </h4> </div>
-                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"> 
-                    <ol class="breadcrumb">
-                        <li>{{config('app.name')}}</li>
-                        <?php 
-                            $link = explode("/", url()->full());
-                            if (count($link) == 5) {
-                                ?> 
-                                    <li class="active"> {{ ucwords($link[4]) }} </li>
-                                <?php
-                            } elseif (count($link) == 6) {
-                                ?> 
-                                    <li class="active"> {{ ucwords($link[4]) }} </li>
-                                    <li class="active"> {{ str_replace('%20', ' ', ucwords($link[5])) }} </li>
-                                <?php
-                            } 
-                        ?>
-                    </ol>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    @if(Session::has('message'))
-                        <div class="alert <?php if(Session::get('msg_num') == 1) { ?>alert-success<?php } else { ?>alert-danger<?php } ?> alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white;">&times;</button>{{ Session::get('message') }}</div>
-                    @endif
-                </div>
-            </div>
-            <div class="row ">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <!-- <div class="white-box"> -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Grup User</div>
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body">
-                                @if($access['zadd'] == 'y')
-                                <button data-toggle="modal" data-target="#modal-create" class="btn btn-info" style="margin-bottom: 10px">Tambah</button>
-                                @endif
-                                <div class="table-responsive">
-                                    <table id="myTable" class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="col-md-1">No</th>
-                                                <th>Grup User</th>
-                                                @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                                <th>Action</th>
-                                                @endif
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($groups as $key => $group)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $group['idgroup'] }}</td>
-                                                @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                                                <td>
-                                                    @if($access['zupd'] == 'y')
-                                                    <a href="/produkhukum/security/group user/ubah?name={{ $group['idgroup'] }}">
-                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></button>
-                                                    </a>
-                                                    @endif
-                                                    @if($access['zdel'] == 'y')
-                                                    <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-idgroup="{{ $group['idgroup'] }}"><i class="fa fa-trash"></i></button>
-                                                    @endif
-                                                </td>
-                                                @endif
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- </div> -->
-                </div>
-            </div>
-            <div class="modal fade" id="modal-create">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form method="POST" action="/produkhukum/security/form/tambahgrup" class="form-horizontal">
-                        @csrf
-                            <div class="modal-header">
-                                <h4 class="modal-title"><b>Tambah Grup</b></h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="modal_insert_idgroup" class="col-lg-2 control-label"> Nama </label>
-                                    <div class="col-lg-8">
-                                        <input type="text" name="idgroup" id="modal_insert_idgroup" class="form-control" autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-success pull-right">Simpan</button>
-                                <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="modal-delete">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form method="POST" action="/produkhukum/security/form/hapusgrup" class="form-horizontal">
-                        @csrf
-                            <div class="modal-header">
-                                <h4 class="modal-title"><b>Hapus Grup User</b></h4>
-                            </div>
-                            <div class="modal-body">
-                                <h4 id="label_delete"></h4>
-                                <input type="hidden" name="idgroup" id="modal_delete_idgroup" value="">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger pull-right">Hapus</button>
-                                <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <input type="hidden" id="activemenus" value="{{ $activemenus }}">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Grup User</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Setup</a></li>
+              <li class="breadcrumb-item active">Grup User</li>
+            </ol>
+          </div>
         </div>
-        <!-- /.container-fluid -->
-        <footer class="footer text-center"> 
-            <span>&copy; Copyright <?php echo date('Y'); ?> BPAD DKI Jakarta.</span></span></a>
-        </footer>
-    </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        @include('layouts.komponen.flash-message')
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <button class="btn btn-info btn-sm btn-insert" data-toggle="modal" data-target="#modal-insert">Tambah Grup User</button>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" >
+                <table id="datatable" class="table table-bordered table-striped table-sm">
+                  <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Grup User</th>
+                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                        <th>Action</th>
+                        @endif
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($groups as $key => $group)
+                    <tr>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $group['idgroup'] }}</td>
+                        @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
+                        <th>
+                            @if($access['zupd'] == 'y')
+                            <a href="/{{ config('app.name') }}/security/group user/ubah?name={{ $group['idgroup'] }}">
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-default"><i class="fa fa-edit"></i></button>
+                            </a>
+                            @endif
+                            @if($access['zdel'] == 'y')
+                            <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#modal-delete" data-idgroup="{{ $group['idgroup'] }}"><i class="fa fa-trash"></i></button>
+                            @endif    
+                        </th>
+                        @endif
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+
+          <div id="modal-insert" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <form method="POST" action="{{ url('security/form/tambahgrup') }}" class="form-horizontal" data-toggle="validator">
+                @csrf
+                  <div class="modal-header">
+                    <h4 class="modal-title">Tambah Grup User</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group row">
+                      <label for="idgroup" class="col-md-3 control-label"><span style="color: red">*</span> Nama Grup User </label>
+                      <div class="col-md-9">
+                        <input type="text" name="idgroup" id="modal_insert_idgroup" class="form-control" data-error="Masukkan idgroup" autocomplete="off" required>
+                        <div class="help-block with-errors"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                    <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div id="modal-delete" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form method="POST" action="{{ url('security/form/hapusgrup') }}" class="form-horizontal">
+                @csrf
+                  <div class="modal-header">
+                    <h4 class="modal-title">Hapus Grup User</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p id="label_delete"></p>
+                    <input type="hidden" name="idgroup" id="modal_delete_idgroup" value="">
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 @endsection
+  
+  @section('js')
+	<!-- jQuery -->
+	<script src="{{ asset('lte/plugins/jquery/jquery.min.js') }}"></script>
+	<!-- Bootstrap 4 -->
+	<script src="{{ asset('lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+	<!-- AdminLTE App -->
+	<script src="{{ asset('lte/dist/js/adminlte.min.js') }}"></script>
+  @include('layouts.komponen.activate-menu')
 
-<!-- /////////////////////////////////////////////////////////////// -->
+  <script>
+		$(function () {
 
-@section('js')
-    <!-- jQuery -->
-    <script src="{{ ('/produkhukum/public/ample/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{ ('/produkhukum/public/ample/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <!-- Menu Plugin JavaScript -->
-    <script src="{{ ('/produkhukum/public/ample/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
-    <!--slimscroll JavaScript -->
-    <script src="{{ ('/produkhukum/public/ample/js/jquery.slimscroll.js') }}"></script>
-    <!--Wave Effects -->
-    <script src="{{ ('/produkhukum/public/ample/js/waves.js') }}"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="{{ ('/produkhukum/public/ample/js/custom.min.js') }}"></script>
-    <script src="{{ ('/produkhukum/public/ample/plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
+			$('.btn-delete').on('click', function () {
+				var $el = $(this);
 
-    <script>
-        $(document).ready(function() {
-            $('.btn-delete').on('click', function () {
-                var $el = $(this);      
-                console.log($el.data('idgroup'));
-                $("#label_delete").append('Apakah anda yakin ingin menghapus grup user <b>' + $el.data('idgroup') + '</b>?');
-                $("#modal_delete_idgroup").val($el.data('idgroup'));
-            });
+				$("#label_delete").append('Apakah anda yakin ingin menghapus group user <b>' + $el.data('idgroup') + '</b>?');
+				$("#modal_delete_idgroup").val($el.data('idgroup'));
+			});
 
-            $("#modal-delete").on("hidden.bs.modal", function () {
-                $("#label_delete").empty();
-            });
+			$("#modal-delete").on("hidden.bs.modal", function () {
+				$("#label_delete").empty();
+			});
 
-            $('#myTable').DataTable();
-        });
-    </script>
+            $('#datatable').DataTable();
+		});
+	</script>
 @endsection

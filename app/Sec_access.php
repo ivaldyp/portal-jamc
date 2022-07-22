@@ -6,13 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sec_access extends Model
 {
-    protected $connection = 'sqlsrv';
-    protected $primaryKey = null; 
-    protected $table = "sec_access";
+    protected $connection = 'server76';
+    protected $table = 'bpadjamc.dbo.sec_access';
     public $timestamps = false;
-    
-    public function belongAccessToMenu()
-    {
-        return $this->hasMany('App\Sec_menu', 'ids', 'idtop');
-    }
 }
