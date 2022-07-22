@@ -6,10 +6,10 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Megakit - HTML5 Theme</title>
+        <title>Jakarta Asset Management Center</title>
         <meta name="keywords" content="HTML5 Theme" />
-        <meta name="description" content="Megakit - HTML5 Theme">
-        <meta name="author" content="keenthemes.com">
+        <meta name="description" content="JAMC PORTAL PAGE">
+        <meta name="author" content="Pusdatin BPAD 2022">
 
         <!-- Web Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i|Montserrat:400,700" rel="stylesheet">
@@ -28,8 +28,8 @@
         <link href="{{ asset('megakit/css/global/global.css') }}" rel="stylesheet" type="text/css"/>
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ asset('megakit/img/favicon.ico') }}" type="image/x-icon">
-        <link rel="apple-touch-icon" href="{{ asset('megakit/img/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('landing/assets/favicon.ico') }}" /><link rel="shortcut icon" href="{{ asset('megakit/img/favicon.ico') }}" type="image/x-icon">
+        <link rel="apple-touch-icon" href="{{ asset('megakit/img/aple-touch-icon.png') }}">
 
         <style>
             .masthead-subheading {
@@ -104,35 +104,20 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse s-header-v2__navbar-collapse" id="nav-collapse">
                                 <ul class="s-header-v2__nav">
-                                    <!-- Home -->
-                                    <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
-                                        <a href="index.html" class="dropdown-toggle s-header-v2__nav-link -is-active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
-                                        <ul class="dropdown-menu s-header-v2__dropdown-menu">
-                                            <li><a href="index.html" class="s-header-v2__dropdown-menu-link">Corporate</a></li>
-                                            <li><a href="index_lawyer.html" class="s-header-v2__dropdown-menu-link">Lawyer</a></li>
-                                            <li><a href="index_app_landing.html" class="s-header-v2__dropdown-menu-link">App Landing</a></li>
-                                            <li><a href="index_events.html" class="s-header-v2__dropdown-menu-link">Events</a></li>
-                                            <li><a href="index_clinic.html" class="s-header-v2__dropdown-menu-link -is-active">Clinic</a></li>
-                                        </ul>
-                                    </li>
-                                    <!-- End Home -->
                                     
+                                    <li class="s-header-v2__nav-item"><a href="" class="s-header-v2__nav-link -is-active">HOME</a></li>
+                                    <li class="s-header-v2__nav-item"><a href="#" class="s-header-v2__nav-link">Profil</a></li>
+                                    <li class="s-header-v2__nav-item"><a href="#section-layanan" class="s-header-v2__nav-link">Layanan</a></li>
                                     <!-- Pages -->
                                     <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
-                                        <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages <span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
+                                        <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Konten <span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
                                         <ul class="dropdown-menu s-header-v2__dropdown-menu">
-                                            <li><a href="team.html" class="s-header-v2__dropdown-menu-link">Team</a></li>
-                                            <li><a href="faq.html" class="s-header-v2__dropdown-menu-link">FAQ</a></li>
-                                            <li><a href="events.html" class="s-header-v2__dropdown-menu-link">Events</a></li>
-                                            <li><a href="index_coming_soon.html" class="s-header-v2__dropdown-menu-link">Coming Soon</a></li>
+                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Berita</a></li>
+                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Galeri Foto</a></li>
                                         </ul>
                                     </li>
                                     <!-- End Pages -->
-
-                                    <li class="s-header-v2__nav-item"><a href="about.html" class="s-header-v2__nav-link">About</a></li>
-                                    <li class="s-header-v2__nav-item"><a href="services.html" class="s-header-v2__nav-link">Services</a></li>
-                                    <li class="s-header-v2__nav-item"><a href="index_portfolio.html" class="s-header-v2__nav-link">Portfolio</a></li>
-                                    <li class="s-header-v2__nav-item"><a href="contacts.html" class="s-header-v2__nav-link s-header-v2__nav-link--dark">Contacts</a></li>
+                                    <li class="s-header-v2__nav-item"><a href="contacts.html" class="s-header-v2__nav-link s-header-v2__nav-link--dark">Kontak</a></li>
                                 </ul>
                             </div>
                             <!-- End Nav Menu -->
@@ -169,7 +154,7 @@
 
         <!--========== PAGE CONTENT ==========-->
         <!-- Features -->
-        <div class="g-bg-color--sky-light" style="padding-bottom: 40px;">
+        <div id="section-layanan" class="g-bg-color--sky-light" style="padding-bottom: 40px;">
             <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
                 <div class="g-text-center--xs">
                     <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Dari kami, untuk anda, secara prima</p>
