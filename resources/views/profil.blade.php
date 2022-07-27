@@ -149,7 +149,7 @@
 
         <!--========== PAGE CONTENT ==========-->
         <!-- Visi Misi -->
-        <div id="section-galeri" class="g-bg-color--white">
+        <div id="section-visimisi" class="g-bg-color--white">
             <div class="container g-padding-y-80--xs g-padding-y-125--sm">
                 <div class="g-text-center--xs g-margin-b-80--xs">
                     <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tujuan Kami</p>
@@ -197,7 +197,7 @@
         <!-- End Visi Misi -->
 
         <!-- Sejarah -->
-        <div id="section-galeri" class="g-bg-color--sky-light">
+        <div id="section-sejarah" class="g-bg-color--sky-light">
             <div class="container g-padding-y-80--xs g-padding-y-125--sm">
                 <div class="g-text-center--xs g-margin-b-80--xs">
                     <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tentang Kami</p>
@@ -231,7 +231,7 @@
         <!-- End Sejarah -->
 
         <!-- Leaders -->
-        <div class="container g-padding-y-80--xs g-padding-y-100--sm">
+        <div id="section-leader" class="container g-padding-y-80--xs g-padding-y-100--sm">
             <div class="g-text-center--xs g-margin-b-80--xs">
                 <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Hanya yang terbaik</p>
                 <h2 class="g-font-size-32--xs g-font-size-36--md">Creative Teams</h2>
@@ -271,7 +271,7 @@
         <!-- End Leaders -->
 
         <!-- Team -->
-        <div class="row g-row-col--0">
+        <div id="section-team" class="row g-row-col--0">
             <div class="col-md-3 col-xs-6 g-full-width--xs">
                 <div class="wow fadeInUp" data-wow-duration=".3" data-wow-delay=".1s">
                     <!-- Team -->

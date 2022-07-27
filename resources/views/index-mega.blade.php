@@ -160,7 +160,7 @@
         <!--========== END SWIPER SLIDER ==========-->
 
         <!--========== PAGE CONTENT ==========-->
-        <!-- Features -->
+        <!-- Tupoksi -->
         <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
             <div class="g-text-center--xs g-margin-b-100--xs">
                 <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Welcome to JAMC</p>
@@ -249,10 +249,10 @@
             </div>
             <!-- // end row  -->
         </div>
-        <!-- End Features -->
+        <!-- End Tupoksi -->
 
         <!-- Testimonials -->
-        <div class="" style="background: url({{asset('megakit/img/1920x1080/04.jpg')}}) 50% 0 no-repeat fixed;">
+        <div id="section-testimonial" class="" style="background: url({{asset('megakit/img/1920x1080/04.jpg')}}) 50% 0 no-repeat fixed;">
             <div class="container g-text-center--xs g-padding-y-80--xs g-padding-y-125--sm">
                 <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--white-opacity g-letter-spacing--2 g-margin-b-50--xs">
                     <!-- Testimonials -->
@@ -276,7 +276,7 @@
         </div>
         <!-- End Testimonials -->
 
-        <!-- Features -->
+        <!-- Layanan -->
         <div id="section-layanan" class="g-bg-color--sky-light" style="padding-bottom: 40px;">
             <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
                 <div class="g-text-center--xs">
@@ -332,9 +332,9 @@
             </div>
             <!-- End Portfolio -->
         </div>
-        <!-- End Features -->
+        <!-- End Layanan -->
 
-        <!-- Culture -->
+        <!-- Berita -->
         <div id="section-berita" class="container g-padding-y-80--xs g-padding-y-125--sm">
             <div class="g-text-center--xs g-margin-b-80--xs">
                 <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Hanya yang "terhangat"</p>
@@ -361,9 +361,9 @@
                 @endforeach
             </div>
         </div>
-        <!-- End Culture -->
+        <!-- End Berita -->
 
-        <!-- Culture -->
+        <!-- Galeri -->
         <div id="section-galeri" class="g-bg-color--sky-light">
             <div class="container g-padding-y-80--xs g-padding-y-125--sm">
                 <div class="g-text-center--xs g-margin-b-80--xs">
@@ -400,10 +400,10 @@
                 </div>
             </div>
         </div>
-        <!-- End Culture -->
+        <!-- End Galeri -->
 
         <!-- Counter -->
-        <div class="js__parallax-window" style="background: url({{ asset("megakit/img/1920x1080/06.jpg") }}) 50% 0 no-repeat fixed;">
+        <div id="section-counter" class="js__parallax-window" style="background: url({{ asset("megakit/img/1920x1080/06.jpg") }}) 50% 0 no-repeat fixed;">
             <div class="container g-padding-y-80--xs g-padding-y-125--sm">
                 <div class="row">
                     <div class="col-md-4 col-xs-4 g-full-width--xs g-margin-b-70--xs g-margin-b-0--lg">
@@ -436,7 +436,7 @@
         <!-- End Counter -->
 
         <!-- Feedback Form -->
-        <div class="g-bg-color--sky-light">
+        <div id="section-feedback" class="g-bg-color--sky-light">
             <div class="container g-padding-y-80--xs g-padding-y-125--sm">
                 <div class="g-text-center--xs g-margin-b-80--xs">
                     <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Feedback</p>
