@@ -29,6 +29,10 @@ Route::get('/profil', function () {
     return view('profil');
 });
 
+Route::group(['prefix' => 'konten'], function () {
+	Route::get('/berita/view', 'ContentController@beritasingle');
+});
+
 Route::group(['prefix' => 'setup'], function () {
 	Route::get('/kategori', 'SetupController@kategoriall');
 	Route::post('/form/tambahkategori', 'SetupController@forminsertkategori');

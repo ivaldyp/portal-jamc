@@ -342,8 +342,12 @@
             </div>
             <div class="row">
                 @foreach($beritas as $berkey => $news)
+                @if(($berkey)%2 == 0)
+                <div class="row">
+                @endif
+
                 <div class="col-sm-6 g-margin-b-30--xs g-margin-b-0--md">
-                    <!-- News -->
+                    <!-- Berita -->
                     <article style="padding-top: 20px;">
                         @if (file_exists(config('app.openfileimgberita') . $news['tfile'])) 
                         <img class="img-responsive" src="{{ asset('publicimg/images/media/1/file') }}/{{ $news['tfile'] }}" alt="Image" />
@@ -352,12 +356,16 @@
                         @endif
                         <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-padding-x-40--xs g-padding-y-40--xs">
                             <!-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2">News</p> -->
-                            <h3 class="g-font-size-22--xs g-letter-spacing--1"><a href="javascript:void(0);">{{ $news['judul'] }}</a></h3>
-                            <p style="text-align:center">{!! html_entity_decode($news['isi1']) !!}</p>
+                            <h3 class="g-font-size-22--xs g-letter-spacing--1"><a href="{{ url('/konten/berita/view?ids=') }}{{ $news['ids'] }}">{{ $news['judul'] }}</a></h3>
+                            <p style="text-align:center; ">{!! html_entity_decode($news['isi1']) !!}</p>
                         </div>
                     </article>
-                    <!-- End News -->
+                    <!-- End Berita -->
                 </div>
+
+                @if(($berkey+1)%2 == 0)
+                </div>
+                @endif
                 @endforeach
             </div>
         </div>
@@ -378,7 +386,7 @@
 
                     
                     <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                        <!-- News -->
+                        <!-- Galeri -->
                         <article style="padding-top: 20px;">
                             @if (file_exists(config('app.openfileimggambar') . $foto['tfile'])) 
                             <img class="img-responsive" src="{{ asset('publicimg/images/media/5/file') }}/{{ $foto['tfile'] }}" alt="Image" />
@@ -390,7 +398,7 @@
                                 <h3 class="g-font-size-16--xs g-letter-spacing--1">{{ $foto['judul'] }}</h3>
                             </div>
                         </article>
-                        <!-- End News -->
+                        <!-- End Galeri -->
                     </div>
 
                     @if(($fotkey+1)%3 == 0)
