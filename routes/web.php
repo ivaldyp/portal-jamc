@@ -11,16 +11,16 @@
 |
 */
 
-Route::get('/index/copy', function () {
-    return view('indexcopy');
-});
 
 // Route::get('/home', function () {
 //     return view('index');
 // });
-
-Route::get('/index2', 'LandingController@index2');
+    
 Route::get('/', 'LandingController@index');
+Route::get('/index2', 'LandingController@index2');
+Route::get('/index/copy', function () {
+    return view('indexcopy');
+});
 Route::get('/home', 'HomeController@index');
 Route::POST('/home/password', 'HomeController@password');
 Route::get('/logout', 'LandingController@logout');

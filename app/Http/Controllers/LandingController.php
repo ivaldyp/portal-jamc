@@ -15,32 +15,6 @@ session_start();
 
 class LandingController extends Controller
 {
-	public function index2(Request $request)
-	{
-        $beritas = Content_tb::
-        where('sts', 1)
-        ->where('idkat', 1)
-        ->where('appr', 'Y')
-        ->where('suspend', '')
-        ->orderBy('tanggal', 'desc')
-        ->offset(0)->limit(4)
-        ->get();
-
-        $galeris = Content_tb::
-        where('sts', 1)
-        ->where('idkat', 5)
-        ->where('appr', 'Y')
-        ->where('suspend', '')
-        ->orderBy('tanggal', 'desc')
-        ->offset(0)->limit(4)
-        ->get();
-        
-
-		return view('index')
-				->with('beritas', $beritas)
-                ->with('galeris', $galeris);
-	}
-
     public function index(Request $request)
 	{
         $beritas = Content_tb::
@@ -72,7 +46,7 @@ class LandingController extends Controller
         "))[0];
         $jamc_pegawais = json_decode(json_encode($jamc_pegawais), true);
 
-		return view('index-mega')
+		return view('index')
 				->with('beritas', $beritas)
                 ->with('galeris', $galeris)
                 ->with('jamc_pegawais', $jamc_pegawais);
