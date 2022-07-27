@@ -82,8 +82,9 @@
 
         <!--========== HEADER ==========-->
         <header class="navbar-fixed-top s-header-v2 js__header-sticky">
+        <!-- <header class="navbar-fixed-top s-header s-header__shrink js__header-overlay"> -->
             <!-- Navbar -->
-            <nav class="s-header-v2__navbar" style="border-bottom-width: 0px;">
+            <nav class="s-header-v2__navbar">
                 <div class="container g-display-table--lg">
                     <!-- Navbar Row -->
                     <div class="s-header-v2__navbar-row">
@@ -98,8 +99,9 @@
                             
                             <!-- Logo -->
                             <div class="s-header__logo">
-                                <a href="" class="s-header__logo-link">
-                                    <img class="s-header__logo-img" src="{{ asset('landing/assets/img/logo.svg') }}" alt="Megakit Logo" style="width: 60%;">
+                                <a href="{{ url('/') }}" class="s-header__logo-link">
+                                    <img class="s-header__logo-img s-header__logo-img-default" src="{{ asset('landing/assets/img/logo_white.png') }}" alt="J A M C" style="width: 100%;">
+                                    <img class="s-header__logo-img s-header__logo-img-shrink" src="{{ asset('landing/assets/img/logo.png') }}" alt="J A M C" style="width: 100%;">
                                 </a>
                             </div>
                             <!-- End Logo -->
@@ -110,10 +112,17 @@
                             <div class="collapse navbar-collapse s-header-v2__navbar-collapse" id="nav-collapse">
                                 <ul class="s-header-v2__nav">
                                     
-                                    <li class="s-header-v2__nav-item"><a href="" class="s-header-v2__nav-link -is-active">HOME</a></li>
-                                    <li class="s-header-v2__nav-item"><a href="#" class="s-header-v2__nav-link">Profil</a></li>
+                                    <li class="s-header-v2__nav-item"><a href="{{ url('/') }}" class="s-header-v2__nav-link -is-active">HOME</a></li>
+                                    <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
+                                        <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TENTANG KAMI<span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
+                                        <ul class="dropdown-menu s-header-v2__dropdown-menu">
+                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Profil</a></li>
+                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Tugas & Fungsi</a></li>
+                                            <li><a href="{{url('/tim')}}" class="s-header-v2__dropdown-menu-link">Tim JAMC</a></li>
+                                        </ul>
+                                    </li>
                                     <li class="s-header-v2__nav-item"><a href="#section-layanan" class="s-header-v2__nav-link">Layanan</a></li>
-                                    <!-- Pages -->
+                                    
                                     <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
                                         <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Konten <span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
                                         <ul class="dropdown-menu s-header-v2__dropdown-menu">
@@ -121,7 +130,7 @@
                                             <li><a href="#section-galeri" class="s-header-v2__dropdown-menu-link">Galeri Foto</a></li>
                                         </ul>
                                     </li>
-                                    <!-- End Pages -->
+                                    
                                     <li class="s-header-v2__nav-item"><a href="#section-kontak" class="s-header-v2__nav-link s-header-v2__nav-link--dark">Kontak</a></li>
                                 </ul>
                             </div>
@@ -166,8 +175,7 @@
                     Membantu Badan menyelenggarakan kegiatan teknis operasional 
                     <br> optimalisasi pendayagunaan Barang Milik Daerah
                     <br> <span style="font-size: 20px;"> --Sumber: Peraturan Gubernur No. 59 Tahun 2021-- </span>
-                </h2>
-                    
+                </h2>       
             </div>
             <div class="row g-margin-b-60--xs g-margin-b-70--md">
                 <div class="col-sm-4 g-margin-b-60--xs g-margin-b-0--md">
@@ -306,9 +314,9 @@
                             <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/2.png') }}" alt="Image">
                             <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
                                 <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">HGB<br>Diatas HPL</h3>
-                                <!-- <a target="_blank" href="javascript:void(0)"> -->
+                                <a target="_blank" href="https://aset.jakarta.go.id/hgb/">
                                     <button class="btn btn-info">Kunjungi</button>
-                                <!-- </a> -->
+                                </a>
                             </div>
                         </article>
                         <!-- End News -->
@@ -476,30 +484,31 @@
             <div class="g-hor-divider__dashed--white-opacity-lightest">
                 <div class="container g-padding-y-80--xs">
                     <div class="row">
-                        <div class="col-sm-2 g-margin-b-20--xs g-margin-b-0--md">
+                        <div class="col-sm-3 g-margin-b-20--xs g-margin-b-0--md">
                             <ul class="list-unstyled g-ul-li-tb-5--xs g-margin-b-0--xs">
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Home</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">About</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Work</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Contact</a></li>
+                                <li class="g-font-size-15--xs g-color--white-opacity">
+                                    <i class="ti-location-pin"></i><span style="font-weight: bold;">&ensp;Gedung Dinas Teknis</span><br>
+                                    <i class="ti-location-pin" style="opacity: 0;"></i>&ensp;Jl. Abdul Muis No. 66 (Lt. 4)<br>
+                                    <i class="ti-location-pin" style="opacity: 0;"></i>&ensp;Tanah Abang - Jakarta Pusat<br>
+                                    <i class="ti-location-pin" style="opacity: 0;"></i>&ensp;10160
+                                </li>
                             </ul>
                         </div>
-                        <div class="col-sm-2 g-margin-b-20--xs g-margin-b-0--md">
+                        <div class="col-sm-3 g-margin-b-20--xs g-margin-b-0--md">
                             <ul class="list-unstyled g-ul-li-tb-5--xs g-margin-b-0--xs">
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Twitter</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Facebook</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Instagram</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">YouTube</a></li>
+                                <li class="g-font-size-15--xs g-color--white-opacity">
+                                    <i class="ti-instagram"></i>&ensp;@jamc_bpaddki
+                                </li>
+                                <li class="g-font-size-15--xs g-color--white-opacity">
+                                    <i class="ti-mobile"></i>&ensp;(021) 3865745 - (021) 3865745
+                                </li>
+                                <li class="g-font-size-15--xs g-color--white-opacity">
+                                    <i class="ti-email"></i>&ensp;dki.manajemenaset@gmail.com<br>
+                                    <i class="ti-email" style="opacity: 0;"></i>&ensp;bpad@jakarta.go.id
+                                </li>
                             </ul>
                         </div>
-                        <div class="col-sm-2 g-margin-b-40--xs g-margin-b-0--md">
-                            <ul class="list-unstyled g-ul-li-tb-5--xs g-margin-b-0--xs">
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Subscribe to Our Newsletter</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Privacy Policy</a></li>
-                                <li><a class="g-font-size-15--xs g-color--white-opacity" href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes">Terms &amp; Conditions</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 s-footer__logo g-padding-y-50--xs g-padding-y-0--md">
+                        <div class="col-md-4 col-md-offset-2 s-footer__logo g-padding-y-50--xs g-padding-y-0--md">
                             <h3 class="g-font-size-18--xs g-color--white">J A M C</h3>
                             <p class="g-color--white-opacity">
                                 Jakarta Asset Management Center menyelenggarakan kegiatan 
@@ -515,12 +524,10 @@
             <div class="container g-padding-y-50--xs">
                 <div class="row">
                     <div class="col-xs-6">
-                        <a href="">
-                            <img class="g-width-100--xs g-height-auto--xs" src="{{ asset('landing/assets/img/logo.svg') }}" alt="Megakit Logo">
-                        </a>
+                        <a href=""><img class="g-width-100--xs" src="{{ asset('landing/assets/img/logo_bottom_white.png') }}" alt="Megakit Logo" style="width: 25%"></a>
                     </div>
                     <div class="col-xs-6 g-text-right--xs">
-                        <p class="g-font-size-14--xs g-margin-b-0--xs g-color--white-opacity-light"> Powered by: <a href="http://bpad.jakarta.go.id/">BPAD</a></p>
+                        <p class="g-font-size-16--xs g-margin-b-0--xs g-color--white-opacity-light"> Powered by: <a href="http://bpad.jakarta.go.id/">BPAD</a></p>
                     </div>
                 </div>
             </div>
