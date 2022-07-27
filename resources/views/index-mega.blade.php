@@ -353,7 +353,7 @@
                     <!-- News -->
                     <article style="padding-top: 20px;">
                         @if (file_exists(config('app.openfileimgberita') . $news['tfile'])) 
-                        <img class="img-responsive" src="{{ asset('publicimg/images/media/berita/file') }}/{{ $news['tfile'] }}" alt="Image" />
+                        <img class="img-responsive" src="{{ asset('publicimg/images/media/1/file') }}/{{ $news['tfile'] }}" alt="Image" />
                         @else
                         <img class="img-responsive" src="{{ asset('publicimg/imgnotfound.jpg') }}" alt="Image" />
                         @endif
@@ -387,8 +387,8 @@
                     <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
                         <!-- News -->
                         <article style="padding-top: 20px;">
-                            @if (file_exists(config('app.openfileimgberita') . $foto['tfile'])) 
-                            <img class="img-responsive" src="{{ asset('publicimg/images/media/berita/file') }}/{{ $foto['tfile'] }}" alt="Image" />
+                            @if (file_exists(config('app.openfileimggambar') . $foto['tfile'])) 
+                            <img class="img-responsive" src="{{ asset('publicimg/images/media/5/file') }}/{{ $foto['tfile'] }}" alt="Image" />
                             @else
                             <img class="img-responsive" src="{{ asset('publicimg/imgnotfound.jpg') }}" alt="Image" />
                             @endif
