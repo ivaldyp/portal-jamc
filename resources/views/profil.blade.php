@@ -81,7 +81,7 @@
     <body>
 
         <!--========== HEADER ==========-->
-        <header class="navbar-fixed-top s-header js__header-sticky js__header-overlay">
+        <header class="navbar-fixed-top s-header s-header__shrink js__header-overlay">
             <!-- Navbar -->
             <nav class="s-header__navbar">
                 <div class="container g-display-table--lg">
@@ -112,14 +112,7 @@
                                 <ul class="s-header-v2__nav">
                                     
                                     <li class="s-header-v2__nav-item"><a href="{{ url('/') }}" class="s-header-v2__nav-link">HOME</a></li>
-                                    <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
-                                        <a href="javascript:void(0);" class=" -is-active dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TENTANG KAMI<span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
-                                        <ul class="dropdown-menu s-header-v2__dropdown-menu">
-                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Profil</a></li>
-                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Tugas & Fungsi</a></li>
-                                            <li><a href="#" class="s-header-v2__dropdown-menu-link -is-active">Tim JAMC</a></li>
-                                        </ul>
-                                    </li>
+                                    <li class="s-header-v2__nav-item"><a href="{{ url('/profil') }}" class="s-header-v2__nav-link">Profil</a></li>
                                     <li class="s-header-v2__nav-item"><a href="#section-layanan" class="s-header-v2__nav-link">Layanan</a></li>
                                     
                                     <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
@@ -145,19 +138,107 @@
 
         <!--========== PROMO BLOCK ==========-->
         <div class="g-bg-position--center js__parallax-window" style="background: url({{ asset('landing/assets/img/header-bg.jpg') }}) 50% 0 no-repeat fixed;">
-            <div class="g-container--md g-text-center--xs g-padding-y-150--xs">
-                <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--white-opacity g-letter-spacing--2 g-margin-b-25--xs">Meet JAMC</p>
-                <h1 class="g-font-size-40--xs g-font-size-50--sm g-font-size-60--md g-color--white g-letter-spacing--1">Creative Teams</h1>
+            <div class="container g-padding-y-125--xs">
+                <div class="g-padding-y-50--xs">
+                    <h1 class="g-color--white g-font-size-30--xs g-font-size-50--sm g-font-size-65--lg">Jakarta Asset Management Center</h1>
+                    <p class="g-color--white g-font-size-22--xs g-font-size-24--md g-margin-b-0--xs">Selalu Menjaga Amanah, Selalu Berikan Yang Terbaik</p>
+                </div>
             </div>
         </div>
         <!--========== END PROMO BLOCK ==========-->
 
         <!--========== PAGE CONTENT ==========-->
-        <!-- Speakers -->
+        <!-- Visi Misi -->
+        <div id="section-galeri" class="g-bg-color--white">
+            <div class="container g-padding-y-80--xs g-padding-y-125--sm">
+                <div class="g-text-center--xs g-margin-b-80--xs">
+                    <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tujuan Kami</p>
+                    <h2 class="g-font-size-32--xs g-font-size-36--md">Visi & Misi</h2>
+                </div>
+                <div class="row g-hor-centered-row--md g-row-col--5 g-margin-b-60--xs g-margin-b-100--md">
+                    <div class="col-sm-6 col-xs-6 g-hor-centered-row__col">
+                        <div class="wow fadeInLeft" data-wow-duration=".3" data-wow-delay=".1s">
+                            <img class="img-responsive" src="{{ asset('publicimg/images/media/1/file/cms2006220204431469.jpeg') }}" alt="Image">
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-5 g-hor-centered-row__col">
+                        <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Visi</p>
+                        <h2 class="g-font-size-30--xs g-font-size-26--sm g-margin-b-20--xs">Menjadi Pengelola Pemanfaatan Aset Daerah Yang Memberikan Manfaat Optimal Untuk Kepentingan Pemerintah Provinsi DKI Jakarta</h2>
+                        <!-- <p class="g-font-size-18--sm">We aim high at being focused on building relationships with our clients and community. Using our creative gifts drives this foundation.</p> -->
+                    </div>
+                </div>
+    
+                <div class="row g-hor-centered-row--md g-row-col--5">
+                    <div class="col-sm-6 col-xs-6 col-sm-push-6 g-hor-centered-row__col g-margin-b-60--xs g-margin-b-0--md">
+                        <div class="wow fadeInRight" data-wow-duration=".3" data-wow-delay=".1s">
+                            <img class="img-responsive" src="{{ asset('publicimg/images/media/5/file/cms07012022083707171966.jpeg') }}" alt="Image">
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-5 col-sm-pull-7 g-hor-centered-row__col g-text-left--xs g-text-right--md">
+                        <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Misi</p>
+                        <!-- <h2 class="g-font-size-32--xs g-font-size-36--sm g-margin-b-25--xs">Keynote Speakers</h2> -->
+                        <ul>
+                            <li>
+                                <p class="g-font-size-18--sm">Mengelola aset kelolaan untuk menghasilkan manfaat bagi Pemerintah Provinsi DKI Jakarta.</p>
+                            </li>
+                            <li>
+                                <p class="g-font-size-18--sm">Mengoptimalisasi pendayagunaan aset Pengguna Barang untuk meningkatkan nilai tambah dan manfaat finansial bagi Pemerintah Provinsi DKI Jakarta.</p>
+                            </li>
+                            <li>
+                                <p class="g-font-size-18--sm">Optimalisasi aset yang berorientasi pada peningkatan ekonomi Usaha Mikro, Kecil, dan Menengah (UMKM).</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Visi Misi -->
+
+        <!-- Sejarah -->
+        <div id="section-galeri" class="g-bg-color--sky-light">
+            <div class="container g-padding-y-80--xs g-padding-y-125--sm">
+                <div class="g-text-center--xs g-margin-b-80--xs">
+                    <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tentang Kami</p>
+                    <h2 class="g-font-size-32--xs g-font-size-36--md">Sejarah Singkat</h2>
+                </div>
+                <div class="row">
+                    <div class="" style="text-align: justify;">
+                        &emsp;&emsp;&emsp;&emsp;Badan Pengelolaan Aset Daerah Provinsi DKI Jakarta 
+                        merespon isu peningkatan Pendapatan Asli Daerah (PAD) 
+                        yang bersumber dari pemanfaatan aset adalah dengan memberikan pelayanan pemanfaatan aset 
+                        secara professional yang menjaga tingkat kualitas, kecepatan, dan akurasi terbaik. 
+                    </div><br>
+                    <div class="" style="text-align: justify;">
+                        &emsp;&emsp;&emsp;&emsp;Untuk memberikan pelayanan pemanfaatan aset yang professional, 
+                        Provinsi DKI Jakarta melakukan perubahan Organisasi dan Tata Kerja Badan Pengelolaan Aset Daerah 
+                        dalam menyelenggarakan fungsi penunjang urusan pemerintahan bidang keuangan pada sub bidang aset, 
+                        yang ditetapkan dengan Peraturan Gubernur No. 59 Tahun 2021 
+                        Tentang Organisasi dan Tata Kerja Badan Pengelolaan Aset Daerah. 
+                    </div><br>
+                    <div class="" style="text-align: justify;">
+                        &emsp;&emsp;&emsp;&emsp;Dalam Peraturan Gubernur No. 59 Tahun 2021, 
+                        dibentuk Unit Pelaksana Teknis (UPT) Unit Pengelola Manajemen Aset 
+                        yang menyelenggarakan kegiatan teknis operasional optimalisasi pendayagunaan barang milik daerah, 
+                        termasuk pemanfaatan barang milik daerah yang bersifat komersil, pengelolaan properti, 
+                        pelaksanaan jasa konsultasi solusi aset (asset solution), rekomendasi Hak Guna Bangunan diatas hak pengelolaan lahan, 
+                        pemanfaatan infrastruktur, kerja sama operasi, penyelenggaraan reklame, dan optimalisasi pemanfaatan aset lainnya.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Sejarah -->
+
+        <!-- Leaders -->
         <div class="container g-padding-y-80--xs g-padding-y-100--sm">
+            <div class="g-text-center--xs g-margin-b-80--xs">
+                <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Hanya yang terbaik</p>
+                <h2 class="g-font-size-32--xs g-font-size-36--md">Creative Teams</h2>
+            </div>
             <div class="row g-overflow--hidden">
                 <div class="col-xs-6 g-full-width--xs">
-                    <!-- Speaker -->
+                    <!-- Leader -->
                     <div class="center-block g-box-shadow__dark-lightest-v1 g-width-100-percent--xs g-width-400--lg">
                         <img class="img-responsive g-width-100-percent--xs" src="{{ asset('landing/assets/img/team/JAMC/RISWAN SENTOSA.jpg') }}" alt="Image" style="border-radius: 10%;">
                         <div class="g-position--overlay g-padding-x-30--xs g-padding-y-30--xs g-margin-t-o-60--xs">
@@ -168,10 +249,10 @@
                             
                         </div>
                     </div>
-                    <!-- End Speaker -->
+                    <!-- End Leader -->
                 </div>
                 <div class="col-xs-6 g-full-width--xs g-margin-b-30--xs g-margin-b-0--lg g-padding-y-70--xs">
-                    <!-- Speaker -->
+                    <!-- Leader -->
                     <div class="center-block g-box-shadow__dark-lightest-v1 g-width-100-percent--xs g-width-400--lg">
                         <img class="img-responsive g-width-100-percent--xs" src="{{ asset('landing/assets/img/team/JAMC/LAILA LATIFAH.jpg') }}" alt="Image" style="border-radius: 10%;">
                         <div class="g-position--overlay g-padding-x-30--xs g-padding-y-30--xs g-margin-t-o-60--xs">
@@ -182,12 +263,12 @@
                             
                         </div>
                     </div>
-                    <!-- End Speaker -->
+                    <!-- End Leader -->
                 </div>
                 
             </div>
         </div>
-        <!-- End Speakers -->
+        <!-- End Leaders -->
 
         <!-- Team -->
         <div class="row g-row-col--0">

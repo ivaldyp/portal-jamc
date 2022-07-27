@@ -25,8 +25,8 @@ Route::get('/home', 'HomeController@index');
 Route::POST('/home/password', 'HomeController@password');
 Route::get('/logout', 'LandingController@logout');
 
-Route::get('/tim', function () {
-    return view('pages.landing.tim');
+Route::get('/profil', function () {
+    return view('profil');
 });
 
 Route::group(['prefix' => 'setup'], function () {

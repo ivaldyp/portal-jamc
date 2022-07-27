@@ -113,14 +113,7 @@
                                 <ul class="s-header-v2__nav">
                                     
                                     <li class="s-header-v2__nav-item"><a href="{{ url('/') }}" class="s-header-v2__nav-link -is-active">HOME</a></li>
-                                    <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
-                                        <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TENTANG KAMI<span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
-                                        <ul class="dropdown-menu s-header-v2__dropdown-menu">
-                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Profil</a></li>
-                                            <li><a href="#" class="s-header-v2__dropdown-menu-link">Tugas & Fungsi</a></li>
-                                            <li><a href="{{url('/tim')}}" class="s-header-v2__dropdown-menu-link">Tim JAMC</a></li>
-                                        </ul>
-                                    </li>
+                                    <li class="s-header-v2__nav-item"><a href="{{ url('/profil') }}" class="s-header-v2__nav-link">Profil</a></li>
                                     <li class="s-header-v2__nav-item"><a href="#section-layanan" class="s-header-v2__nav-link">Layanan</a></li>
                                     
                                     <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
