@@ -25,6 +25,10 @@ Route::get('/home', 'HomeController@index');
 Route::POST('/home/password', 'HomeController@password');
 Route::get('/logout', 'LandingController@logout');
 
+Route::get('/tim', function () {
+    return view('pages.landing.tim');
+});
+
 Route::group(['prefix' => 'setup'], function () {
 	Route::get('/kategori', 'SetupController@kategoriall');
 	Route::post('/form/tambahkategori', 'SetupController@forminsertkategori');
