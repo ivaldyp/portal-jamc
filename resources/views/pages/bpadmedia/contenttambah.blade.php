@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{ asset('lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="{{ asset('lte/dist/css/adminlte.min.css') }}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ asset('lte/plugins/summernote/summernote-bs4.min.css') }}">
 @endsection
 @section('content')
 	<!-- Content Wrapper. Contains page content -->
@@ -230,7 +232,7 @@
 												<div class="alert alert-warning">
 													Ringkasan hanya berisi teks 1 paragraf, tidak dapat diisi gambar.
 												</div>
-												<textarea class="summernote form-control" rows="15" placeholder="Enter text ..." name="isi1"></textarea>
+												<textarea id="summernote-ringkasan" placeholder="Enter text ..." name="isi1"></textarea>
 											</div>
 										</div>
 										@endif
@@ -239,7 +241,7 @@
 										<div class="form-group">
 											<label for="isi2" class="control-label"> Isi </label>
 											<div class="">
-												<textarea class="summernote form-control" rows="15" placeholder="Enter text ..." name="isi2"></textarea>
+												<textarea id="summernote-isi" placeholder="Enter text ..." name="isi2"></textarea>
 											</div>
 										</div>
 										@endif
@@ -298,12 +300,17 @@
 	<script src="{{ asset('lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 	<!-- AdminLTE App -->
 	<script src="{{ asset('lte/dist/js/adminlte.min.js') }}"></script>
+    <!-- Summernote -->
+    <script src="{{ asset('lte/plugins/summernote/summernote-bs4.min.js') }}"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="{{ asset('lte/dist/js/demo.js') }}"></script>
 	<!-- Page specific script -->
 	<script>
 	$(function () {
         $('.select2').select2()
+
+        $('#summernote-ringkasan').summernote()
+        $('#summernote-isi').summernote()
         
 		bsCustomFileInput.init();
 	});

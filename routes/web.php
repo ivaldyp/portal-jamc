@@ -30,7 +30,9 @@ Route::get('/profil', function () {
 });
 
 Route::group(['prefix' => 'konten'], function () {
+	Route::get('/berita', 'ContentController@berita');
 	Route::get('/berita/view', 'ContentController@beritasingle');
+	Route::get('/galeri', 'ContentController@galeri');
 });
 
 Route::group(['prefix' => 'setup'], function () {

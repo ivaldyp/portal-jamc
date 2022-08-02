@@ -36,17 +36,65 @@
 		<section class="content">
 
 			<!-- Default box -->
-			<div class="card">
-				<div class="card-header">
-					<h3 class="card-title">Welcome, {{ Auth::user()->usname ? $_SESSION['user_jamcportal']['usname'] : $_SESSION['user_jamcportal']['nm_emp'] }}
-					</h3>
-				</div>
-                <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Welcome, {{ Auth::user()->usname ? $_SESSION['user_jamcportal']['usname'] : $_SESSION['user_jamcportal']['nm_emp'] }}
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="{{ asset('landing/assets/img/portfolio/1.png') }}" width="100%">
+                            </div>
+                            <div class="card-body text-center">
+                                <h2 class="lead">Digitalisasi<br>Dokumen</h2>
+                                <a target="_blank" href="https://simaster.jakarta.go.id/digidok/start">
+                                    <button class="btn btn-info btn-block">MASUK</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="{{ asset('landing/assets/img/portfolio/2.png') }}" width="100%">
+                            </div>
+                            <div class="card-body text-center">
+                                <h2 class="lead">HGB<br>Diatas HPL</h2>
+                                <a target="_blank" href="https://aset.jakarta.go.id/hgb/">
+                                    <button class="btn btn-info btn-block">MASUK</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="{{ asset('landing/assets/img/portfolio/3.png') }}" width="100%">
+                            </div>
+                            <div class="card-body text-center">
+                                <h2 class="lead">Pelayanan<br>Pemanfaatan</h2>
+                                <a target="_blank" href="https://simaster.jakarta.go.id/dpa/start">
+                                    <button class="btn btn-info btn-block">MASUK</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     
                 </div>
-			</div>
+            </div>
 			<!-- /.card -->
-
+            
 		</section>
 		<!-- /.content -->
 	</div>

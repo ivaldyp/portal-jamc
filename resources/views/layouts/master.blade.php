@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Laporan BMD Provinsi DKI Jakarta</title>
-	<link rel="icon" type="image/png" sizes="16x16" href="{{ url('public/img/bpad-logo-5.png') }}">
+  <title>{{ config('app.webname') }}</title>
+	<link rel="icon" type="image/x-icon" href="{{ asset('landing/assets/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('landing/assets/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('megakit/img/aple-touch-icon.png') }}">
 	<!-- CSS -->
 	@yield('css')
 	<!-- /CSS -->
 </head>
-<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed">
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
@@ -66,8 +68,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ url('/') }}" class="brand-link">
-      <img src="{{ url('public/img/bpad-logo-0.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Laporan BMD</span>
+      <img src="{{ url('public/img/bpad-logo-0.png') }}" alt="BPAD Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">{{ config('app.webname') }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -79,7 +81,7 @@
         </div>
         <div class="info">
           <a href="javascript:void(0)" class="d-block">
-            <?php echo isset($_SESSION['user_jamcportal']['nm_emp']) ? $_SESSION['user_jamcportal']['nm_emp'] : $_SESSION['user_jamcportal']['nama_user']; ?>
+            <?php echo isset($_SESSION['user_jamcportal']['nm_emp']) ? $_SESSION['user_jamcportal']['nm_emp'] : $_SESSION['user_jamcportal']['usname']; ?>
 		  </a>
         </div>
       </div>
@@ -100,7 +102,7 @@
   
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.1.0
+      <b>Version</b> 1.0
     </div>
     <strong><a href="https://bpad.jakarta.go.id" target="_blank">BPAD</a> Provinsi DKI Jakarta.</strong> All rights reserved.
   </footer>
