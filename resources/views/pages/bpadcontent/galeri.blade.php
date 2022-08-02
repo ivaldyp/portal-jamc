@@ -48,7 +48,7 @@
                     
                     <div class="g-box-shadow__dark-lightest-v2 g-padding-x-40--xs g-padding-y-40--xs" style=" border-radius: 0 0 10px 10px;">
                         <!-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2">img</p> -->
-                        <h3 class="g-font-size-22--xs g-letter-spacing--1"><a href="#">{{ $img['judul'] }}</a></h3>
+                        <h3 class="g-font-size-22--xs g-letter-spacing--1">{{ $img['judul'] }}</h3>
                     </div>
                 </article>
                 <!-- End Galeri -->
