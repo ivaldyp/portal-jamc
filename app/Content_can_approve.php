@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Setup_can_approve extends Model
+class Content_can_approve extends Model
 {
     protected $connection = 'server76';
-    protected $table = 'bpadjamc.dbo.setup_can_approve';
+    protected $table = 'bpadjamc.dbo.content_can_approve';
     public $timestamps = false;
 }

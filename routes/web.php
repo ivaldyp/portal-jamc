@@ -67,7 +67,10 @@ Route::group(['prefix' => 'cms'], function () {
 Route::group(['prefix' => 'media'], function () {
     Route::get('/content', 'CmsController@contentall');
     Route::get('/tambah content', 'CmsController@contenttambah');
+    Route::post('/ubah content', 'CmsController@contentubah');
     Route::post('/form/tambahcontent', 'CmsController@forminsertcontent');
+    Route::post('/form/ubahcontent', 'CmsController@formupdatecontent');
+    Route::post('/form/hapuscontent', 'CmsController@formdeletecontent');
 });
 
 Route::group(['prefix' => 'kepegawaian'], function () {

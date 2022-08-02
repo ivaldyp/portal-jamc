@@ -9,6 +9,12 @@
   <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+  <style>
+    .ver-align-mid{
+        vertical-align: middle !important;
+    }
+  </style>
 @endsection
 
 @section('content')
@@ -137,17 +143,17 @@
                   <tbody>
                     @foreach($contents as $key => $content)
                     <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{!! ($content['suspend']) == 'Y' ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
-                        <td>
+                        <td class="ver-align-mid">{{ $key + 1 }}</td>
+                        <td class="ver-align-mid">{!! ($content['suspend']) == 'Y' ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
+                        <td class="ver-align-mid">
                             {{ date('d/M/Y', strtotime(str_replace('/', '-', $content['tanggal']))) }}
                             <!-- <br>
                             <span class="text-muted">{{ date('H:i:s', strtotime($content['tanggal'])) }}</span> -->
                         </td>
-                        <td>{{ $content['subkat'] }}</td>
-                        <td>{{ $content['judul'] }}</td>
-                        <td>{{ $content['editor'] }}</td>
-                        <td>
+                        <td class="ver-align-mid">{{ $content['subkat'] }}</td>
+                        <td class="ver-align-mid">{{ $content['judul'] }}</td>
+                        <td class="ver-align-mid">{{ $content['editor'] }}</td>
+                        <td class="ver-align-mid">
                             @if(strtolower($content['nmkat']) == 'berita')
                                 <?php if (file_exists(config('app.openfileimgberita') . $content['tfile'])) { ?>
                                 <a target="_blank" href="{{ config('app.openfileimgberitafull') }}/{{ $content['tfile'] }}"> {{ $content['tfile'] }}</a>
@@ -167,7 +173,7 @@
                             @endif
                         </td>
                         {{-- @if($katnowdetail['nama'] == 'berita' || $katnowdetail['nama'] == 'lelang' )
-                        <td>
+                        <td class="ver-align-mid">
                             @if($content['tipe'] == 'H,')
                             <i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>
                             @else
@@ -175,16 +181,16 @@
                             @endif
                         </td>
                         @endif --}}
-                        <td>
+                        <td class="ver-align-mid">
                             {!! ($content['appr']) == 'Y' ? 
                                 '<i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>' : 
                                 '<i style="color:red;" class="fa fa-times"></i><br><span style="color: white;">0</span>' !!}
                         </td>
-                        <td>
+                        <td class="ver-align-mid">
                             {{ date('d/M/Y', strtotime(str_replace('/', '-', $content['tgl']))) }}
                         </td>
                         @if($access['zupd'] == 'y' || $access['zdel'] == 'y')
-                            <td>
+                            <td class="ver-align-mid">
                                 <div class="btn-group">
                                     <form method="POST" action="{{ url('/media/ubah content') }}" target="_blank">
                                         @csrf
@@ -214,28 +220,22 @@
         </div>
         <!-- /.row -->
 
-        <div id="modal-insert" class="modal fade" role="dialog">
+        <div id="modal-delete" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form method="GET" action="{{ url('/media/tambah content') }}" class="form-horizontal" data-toggle="validator">
+                    <form method="POST" action="{{ url('/media/form/hapuscontent') }}" class="form-horizontal" data-toggle="validator">
                     @csrf
                         <div class="modal-header">
-                            <h4 class="modal-title"><b>Pilih Kategori</b></h4>
+                            <p class="modal-title"><b>Hapus Konten</b></p>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label for="kat" class="col-md-2 control-label"><span style="color: red">*</span> Tipe </label>
-                                <div class="col-md-12">
-                                    <select class="form-control select2" name="kat" id="kat" required>
-                                        @foreach($kategoris as $kategori)
-                                            <option <?php if ($kategori['ids'] == $katnow ): ?> selected <?php endif ?> value="{{ $kategori['ids'] }}">{{ $kategori['nmkat'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                            <p id="label_delete"></p>
+                            <input type="hidden" name="ids" id="modal_delete_ids" value="">
+                            <input type="hidden" name="idkat" id="modal_delete_idkat" value="">
+                            <input type="hidden" name="judul" id="modal_delete_judul" value="">
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-success pull-right">Pilih</button>
+                            <button type="submit" class="btn btn-danger pull-right">Hapus</button>
                             <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
                         </div>
                     </form>
@@ -272,9 +272,10 @@
 			$('.btn-delete').on('click', function () {
 				var $el = $(this);
 
-				$("#label_delete").append('Apakah anda yakin ingin menghapus group user <b>' + $el.data('usname') + '</b>?');
-				$("#modal_delete_usname").val($el.data('usname'));
+				$("#label_delete").append('Apakah anda yakin ingin menghapus konten <b>' + $el.data('judul') + '</b>?');
 				$("#modal_delete_ids").val($el.data('ids'));
+				$("#modal_delete_judul").val($el.data('judul'));
+				$("#modal_delete_idkat").val($el.data('idkat'));
 			});
 
 			$("#modal-delete").on("hidden.bs.modal", function () {
