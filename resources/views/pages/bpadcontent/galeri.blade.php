@@ -86,7 +86,7 @@
                         <div class="aside_top col-md-12">
                             <div class="col-md-4">
                                 @if (file_exists(config('app.openfileimggambar') . $rec['tfile'])) 
-                                <img class="img-responsive" src="{{ asset('publicimg/images/media/1/file') }}/{{ $rec['tfile'] }}" alt="Image" style="border-radius: 10px;"/>
+                                <img class="img-responsive" src="{{ asset('publicimg/images/media/5/file') }}/{{ $rec['tfile'] }}" alt="Image" style="border-radius: 10px;"/>
                                 @else
                                 <img class="img-responsive" src="{{ asset('publicimg/imgnotfound.jpg') }}" alt="Image" style="border-radius: 10px;"/>
                                 @endif
