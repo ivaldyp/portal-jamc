@@ -191,7 +191,7 @@
                                 </li>
                                 <li class="g-font-size-15--xs g-color--white-opacity">
                                     <i class="ti-email"></i>&ensp;dki.manajemenaset@gmail.com<br>
-                                    <i class="ti-email" style="opacity: 0;"></i>&ensp;bpad@jakarta.go.id
+                                    <i class="ti-email" style="opacity: 0;"></i>&ensp;humas.jamc@jakarta.go.id
                                 </li>
                             </ul>
                         </div>
@@ -214,7 +214,7 @@
                         <a href=""><img class="g-width-100--xs" src="{{ asset('landing/assets/img/logo_bottom_white.png') }}" alt="Megakit Logo" style="width: 25%"></a>
                     </div>
                     <div class="col-xs-6 g-text-right--xs">
-                        <p class="g-font-size-16--xs g-margin-b-0--xs g-color--white-opacity-light"> Powered by: <a href="http://bpad.jakarta.go.id/">BPAD</a></p>
+                        <p class="g-font-size-16--xs g-margin-b-0--xs g-color--white-opacity-light"> Powered by: Pusdatin <a href="http://bpad.jakarta.go.id/">BPAD</a></p>
                     </div>
                 </div>
             </div>

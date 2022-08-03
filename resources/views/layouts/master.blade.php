@@ -104,7 +104,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 1.0
     </div>
-    <strong><a href="https://bpad.jakarta.go.id" target="_blank">BPAD</a> Provinsi DKI Jakarta.</strong> All rights reserved.
+    <strong>Pusdatin <a href="https://bpad.jakarta.go.id" target="_blank">BPAD</a> Provinsi DKI Jakarta.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->
