@@ -84,7 +84,7 @@
                             </div>
                             <div class="card-body text-center">
                                 <h2 class="lead">Pelayanan<br>Pemanfaatan</h2>
-                                <a target="_blank" href="https://simaster.jakarta.go.id/dpa/start">
+                                <a target="_blank" href="https://simaster.jakarta.go.id/lpb/start?lpb_id=0">
                                     <button class="btn btn-info btn-block">MASUK</button>
                                 </a>
                             </div>
