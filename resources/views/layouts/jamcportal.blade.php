@@ -211,7 +211,8 @@
             <div class="container g-padding-y-50--xs">
                 <div class="row">
                     <div class="col-xs-6">
-                        <a href=""><img class="g-width-100--xs" src="{{ asset('landing/assets/img/logo_bottom_white.png') }}" alt="Megakit Logo" style="width: 25%"></a>
+                        <a href=""><img class="g-width-200--xs g-padding-x-20--md" src="{{ asset('landing/assets/img/logo_bottom_white.png') }}" alt="Megakit Logo" style="height: 50px; width: auto;"></a>
+                        <a href=""><img class="g-width-200--xs g-padding-x-20--md" src="{{ asset('img/photo/bpad-logo-05.png') }}" alt="Megakit Logo" style="height: 50px; width: auto;"></a>
                     </div>
                     <div class="col-xs-6 g-text-right--xs">
                         <p class="g-font-size-16--xs g-margin-b-0--xs g-color--white-opacity-light"> Powered by: Pusdatin <a href="http://bpad.jakarta.go.id/">BPAD</a></p>
