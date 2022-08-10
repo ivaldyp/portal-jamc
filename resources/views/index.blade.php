@@ -157,7 +157,7 @@
                     <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/1.png') }}" alt="Image">
                     <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
                         <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">Digitalisasi<br>Dokumen</h3>
-                        <a target="_blank" href="https://simaster.jakarta.go.id/digidok/start">
+                        <a target="_blank" href="https://jamc.jakarta.go.id/digidok">
                             <button class="btn btn-info">Kunjungi</button>
                         </a>
                     </div>
@@ -185,7 +185,7 @@
                     <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/3.png') }}" alt="Image">
                     <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
                         <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">Pelayanan<br>Pemanfaatan</h3>
-                        <a target="_blank" href="https://simaster.jakarta.go.id/lpb/start?lpb_id=0">
+                        <a target="_blank" href="https://jamc.jakarta.go.id/lpb">
                             <button class="btn btn-info">Kunjungi</button>
                         </a>
                     </div>

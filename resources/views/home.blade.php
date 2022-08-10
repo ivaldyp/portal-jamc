@@ -58,7 +58,7 @@
                             </div>
                             <div class="card-body text-center">
                                 <h2 class="lead">Digitalisasi<br>Dokumen</h2>
-                                <a target="_blank" href="https://simaster.jakarta.go.id/digidok/start">
+                                <a target="_blank" href="https://jamc.jakarta.go.id/digidok">
                                     <button class="btn btn-info btn-block">MASUK</button>
                                 </a>
                             </div>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="card-body text-center">
                                 <h2 class="lead">Pelayanan<br>Pemanfaatan</h2>
-                                <a target="_blank" href="https://simaster.jakarta.go.id/lpb/start?lpb_id=0">
+                                <a target="_blank" href="https://jamc.jakarta.go.id/lpb">
                                     <button class="btn btn-info btn-block">MASUK</button>
                                 </a>
                             </div>
