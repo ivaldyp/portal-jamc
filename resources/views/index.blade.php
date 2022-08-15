@@ -171,7 +171,7 @@
                     <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/2.png') }}" alt="Image">
                     <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
                         <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">HGB<br>Diatas HPL</h3>
-                        <a target="_blank" href="https://aset.jakarta.go.id/hgb/">
+                        <a target="_blank" href="https://jamc.jakarta.go.id/hgbhpl/">
                             <button class="btn btn-info">Kunjungi</button>
                         </a>
                     </div>

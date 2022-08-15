@@ -71,7 +71,7 @@
                             </div>
                             <div class="card-body text-center">
                                 <h2 class="lead">HGB<br>Diatas HPL</h2>
-                                <a target="_blank" href="https://aset.jakarta.go.id/hgb/">
+                                <a target="_blank" href="https://jamc.jakarta.go.id/hgbhpl/">
                                     <button class="btn btn-info btn-block">MASUK</button>
                                 </a>
                             </div>
