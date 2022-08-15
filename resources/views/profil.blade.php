@@ -7,7 +7,7 @@
     <div class="container g-padding-y-125--xs">
         <div class="g-padding-y-50--xs">
             <h1 class="g-color--white g-font-size-30--xs g-font-size-50--sm g-font-size-65--lg">Jakarta Asset Management Center</h1>
-            <p class="g-color--white g-font-size-22--xs g-font-size-24--md g-margin-b-0--xs">Selalu Menjaga Amanah, Selalu Berikan Yang Terbaik</p>
+            <p class="g-color--white g-font-size-22--xs g-font-size-24--md g-margin-b-0--xs">Jaga Amanah, Berikan yang Terbaik</p>
         </div>
     </div>
 </div>
@@ -18,7 +18,7 @@
 <div id="section-visimisi" class="g-bg-color--white">
     <div class="container g-padding-y-80--xs g-padding-y-125--sm">
         <div class="g-text-center--xs g-margin-b-80--xs">
-            <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tujuan Kami</p>
+            {{-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tujuan Kami</p> --}}
             <h2 class="g-font-size-32--xs g-font-size-36--md">Visi & Misi</h2>
         </div>
         <div class="row g-hor-centered-row--md g-row-col--5 g-margin-b-60--xs g-margin-b-100--md">
@@ -99,8 +99,8 @@
 <!-- Leaders -->
 <div id="section-leader" class="container g-padding-y-80--xs g-padding-y-100--sm">
     <div class="g-text-center--xs g-margin-b-80--xs">
-        <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Hanya yang terbaik</p>
-        <h2 class="g-font-size-32--xs g-font-size-36--md">Creative Teams</h2>
+        {{-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Hanya yang terbaik</p> --}}
+        <h2 class="g-font-size-32--xs g-font-size-36--md">Struktur Organisasi</h2>
     </div>
     <div class="row g-overflow--hidden">
         <div class="col-xs-6 g-full-width--xs">

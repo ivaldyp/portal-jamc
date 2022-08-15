@@ -27,7 +27,7 @@
 <!-- Tupoksi -->
 <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
     <div class="g-text-center--xs g-margin-b-100--xs">
-        <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Welcome to JAMC</p>
+        <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tugas dan Fungsi <br> Jakarta Asset Management Center </p>
         <h2 class="g-font-size-30--xs g-font-size-30--md">
             Membantu Badan menyelenggarakan kegiatan teknis operasional 
             <br> optimalisasi pendayagunaan Barang Milik Daerah
@@ -144,7 +144,7 @@
 <div id="section-layanan" class="g-bg-color--sky-light" style="padding-bottom: 40px;">
     <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
         <div class="g-text-center--xs">
-            <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Dari kami, untuk anda, secara prima</p>
+            {{-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Dari kami, untuk anda, secara prima</p> --}}
             <h2 class="g-font-size-32--xs g-font-size-36--md">Layanan Kami</h2>
         </div>
     </div>
@@ -201,8 +201,8 @@
 <!-- Berita -->
 <div id="section-berita" class="container g-padding-y-80--xs g-padding-y-125--sm">
     <div class="g-text-center--xs g-margin-b-80--xs">
-        <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Hanya yang "terhangat"</p>
-        <h2 class="g-font-size-32--xs g-font-size-36--md">Berita</h2>
+        {{-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Hanya yang "terhangat"</p> --}}
+        <h2 class="g-font-size-32--xs g-font-size-36--md">Berita Terkini</h2>
     </div>
     <div class="row">
         @foreach($beritas as $berkey => $news)
@@ -239,7 +239,7 @@
 <div id="section-galeri" class="g-bg-color--sky-light">
     <div class="container g-padding-y-80--xs g-padding-y-125--sm">
         <div class="g-text-center--xs g-margin-b-80--xs">
-            <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Langsung dari mata sang kamera</p>
+            {{-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Langsung dari mata sang kamera</p> --}}
             <h2 class="g-font-size-32--xs g-font-size-36--md">Galeri Foto</h2>
         </div>
         <div class="row">
@@ -311,8 +311,8 @@
 <div id="section-feedback" class="g-bg-color--sky-light">
     <div class="container g-padding-y-80--xs g-padding-y-125--sm">
         <div class="g-text-center--xs g-margin-b-80--xs">
-            <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Feedback</p>
-            <h2 class="g-font-size-32--xs g-font-size-36--md">Send us a note</h2>
+            {{-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Feedback</p> --}}
+            <h2 class="g-font-size-32--xs g-font-size-36--md">Bantuan dan Saran</h2>
         </div>
         <form>
             <div class="row g-margin-b-40--xs">
