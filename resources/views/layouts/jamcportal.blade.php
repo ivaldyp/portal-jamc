@@ -254,20 +254,6 @@
         <script type="text/javascript" src="{{ asset('megakit/js/components/parallax.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('megakit/js/components/wow.min.js') }}"></script>
         <!--========== END JAVASCRIPTS ==========-->
-        <script>
-            // $(document).ready(function(){
-            //     if ($("#section-layanan")[0]){
-            //         alert("masuk atas");
-            //         $(".header-layanan").attr("href", "#section-layanan");
-            //     } else {
-            //         alert("masuk sini");
-            //         $(".header-layanan").attr("href", "/portal/#section-layanan");
-            //     }
-            // });
-            // if (document.body.classList.contains('thatClass')) {
-            //     // do some stuff
-            // }
-        </script>
 
     </body>
     <!-- End Body -->
