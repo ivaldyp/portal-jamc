@@ -138,7 +138,7 @@
                                     <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
                                         <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Konten <span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
                                         <ul class="dropdown-menu s-header-v2__dropdown-menu">
-                                            <li><a href="{{config('app.name')}}#section-layanan" class="s-header-v2__dropdown-menu-link header-layanan">Layanan</a></li>
+                                            <li><a href="/{{config('app.name')}}#section-layanan" class="s-header-v2__dropdown-menu-link header-layanan">Layanan</a></li>
                                             <li><a href="{{ url('/konten/berita') }}" class="s-header-v2__dropdown-menu-link">Berita</a></li>
                                             <li><a href="{{ url('/konten/galeri') }}" class="s-header-v2__dropdown-menu-link">Galeri Foto</a></li>
                                         </ul>
