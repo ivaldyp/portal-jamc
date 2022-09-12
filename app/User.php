@@ -12,10 +12,10 @@ class User extends Authenticatable
 
     protected $connection = 'server76';
     protected $table = 'bpadjamc.dbo.new_loginjamc';
-    // protected $primaryKey = 'ids';
-    public $timestamps = false;
+    protected $primaryKey = 'ids';
+    // public $timestamps = false;
 
-    protected $hidden = array('passmd5', 'remember_token');
+    // protected $hidden = array('passmd5', 'remember_token');
 
     public function getAuthPassword()
     {
