@@ -11,6 +11,7 @@ use App\Traits\SessionCheckTraits;
 use App\Traits\TraitsCheckActiveMenu;
 
 use App\Content_tb;
+use App\Emp_data;
 use App\Glo_kategori;
 use App\Glo_subkategori;
 use App\New_icon_produk;
@@ -506,10 +507,10 @@ class CmsController extends Controller
 		$approve = Content_can_approve::first();
 		$splitappr = explode("::", $approve['can_approve']);
 
-		if ($_SESSION['user_data']['id_emp']) {
-			$thisid = $_SESSION['user_data']['id_emp'];
+		if ($_SESSION['user_jamcportal']['id_emp']) {
+			$thisid = $_SESSION['user_jamcportal']['id_emp'];
 		} else {
-			$thisid = $_SESSION['user_data']['usname'];
+			$thisid = $_SESSION['user_jamcportal']['usname'];
 		}   
 
 		foreach ($splitappr as $key => $data) {
@@ -689,7 +690,7 @@ class CmsController extends Controller
 
 			// $file_name = "cms" . preg_replace("/[^0-9]/", "", $request->tanggal);
 			$file_name = "cms" . date('dmyHis');
-			$file_name .= $_SESSION['user_data']['nrk_emp'];
+			$file_name .= $_SESSION['user_jamcportal']['nrk_emp'];
 			$file_name .= ".". $file->getClientOriginalExtension();
 
 			if ($request->idkat == 1) {
@@ -884,6 +885,76 @@ class CmsController extends Controller
 	}
 
     // ----------------- CONTENT ---------------- //
+
+    // ---------------- APPROVE ------------------- //
+
+	public function approve (Request $request)
+	{
+		if(count($_SESSION) == 0) {
+			return redirect('home');
+		}
+		//$this->checkSessionTime();
+
+        $this->checkSessionTime();
+        $thismenu = $this->trimmenu($_SERVER['REQUEST_URI']);
+		$access = $this->checkAccess($_SESSION['user_jamcportal']['idgroup'], $thismenu['ids']);
+        $activemenus = $this->checkactivemenu(config('app.name'), url()->current());
+
+		$approveds = Content_can_approve::first();
+
+        $empapproveds = explode("::rp::valadmin::", $approveds['can_approve']);
+		$splitapprove = explode("::", $empapproveds[0]);
+		$peopleappr = '';
+		foreach ($splitapprove as $key => $split) {
+			
+			if (substr($split, 0, 8) == '1.20.512') {
+				$query = Emp_data::where('id_emp', $split)->first(['nm_emp']);
+				$peopleappr .= $query['nm_emp'];
+			} else {
+				$peopleappr .= $split;
+			}
+			$peopleappr .= '::';
+		}
+
+		$pegawai1 = Emp_data::where('is_jamc', '1')
+                    ->orderBy('nm_emp')
+                    ->get();
+
+		return view('pages.bpadmedia.approve')
+				->with('approveds', $peopleappr)
+				->with('pegawai1', $pegawai1)
+				->with('activemenus', $activemenus);
+	}
+
+	public function formsaveapprove (Request $request)
+	{
+		if(count($_SESSION) == 0) {
+			return redirect('home');
+		}
+		
+		$approve = '';
+
+		if ($request->approve) {
+			foreach ($request->approve as $key => $data) {
+				$approve .= $data . "::";
+			}
+		}
+
+        $approve .= "rp::valadmin::";
+
+		Content_can_approve::where('can_approve', 'like', '%%')->delete();
+
+		$query = [
+				'updated_at'    => date('Y-m-d H:i:s'),
+				'can_approve'   => $approve,
+			];
+		Content_can_approve::insert($query);
+
+		return redirect('/media/approve')
+					->with('success', 'Pegawai approval berhasil diubah');
+	}
+
+	// ---------------- APPROVE ------------------- //
 }
 
 	

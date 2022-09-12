@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Emp_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -102,13 +103,12 @@ class LoginController extends Controller
                     'passmd5' => md5($request->password),
                 ])->first();
             }
-        }
-             
+        }    
 
         if ($user) {
             $this->guard()->login($user);
-
-           return true;
+            // return redirect('/home');
+            return true;
         }
         return false;
     }

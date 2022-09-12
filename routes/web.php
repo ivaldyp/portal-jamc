@@ -24,6 +24,9 @@ Route::get('/index/copy', function () {
 Route::get('/home', 'HomeController@index');
 Route::POST('/home/password', 'HomeController@password');
 Route::get('/logout', 'LandingController@logout');
+Route::get('/logincheck', function () {
+        return view('noaccess');
+    });
 
 Route::get('/profil', function () {
     return view('profil');
@@ -65,6 +68,9 @@ Route::group(['prefix' => 'cms'], function () {
 });
 
 Route::group(['prefix' => 'media'], function () {
+    Route::get('/approve', 'CmsController@approve');
+    Route::post('/form/approve', 'CmsController@formsaveapprove');
+
     Route::get('/content', 'CmsController@contentall');
     Route::get('/tambah content', 'CmsController@contenttambah');
     Route::post('/ubah content', 'CmsController@contentubah');

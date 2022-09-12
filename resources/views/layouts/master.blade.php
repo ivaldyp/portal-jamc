@@ -88,7 +88,9 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
+        @if(isset($_SESSION['user_jamcportal']['usname']) || $_SESSION['user_jamcportal']['is_jamc'] == 1) 
         {!! $_SESSION['menus_jamcportal'] !!}
+        @endif
         
       </nav>
       <!-- /.sidebar-menu -->

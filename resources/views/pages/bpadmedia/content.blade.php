@@ -181,11 +181,7 @@
                             @endif
                         </td>
                         @endif --}}
-                        <td class="ver-align-mid">
-                            {!! ($content['appr']) == 'Y' ? 
-                                '<i style="color:green;" class="fa fa-check"></i><br><span style="color: white;">1</span>' : 
-                                '<i style="color:red;" class="fa fa-times"></i><br><span style="color: white;">0</span>' !!}
-                        </td>
+                        <td class="ver-align-mid">{!! ($content['appr']) == 'Y' ? '<i style="color:green;" class="fa fa-check"></i>' : '<i style="color:red;" class="fa fa-times"></i>' !!}</td>
                         <td class="ver-align-mid">
                             {{ date('d/M/Y', strtotime(str_replace('/', '-', $content['tgl']))) }}
                         </td>
@@ -219,6 +215,34 @@
           </div>
         </div>
         <!-- /.row -->
+
+        <div id="modal-insert" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="GET" action="{{ url('/media/tambah content') }}" class="form-horizontal" data-toggle="validator">
+                        <div class="modal-header">
+                            <h4 class="modal-title"><b>Pilih Kategori</b></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="kat" class="col-md-2 control-label"><span style="color: red">*</span> Tipe </label>
+                                <div class="col-md-12">
+                                    <select class="form-control select2" name="kat" id="kat" required>
+                                        @foreach($kategoris as $kategori)
+                                            <option <?php if ($kategori['ids'] == $katnow ): ?> selected <?php endif ?> value="{{ $kategori['ids'] }}">{{ $kategori['nmkat'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                            <button type="button" class="btn btn-default pull-right" style="margin-right: 10px" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <div id="modal-delete" class="modal fade" role="dialog">
             <div class="modal-dialog">
