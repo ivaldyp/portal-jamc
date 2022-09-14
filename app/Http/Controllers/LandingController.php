@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use App\Content_tb;
+use App\Ref_jamc_apps;
 use PhpOffice\PhpSpreadsheet\Writer\Ods\Content;
 
 session_start();
@@ -46,9 +47,12 @@ class LandingController extends Controller
         "))[0];
         $jamc_pegawais = json_decode(json_encode($jamc_pegawais), true);
 
+        $jamc_apps = Ref_jamc_apps::where('show_landing', 1)->orderBy('urut')->get();
+
 		return view('index')
 				->with('beritas', $beritas)
                 ->with('galeris', $galeris)
+                ->with('jamc_apps', $jamc_apps)
                 ->with('jamc_pegawais', $jamc_pegawais);
 	}
 
