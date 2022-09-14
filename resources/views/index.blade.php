@@ -151,7 +151,7 @@
     <!-- Portfolio Gallery -->
     <div class="container g-margin-b-100--xs">
         <div class="row">
-            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
+            {{-- <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
                 <!-- News -->
                 <article>
                     <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/1.png') }}" alt="Image">
@@ -163,7 +163,7 @@
                     </div>
                 </article>
                 <!-- End News -->
-            </div>
+            </div> -}}
             <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
                 <!-- News -->
                 <!-- News -->
