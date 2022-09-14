@@ -103,7 +103,7 @@
         <header class="navbar-fixed-top s-header s-header__shrink js__header-overlay">
         @endif
             <!-- Navbar -->
-            <nav class="s-header-v2__navbar">
+            <nav class="s-header-v2__navbar" style="border-bottom-width: 0px">
                 <div class="container g-display-table--lg">
                     <!-- Navbar Row -->
                     <div class="s-header-v2__navbar-row">
