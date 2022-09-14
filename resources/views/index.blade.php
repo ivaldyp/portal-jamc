@@ -158,35 +158,33 @@
                     <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
                         <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">Digitalisasi<br>Dokumen</h3>
                         <a target="_blank" href="https://jamc.jakarta.go.id/digidok">
-                            <button class="btn btn-info">Kunjungi</button>
+                            <button class="btn btn-info btn-lg">Kunjungi</button>
                         </a>
                     </div>
                 </article>
                 <!-- End News -->
-            </div> -}}
-            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                <!-- News -->
+            </div> --}}
+            <div class="col-sm-6 g-margin-b-30--xs g-margin-b-0--md">
                 <!-- News -->
                 <article>
                     <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/2.png') }}" alt="Image">
                     <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
                         <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">HGB<br>Diatas HPL</h3>
                         <a target="_blank" href="https://jamc.jakarta.go.id/hgbhpl/">
-                            <button class="btn btn-info">Kunjungi</button>
+                            <button class="btn btn-info btn-lg">Kunjungi</button>
                         </a>
                     </div>
                 </article>
                 <!-- End News -->
             </div>
-            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                <!-- News -->
+            <div class="col-sm-6 g-margin-b-30--xs g-margin-b-0--md">
                 <!-- News -->
                 <article>
                     <img class="img-responsive" src="{{ asset('landing/assets/img/portfolio/3.png') }}" alt="Image">
                     <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
                         <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">Pelayanan<br>Pemanfaatan</h3>
                         <a target="_blank" href="https://jamc.jakarta.go.id/lpb">
-                            <button class="btn btn-info">Kunjungi</button>
+                            <button class="btn btn-info btn-lg">Kunjungi</button>
                         </a>
                     </div>
                 </article>
@@ -280,7 +278,7 @@
         <div class="row">
             <div class="col-md-4 col-xs-4 g-full-width--xs g-margin-b-70--xs g-margin-b-0--lg">
                 <div class="g-text-center--xs">
-                    <figure class="g-display-block--xs g-font-size-70--xs g-color--white g-margin-b-10--xs js__counter">3</figure>
+                    <figure class="g-display-block--xs g-font-size-70--xs g-color--white g-margin-b-10--xs js__counter">2</figure>
                     <div class="center-block g-hor-divider__solid--white g-width-40--xs g-margin-b-25--xs"></div>
                     <h4 class="g-font-size-18--xs g-color--white">Aplikasi</h4>
                 </div>
