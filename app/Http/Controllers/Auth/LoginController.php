@@ -106,6 +106,12 @@ class LoginController extends Controller
         }    
 
         if ($user) {
+            if(isset($user['id_emp'])) {
+                $checklogin = Emp_data::where('id_emp', $user['id_emp'])->first();
+                if( $checklogin['is_jamc'] == NULL ) {
+                    return false;
+                }
+            }
             $this->guard()->login($user);
             // return redirect('/home');
             return true;
