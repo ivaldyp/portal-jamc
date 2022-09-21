@@ -7,15 +7,7 @@
 	<link rel="stylesheet" href="{{ asset('lte/dist/css/adminlte.min.css') }}">
 
     <style>
-        .h2note {
-            animation: color-change 1s infinite;
-        }
-
-        @keyframes color-change {
-            0% { color: red; }
-            50% { color: rgb(166, 0, 0); }
-            100% { color: rgb(237, 68, 68); }
-        }
+        
     </style>
 
     @include('layouts.komponen.full-loading')
@@ -57,9 +49,7 @@
                                 </h3>
                             </div>
                             <div class="card-body">
-                                @if($_SESSION['user_jamcportal']['is_jamc'] == NULL)
-                                <h2 class="h2note" style="color: red; text-align: center;">Anda bukan merupakan pegawai JAMC</h2>
-                                @endif
+                                
                             </div>
                         </div>
                     </div>
