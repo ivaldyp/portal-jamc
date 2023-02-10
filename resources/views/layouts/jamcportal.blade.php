@@ -137,7 +137,7 @@
                                         <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layanan <span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
                                         <ul class="dropdown-menu s-header-v2__dropdown-menu">
                                             <li><a href="{{ asset('img/others/sewa-img.jpg') }}" target="_blank" class="s-header-v2__dropdown-menu-link">Sewa</a></li>
-                                            <li><a href="javascript:void(0);" class="s-header-v2__dropdown-menu-link">-- Coming Soon --</a></li>
+                                            <li><a href="{{ url('/hgb-diatas-hpl-vid') }}" class="s-header-v2__dropdown-menu-link">HGB Diatas HPL</a></li>
                                             <li><a href="javascript:void(0);" class="s-header-v2__dropdown-menu-link">-- Coming Soon --</a></li>
                                         </ul>
                                     </li>

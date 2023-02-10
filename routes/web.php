@@ -32,6 +32,10 @@ Route::get('/profil', function () {
     return view('profil');
 });
 
+Route::get('/hgb-diatas-hpl-vid', function () {
+    return view('hgb-diatas-hpl-vid');
+});
+
 Route::group(['prefix' => 'konten'], function () {
 	Route::get('/berita', 'ContentController@berita');
 	Route::get('/berita/view', 'ContentController@beritasingle');
