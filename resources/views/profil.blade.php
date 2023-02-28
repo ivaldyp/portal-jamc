@@ -106,12 +106,12 @@
         <div class="col-xs-6 g-full-width--xs">
             <!-- Leader -->
             <div class="center-block g-box-shadow__dark-lightest-v1 g-width-100-percent--xs g-width-400--lg">
-                <img class="img-responsive g-width-100-percent--xs" src="{{ asset('landing/assets/img/team/JAMC/RISWAN SENTOSA.jpg') }}" alt="Image" style="border-radius: 10%;">
+                <img class="img-responsive g-width-100-percent--xs" src="{{ asset('landing/assets/img/team/JAMC/IFAN MOHAMMAD FIRMANSYAH.jpg') }}" alt="Image" style="border-radius: 10%;">
                 <div class="g-position--overlay g-padding-x-30--xs g-padding-y-30--xs g-margin-t-o-60--xs">
                     <div class="g-bg-color--primary g-padding-x-15--xs g-padding-y-10--xs g-margin-b-20--xs">
-                        <h4 class="g-font-size-22--xs g-font-size-26--sm g-color--white g-margin-b-0--xs">Riswan Sentosa</h4>
+                        <h4 class="g-font-size-22--xs g-font-size-26--sm g-color--white g-margin-b-0--xs">Ifan Mohammad Firmansyah</h4>
                     </div>
-                    <p class="g-font-weight--700">Direktur JAMC</p>
+                    <p class="g-font-weight--700">Plt. Direktur JAMC</p>
                     
                 </div>
             </div>
