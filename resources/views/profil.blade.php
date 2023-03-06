@@ -31,11 +31,10 @@
             <div class="col-sm-5 g-hor-centered-row__col">
                 <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Visi</p>
                 <h2 class="g-font-size-30--xs g-font-size-26--sm g-margin-b-20--xs">Menjadi Pengelola Pemanfaatan Aset Daerah Yang Memberikan Manfaat Optimal Untuk Kepentingan Pemerintah Provinsi DKI Jakarta</h2>
-                <!-- <p class="g-font-size-18--sm">We aim high at being focused on building relationships with our clients and community. Using our creative gifts drives this foundation.</p> -->
             </div>
         </div>
 
-        <div class="row g-hor-centered-row--md g-row-col--5">
+        <div class="row g-hor-centered-row--md g-row-col--5 g-margin-b-60--xs g-margin-b-100--md">
             <div class="col-sm-6 col-xs-6 col-sm-push-6 g-hor-centered-row__col g-margin-b-60--xs g-margin-b-0--md">
                 <div class="wow fadeInRight" data-wow-duration=".3" data-wow-delay=".1s">
                     <img class="img-responsive" src="{{ asset('publicimg/images/media/5/file/cms07012022083707171966.jpeg') }}" alt="Image">
@@ -44,7 +43,6 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-5 col-sm-pull-7 g-hor-centered-row__col g-text-left--xs g-text-right--md">
                 <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Misi</p>
-                <!-- <h2 class="g-font-size-32--xs g-font-size-36--sm g-margin-b-25--xs">Keynote Speakers</h2> -->
                 <ul>
                     <li>
                         <p class="g-font-size-18--sm">Mengelola aset kelolaan untuk menghasilkan manfaat bagi Pemerintah Provinsi DKI Jakarta.</p>
@@ -56,6 +54,26 @@
                         <p class="g-font-size-18--sm">Optimalisasi aset yang berorientasi pada peningkatan ekonomi Usaha Mikro, Kecil, dan Menengah (UMKM).</p>
                     </li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="row g-hor-centered-row--md g-row-col--5">
+            <div class="col-sm-6 col-xs-6 g-hor-centered-row__col">
+                <div class="wow fadeInLeft" data-wow-duration=".3" data-wow-delay=".1s">
+                    <img class="img-responsive" src="{{ asset('publicimg/images/media/1/file/cms150620221359251469.jpeg') }}" alt="Image">
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5 g-hor-centered-row__col">
+                <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Tujuan Pendirian</p>
+                <ol>
+                    <li>
+                        <p class="g-font-size-18--sm">Memberikan pelayanan pemanfaatan Barang Milik Daerah kepada publik baik BUMN / BUMD, swasta, maupun masyarakat luas secara cepat, tepat, optimal dan akuntabel</p>
+                    </li>
+                    <li>
+                        <p class="g-font-size-18--sm">Mengoptimalkan Penerimaan Daerah yang bersumber dari pemanfaatan.</p>
+                    </li>
+                </ol>
             </div>
         </div>
     </div>
@@ -142,9 +160,9 @@
         <div class="wow fadeInUp" data-wow-duration=".3" data-wow-delay=".1s">
             <!-- Team -->
             <div class="s-team-v1">
-                <img class="img-responsive g-width-100-percent--xs" style="width: 100%;" src="{{ asset('landing/assets/img/team/JAMC/HELMI NOURMAN ADITTYA.jpg') }}" alt="Image">
+                <img class="img-responsive g-width-100-percent--xs" style="width: 100%;" src="{{ asset('landing/assets/img/team/JAMC/MUHAMAD ARBI PANGHUDI LUHUR.jpg') }}" alt="Image">
                 <div class="g-text-center--xs g-bg-color--white g-padding-x-30--xs g-padding-y-40--xs">
-                    <h2 class="g-font-size-18--xs g-margin-b-5--xs">HELMI NOURMAN ADITTYA</h2>
+                    <h2 class="g-font-size-18--xs g-margin-b-5--xs">MUHAMAD ARBI PANGHUDI LUHUR</h2>
                     <span class="g-font-size-15--xs g-color--text"><i>KEPALA SATUAN PELAKSANA RISET, KONSULTASI, DAN MANAJEMEN RESIKO</i></span>
                 </div>
             </div>
@@ -181,9 +199,9 @@
         <div class="wow fadeInUp" data-wow-duration=".3" data-wow-delay=".4s">
             <!-- Team -->
             <div class="s-team-v1">
-                <img class="img-responsive g-width-100-percent--xs" style="width: 100%;" src="{{ asset('landing/assets/img/team/JAMC/EKA MAHLIDA.jpg') }}" alt="Image">
+                <img class="img-responsive g-width-100-percent--xs" style="width: 100%;" src="{{ asset('landing/assets/img/team/JAMC/HELMI NOURMAN ADITTYA.jpg') }}" alt="Image">
                 <div class="g-text-center--xs g-bg-color--white g-padding-x-30--xs g-padding-y-40--xs">
-                    <h4 class="g-font-size-18--xs g-margin-b-5--xs">EKA MAHLIDA</h4>
+                    <h4 class="g-font-size-18--xs g-margin-b-5--xs">HELMI NOURMAN ADITTYA</h4>
                     <span class="g-font-size-15--xs g-color--text"><i>KEPALA SATUAN PELAKSANA HUKUM, PERJANJIAN, DAN PENDAYAGUNAAN</i></span>
                 </div>
             </div>
