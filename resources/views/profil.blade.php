@@ -121,7 +121,7 @@
         <h2 class="g-font-size-32--xs g-font-size-36--md">Struktur Organisasi</h2>
     </div>
     <div class="row g-overflow--hidden">
-        <div class="col-xs-6 g-full-width--xs">
+        <div class="col-xs-12 g-full-width--xs">
             <!-- Leader -->
             <div class="center-block g-box-shadow__dark-lightest-v1 g-width-100-percent--xs g-width-400--lg">
                 <img class="img-responsive g-width-100-percent--xs" src="{{ asset('landing/assets/img/team/JAMC/IFAN MOHAMMAD FIRMANSYAH.jpg') }}" alt="Image" style="border-radius: 10%;">
@@ -135,7 +135,10 @@
             </div>
             <!-- End Leader -->
         </div>
-        <div class="col-xs-6 g-full-width--xs g-margin-b-30--xs g-margin-b-0--lg g-padding-y-70--xs">
+        
+    </div>
+    <div class="row g-overflow--hidden">
+        <div class="col-xs-6 g-full-width--xs">
             <!-- Leader -->
             <div class="center-block g-box-shadow__dark-lightest-v1 g-width-100-percent--xs g-width-400--lg">
                 <img class="img-responsive g-width-100-percent--xs" src="{{ asset('landing/assets/img/team/JAMC/LAILA LATIFAH.jpg') }}" alt="Image" style="border-radius: 10%;">
@@ -144,6 +147,20 @@
                         <h4 class="g-font-size-22--xs g-font-size-26--sm g-color--white g-margin-b-0--xs">LAILA LATIFAH</h4>
                     </div>
                     <p class="g-font-weight--700">Kepala Sub Bagian Tata Usaha</p>
+                    
+                </div>
+            </div>
+            <!-- End Leader -->
+        </div>
+        <div class="col-xs-6 g-full-width--xs">
+            <!-- Leader -->
+            <div class="center-block g-box-shadow__dark-lightest-v1 g-width-100-percent--xs g-width-400--lg">
+                <img class="img-responsive g-width-100-percent--xs" src="{{ asset('landing/assets/img/team/JAMC/NO NAME GREEN.jpg') }}" alt="Image" style="border-radius: 10%;">
+                <div class="g-position--overlay g-padding-x-30--xs g-padding-y-30--xs g-margin-t-o-60--xs">
+                    <div class="g-bg-color--primary g-padding-x-15--xs g-padding-y-10--xs g-margin-b-20--xs">
+                        <h4 class="g-font-size-22--xs g-font-size-26--sm g-color--white g-margin-b-0--xs">--Coming Soon--</h4>
+                    </div>
+                    <p class="g-font-weight--700">Kepala Sub Bagian Keuangan</p>
                     
                 </div>
             </div>
