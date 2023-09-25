@@ -182,41 +182,41 @@
     <!-- Portfolio Gallery -->
     <div class="container g-margin-b-100--xs">
         <div class="row">
-            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                <!-- News -->
-                <article>
-                    <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-1.jpg') }}" alt="Image" width="100%">
-                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                        <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Meruya Selatan</h3>
-                        <p style="text-align:center; ">Jalan Meruya Selatan, Kel. Meruya Selatan, Kec. Kembangan, Jakarta Barat</p>
-                    </div>
-                </article>
-                <!-- End News -->
-            </div>
+            <a href="{{ url('/konten/asetkelolaan/view?ids=1') }}">
+                <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
+                    <article>
+                        <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-1.jpg') }}" alt="Image" width="100%">
+                        <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                            <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Meruya Selatan</h3>
+                            <p style="text-align:center; ">Jalan Meruya Selatan, Kel. Meruya Selatan, Kec. Kembangan, Jakarta Barat</p>
+                        </div>
+                    </article>
+                </div>
+            </a>
 
-            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                <!-- News -->
-                <article>
-                    <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-2.jpg') }}" alt="Image" width="100%">
-                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                        <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Kembangan</h3>
-                        <p style="text-align: center;">Jalan Raya Kembangan, Kel. Kembangan Utara, Kec. Kembangan, Jakarta Barat</p>
-                    </div>
-                </article>
-                <!-- End News -->
-            </div>
+            <a href="{{ url('/konten/asetkelolaan/view?ids=2') }}">
+                <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
+                    <article>
+                        <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-2.jpg') }}" alt="Image" width="100%">
+                        <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                            <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Kembangan</h3>
+                            <p style="text-align: center;">Jalan Raya Kembangan, Kel. Kembangan Utara, Kec. Kembangan, Jakarta Barat</p>
+                        </div>
+                    </article>
+                </div>
+            </a>
 
-            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
-                <!-- News -->
-                <article>
-                    <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-3.jpg') }}" alt="Image" width="100%">
-                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
-                        <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Kalideres</h3>
-                        <p style="text-align: center;">Jl. Perumahan Kalideres Permai Blok C8, No.5, Kel. Kalideres, Kec. Kalideres, Jakarta Barat</p>
-                    </div>
-                </article>
-                <!-- End News -->
-            </div>
+            <a href="{{ url('/konten/asetkelolaan/view?ids=3') }}">
+                <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
+                    <article>
+                        <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-3.jpg') }}" alt="Image" width="100%">
+                        <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                            <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Kalideres</h3>
+                            <p style="text-align: center;">Jl. Perumahan Kalideres Permai Blok C8, No.5, Kel. Kalideres, Kec. Kalideres, Jakarta Barat</p>
+                        </div>
+                    </article>
+                </div>
+            </a>
         </div>
     </div>
     <!-- End Portfolio -->

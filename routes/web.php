@@ -40,6 +40,8 @@ Route::group(['prefix' => 'konten'], function () {
 	Route::get('/berita', 'ContentController@berita');
 	Route::get('/berita/view', 'ContentController@beritasingle');
 	Route::get('/galeri', 'ContentController@galeri');
+	Route::get('/asetkelolaan', 'ContentController@asetkelolaan');
+	Route::get('/asetkelolaan/view', 'ContentController@asetkelolaansingle');
 });
 
 Route::group(['prefix' => 'setup'], function () {

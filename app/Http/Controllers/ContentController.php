@@ -134,4 +134,17 @@ class ContentController extends Controller
 				->with('cari', $cari)
 				->with('needdarkerbgcolor', $needdarkerbgcolor);
     }
+
+    public function asetkelolaansingle(Request $request)
+    {
+        if($request->ids == 1) {
+            return view('pages.bpadcontent.asetkelolaan.aset1');
+        } elseif($request->ids == 2) {
+            return view('pages.bpadcontent.asetkelolaan.aset2');
+        } elseif($request->ids == 3) {
+            return view('pages.bpadcontent.asetkelolaan.aset3');
+        } else {
+            return view('pages.bpadcontent.asetkelolaan.pagenotfound');
+        }
+    }
 }
