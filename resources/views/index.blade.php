@@ -130,7 +130,7 @@
                             <p class="g-font-size-22--xs g-font-size-28--sm g-color--white"><i>" Jaga Amanah, Berikan Yang Terbaik. "</i></p>
                         </div>
                         <div class="center-block g-hor-divider__solid--white-opacity-lightest g-width-100--xs g-margin-b-30--xs"></div>
-                        <h4 class="g-font-size-15--xs g-font-size-18--sm g-color--white-opacity-light g-margin-b-5--xs">Riswan Sentosa / Direktur JAMC</h4>
+                        <h4 class="g-font-size-15--xs g-font-size-18--sm g-color--white-opacity-light g-margin-b-5--xs">- Direktur JAMC -</h4>
                     </div>
                 </div>
             </div>
@@ -141,7 +141,7 @@
 <!-- End Testimonials -->
 
 <!-- Layanan -->
-<div id="section-layanan" class="g-bg-color--sky-light" style="padding-bottom: 40px;">
+<div id="section-layanan" style="padding-bottom: 40px;">
     <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
         <div class="g-text-center--xs">
             {{-- <p class="text-uppercase g-font-size-14--xs g-font-weight--700 g-color--primary g-letter-spacing--2 g-margin-b-25--xs">Dari kami, untuk anda, secara prima</p> --}}
@@ -155,8 +155,8 @@
             <div class="col-sm-6 g-margin-b-30--xs g-margin-b-0--md">
                 <!-- News -->
                 <article>
-                    <img class="img-responsive" src="{{ asset($apps['img']) }}" alt="Image">
-                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v4 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                        <img class="img-responsive" src="{{ asset($apps['img']) }}" alt="Image">
                         <h3 class="g-font-size-22--xs g-letter-spacing--1 g-font-weight--700">{{ $apps['app_name'] }}</h3>
                         <a target="_blank" href="{{ $apps['url'] }}">
                             <button class="btn btn-info btn-lg">Kunjungi</button>
@@ -166,6 +166,57 @@
                 <!-- End News -->
             </div>
             @endforeach
+        </div>
+    </div>
+    <!-- End Portfolio -->
+</div>
+<!-- End Layanan -->
+
+<!-- Layanan -->
+<div id="section-aset-kelola" class="g-bg-color--sky-light" style="padding-bottom: 40px;">
+    <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
+        <div class="g-text-center--xs">
+            <h2 class="g-font-size-32--xs g-font-size-36--md">Aset Kelolaan</h2>
+        </div>
+    </div>
+    <!-- Portfolio Gallery -->
+    <div class="container g-margin-b-100--xs">
+        <div class="row">
+            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
+                <!-- News -->
+                <article>
+                    <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-1.jpg') }}" alt="Image" width="100%">
+                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                        <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Meruya Selatan</h3>
+                        <p style="text-align:center; ">Jalan Meruya Selatan, Kel. Meruya Selatan, Kec. Kembangan, Jakarta Barat</p>
+                    </div>
+                </article>
+                <!-- End News -->
+            </div>
+
+            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
+                <!-- News -->
+                <article>
+                    <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-2.jpg') }}" alt="Image" width="100%">
+                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                        <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Kembangan</h3>
+                        <p style="text-align: center;">Jalan Raya Kembangan, Kel. Kembangan Utara, Kec. Kembangan, Jakarta Barat</p>
+                    </div>
+                </article>
+                <!-- End News -->
+            </div>
+
+            <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
+                <!-- News -->
+                <article>
+                    <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-3.jpg') }}" alt="Image" width="100%">
+                    <div class="g-bg-color--white g-box-shadow__dark-lightest-v2 g-text-center--xs g-padding-x-40--xs g-padding-y-40--xs">
+                        <h3 class="g-font-size-20--xs g-letter-spacing--1 g-font-weight--700">Tanah Kalideres</h3>
+                        <p style="text-align: center;">Jl. Perumahan Kalideres Permai Blok C8, No.5, Kel. Kalideres, Kec. Kalideres, Jakarta Barat</p>
+                    </div>
+                </article>
+                <!-- End News -->
+            </div>
         </div>
     </div>
     <!-- End Portfolio -->
