@@ -52,7 +52,13 @@
                             </tr>
                         </tbody>
                     </table>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d991.7185607586597!2d106.7064806!3d-6.1475874!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMDgnNTEuNiJTIDEwNsKwNDInMjQuMCJF!5e0!3m2!1sen!2sid!4v1695630059318!5m2!1sen!2sid" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="row">
+                        <div class="col-sm-6"><img src="{{ asset('img/info-kelolaan/info-kelolaan-3a.jpg') }}" alt="Image" width="100%"/></div>
+                        <div class="col-sm-6"><img src="{{ asset('img/info-kelolaan/info-kelolaan-3b.jpg') }}" alt="Image" width="100%"/></div>
+                    </div>
+                    <div class="row" style="padding: 20px;">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d991.7185607586597!2d106.7064806!3d-6.1475874!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMDgnNTEuNiJTIDEwNsKwNDInMjQuMCJF!5e0!3m2!1sen!2sid!4v1695630059318!5m2!1sen!2sid" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
                     <p class="g-font-size-16--xs g-font-weight--500" style="color: black; text-align: justify; margin-top: 20px;">
                         Apabila Saudara berminat untuk melakukan pemanfaatan atas aset milik Pemerintah Provinsi DKI Jakarta, surat permohonan dapat disampaikan kepada Unit Pengelola Jakarta Asset Management Centre yang beralamat di Jl. Prof. DR. Satrio No.7, Karet Kuningan, Kecamatan Setiabudi, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12940 atau melalui email dki.manajemenaset@gmail.com.
                     </p>
