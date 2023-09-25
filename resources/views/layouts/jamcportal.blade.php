@@ -141,7 +141,7 @@
                                             <li><a href="javascript:void(0);" class="s-header-v2__dropdown-menu-link">-- Coming Soon --</a></li>
                                         </ul>
                                     </li>
-                                    <li class="s-header-v2__nav-item"><a href="#section-aset-kelola" class="s-header-v2__nav-link">Aset Kelolaan</a></li>
+                                    <li class="s-header-v2__nav-item"><a href="{{ url('/') }}#section-aset-kelola" class="s-header-v2__nav-link">Aset Kelolaan</a></li>
                                     <li class="dropdown s-header-v2__nav-item s-header-v2__dropdown-on-hover">
                                         <a href="javascript:void(0);" class="dropdown-toggle s-header-v2__nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Konten <span class="g-font-size-10--xs g-margin-l-5--xs ti-angle-down"></span></a>
                                         <ul class="dropdown-menu s-header-v2__dropdown-menu">
