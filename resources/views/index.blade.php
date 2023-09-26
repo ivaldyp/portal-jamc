@@ -182,7 +182,7 @@
     <!-- Portfolio Gallery -->
     <div class="container g-margin-b-100--xs">
         <div class="row">
-            <a href="{{ url('/konten/asetkelolaan/view?ids=1') }}">
+            <a href="{{ url('/konten/publikasi-aset/view?ids=1') }}">
                 <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
                     <article>
                         <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-1.jpg') }}" alt="Image" width="100%">
@@ -194,7 +194,7 @@
                 </div>
             </a>
 
-            <a href="{{ url('/konten/asetkelolaan/view?ids=2') }}">
+            <a href="{{ url('/konten/publikasi-aset/view?ids=2') }}">
                 <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
                     <article>
                         <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-2.jpg') }}" alt="Image" width="100%">
@@ -206,7 +206,7 @@
                 </div>
             </a>
 
-            <a href="{{ url('/konten/asetkelolaan/view?ids=3') }}">
+            <a href="{{ url('/konten/publikasi-aset/view?ids=3') }}">
                 <div class="col-sm-4 g-margin-b-30--xs g-margin-b-0--md">
                     <article>
                         <img class="img-responsive" src="{{ asset('img/info-kelolaan/info-kelolaan-3.jpg') }}" alt="Image" width="100%">
