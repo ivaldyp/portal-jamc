@@ -176,7 +176,7 @@
 <div id="section-aset-kelola" class="g-bg-color--sky-light" style="padding-bottom: 40px;">
     <div id="js__scroll-to-section" class="container g-padding-y-80--xs g-padding-y-125--sm">
         <div class="g-text-center--xs">
-            <h2 class="g-font-size-32--xs g-font-size-36--md">Aset Kelolaan</h2>
+            <h2 class="g-font-size-32--xs g-font-size-36--md">Aset untuk Disewa dan Dimanfaatkan</h2>
         </div>
     </div>
     <!-- Portfolio Gallery -->

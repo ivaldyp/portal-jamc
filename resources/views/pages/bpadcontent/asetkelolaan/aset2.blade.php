@@ -8,7 +8,7 @@
         <div class="row">
             <div class="g-text-center--xs g-margin-b-30--xs">
                 <h2 class="g-font-size-30--xs g-font-size-30--md" style="text-align: left;">
-                    Tanah Meruya Selatan
+                    Tanah Kembangan
                 </h2>       
             </div>
             <hr>
