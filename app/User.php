@@ -10,7 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $connection = 'server76';
+    protected $connection = 'server12';
     protected $table = 'bpadjamc.dbo.new_loginjamc';
     protected $primaryKey = 'ids';
     // public $timestamps = false;

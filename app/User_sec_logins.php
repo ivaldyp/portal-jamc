@@ -10,7 +10,7 @@ class User_sec_logins extends Authenticatable
 {
     use Notifiable;
 
-    protected $connection = 'server76';
+    protected $connection = 'server12';
     protected $table = 'bpadjamc.dbo.sec_logins';
     protected $primaryKey = 'ids';
     // public $incrementing = false;

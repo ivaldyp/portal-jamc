@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sec_menu extends Model
 {
-    protected $connection = 'server76';
+    protected $connection = 'server12';
     protected $table = 'bpadjamc.dbo.sec_menu';
     
     public $timestamps = false;
