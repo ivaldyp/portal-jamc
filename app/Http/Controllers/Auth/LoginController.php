@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Emp_data;
+use App\Emp_jab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -107,10 +108,18 @@ class LoginController extends Controller
 
         if ($user) {
             if(isset($user['id_emp'])) {
-                $checklogin = Emp_data::where('id_emp', $user['id_emp'])->first();
-                if( $checklogin['is_jamc'] == NULL ) {
-                    return false;
-                }
+                // $checklogin = Emp_data::where('id_emp', $user['id_emp'])->first();
+                // if( $checklogin['is_jamc'] == NULL ) {
+                //     return false;
+                // }
+                $checklogin = Emp_jab::
+                                where('sts', 1)
+                                ->where('noid', $user['id_emp'])
+                                ->orderBy('ids', 'desc')
+                                ->first();
+                
+                if( substr($checklogin['idunit'], 0, 6) == '010108' ) return true; 
+                else return false;
             }
             $this->guard()->login($user);
             // return redirect('/home');
